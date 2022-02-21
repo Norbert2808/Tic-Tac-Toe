@@ -1,4 +1,7 @@
 ﻿using Tic_Tac_Toe.Server.CustomLogger;
+using Tic_Tac_Toe.Server.Models;
+using Tic_Tac_Toe.Server.Service;
+using Tic_Tac_Toe.Server.Tools;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,12 +21,12 @@ host.ConfigureAppConfiguration(app =>
     loggerBuilder.ClearProviders();
     var filepath = Path.Combine(Directory.GetCurrentDirectory(), "app.log");
     loggerBuilder.AddFile(filepath);
-
 })
 .ConfigureServices(services =>
 {
     services.AddOptions();
     services.AddControllers();
+    services.AddTransient<IAccountService, AccountService>();
 });
 
 var app = builder.Build();
@@ -37,8 +40,6 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 app.UseRouting();
-
-app.MapGet("/", () => "Hello World!");
 
 app.UseEndpoints(endpoints =>
 {
