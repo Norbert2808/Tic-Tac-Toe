@@ -32,7 +32,7 @@ namespace Tic_Tac_Toe.Server.Tools
             }
         }
 
-        public async Task SerializeAsync(List<T> accounts)
+        public async Task SerializeAsync(List<T> data)
         {
             await _semaphore.WaitAsync();
             try
@@ -48,7 +48,7 @@ namespace Tic_Tac_Toe.Server.Tools
                     PropertyNamingPolicy = JsonNamingPolicy.CamelCase
                 };
 
-                var jsonString = JsonSerializer.Serialize(accounts, options);
+                var jsonString = JsonSerializer.Serialize(data, options);
                 await File.WriteAllTextAsync(_path, jsonString);
             }
             finally

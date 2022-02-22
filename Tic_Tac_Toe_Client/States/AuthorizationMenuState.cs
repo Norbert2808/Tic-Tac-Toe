@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using System.Text;
+using Microsoft.Extensions.Logging;
 using Tic_Tac_Toe.Client.Services;
 
 namespace Tic_Tac_Toe.Client.States
@@ -10,10 +11,15 @@ namespace Tic_Tac_Toe.Client.States
 
         private readonly IState _mainMenuState;
 
-        public AuthorizationMenuState(UserService userService, IState mainMenuState)
+        private readonly ILogger<AuthorizationMenuState> _logger;
+
+        public AuthorizationMenuState(UserService userService, 
+            IState mainMenuState,
+            ILogger<AuthorizationMenuState> logger)
         {
             _userService = userService;
             _mainMenuState = mainMenuState;
+            _logger = logger;
         }
 
         public async Task InvokeAsync()
