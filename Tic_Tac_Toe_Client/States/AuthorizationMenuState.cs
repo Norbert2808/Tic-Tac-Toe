@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Text;
 using Tic_Tac_Toe.Client.Services;
 
 namespace Tic_Tac_Toe.Client.States
@@ -67,7 +68,13 @@ namespace Tic_Tac_Toe.Client.States
 
         private async Task ExecuteRegistrationAsync()
         {
-            throw new NotImplementedException();
+            Console.WriteLine("Enter login for registration:");
+            var login = Console.ReadLine();
+            Console.WriteLine("Enter password for registration:");
+            var password = Console.ReadLine();
+
+            var response = await _userService.RegistrationAsync(login, password);
+            await ResponseHandlerAsync(response);
         }
 
         private async Task ResponseHandlerAsync(HttpResponseMessage response)
@@ -87,6 +94,14 @@ namespace Tic_Tac_Toe.Client.States
             {
 
             }
+        }
+
+        private string GetMessageFromResponse(HttpResponseMessage response)
+        {
+            var stream = response.Content.ReadAsStream();
+            stream.Position = 0;
+            using var reader = new StreamReader(stream, Encoding.UTF8);
+            return reader.ReadToEnd();
         }
     }
 }

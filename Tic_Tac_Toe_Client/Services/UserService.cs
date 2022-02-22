@@ -6,6 +6,7 @@ namespace Tic_Tac_Toe.Client.Services
     internal class UserService : IUserService
     {
         private readonly HttpClient _httpClient;
+
         public UserService(HttpClient httpClient)
         {
             _httpClient = httpClient;
@@ -14,8 +15,7 @@ namespace Tic_Tac_Toe.Client.Services
         public async Task<HttpResponseMessage> LoginAsync(string login, string password)
         {
             var user = new User() { Login = login, Password = password };
-            var uri = new Uri(_httpClient.BaseAddress + "api/Account/login");
-            var response = await _httpClient.PostAsync(uri, user, new JsonMediaTypeFormatter());
+            var response = await _httpClient.PostAsync("api/Account/login", user, new JsonMediaTypeFormatter());
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
@@ -26,9 +26,18 @@ namespace Tic_Tac_Toe.Client.Services
             return response;
         }
 
-        public Task<HttpResponseMessage> RegistrationAsync(string login, string password)
+        public async Task<HttpResponseMessage> RegistrationAsync(string login, string password)
         {
-            throw new NotImplementedException();
+            var user = new User() { Login = login, Password = password };
+            var response = await _httpClient.PostAsync("api/Account/registration", user, new JsonMediaTypeFormatter());
+
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                _httpClient.DefaultRequestHeaders.Clear();
+            }
+
+            return response;
         }
+
     }
 }
