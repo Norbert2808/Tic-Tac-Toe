@@ -26,5 +26,12 @@ namespace Tic_Tac_Toe.Server.Service
         {
             return _accountsStorage;
         }
+
+        public async Task<UserAccount?> FindAccountByLogin(string login)
+        {
+            await FindAllUsersAccount();
+
+            return _accountsStorage.FirstOrDefault(x => x.Login.Equals(login, StringComparison.Ordinal));
+        }
     }
 }
