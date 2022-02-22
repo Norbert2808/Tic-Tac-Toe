@@ -43,12 +43,12 @@ namespace Tic_Tac_Toe.Client.States
                 }
                 catch (FormatException ex)
                 {
-                    //ToDo
+                    ConsoleHelper.WriteInConsole(new string[] { "It's not a number!" }, ConsoleColor.Red);
                 }
                 catch (HttpRequestException ex)
                 {
-                    Console.WriteLine("Failed to connect with server!");
-                    Console.ReadLine();
+                    ConsoleHelper.WriteInConsole(
+                        new string[] { "Failed to connect with server!" }, ConsoleColor.Red);
                 }
 
                 Console.Clear();
@@ -87,12 +87,21 @@ namespace Tic_Tac_Toe.Client.States
 
             if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
             {
-                throw new NotImplementedException();
+                ConsoleHelper.WriteInConsole(
+                       new string[] { "You are blocked! Please waiting 1 minute" }, ConsoleColor.Red);
             }
 
             if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
             {
-                throw new NotImplementedException();
+                ConsoleHelper.WriteInConsole(
+                       new string[] { "Login and password must be at least 6 symbol long" }, ConsoleColor.Red);
+            }
+
+            if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                var errorMessage = GetMessageFromResponse(response);
+                ConsoleHelper.WriteInConsole(
+                       new string[] { errorMessage }, ConsoleColor.Red);
             }
         }
 

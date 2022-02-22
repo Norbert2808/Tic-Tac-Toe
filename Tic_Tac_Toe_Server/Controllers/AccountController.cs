@@ -29,24 +29,25 @@ namespace Tic_Tac_Toe.Server.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> LoginAsync([FromBody] UserAccount account)
         {
             var loginIsExist = await _accService.FindAccountByLogin(account.Login);
 
             if (!loginIsExist)
-                return BadRequest(account.Login);
+                return NotFound("Input login does not exist");
+
+            if (_blocker.IsBlocked(account.Login))
+                return Unauthorized(account.Login);
 
             var passwordIsExist = await _accService.FindAccountByPassword(account.Password);
 
             if (!passwordIsExist)
             {
                 _blocker.ErrorTryLogin(account.Login);
-                return BadRequest(account.Password);
+                return NotFound("Password is wrong!");
             }
 
-            if (_blocker.IsBlocked(account.Login))
-                return Unauthorized(account.Login);
-            
             _blocker.UnBlock(account.Login);
             return Ok(account.Login);
         }
@@ -54,12 +55,11 @@ namespace Tic_Tac_Toe.Server.Controllers
         [HttpPost("registration")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         public async Task<IActionResult> RegistrationAsync([FromBody] UserAccount account)
         {
-            if (await _accService.CheckForExistLogin(account.Login))
+            if (await _accService.FindAccountByLogin(account.Login))
             {
-                _logger.LogInformation("This login already exists");
+                _logger.LogInformation("Input login already exists");
                 return BadRequest("Input login already exists");
             }
 

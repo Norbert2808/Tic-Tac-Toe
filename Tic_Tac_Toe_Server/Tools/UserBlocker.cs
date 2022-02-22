@@ -5,9 +5,9 @@ namespace Tic_Tac_Toe.Server.Tools
     public class UserBlocker : IBlocker
     {
         private readonly List<UserBlockInfo> _usersLoginBlockList;
-        
+
         private readonly object _locker = new();
-        
+
         public UserBlocker()
         {
             _usersLoginBlockList = new List<UserBlockInfo>();
@@ -17,8 +17,8 @@ namespace Tic_Tac_Toe.Server.Tools
         {
             lock (_locker)
             {
-                _usersLoginBlockList.RemoveAll(x => 
-                    x.Login.Equals(login, StringComparison.Ordinal));
+                _ = _usersLoginBlockList.RemoveAll(x =>
+                      x.Login.Equals(login, StringComparison.Ordinal));
             }
         }
 
@@ -26,11 +26,9 @@ namespace Tic_Tac_Toe.Server.Tools
         {
             lock (_locker)
             {
-              var user = _usersLoginBlockList
-                  .Select(x => x)
-                    .Where(x => x.Login.Equals(login, StringComparison.Ordinal))
-                    .FirstOrDefault();
-              return user is null ? false : user.IsBlocked();
+                var user = _usersLoginBlockList
+                  .FirstOrDefault(x => x.Login.Equals(login, StringComparison.Ordinal));
+                return user is not null && user.IsBlocked();
             }
         }
 
@@ -39,13 +37,16 @@ namespace Tic_Tac_Toe.Server.Tools
             lock (_locker)
             {
                 var user = _usersLoginBlockList
-                    .Select(x => x)
-                    .Where(x => x.Login.Equals(login, StringComparison.Ordinal))
-                    .FirstOrDefault();
-                if(user is null)
+                    .FirstOrDefault(x => x.Login.Equals(login, StringComparison.Ordinal));
+                if (user is null)
+                {
                     _usersLoginBlockList.Add(new UserBlockInfo(login));
+                    _usersLoginBlockList.Last().TryEntry();
+                }
                 else
+                {
                     user.TryEntry();
+                }
             }
         }
     }
