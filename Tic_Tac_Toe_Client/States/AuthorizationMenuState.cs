@@ -87,12 +87,12 @@ namespace Tic_Tac_Toe.Client.States
 
             if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
             {
-
+                throw new NotImplementedException();
             }
 
             if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
             {
-
+                throw new NotImplementedException();
             }
         }
 

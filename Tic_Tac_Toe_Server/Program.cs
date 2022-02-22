@@ -1,5 +1,6 @@
 ﻿using Tic_Tac_Toe.Server.CustomLogger;
-using Tic_Tac_Toe.Server.Service;
+using Tic_Tac_Toe.Server.Services;
+using Tic_Tac_Toe.Server.Services.Impl;
 using Tic_Tac_Toe.Server.Tools;
 
 var builder = WebApplication.CreateBuilder(args);

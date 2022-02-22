@@ -1,7 +1,7 @@
 ﻿using Tic_Tac_Toe.Server.Models;
 using Tic_Tac_Toe.Server.Tools;
 
-namespace Tic_Tac_Toe.Server.Service
+namespace Tic_Tac_Toe.Server.Services.Impl
 {
     public sealed class AccountService : IAccountService
     {
@@ -21,18 +21,25 @@ namespace Tic_Tac_Toe.Server.Service
         {
             _accountsStorage = await _jsonHelper.DeserializeAsync();
         }
-
+        
         public List<UserAccount> GetStorage()
         {
             return _accountsStorage;
         }
 
-        public async Task<UserAccount?> FindAccountByLogin(string login)
+        public async Task<bool> FindAccountByLogin(string login)
         {
             await FindAllUsersAccount();
 
-            return _accountsStorage.FirstOrDefault(x => x.Login.Equals(login, StringComparison.OrdinalIgnoreCase));
+            return _accountsStorage.Any(x => x.Login.Equals(login, StringComparison.OrdinalIgnoreCase));
         }
+        
+        public async Task<bool> FindAccountByPassword(string password)
+        { 
+            await FindAllUsersAccount();
+            return _accountsStorage.Any(x => x.Password.Equals(password, StringComparison.Ordinal));
+        }
+
 
         public async Task AddAccountToStorage(UserAccount account)
         {
