@@ -1,3 +1,2 @@
-﻿using Tic_Tac_Toe.Client;
-
-await TicTacToeApplication.Main();
+﻿// See https://aka.ms/new-console-template for more information
+Console.WriteLine("Hello, World!");

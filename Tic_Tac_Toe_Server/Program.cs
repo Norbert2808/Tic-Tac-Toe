@@ -1,4 +1,5 @@
 ﻿using Tic_Tac_Toe.Server.CustomLogger;
+using Tic_Tac_Toe.Server.Models;
 using Tic_Tac_Toe.Server.Service;
 using Tic_Tac_Toe.Server.Tools;
 

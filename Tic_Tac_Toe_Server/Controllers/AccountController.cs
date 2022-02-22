@@ -10,7 +10,7 @@ namespace Tic_Tac_Toe.Server.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
-        private readonly ILogger<AccountController> _logger;
+        private ILogger<AccountController> _logger;
 
         private readonly IAccountService _accService;
 
@@ -25,7 +25,7 @@ namespace Tic_Tac_Toe.Server.Controllers
             _blocker = blocker;
         }
 
-        [HttpPost("login")]
+        [HttpPost("/login")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
@@ -53,7 +53,7 @@ namespace Tic_Tac_Toe.Server.Controllers
             return Ok(acc);
         }
 
-        [HttpPost("registration")]
+        [HttpPost("/registration")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
