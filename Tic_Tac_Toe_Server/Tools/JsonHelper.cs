@@ -31,5 +31,30 @@ namespace Tic_Tac_Toe.Server.Tools
                 _ = _semaphore.Release();
             }
         }
+
+        public async Task SerializeAsync(List<T> accounts)
+        {
+            await _semaphore.WaitAsync();
+            try
+            {
+                if (!File.Exists(_path))
+                {
+                    File.Create(_path).Close();
+                }
+
+                var options = new JsonSerializerOptions
+                {
+                    WriteIndented = true,
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                };
+
+                var jsonString = JsonSerializer.Serialize(accounts, options);
+                await File.WriteAllTextAsync(_path, jsonString);
+            }
+            finally
+            {
+                _ = _semaphore.Release();
+            }
+        }
     }
 }
