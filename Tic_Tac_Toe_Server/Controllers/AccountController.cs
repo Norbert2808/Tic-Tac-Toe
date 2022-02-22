@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using Tic_Tac_Toe.Server.Models;
-using Tic_Tac_Toe.Server.Service;
+using Tic_Tac_Toe.Server.Services;
 using Tic_Tac_Toe.Server.Tools;
 
 namespace Tic_Tac_Toe.Server.Controllers
@@ -31,26 +31,24 @@ namespace Tic_Tac_Toe.Server.Controllers
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         public async Task<IActionResult> LoginAsync([FromBody] UserAccount account)
         {
-            var acc = await _accService.FindAccountByLogin(account.Login);
+            var loginIsExist = await _accService.FindAccountByLogin(account.Login);
 
-            if (acc is null)
+            if (!loginIsExist)
+                return BadRequest(account.Login);
+
+            var passwordIsExist = await _accService.FindAccountByPassword(account.Password);
+
+            if (!passwordIsExist)
             {
-                _blocker.WrongTryEntry();
-
-                if (_blocker.IsBlocked())
-                {
-                    _logger.LogInformation("User is blocked");
-                    return Unauthorized();
-                }
-                else
-                {
-                    _logger.LogInformation("Wrong account");
-                    return BadRequest("Wrong account");
-                }
+                _blocker.ErrorTryLogin(account.Login);
+                return BadRequest(account.Password);
             }
 
-            _blocker.UnBlock();
-            return Ok(acc);
+            if (_blocker.IsBlocked(account.Login))
+                return Unauthorized(account.Login);
+            
+            _blocker.UnBlock(account.Login);
+            return Ok(account.Login);
         }
 
         [HttpPost("registration")]

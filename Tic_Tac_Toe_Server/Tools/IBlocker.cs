@@ -2,10 +2,10 @@
 {
     public interface IBlocker
     {
-        bool IsBlocked();
+        void UnBlock(string login);
 
-        void UnBlock();
+        bool IsBlocked(string login);
 
-        void WrongTryEntry();
+        void ErrorTryLogin(string login);
     }
 }
