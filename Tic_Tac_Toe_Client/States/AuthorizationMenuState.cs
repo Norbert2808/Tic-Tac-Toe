@@ -1,4 +1,5 @@
-﻿using Tic_Tac_Toe.Client.Services;
+﻿using System.Globalization;
+using Tic_Tac_Toe.Client.Services;
 
 namespace Tic_Tac_Toe.Client.States
 {
@@ -25,7 +26,7 @@ namespace Tic_Tac_Toe.Client.States
                 Console.WriteLine("3 -- Close");
                 try
                 {
-                    var choose = int.Parse(Console.ReadLine());
+                    var choose = Convert.ToInt32(Console.ReadLine(), CultureInfo.CurrentCulture);
                     switch (choose)
                     {
                         case 1:
@@ -40,8 +41,13 @@ namespace Tic_Tac_Toe.Client.States
                     }
                 }
                 catch (FormatException ex)
-                {  
+                {
                     //ToDo
+                }
+                catch (HttpRequestException ex)
+                {
+                    Console.WriteLine("Failed to connect with server!");
+                    Console.ReadLine();
                 }
 
                 Console.Clear();
@@ -57,7 +63,6 @@ namespace Tic_Tac_Toe.Client.States
 
             var response = await _userService.LoginAsync(login, password);
             await ResponseHandlerAsync(response);
-
         }
 
         private async Task ExecuteRegistrationAsync()
