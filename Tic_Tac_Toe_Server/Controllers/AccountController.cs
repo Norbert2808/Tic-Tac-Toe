@@ -44,7 +44,8 @@ namespace Tic_Tac_Toe.Server.Controllers
                 }
                 else
                 {
-                    return BadRequest(acc);
+                    _logger.LogInformation("Wrong account");
+                    return BadRequest("Wrong account");
                 }
             }
 
@@ -52,7 +53,21 @@ namespace Tic_Tac_Toe.Server.Controllers
             return Ok(acc);
         }
 
+        [HttpPost("/registration")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        public async Task<IActionResult> RegistrationAsync([FromBody] UserAccount account)
+        {
+            if (await _accService.CheckForExistLogin(account.Login))
+            {
+                _logger.LogInformation("This login already exists");
+                return BadRequest("Input login already exists");
+            }
 
+            await _accService.AddAccountToStorage(account);
+            return Ok(account);
+        }
 
 
     }

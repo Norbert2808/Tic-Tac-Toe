@@ -10,5 +10,8 @@ namespace Tic_Tac_Toe.Server.Service
 
         List<UserAccount> GetStorage();
 
+        Task AddAccountToStorage(UserAccount account);
+
+        Task<bool> CheckForExistLogin(string login);
     }
 }

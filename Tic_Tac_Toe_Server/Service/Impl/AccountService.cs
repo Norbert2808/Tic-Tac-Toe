@@ -31,7 +31,20 @@ namespace Tic_Tac_Toe.Server.Service
         {
             await FindAllUsersAccount();
 
-            return _accountsStorage.FirstOrDefault(x => x.Login.Equals(login, StringComparison.Ordinal));
+            return _accountsStorage.FirstOrDefault(x => x.Login.Equals(login, StringComparison.OrdinalIgnoreCase));
+        }
+
+        public async Task AddAccountToStorage(UserAccount account)
+        {
+            _accountsStorage.Add(account);
+            await _jsonHelper.SerializeAsync(_accountsStorage);
+        }
+
+        public async Task<bool> CheckForExistLogin(string login)
+        {
+            await FindAllUsersAccount();
+
+            return _accountsStorage.Any(a => a.Login.Equals(login, StringComparison.OrdinalIgnoreCase));
         }
     }
 }
