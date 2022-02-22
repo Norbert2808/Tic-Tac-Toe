@@ -24,6 +24,7 @@ namespace Tic_Tac_Toe.Client.States
 
         public async Task InvokeAsync()
         {
+            _logger.LogInformation("Class AuthorizationMenuState. InvokeAsync method");
             while (true)
             {
                 Console.WriteLine("Authorization Menu");
@@ -33,13 +34,16 @@ namespace Tic_Tac_Toe.Client.States
                 Console.WriteLine("3 -- Close");
                 try
                 {
+                    _logger.LogInformation("User choose action.");
                     var choose = Convert.ToInt32(Console.ReadLine(), CultureInfo.CurrentCulture);
                     switch (choose)
                     {
                         case 1:
                             await ExecuteLoginAsync();
                             break;
+                        
                         case 2:
+                            
                             await ExecuteRegistrationAsync();
                             break;
 
@@ -49,12 +53,14 @@ namespace Tic_Tac_Toe.Client.States
                 }
                 catch (FormatException ex)
                 {
-                    ConsoleHelper.WriteInConsole(new string[] { "It's not a number!" }, ConsoleColor.Red);
+                    _logger.LogInformation(ex.Message);
+                    ConsoleHelper.WriteInConsole(new[] { "It's not a number!" }, ConsoleColor.Red);
                 }
                 catch (HttpRequestException ex)
                 {
+                    _logger.LogInformation(ex.Message);
                     ConsoleHelper.WriteInConsole(
-                        new string[] { "Failed to connect with server!" }, ConsoleColor.Red);
+                        new[] { "Failed to connect with server!" }, ConsoleColor.Red);
                 }
 
                 Console.Clear();
@@ -63,23 +69,27 @@ namespace Tic_Tac_Toe.Client.States
 
         private async Task ExecuteLoginAsync()
         {
+            _logger.LogInformation("Invoke login method");
+            
             Console.WriteLine("Enter login:");
             var login = Console.ReadLine();
             Console.WriteLine("Enter password:");
             var password = Console.ReadLine();
 
-            var response = await _userService.LoginAsync(login, password);
+            var response = await _userService.LoginAsync(login!, password!);
             await ResponseHandlerAsync(response);
         }
 
         private async Task ExecuteRegistrationAsync()
         {
+            _logger.LogInformation("Invoke registration method"); 
+            
             Console.WriteLine("Enter login for registration:");
             var login = Console.ReadLine();
             Console.WriteLine("Enter password for registration:");
             var password = Console.ReadLine();
 
-            var response = await _userService.RegistrationAsync(login, password);
+            var response = await _userService.RegistrationAsync(login!, password!);
             await ResponseHandlerAsync(response);
         }
 
@@ -93,21 +103,24 @@ namespace Tic_Tac_Toe.Client.States
 
             if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
             {
+                _logger.LogInformation("User blocked");
                 ConsoleHelper.WriteInConsole(
-                       new string[] { "You are blocked! Please waiting 1 minute" }, ConsoleColor.Red);
+                       new[] { "You are blocked! Please waiting 1 minute" }, ConsoleColor.Red);
             }
 
             if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
             {
+                _logger.LogInformation("Input data not valid.");
                 ConsoleHelper.WriteInConsole(
-                       new string[] { "Login and password must be at least 6 symbol long" }, ConsoleColor.Red);
+                       new[] { "Login and password must be at least 6 symbol long" }, ConsoleColor.Red);
             }
 
             if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
+                _logger.LogInformation("Input invalid data.");
                 var errorMessage = GetMessageFromResponse(response);
                 ConsoleHelper.WriteInConsole(
-                       new string[] { errorMessage }, ConsoleColor.Red);
+                       new[] { errorMessage }, ConsoleColor.Red);
             }
         }
 

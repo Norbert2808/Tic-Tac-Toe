@@ -3,7 +3,7 @@
     public static class ConsoleHelper
     {
         public static void WriteInConsole(string[] message,
-            ConsoleColor color = ConsoleColor.Red)
+            ConsoleColor color)
         {
             Console.Clear();
             var startColor = Console.ForegroundColor;
