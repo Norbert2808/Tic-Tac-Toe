@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Tic_Tac_Toe.Server.Models;
 using Tic_Tac_Toe.Server.Service;
+using Tic_Tac_Toe.Server.Tools;
 
 namespace Tic_Tac_Toe.Server.Controllers
 {
@@ -13,23 +14,42 @@ namespace Tic_Tac_Toe.Server.Controllers
 
         private readonly IAccountService _accService;
 
-        public AccountController(ILogger<AccountController> logger, IAccountService accountService)
+        private readonly IBlocker _blocker;
+
+        public AccountController(ILogger<AccountController> logger,
+            IAccountService accountService,
+            IBlocker blocker)
         {
             _logger = logger;
             _accService = accountService;
+            _blocker = blocker;
         }
 
         [HttpPost("/login")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         public async Task<IActionResult> LoginAsync([FromBody] UserAccount account)
         {
-            await _accService.FindAllUsersAccount();
+            var acc = await _accService.FindAccountByLogin(account.Login);
 
-            var storage = _accService.GetStorage();
+            if (acc is null)
+            {
+                _blocker.WrongTryEntry();
 
+                if (_blocker.IsBlocked())
+                {
+                    _logger.LogInformation("User is blocked");
+                    return Unauthorized();
+                }
+                else
+                {
+                    return BadRequest(acc);
+                }
+            }
 
-            return storage.Contains(account) ? Ok(account) : BadRequest(account);
+            _blocker.UnBlock();
+            return Ok(acc);
         }
 
 

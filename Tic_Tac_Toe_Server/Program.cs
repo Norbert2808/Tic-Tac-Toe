@@ -26,7 +26,8 @@ host.ConfigureAppConfiguration(app =>
 {
     services.AddOptions();
     services.AddControllers();
-    services.AddTransient<IAccountService, AccountService>();
+    services.AddSingleton<IAccountService, AccountService>();
+    services.AddSingleton<IBlocker, UserBlocker>();
 });
 
 var app = builder.Build();
