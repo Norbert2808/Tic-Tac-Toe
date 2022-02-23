@@ -126,18 +126,15 @@ namespace Tic_Tac_Toe.Client.States
             if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
                 _logger.LogInformation("Input invalid data.");
-                var errorMessage = GetMessageFromResponse(response);
+                var errorMessage = await GetMessageFromResponseAsync(response);
                 ConsoleHelper.WriteInConsole(
                        new[] { errorMessage }, ConsoleColor.Red);
             }
         }
 
-        private string GetMessageFromResponse(HttpResponseMessage response)
+        private async Task<string> GetMessageFromResponseAsync(HttpResponseMessage response)
         {
-            var stream = response.Content.ReadAsStream();
-            stream.Position = 0;
-            using var reader = new StreamReader(stream, Encoding.UTF8);
-            return reader.ReadToEnd();
+            return await response.Content.ReadAsStringAsync();
         }
     }
 }
