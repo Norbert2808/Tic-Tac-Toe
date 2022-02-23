@@ -1,4 +1,5 @@
 ﻿using Tic_Tac_Toe.Server.CustomLogger;
+using Tic_Tac_Toe.Server.Models;
 using Tic_Tac_Toe.Server.Services;
 using Tic_Tac_Toe.Server.Services.Impl;
 using Tic_Tac_Toe.Server.Tools;
@@ -22,12 +23,13 @@ host.ConfigureAppConfiguration(app =>
     var filepath = Path.Combine(Directory.GetCurrentDirectory(), "app.log");
     loggerBuilder.AddFile(filepath);
 })
-.ConfigureServices(services =>
+.ConfigureServices(service =>
 {
-    services.AddOptions();
-    services.AddControllers();
-    services.AddSingleton<IAccountService, AccountService>();
-    services.AddSingleton<IBlocker, UserBlocker>();
+    service.AddOptions();
+    service.AddControllers();
+    service.AddSingleton<IAccountService, AccountService>();
+    service.AddSingleton<IRoomService, RoomService>();
+    service.AddSingleton<IBlocker, UserBlocker>();
 });
 
 var app = builder.Build();

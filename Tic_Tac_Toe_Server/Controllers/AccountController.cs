@@ -64,7 +64,7 @@ namespace Tic_Tac_Toe.Server.Controllers
             }
 
             await _accService.AddAccountToStorage(account);
-            return Ok(account);
+            return Ok(account.Login);
         }
 
 

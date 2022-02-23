@@ -14,5 +14,13 @@
   {
     "login": "newUser",
     "password": "string"
+  },
+  {
+    "login": "Alexander",
+    "password": "555555"
+  },
+  {
+    "login": "eqweewqerewrwe",
+    "password": "wqeqweqweqw"
   }
 ]

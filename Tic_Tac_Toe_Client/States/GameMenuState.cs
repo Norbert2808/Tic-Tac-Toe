@@ -11,7 +11,7 @@ public class GameMenuState : IState
     
     private readonly ILogger<GameMenuState> _logger;
 
-    public GameMenuState(GameService gameService,
+    public GameMenuState(IGameService gameService,
         ILogger<GameMenuState> logger)
     {
         _gameService = gameService;
@@ -33,7 +33,7 @@ public class GameMenuState : IState
             Console.WriteLine("Other -- Close");
 
             RoomType type = default;
-            string roomId = null!;
+            var roomId = "";
             try
             {
                 ConsoleHelper.ReadIntFromConsole(out var choose);
@@ -64,7 +64,18 @@ public class GameMenuState : IState
             {
                 _logger.LogError(ex.Message);
             }
-            
+
+            await StartGameAsync(type, roomId);
         }
+    }
+    
+    private async Task StartGameAsync(RoomType type, string roomId)
+    {
+        _logger.LogInformation("Game start");
+
+        var response = await _gameService.StartSessionAsync(type, roomId);
+        
+        Console.WriteLine(await response.Content.ReadAsStringAsync());
+        Console.ReadLine();
     }
 }
