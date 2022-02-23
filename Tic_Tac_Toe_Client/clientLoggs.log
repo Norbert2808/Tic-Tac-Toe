@@ -1,1 +1,49 @@
 2022-02-22 22:28:57.263 +02:00 [INF] Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение. (localhost:7097)
+2022-02-23 01:46:02.249 +02:00 [INF] Class AuthorizationMenuState. InvokeAsync method
+2022-02-23 01:46:02.260 +02:00 [INF] User choose action.
+2022-02-23 01:46:04.785 +02:00 [INF] Invoke login method
+2022-02-23 01:46:11.099 +02:00 [INF] Class MainMenuState. InvokeAsync method
+2022-02-23 01:46:13.974 +02:00 [INF] Class MainMenuState. InvokeAsync method
+2022-02-23 01:46:20.097 +02:00 [INF] User choose action.
+2022-02-23 01:46:22.436 +02:00 [INF] Invoke login method
+2022-02-23 01:46:28.110 +02:00 [INF] Class MainMenuState. InvokeAsync method
+2022-02-23 01:46:39.348 +02:00 [INF] Class MainMenuState. InvokeAsync method
+2022-02-23 01:51:05.311 +02:00 [INF] Class AuthorizationMenuState. InvokeAsync method
+2022-02-23 01:51:05.324 +02:00 [INF] User choose action.
+2022-02-23 01:51:11.966 +02:00 [INF] Invoke login method
+2022-02-23 01:51:16.776 +02:00 [INF] Class MainMenuState. InvokeAsync method
+2022-02-23 01:51:18.626 +02:00 [INF] Class MainMenuState. InvokeAsync method
+2022-02-23 01:51:24.061 +02:00 [INF] User choose action.
+2022-02-23 01:52:23.963 +02:00 [INF] Class AuthorizationMenuState. InvokeAsync method
+2022-02-23 01:52:24.015 +02:00 [INF] User choose action.
+2022-02-23 01:52:27.732 +02:00 [INF] Invoke login method
+2022-02-23 01:52:39.507 +02:00 [INF] Input invalid data.
+2022-02-23 01:52:40.476 +02:00 [INF] User choose action.
+2022-02-23 01:52:42.326 +02:00 [INF] User choose action.
+2022-02-23 01:52:44.096 +02:00 [INF] User choose action.
+2022-02-23 01:52:45.680 +02:00 [INF] User choose action.
+2022-02-23 01:53:47.526 +02:00 [INF] Class AuthorizationMenuState. InvokeAsync method
+2022-02-23 01:53:47.581 +02:00 [INF] User choose action.
+2022-02-23 01:53:49.654 +02:00 [INF] Invoke login method
+2022-02-23 01:53:53.251 +02:00 [INF] Input data not valid.
+2022-02-23 01:53:54.728 +02:00 [INF] User choose action.
+2022-02-23 01:53:58.078 +02:00 [INF] User choose action.
+2022-02-23 01:54:32.062 +02:00 [ERR] Input string was not in a correct format.
+2022-02-23 01:54:33.200 +02:00 [INF] User choose action.
+2022-02-23 01:54:35.109 +02:00 [ERR] Input string was not in a correct format.
+2022-02-23 01:54:36.124 +02:00 [INF] User choose action.
+2022-02-23 01:54:37.203 +02:00 [INF] User choose action.
+2022-02-23 02:19:28.160 +02:00 [INF] Class AuthorizationMenuState. InvokeAsync method
+2022-02-23 02:19:28.213 +02:00 [INF] User choose action.
+2022-02-23 02:19:30.036 +02:00 [INF] Invoke login method
+2022-02-23 02:19:35.062 +02:00 [INF] Class MainMenuState. InvokeAsync method
+2022-02-23 02:19:36.691 +02:00 [INF] Class MainMenuState. InvokeAsync method
+2022-02-23 02:19:42.350 +02:00 [INF] User choose action.
+2022-02-23 02:40:34.430 +02:00 [INF] Class AuthorizationMenuState. InvokeAsync method
+2022-02-23 02:40:34.481 +02:00 [INF] User choose action.
+2022-02-23 02:40:36.811 +02:00 [INF] Invoke login method
+2022-02-23 02:40:42.947 +02:00 [INF] Class MainMenuState. InvokeAsync method
+2022-02-23 02:40:45.463 +02:00 [INF] User choose action.
+2022-02-23 02:40:48.560 +02:00 [INF] Invoke login method
+2022-02-23 02:40:51.832 +02:00 [INF] Input invalid data.
+2022-02-23 02:40:52.866 +02:00 [INF] User choose action.

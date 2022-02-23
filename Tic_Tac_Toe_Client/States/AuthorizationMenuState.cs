@@ -10,15 +10,19 @@ namespace Tic_Tac_Toe.Client.States
         private readonly UserService _userService;
 
         private readonly IState _mainMenuState;
+        
+        private readonly IState _leaderMenu;
 
         private readonly ILogger<AuthorizationMenuState> _logger;
 
         public AuthorizationMenuState(UserService userService, 
-            IState mainMenuState,
+            MainMenuState mainMenuState,
+            LeaderMenuState leaderMenu,
             ILogger<AuthorizationMenuState> logger)
         {
             _userService = userService;
             _mainMenuState = mainMenuState;
+            _leaderMenu = leaderMenu;
             _logger = logger;
         }
 
@@ -27,15 +31,17 @@ namespace Tic_Tac_Toe.Client.States
             _logger.LogInformation("Class AuthorizationMenuState. InvokeAsync method");
             while (true)
             {
+                Console.Clear();
                 Console.WriteLine("Authorization Menu");
                 Console.WriteLine("Please choose action:");
                 Console.WriteLine("1 -- Login");
                 Console.WriteLine("2 -- Registration");
-                Console.WriteLine("3 -- Close");
+                Console.WriteLine("3 -- LeaderBoard");
+                Console.WriteLine("4 -- Exit");
                 try
                 {
                     _logger.LogInformation("User choose action.");
-                    var choose = Convert.ToInt32(Console.ReadLine(), CultureInfo.CurrentCulture);
+                    ConsoleHelper.ReadIntFromConsole(out var choose);
                     switch (choose)
                     {
                         case 1:
@@ -48,22 +54,25 @@ namespace Tic_Tac_Toe.Client.States
                             break;
 
                         case 3:
+                            await _leaderMenu.InvokeAsync();
+                            break;
+                        
+                        case 4:
                             return;
                     }
                 }
                 catch (FormatException ex)
                 {
-                    _logger.LogInformation(ex.Message);
-                    ConsoleHelper.WriteInConsole(new[] { "It's not a number!" }, ConsoleColor.Red);
+                    _logger.LogError(ex.Message);
+                    ConsoleHelper.WriteInConsole(new[] { "It's not a number!" },
+                        ConsoleColor.Red);
                 }
                 catch (HttpRequestException ex)
                 {
-                    _logger.LogInformation(ex.Message);
-                    ConsoleHelper.WriteInConsole(
-                        new[] { "Failed to connect with server!" }, ConsoleColor.Red);
+                    _logger.LogError(ex.Message);
+                    ConsoleHelper.WriteInConsole(new[] { "Failed to connect with server!" },
+                        ConsoleColor.Red);
                 }
-
-                Console.Clear();
             }
         }
 

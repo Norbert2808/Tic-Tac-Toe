@@ -26,11 +26,15 @@ namespace Tic_Tac_Toe.Client
             var httpClient = ConfigureHttpClient();
             var serviceCollection = new ServiceCollection();
             
-            _ = serviceCollection.AddSingleton(provider => new UserService(httpClient));
+            _ = serviceCollection.AddSingleton(_ => new UserService(httpClient));
+            _ = serviceCollection.AddSingleton(_ => new StatisticService(httpClient));
+            _ = serviceCollection.AddSingleton(_ => new GameService(httpClient));
 
             _ = serviceCollection
                 .AddTransient<AuthorizationMenuState>()
-                .AddTransient<IState, MainMenuState>();
+                .AddTransient<MainMenuState>()
+                .AddTransient<LeaderMenuState>()
+                .AddTransient<GameMenuState>();
 
             var serilog = new LoggerConfiguration()
                 .WriteTo
