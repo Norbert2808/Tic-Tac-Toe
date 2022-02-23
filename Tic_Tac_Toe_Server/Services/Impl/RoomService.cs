@@ -1,8 +1,8 @@
-﻿using Tic_Tac_Toe.Server.Enum;
-using Tic_Tac_Toe.Server.Models;
-using Tic_Tac_Toe.Server.Tools;
+﻿using TicTacToe.Server.Enum;
+using TicTacToe.Server.Models;
+using TicTacToe.Server.Tools;
 
-namespace Tic_Tac_Toe.Server.Services.Impl;
+namespace TicTacToe.Server.Services.Impl;
 
 public class RoomService : IRoomService
 {

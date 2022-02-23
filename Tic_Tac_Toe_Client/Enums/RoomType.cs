@@ -1,4 +1,4 @@
-﻿namespace Tic_Tac_Toe.Client.Enums;
+﻿namespace TicTacToe.Client.Enums;
 
 public enum RoomType
 {

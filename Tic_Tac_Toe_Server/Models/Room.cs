@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Tic_Tac_Toe.Server.Models;
+namespace TicTacToe.Server.Models;
 
 public class Room
 {

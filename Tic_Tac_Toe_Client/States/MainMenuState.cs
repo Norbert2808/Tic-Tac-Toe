@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace Tic_Tac_Toe.Client.States
+namespace TicTacToe.Client.States
 {
     internal class MainMenuState : IState
     {

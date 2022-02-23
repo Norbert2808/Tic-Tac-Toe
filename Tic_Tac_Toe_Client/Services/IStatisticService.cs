@@ -1,4 +1,4 @@
-﻿namespace Tic_Tac_Toe.Client.Services;
+﻿namespace TicTacToe.Client.Services;
 
 public interface IStatisticService
 {

@@ -1,6 +1,6 @@
-﻿using Tic_Tac_Toe.Client.Enums;
+﻿using TicTacToe.Client.Enums;
 
-namespace Tic_Tac_Toe.Client.DTO;
+namespace TicTacToe.Client.DTO;
 
 public class SessionSettings
 {

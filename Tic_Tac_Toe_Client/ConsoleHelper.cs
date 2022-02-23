@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace Tic_Tac_Toe.Client
+namespace TicTacToe.Client
 {
     public static class ConsoleHelper
     {

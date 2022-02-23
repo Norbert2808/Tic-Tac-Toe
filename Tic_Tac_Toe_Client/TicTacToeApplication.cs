@@ -1,12 +1,12 @@
 ﻿using System.Text.Json;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
-using Tic_Tac_Toe.Client.Models;
-using Tic_Tac_Toe.Client.Services;
-using Tic_Tac_Toe.Client.Services.Impl;
-using Tic_Tac_Toe.Client.States;
+using TicTacToe.Client.Models;
+using TicTacToe.Client.Services;
+using TicTacToe.Client.Services.Impl;
+using TicTacToe.Client.States;
 
-namespace Tic_Tac_Toe.Client
+namespace TicTacToe.Client
 {
     internal class TicTacToeApplication
     {

@@ -1,9 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
-using Tic_Tac_Toe.Client.Enums;
-using Tic_Tac_Toe.Client.Services;
-using Tic_Tac_Toe.Client.Services.Impl;
+using TicTacToe.Client.Enums;
+using TicTacToe.Client.Services;
 
-namespace Tic_Tac_Toe.Client.States;
+namespace TicTacToe.Client.States;
 
 public class GameMenuState : IState
 {

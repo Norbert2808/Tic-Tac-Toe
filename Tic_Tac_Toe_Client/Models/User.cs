@@ -1,5 +1,5 @@
 ﻿
-namespace Tic_Tac_Toe.Client.Models
+namespace TicTacToe.Client.Models
 {
     public class User
     { 

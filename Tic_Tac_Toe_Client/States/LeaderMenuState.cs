@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
-using Tic_Tac_Toe.Client.Services;
+using TicTacToe.Client.Services;
 
-namespace Tic_Tac_Toe.Client.States;
+namespace TicTacToe.Client.States;
 
 public class LeaderMenuState : IState
 {

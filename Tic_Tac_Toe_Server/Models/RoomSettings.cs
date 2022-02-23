@@ -1,6 +1,6 @@
-﻿using Tic_Tac_Toe.Server.Enum;
+﻿using TicTacToe.Server.Enum;
 
-namespace Tic_Tac_Toe.Server.Models;
+namespace TicTacToe.Server.Models;
 
 public class RoomSettings
 {

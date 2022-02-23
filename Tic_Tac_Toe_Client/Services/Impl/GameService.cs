@@ -1,8 +1,8 @@
 ﻿using System.Net.Http.Formatting;
-using Tic_Tac_Toe.Client.DTO;
-using Tic_Tac_Toe.Client.Enums;
+using TicTacToe.Client.DTO;
+using TicTacToe.Client.Enums;
 
-namespace Tic_Tac_Toe.Client.Services.Impl;
+namespace TicTacToe.Client.Services.Impl;
 
 public class GameService : IGameService
 {
