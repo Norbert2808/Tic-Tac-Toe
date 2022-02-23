@@ -1,7 +1,7 @@
 ﻿using System.Net.Http.Formatting;
 using Tic_Tac_Toe.Client.Models;
 
-namespace Tic_Tac_Toe.Client.Services
+namespace Tic_Tac_Toe.Client.Services.Impl
 {
     internal class UserService : IUserService
     {

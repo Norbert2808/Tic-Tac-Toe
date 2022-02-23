@@ -47,3 +47,8 @@
 2022-02-23 02:40:48.560 +02:00 [INF] Invoke login method
 2022-02-23 02:40:51.832 +02:00 [INF] Input invalid data.
 2022-02-23 02:40:52.866 +02:00 [INF] User choose action.
+2022-02-23 02:48:12.237 +02:00 [INF] Class AuthorizationMenuState. InvokeAsync method
+2022-02-23 02:48:12.290 +02:00 [INF] User choose action.
+2022-02-23 02:48:14.306 +02:00 [INF] Invoke login method
+2022-02-23 02:48:18.954 +02:00 [INF] Input data not valid.
+2022-02-23 02:48:20.917 +02:00 [INF] User choose action.

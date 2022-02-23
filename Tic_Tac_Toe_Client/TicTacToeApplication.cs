@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using Tic_Tac_Toe.Client.Models;
-using Tic_Tac_Toe.Client.Services;
+using Tic_Tac_Toe.Client.Services.Impl;
 using Tic_Tac_Toe.Client.States;
 
 namespace Tic_Tac_Toe.Client

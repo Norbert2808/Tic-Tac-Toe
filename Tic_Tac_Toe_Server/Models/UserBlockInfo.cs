@@ -8,7 +8,7 @@ public class UserBlockInfo
 
     public DateTime TimeTryEntry { get; private set; }
 
-    private TimeSpan _blockTime = TimeSpan.FromSeconds(60);
+    private readonly TimeSpan _blockTime = TimeSpan.FromSeconds(60);
 
     public bool IsBlocked()
     {
