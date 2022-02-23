@@ -1,4 +1,4 @@
-﻿namespace Tic_Tac_Toe.Server.CustomLogger
+﻿namespace TicTacToe.Server.CustomLogger
 {
     public static class LoggerExtensions
     {

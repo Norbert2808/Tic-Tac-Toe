@@ -1,10 +1,10 @@
 ﻿using System.Net;
 using Microsoft.AspNetCore.Mvc;
-using Tic_Tac_Toe.Server.Models;
-using Tic_Tac_Toe.Server.Services;
-using Tic_Tac_Toe.Server.Tools;
+using TicTacToe.Server.Models;
+using TicTacToe.Server.Services;
+using TicTacToe.Server.Tools;
 
-namespace Tic_Tac_Toe.Server.Controllers
+namespace TicTacToe.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -68,7 +68,7 @@ namespace Tic_Tac_Toe.Server.Controllers
             }
 
             await _accService.AddAccountToStorage(account);
-            return Ok(account);
+            return Ok(account.Login);
         }
 
 

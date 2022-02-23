@@ -1,12 +1,12 @@
 ﻿using System.Text;
 using Microsoft.Extensions.Logging;
-using Tic_Tac_Toe.Client.Services.Impl;
+using TicTacToe.Client.Services;
 
-namespace Tic_Tac_Toe.Client.States
+namespace TicTacToe.Client.States
 {
     internal class AuthorizationMenuState : IState
     {
-        private readonly UserService _userService;
+        private readonly IUserService _userService;
 
         private readonly IState _mainMenuState;
         
@@ -14,7 +14,7 @@ namespace Tic_Tac_Toe.Client.States
 
         private readonly ILogger<AuthorizationMenuState> _logger;
 
-        public AuthorizationMenuState(UserService userService, 
+        public AuthorizationMenuState(IUserService userService, 
             MainMenuState mainMenuState,
             LeaderMenuState leaderMenu,
             ILogger<AuthorizationMenuState> logger)

@@ -1,8 +1,7 @@
-﻿using System.Text;
-using Tic_Tac_Toe.Server.Models;
+﻿using Tic_Tac_Toe.Server.Models;
 using Tic_Tac_Toe.Server.Tools;
 
-namespace Tic_Tac_Toe.Server.Services.Impl
+namespace TicTacToe.Server.Services.Impl
 {
     public sealed class AccountService : IAccountService
     {

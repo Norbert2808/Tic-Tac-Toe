@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using System.Text.Json;
 
-namespace Tic_Tac_Toe.Server.Tools
+namespace TicTacToe.Server.Tools
 {
     public sealed class JsonHelper<T>
     {

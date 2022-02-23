@@ -1,7 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-
-namespace Tic_Tac_Toe.Client.Models
+namespace TicTacToe.Client.Models
 {
     internal class ClientOption
     {

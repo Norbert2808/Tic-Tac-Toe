@@ -1,15 +1,16 @@
 ﻿using System.Text.Json;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
-using Tic_Tac_Toe.Client.Models;
-using Tic_Tac_Toe.Client.Services.Impl;
-using Tic_Tac_Toe.Client.States;
+using TicTacToe.Client.Models;
+using TicTacToe.Client.Services;
+using TicTacToe.Client.Services.Impl;
+using TicTacToe.Client.States;
 
-namespace Tic_Tac_Toe.Client
+namespace TicTacToe.Client
 {
     internal class TicTacToeApplication
     {
-        public static async Task<int> Main()
+        public static async Task Main()
         {
             var provider = GetServiceProvider();
 
@@ -17,7 +18,7 @@ namespace Tic_Tac_Toe.Client
             {
                 var authorizationMenu = provider.GetRequiredService<AuthorizationMenuState>();
                 await authorizationMenu.InvokeAsync();
-                return 0;
+                return;
             }
         }
 
@@ -26,9 +27,9 @@ namespace Tic_Tac_Toe.Client
             var httpClient = ConfigureHttpClient();
             var serviceCollection = new ServiceCollection();
             
-            _ = serviceCollection.AddSingleton(_ => new UserService(httpClient));
-            _ = serviceCollection.AddSingleton(_ => new StatisticService(httpClient));
-            _ = serviceCollection.AddSingleton(_ => new GameService(httpClient));
+            _ = serviceCollection.AddSingleton<IUserService>(_ => new UserService(httpClient));
+            _ = serviceCollection.AddSingleton<IStatisticService>(_ => new StatisticService(httpClient));
+            _ = serviceCollection.AddSingleton<IGameService>(_ => new GameService(httpClient));
 
             _ = serviceCollection
                 .AddTransient<AuthorizationMenuState>()

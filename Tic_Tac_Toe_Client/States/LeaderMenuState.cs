@@ -1,8 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
-using Tic_Tac_Toe.Client.Services;
-using Tic_Tac_Toe.Client.Services.Impl;
+using TicTacToe.Client.Services;
 
-namespace Tic_Tac_Toe.Client.States;
+namespace TicTacToe.Client.States;
 
 public class LeaderMenuState : IState
 {
@@ -10,7 +9,7 @@ public class LeaderMenuState : IState
     
     private readonly ILogger<LeaderMenuState> _logger;
     
-    public LeaderMenuState(StatisticService statisticService, ILogger<LeaderMenuState> logger)
+    public LeaderMenuState(IStatisticService statisticService, ILogger<LeaderMenuState> logger)
     {
         _statisticService = statisticService;
         _logger = logger;
@@ -20,6 +19,7 @@ public class LeaderMenuState : IState
     {
         while (true)
         {
+            Console.Clear();
             Console.WriteLine("LeaderBoard menu");
             Console.WriteLine("1 -- By wins");
             Console.WriteLine("2 -- By times");

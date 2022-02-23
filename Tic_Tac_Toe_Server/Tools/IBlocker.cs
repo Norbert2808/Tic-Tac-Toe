@@ -1,4 +1,4 @@
-﻿namespace Tic_Tac_Toe.Server.Tools
+﻿namespace TicTacToe.Server.Tools
 {
     public interface IBlocker
     {

@@ -1,4 +1,4 @@
-﻿namespace Tic_Tac_Toe.Server.Models;
+﻿namespace TicTacToe.Server.Models;
 
 public class UserBlockInfo
 {

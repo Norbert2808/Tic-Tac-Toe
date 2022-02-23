@@ -1,6 +1,6 @@
-﻿using Tic_Tac_Toe.Server.Models;
+﻿using TicTacToe.Server.Models;
 
-namespace Tic_Tac_Toe.Server.Tools
+namespace TicTacToe.Server.Tools
 {
     public class UserBlocker : IBlocker
     {

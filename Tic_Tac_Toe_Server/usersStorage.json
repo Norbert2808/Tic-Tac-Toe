@@ -14,9 +14,5 @@
   {
     "login": "newUser",
     "password": "string"
-  },
-  {
-    "login": "string",
-    "password": "string"
   }
 ]

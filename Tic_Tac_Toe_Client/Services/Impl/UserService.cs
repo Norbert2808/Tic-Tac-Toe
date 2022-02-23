@@ -1,7 +1,7 @@
 ﻿using System.Net.Http.Formatting;
-using Tic_Tac_Toe.Client.Models;
+using TicTacToe.Client.Models;
 
-namespace Tic_Tac_Toe.Client.Services.Impl
+namespace TicTacToe.Client.Services.Impl
 {
     internal class UserService : IUserService
     {
@@ -19,8 +19,9 @@ namespace Tic_Tac_Toe.Client.Services.Impl
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
+                var registerLogin = await response.Content.ReadAsStringAsync();
                 _httpClient.DefaultRequestHeaders.Clear();
-
+                _httpClient.DefaultRequestHeaders.Add("Login", registerLogin);
             }
 
             return response;
@@ -33,7 +34,9 @@ namespace Tic_Tac_Toe.Client.Services.Impl
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
+                var registerLogin = await response.Content.ReadAsStringAsync();
                 _httpClient.DefaultRequestHeaders.Clear();
+                _httpClient.DefaultRequestHeaders.Add("Login", registerLogin);
             }
 
             return response;

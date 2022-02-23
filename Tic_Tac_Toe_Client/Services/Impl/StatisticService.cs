@@ -1,4 +1,4 @@
-﻿namespace Tic_Tac_Toe.Client.Services.Impl;
+﻿namespace TicTacToe.Client.Services.Impl;
 
 public class StatisticService : IStatisticService
 {
