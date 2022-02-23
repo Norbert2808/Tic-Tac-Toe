@@ -1,4 +1,4 @@
-﻿using TicTacToe.Server.CustomLogger;
+﻿using Serilog;
 using TicTacToe.Server.Services;
 using TicTacToe.Server.Services.Impl;
 using TicTacToe.Server.Tools;
@@ -17,10 +17,11 @@ host.ConfigureAppConfiguration(app =>
         .AddEnvironmentVariables();
 })
 .ConfigureLogging(loggerBuilder =>
-{
+{ 
     loggerBuilder.ClearProviders();
-    var filepath = Path.Combine(Directory.GetCurrentDirectory(), "app.log");
-    loggerBuilder.AddFile(filepath);
+   loggerBuilder.AddSerilog(new LoggerConfiguration()
+       .WriteTo.File("app.log")
+       .CreateLogger());
 })
 .ConfigureServices(service =>
 {
