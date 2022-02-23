@@ -1,14 +1,14 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace TicTacToe.Client.States
+namespace TicTacToe.Client.States.Impl
 {
-    internal class MainMenuState : IState
+    internal class MainMenuState : IMainMenuState
     {
         private readonly IState _gameMenuState;
         
-        private readonly ILogger<MainMenuState> _logger;
+        private readonly ILogger<IMainMenuState> _logger;
 
-        public MainMenuState(GameMenuState gameMenuState, ILogger<MainMenuState> logger)
+        public MainMenuState(IGameMenuState gameMenuState, ILogger<IMainMenuState> logger)
         {
             _gameMenuState = gameMenuState;
             _logger = logger;
@@ -23,7 +23,7 @@ namespace TicTacToe.Client.States
                 Console.WriteLine("Main Menu");
                 Console.WriteLine("Please choose action:");
                 Console.WriteLine("1 -- Start game");
-                Console.WriteLine("1 -- Private statistic");
+                Console.WriteLine("2 -- Private statistic");
                 Console.WriteLine("3 -- Logout");
                 try
                 {
@@ -31,7 +31,7 @@ namespace TicTacToe.Client.States
                     switch (choose)
                     {
                         case 1:
-                            await _gameMenuState.InvokeAsync();
+                            await ExecuteGameMenu();
                             break;
 
                         case 2:
@@ -47,6 +47,11 @@ namespace TicTacToe.Client.States
                     _logger.LogError(ex.Message);
                 }
             }
+        }
+
+        public async Task ExecuteGameMenu()
+        {
+            await _gameMenuState.InvokeAsync();
         }
     }
 }

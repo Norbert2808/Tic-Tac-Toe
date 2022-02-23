@@ -31,7 +31,6 @@ public class GameController : ControllerBase
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
-    [ProducesResponseType((int)HttpStatusCode.NotFound)]
     public async Task<IActionResult> StartSessionAsync([FromBody] RoomSettings? settings)
     {
         if (!FindUser())

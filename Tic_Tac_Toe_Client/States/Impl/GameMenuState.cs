@@ -1,17 +1,18 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using System.Net;
+using Microsoft.Extensions.Logging;
 using TicTacToe.Client.Enums;
 using TicTacToe.Client.Services;
 
-namespace TicTacToe.Client.States;
+namespace TicTacToe.Client.States.Impl;
 
-public class GameMenuState : IState
+public class GameMenuState : IGameMenuState
 {
     private readonly IGameService _gameService;
     
-    private readonly ILogger<GameMenuState> _logger;
+    private readonly ILogger<IGameMenuState> _logger;
 
     public GameMenuState(IGameService gameService,
-        ILogger<GameMenuState> logger)
+        ILogger<IGameMenuState> logger)
     {
         _gameService = gameService;
         _logger = logger;
@@ -64,15 +65,20 @@ public class GameMenuState : IState
                 _logger.LogError(ex.Message);
             }
 
-            await StartGameAsync(type, roomId);
+            await StartConnectionWithRoomAsync(type, roomId);
         }
     }
     
-    private async Task StartGameAsync(RoomType type, string roomId)
+    public async Task StartConnectionWithRoomAsync(RoomType type, string roomId)
     {
         _logger.LogInformation("Game start");
 
         var response = await _gameService.StartSessionAsync(type, roomId);
+
+        if (response.StatusCode == HttpStatusCode.OK)
+        {
+            
+        }
         
         Console.WriteLine(await response.Content.ReadAsStringAsync());
         Console.ReadLine();

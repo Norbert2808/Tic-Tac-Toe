@@ -51,13 +51,12 @@ public class RoomService : IRoomService
         {
             if (room.IsClosed)
                 continue;
-            
-            if (room.LoginFirstPlayer == login)
+            if (room.Settings.Type != RoomType.Practice
+                || room.Settings.Type != RoomType.Private)
             {
-                _roomStorage.Remove(room);
                 continue;
             }
-
+            
             room.LoginSecondPlayer = login;
             return room;
         }

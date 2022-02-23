@@ -1,4 +1,4 @@
-﻿namespace TicTacToe.Client.States;
+﻿namespace TicTacToe.Client.States.Impl;
 
 public class PrivateUserStatistic : IState
 {

@@ -5,6 +5,7 @@ using TicTacToe.Client.Models;
 using TicTacToe.Client.Services;
 using TicTacToe.Client.Services.Impl;
 using TicTacToe.Client.States;
+using TicTacToe.Client.States.Impl;
 
 namespace TicTacToe.Client
 {
@@ -33,9 +34,9 @@ namespace TicTacToe.Client
 
             _ = serviceCollection
                 .AddTransient<AuthorizationMenuState>()
-                .AddTransient<MainMenuState>()
-                .AddTransient<LeaderMenuState>()
-                .AddTransient<GameMenuState>();
+                .AddTransient<IMainMenuState, MainMenuState>()
+                .AddTransient<ILeaderMenuState, LeaderMenuState>()
+                .AddTransient<IGameMenuState, GameMenuState>();
 
             var serilog = new LoggerConfiguration()
                 .WriteTo

@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.Logging;
 using TicTacToe.Client.Services;
 
-namespace TicTacToe.Client.States;
+namespace TicTacToe.Client.States.Impl;
 
-public class LeaderMenuState : IState
+public class LeaderMenuState : ILeaderMenuState
 {
     private readonly IStatisticService _statisticService;
     

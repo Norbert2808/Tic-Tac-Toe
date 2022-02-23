@@ -1,10 +1,9 @@
-﻿using System.Text;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using TicTacToe.Client.Services;
 
-namespace TicTacToe.Client.States
+namespace TicTacToe.Client.States.Impl
 {
-    internal class AuthorizationMenuState : IState
+    internal class AuthorizationMenuState : IAuthorizationMenuState
     {
         private readonly IUserService _userService;
 
@@ -15,8 +14,8 @@ namespace TicTacToe.Client.States
         private readonly ILogger<AuthorizationMenuState> _logger;
 
         public AuthorizationMenuState(IUserService userService, 
-            MainMenuState mainMenuState,
-            LeaderMenuState leaderMenu,
+            IMainMenuState mainMenuState,
+            ILeaderMenuState leaderMenu,
             ILogger<AuthorizationMenuState> logger)
         {
             _userService = userService;
@@ -75,7 +74,7 @@ namespace TicTacToe.Client.States
             }
         }
 
-        private async Task ExecuteLoginAsync()
+        public async Task ExecuteLoginAsync()
         {
             _logger.LogInformation("Invoke login method");
             
@@ -88,7 +87,7 @@ namespace TicTacToe.Client.States
             await ResponseHandlerAsync(response);
         }
 
-        private async Task ExecuteRegistrationAsync()
+        public async Task ExecuteRegistrationAsync()
         {
             _logger.LogInformation("Invoke registration method"); 
             
