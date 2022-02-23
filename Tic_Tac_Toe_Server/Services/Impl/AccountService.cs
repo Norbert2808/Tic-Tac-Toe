@@ -1,5 +1,5 @@
-﻿using Tic_Tac_Toe.Server.Models;
-using Tic_Tac_Toe.Server.Tools;
+﻿using TicTacToe.Server.Models;
+using TicTacToe.Server.Tools;
 
 namespace TicTacToe.Server.Services.Impl
 {

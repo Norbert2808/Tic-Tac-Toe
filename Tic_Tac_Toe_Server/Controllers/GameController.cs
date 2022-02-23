@@ -34,7 +34,7 @@ public class GameController : ControllerBase
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     public async Task<IActionResult> StartSessionAsync([FromBody] RoomSettings? settings)
     {
-        if (!await FindUser())
+        if (!FindUser())
         {
             _logger.LogWarning("Unauthorized users");
             return Unauthorized("Unauthorized users");
@@ -52,9 +52,9 @@ public class GameController : ControllerBase
     }
 
     [NonAction]
-    public async Task<bool> FindUser()
+    public bool FindUser()
     {
-        return await _accountService.FindAccountByLogin(LoginUser);
+        return _accountService.FindAccountByLogin(LoginUser);
     }
     
 }
