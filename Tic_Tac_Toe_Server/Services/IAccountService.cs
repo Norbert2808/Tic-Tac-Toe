@@ -4,13 +4,11 @@ namespace Tic_Tac_Toe.Server.Services
 {
     public interface IAccountService
     {
-        Task FindAllUsersAccount();
+        Task UpdateAllUsersAccount();
 
-        //Task<UserAccount?> FindAccountByLogin(string login);
+        bool FindAccountByLogin(string login);
 
-        Task<bool> FindAccountByLogin(string login);
-        
-        Task<bool> FindAccountByPassword(string password);
+        bool FindAccountByPassword(string password);
 
         List<UserAccount> GetStorage();
 

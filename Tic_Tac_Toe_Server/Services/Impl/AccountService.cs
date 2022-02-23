@@ -1,4 +1,5 @@
-﻿using Tic_Tac_Toe.Server.Models;
+﻿using System.Text;
+using Tic_Tac_Toe.Server.Models;
 using Tic_Tac_Toe.Server.Tools;
 
 namespace Tic_Tac_Toe.Server.Services.Impl
@@ -17,7 +18,7 @@ namespace Tic_Tac_Toe.Server.Services.Impl
             _accountsStorage = new List<UserAccount>();
         }
 
-        public async Task FindAllUsersAccount()
+        public async Task UpdateAllUsersAccount()
         {
             _accountsStorage = await _jsonHelper.DeserializeAsync();
         }
@@ -27,17 +28,13 @@ namespace Tic_Tac_Toe.Server.Services.Impl
             return _accountsStorage;
         }
 
-        public async Task<bool> FindAccountByLogin(string login)
+        public bool FindAccountByLogin(string login)
         {
-            await FindAllUsersAccount();
-
             return _accountsStorage.Any(x => x.Login.Equals(login, StringComparison.OrdinalIgnoreCase));
         }
 
-        public async Task<bool> FindAccountByPassword(string password)
+        public bool FindAccountByPassword(string password)
         {
-            await FindAllUsersAccount();
-
             return _accountsStorage.Any(x => x.Password.Equals(password, StringComparison.Ordinal));
         }
 
@@ -45,7 +42,11 @@ namespace Tic_Tac_Toe.Server.Services.Impl
         public async Task AddAccountToStorage(UserAccount account)
         {
             _accountsStorage.Add(account);
-            await _jsonHelper.SerializeAsync(_accountsStorage);
+            if (_accountsStorage.Count == 1)
+                await _jsonHelper.SerializeAsync(_accountsStorage);
+            else
+                await _jsonHelper.AddAccountToFile(account);
         }
+
     }
 }

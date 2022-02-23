@@ -32,7 +32,9 @@ namespace Tic_Tac_Toe.Server.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> LoginAsync([FromBody] UserAccount account)
         {
-            var loginIsExist = await _accService.FindAccountByLogin(account.Login);
+            await _accService.UpdateAllUsersAccount();
+
+            var loginIsExist = _accService.FindAccountByLogin(account.Login);
 
             if (!loginIsExist)
                 return NotFound("Input login does not exist");
@@ -40,7 +42,7 @@ namespace Tic_Tac_Toe.Server.Controllers
             if (_blocker.IsBlocked(account.Login))
                 return Unauthorized(account.Login);
 
-            var passwordIsExist = await _accService.FindAccountByPassword(account.Password);
+            var passwordIsExist = _accService.FindAccountByPassword(account.Password);
 
             if (!passwordIsExist)
             {
@@ -57,7 +59,9 @@ namespace Tic_Tac_Toe.Server.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> RegistrationAsync([FromBody] UserAccount account)
         {
-            if (await _accService.FindAccountByLogin(account.Login))
+            await _accService.UpdateAllUsersAccount();
+
+            if (_accService.FindAccountByLogin(account.Login))
             {
                 _logger.LogInformation("Input login already exists");
                 return BadRequest("Input login already exists");
