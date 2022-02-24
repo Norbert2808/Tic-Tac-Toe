@@ -4,7 +4,7 @@ namespace TicTacToe.Server.Models;
 
 public class Room
 {
-    [JsonPropertyName("RoomId")]
+    [JsonPropertyName("RoomId")] 
     public string RoomId { get; set; }
 
     public TimeSpan ConnectionTimeOut { get; set; } = TimeSpan.FromMinutes(5);
@@ -16,8 +16,10 @@ public class Room
     
     public RoomSettings Settings { get; set; }
 
+    [JsonPropertyName("First player")]
     public string LoginFirstPlayer { get; set; }
 
+    [JsonPropertyName("Second player")]
     public string LoginSecondPlayer { get; set; }
 
     public bool IsClosed { get; set; }
@@ -26,7 +28,7 @@ public class Room
     {
         LoginFirstPlayer = login;
         Settings = settings;
-        RoomId = settings.RoomId;
+        RoomId = settings.RoomId.Length == 0 ? Guid.NewGuid().ToString() : settings.RoomId;
         CreationDate = DateTime.UtcNow;
     }
 }

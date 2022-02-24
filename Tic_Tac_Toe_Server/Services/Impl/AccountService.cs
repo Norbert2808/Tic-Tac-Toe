@@ -17,7 +17,7 @@ namespace TicTacToe.Server.Services.Impl
             _accountsStorage = new List<UserAccount>();
         }
 
-        public async Task UpdateAllUsersAccount()
+        public async Task UpdateAllUsersAccountAsync()
         {
             _accountsStorage = await _jsonHelper.DeserializeAsync();
         }
@@ -38,7 +38,7 @@ namespace TicTacToe.Server.Services.Impl
         }
 
 
-        public async Task AddAccountToStorage(UserAccount account)
+        public async Task AddAccountToStorageAsync(UserAccount account)
         {
             _accountsStorage.Add(account);
             if (_accountsStorage.Count == 1)

@@ -7,7 +7,9 @@ namespace TicTacToe.Client.Services.Impl;
 public class GameService : IGameService
 {
     private readonly HttpClient _httpClient;
-    
+
+    public string? RoomId { get; private set; }
+
     public GameService(HttpClient httpClient)
     {
         _httpClient = httpClient;
@@ -21,9 +23,14 @@ public class GameService : IGameService
 
         if (response.StatusCode == System.Net.HttpStatusCode.OK)
         {
-            _httpClient.DefaultRequestHeaders.Clear();
+            RoomId = await response.Content.ReadAsStringAsync();
         }
 
         return response;
+    }
+
+    public async Task<HttpResponseMessage> CheckSecondPlayerAsync()
+    {
+        return await _httpClient.GetAsync("api/Game/check_room/" + RoomId);
     }
 }

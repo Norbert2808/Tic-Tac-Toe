@@ -1,4 +1,5 @@
-﻿using TicTacToe.Server.Enum;
+﻿using Microsoft.AspNetCore.Mvc;
+using TicTacToe.Server.Enum;
 using TicTacToe.Server.Models;
 using TicTacToe.Server.Tools;
 
@@ -22,12 +23,12 @@ public class RoomService : IRoomService
     {
         if (settings.Type == RoomType.Public)
         {
-            var room = FindRoomAsync(login);
+            var room = FindFreeRoom(login);
 
             if (room is null)
             {
                 room = new Room(login, settings);
-                AddRoomAsync(room);
+                _roomStorage.Add(room);
             }
 
             return room.RoomId;
@@ -42,21 +43,17 @@ public class RoomService : IRoomService
         {
             
         }
+        
         return "";
     }
 
-    public Room? FindRoomAsync(string login)
+    public Room? FindFreeRoom(string login)
     {
         foreach (var room in _roomStorage)
         {
             if (room.IsClosed)
                 continue;
-            if (room.Settings.Type != RoomType.Practice
-                || room.Settings.Type != RoomType.Private)
-            {
-                continue;
-            }
-            
+
             room.LoginSecondPlayer = login;
             return room;
         }
@@ -64,8 +61,10 @@ public class RoomService : IRoomService
         return null;
     }
 
-    public void AddRoomAsync(Room room)
+    public async Task<Room?> FindRoomByIdAsync(string roomId)
     {
-        _roomStorage.Add(room);
+        return await Task.FromResult(_roomStorage
+            .FirstOrDefault(x => x.RoomId.Equals(roomId, StringComparison.Ordinal)));
     }
+    
 }

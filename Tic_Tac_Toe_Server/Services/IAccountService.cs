@@ -4,7 +4,7 @@ namespace TicTacToe.Server.Services
 {
     public interface IAccountService
     {
-        Task UpdateAllUsersAccount();
+        Task UpdateAllUsersAccountAsync();
 
         bool FindAccountByLogin(string login);
 
@@ -12,6 +12,6 @@ namespace TicTacToe.Server.Services
 
         List<UserAccount> GetStorage();
 
-        Task AddAccountToStorage(UserAccount account);
+        Task AddAccountToStorageAsync(UserAccount account);
     }
 }

@@ -32,7 +32,7 @@ namespace TicTacToe.Server.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> LoginAsync([FromBody] UserAccount account)
         {
-            await _accService.UpdateAllUsersAccount();
+            await _accService.UpdateAllUsersAccountAsync();
 
             var loginIsExist = _accService.FindAccountByLogin(account.Login);
 
@@ -40,7 +40,10 @@ namespace TicTacToe.Server.Controllers
                 return NotFound("Input login does not exist");
 
             if (_blocker.IsBlocked(account.Login))
-                return Unauthorized(account.Login);
+            {
+                _logger.LogWarning($"User in black list {account.Login}");
+                return Unauthorized(account.Login);   
+            }
 
             var passwordIsExist = _accService.FindAccountByPassword(account.Password);
 
@@ -57,17 +60,18 @@ namespace TicTacToe.Server.Controllers
         [HttpPost("registration")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.Conflict)]
         public async Task<IActionResult> RegistrationAsync([FromBody] UserAccount account)
         {
-            await _accService.UpdateAllUsersAccount();
+            await _accService.UpdateAllUsersAccountAsync();
 
             if (_accService.FindAccountByLogin(account.Login))
             {
-                _logger.LogInformation("Input login already exists");
-                return BadRequest("Input login already exists");
+                _logger.LogInformation($"Input login already exists {account.Login}");
+                return Conflict("User with such login already registered");
             }
 
-            await _accService.AddAccountToStorage(account);
+            await _accService.AddAccountToStorageAsync(account);
             return Ok(account.Login);
         }
 

@@ -31,7 +31,7 @@ public class GameController : ControllerBase
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
-    public async Task<IActionResult> StartSessionAsync([FromBody] RoomSettings? settings)
+    public async Task<IActionResult> StartRoomAsync([FromBody] RoomSettings? settings)
     {
         if (!FindUser())
         {
@@ -46,8 +46,29 @@ public class GameController : ControllerBase
         }
 
         var response = await _roomService.CreateRoomAsync(LoginUser, settings);
-
         return Ok(response);
+    }
+    
+    [HttpGet("check_room/{id}")]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    public async Task<IActionResult> CheckRoomAsync(string id)
+    {
+        if (!FindUser())
+        {
+            _logger.LogWarning("Unauthorized users");
+            return Unauthorized("Unauthorized users");
+        }
+        
+        var room = await _roomService.FindRoomByIdAsync(id);
+        if (room is null)
+            return BadRequest();
+        if (room.LoginSecondPlayer is not null || room.LoginSecondPlayer.Length != 0)
+            return Ok();
+        
+        return NotFound();
     }
 
     [NonAction]

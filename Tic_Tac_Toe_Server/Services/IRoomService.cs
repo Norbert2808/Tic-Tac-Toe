@@ -6,9 +6,7 @@ public interface IRoomService
 {
     Task<string> CreateRoomAsync(string login, RoomSettings settings);
 
-    Room? FindRoomAsync(string login);
+    Room? FindFreeRoom(string login);
 
-    void AddRoomAsync(Room room);
-    
-    
+    Task<Room?> FindRoomByIdAsync(string roomId);
 }
