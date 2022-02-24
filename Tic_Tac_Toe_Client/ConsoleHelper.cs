@@ -5,7 +5,8 @@ namespace TicTacToe.Client
     public static class ConsoleHelper
     {
         public static void WriteInConsole(string[] message,
-            ConsoleColor color)
+            ConsoleColor color,
+            string lastMessage = "Please press to continue")
         {
             Console.Clear();
             var startColor = Console.ForegroundColor;
@@ -13,7 +14,7 @@ namespace TicTacToe.Client
 
             foreach (var item in message)
                 Console.WriteLine(item);
-            Console.WriteLine("Please press to continue");
+            Console.WriteLine(lastMessage);
 
             Console.ForegroundColor = startColor;
 
@@ -23,11 +24,6 @@ namespace TicTacToe.Client
         public static void ReadIntFromConsole(out int choose)
         {
             choose = Convert.ToInt32(Console.ReadLine(), CultureInfo.CurrentCulture);
-        }
-
-        public static void ReadStringFromConsole(out string str)
-        {
-            str = Console.ReadLine();
         }
     }
 }

@@ -23,7 +23,7 @@ public class LeaderMenuState : ILeaderMenuState
             Console.WriteLine("LeaderBoard menu");
             Console.WriteLine("1 -- By wins");
             Console.WriteLine("2 -- By times");
-            Console.WriteLine("3 -- Close");
+            Console.WriteLine("0 -- Close");
             
             try
             {
@@ -36,13 +36,19 @@ public class LeaderMenuState : ILeaderMenuState
                     case 2:
                         break;
                     
-                    case 3:
+                    case 0:
                         return;
                 }
             }
             catch (FormatException ex)
             {
                 _logger.LogError(ex.Message);
+            }
+            catch (HttpRequestException ex)
+            {
+                _logger.LogError(ex.Message);
+                ConsoleHelper.WriteInConsole(new[] { "Failed to connect with server!" },
+                    ConsoleColor.Red);
             }
         }
     }

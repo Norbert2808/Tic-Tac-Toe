@@ -17,6 +17,7 @@ namespace TicTacToe.Client.States.Impl
         public async Task InvokeAsync()
         {
             _logger.LogInformation("Class MainMenuState. InvokeAsync method");
+            
             while (true)
             {
                 Console.Clear();
@@ -24,7 +25,7 @@ namespace TicTacToe.Client.States.Impl
                 Console.WriteLine("Please choose action:");
                 Console.WriteLine("1 -- Start game");
                 Console.WriteLine("2 -- Private statistic");
-                Console.WriteLine("3 -- Logout");
+                Console.WriteLine("0 -- Logout");
                 try
                 {
                     ConsoleHelper.ReadIntFromConsole(out var choose);
@@ -38,7 +39,7 @@ namespace TicTacToe.Client.States.Impl
                             
                             break;
 
-                        case 3:
+                        case 0:
                             return;
                     }
                 }
@@ -46,11 +47,18 @@ namespace TicTacToe.Client.States.Impl
                 {
                     _logger.LogError(ex.Message);
                 }
+                catch (HttpRequestException ex)
+                {
+                    _logger.LogError(ex.Message);
+                    ConsoleHelper.WriteInConsole(new[] { "Failed to connect with server!" },
+                        ConsoleColor.Red);
+                }
             }
         }
 
         public async Task ExecuteGameMenu()
         {
+            _logger.LogInformation("Execute game menu state.");
             await _gameMenuState.InvokeAsync();
         }
     }
