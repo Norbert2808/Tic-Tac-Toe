@@ -8,9 +8,12 @@ public class SessionSettings
 
     public string RoomId { get; set; }
 
-    public SessionSettings(RoomType type, string roomId)
+    public bool IsConnection { get; set; }
+
+    public SessionSettings(RoomType type, string roomId, bool isConnection)
     {
         Type = type;
         RoomId = roomId;
+        IsConnection = isConnection;
     }
 }

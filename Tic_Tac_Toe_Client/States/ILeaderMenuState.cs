@@ -2,5 +2,5 @@
 
 public interface ILeaderMenuState : IState
 {
-    
+    Task<string> GetMessageFromResponseAsync(HttpResponseMessage response);
 }

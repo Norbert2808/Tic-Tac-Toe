@@ -6,9 +6,9 @@ namespace TicTacToe.Server.Services
     {
         Task UpdateAllUsersAccountAsync();
 
-        bool FindAccountByLogin(string login);
+        Task<bool> FindAccountByLogin(string login);
 
-        bool FindAccountByPassword(string password);
+        Task<bool> FindAccountByPassword(string password);
 
         List<UserAccount> GetStorage();
 

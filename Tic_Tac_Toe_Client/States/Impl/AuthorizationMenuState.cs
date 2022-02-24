@@ -136,7 +136,7 @@ namespace TicTacToe.Client.States.Impl
             }
         }
 
-        private async Task<string> GetMessageFromResponseAsync(HttpResponseMessage response)
+        public async Task<string> GetMessageFromResponseAsync(HttpResponseMessage response)
         {
             return await response.Content.ReadAsStringAsync();
         }

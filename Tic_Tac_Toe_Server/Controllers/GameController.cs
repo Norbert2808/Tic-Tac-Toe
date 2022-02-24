@@ -33,7 +33,7 @@ public class GameController : ControllerBase
     [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
     public async Task<IActionResult> StartRoomAsync([FromBody] RoomSettings? settings)
     {
-        if (!FindUser())
+        if (!await FindUser())
         {
             _logger.LogWarning("Unauthorized users");
             return Unauthorized("Unauthorized users");
@@ -46,6 +46,8 @@ public class GameController : ControllerBase
         }
 
         var response = await _roomService.CreateRoomAsync(LoginUser, settings);
+        if (response is null)
+            return BadRequest("Such a token does not exist.");
         return Ok(response);
     }
     
@@ -56,25 +58,27 @@ public class GameController : ControllerBase
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     public async Task<IActionResult> CheckRoomAsync(string id)
     {
-        if (!FindUser())
+        if (!await FindUser())
         {
             _logger.LogWarning("Unauthorized users");
             return Unauthorized("Unauthorized users");
         }
         
         var room = await _roomService.FindRoomByIdAsync(id);
+        
         if (room is null)
             return BadRequest();
-        if (room.IsClosed)
+        
+        if (room.IsCompleted)
             return Ok();
         
         return NotFound();
     }
 
     [NonAction]
-    public bool FindUser()
+    public async Task<bool> FindUser()
     {
-        return _accountService.FindAccountByLogin(LoginUser);
+        return await _accountService.FindAccountByLogin(LoginUser);
     }
     
 }

@@ -15,9 +15,9 @@ public class GameService : IGameService
         _httpClient = httpClient;
     }
 
-    public async Task<HttpResponseMessage> StartSessionAsync(RoomType roomType, string roomId)
+    public async Task<HttpResponseMessage> StartSessionAsync(RoomType roomType, string roomId, bool isConnect)
     {
-        var settings = new SessionSettings(roomType, roomId);
+        var settings = new SessionSettings(roomType, roomId, isConnect);
         
         var response = await _httpClient.PostAsync("api/Game/create_room", settings, new JsonMediaTypeFormatter());
 

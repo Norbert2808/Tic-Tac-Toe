@@ -27,13 +27,15 @@ public class GameMenuState : IGameMenuState
             Console.Clear();
             Console.WriteLine("Game Menu");
             Console.WriteLine("Please choose room:");
-            Console.WriteLine("1 -- Private room");
-            Console.WriteLine("2 -- Public room");
-            Console.WriteLine("3 -- Practice room");
+            Console.WriteLine("1 -- Create private room");
+            Console.WriteLine("2 -- Connect to private room");
+            Console.WriteLine("3 -- Public room");
+            Console.WriteLine("4 -- Practice room");
             Console.WriteLine("0 -- Close");
 
             RoomType type = default;
             var roomId = "";
+            var isConnecting = false;
             try
             {
                 ConsoleHelper.ReadIntFromConsole(out var choose);
@@ -42,17 +44,23 @@ public class GameMenuState : IGameMenuState
                     case 1:
                         _logger.LogInformation("Creating private room.");
                         type = RoomType.Private;
-                        ConsoleHelper.WriteInConsole(new[] {"Please write custom room id"},
-                            ConsoleColor.Yellow);
-                        roomId = Console.ReadLine();
                         break;
-
+                    
                     case 2:
+                        _logger.LogInformation("Connect to private room executed");
+                        type = RoomType.Private;
+                        ConsoleHelper.WriteInConsoleWithOutReadLine(new []{ "Please enter token:"}, 
+                            ConsoleColor.Yellow );
+                        roomId = Console.ReadLine();
+                        isConnecting = true;
+                        break;
+                        
+                    case 3:
                         _logger.LogInformation("Creating public room.");
                         type = RoomType.Public;
                         break;
 
-                    case 3:
+                    case 4:
                         _logger.LogInformation("Creating practice room.");
                         type = RoomType.Practice;
                         break;
@@ -71,20 +79,36 @@ public class GameMenuState : IGameMenuState
                     ConsoleColor.Red);
             }
 
-            await StartConnectionWithRoomAsync(type, roomId);
+            await StartConnectionWithRoomAsync(type, roomId, isConnecting);
         }
     }
 
-    public async Task StartConnectionWithRoomAsync(RoomType type, string roomId)
+    public async Task StartConnectionWithRoomAsync(RoomType type, string roomId, bool isConnecting)
     {
         _logger.LogInformation("Creating room.");
 
-        var response = await _gameService.StartSessionAsync(type, roomId);
+        var response = await _gameService.StartSessionAsync(type, roomId, isConnecting);
 
         if (response.StatusCode == HttpStatusCode.OK)
         {
-            Console.WriteLine("Room was found! Please, be wait when your opponent will entering.");
+            if (type == RoomType.Public)
+            {
+                Console.WriteLine("Room was found! Please, be wait when your opponent will entering.");
+            }
+
+            if (type == RoomType.Private)
+            {
+                Console.WriteLine($"Your private token: { await response.Content.ReadAsStringAsync()}");
+                Console.WriteLine("Please, be wait when your opponent will entering.");
+            }
+
             await WaitSecondPlayerAsync();
+        }
+
+        if (response.StatusCode == HttpStatusCode.BadRequest)
+        {
+            var errorMessage = await GetMessageFromResponseAsync(response);
+            ConsoleHelper.WriteInConsole(new []{ errorMessage }, ConsoleColor.Red);
         }
 
     }
@@ -103,5 +127,10 @@ public class GameMenuState : IGameMenuState
                 return;
             }
         }
+    }
+    
+    public async Task<string> GetMessageFromResponseAsync(HttpResponseMessage response)
+    {
+        return await response.Content.ReadAsStringAsync();
     }
 }

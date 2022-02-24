@@ -36,7 +36,7 @@ namespace TicTacToe.Server.Controllers
 
             var loginIsExist = _accService.FindAccountByLogin(account.Login);
 
-            if (!loginIsExist)
+            if (!await loginIsExist)
                 return NotFound("Input login does not exist");
 
             if (_blocker.IsBlocked(account.Login))
@@ -47,7 +47,7 @@ namespace TicTacToe.Server.Controllers
 
             var passwordIsExist = _accService.FindAccountByPassword(account.Password);
 
-            if (!passwordIsExist)
+            if (!await passwordIsExist)
             {
                 _blocker.ErrorTryLogin(account.Login);
                 return NotFound("Password is wrong!");
@@ -65,7 +65,7 @@ namespace TicTacToe.Server.Controllers
         {
             await _accService.UpdateAllUsersAccountAsync();
 
-            if (_accService.FindAccountByLogin(account.Login))
+            if (await _accService.FindAccountByLogin(account.Login))
             {
                 _logger.LogInformation($"Input login already exists {account.Login}");
                 return Conflict("User with such login already registered");

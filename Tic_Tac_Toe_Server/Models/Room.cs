@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using TicTacToe.Server.Enum;
 
 namespace TicTacToe.Server.Models;
 
@@ -22,7 +23,7 @@ public class Room
     [JsonPropertyName("Second player")]
     public string LoginSecondPlayer { get; set; }
 
-    public bool IsClosed { get; set; }
+    public bool IsCompleted { get; set; }
 
     public Room(string login, RoomSettings settings)
     {
@@ -30,6 +31,6 @@ public class Room
         Settings = settings;
         RoomId = settings.RoomId.Length == 0 ? Guid.NewGuid().ToString() : settings.RoomId;
         CreationDate = DateTime.UtcNow;
-        IsClosed = false;
+        IsCompleted = false;
     }
 }

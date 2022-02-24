@@ -11,6 +11,8 @@ namespace TicTacToe.Server.Services.Impl
 
         private readonly JsonHelper<UserAccount> _jsonHelper;
 
+        private readonly SemaphoreSlim _semaphoreSlim = new(1, 1);
+
         public AccountService()
         {
             _jsonHelper = new JsonHelper<UserAccount>(Path);
@@ -27,24 +29,34 @@ namespace TicTacToe.Server.Services.Impl
             return _accountsStorage;
         }
 
-        public bool FindAccountByLogin(string login)
+        public async Task<bool> FindAccountByLogin(string login)
         {
-            return _accountsStorage.Any(x => x.Login.Equals(login, StringComparison.OrdinalIgnoreCase));
+            return await Task.FromResult(_accountsStorage
+                .Any(x => x.Login.Equals(login, StringComparison.OrdinalIgnoreCase)));
         }
 
-        public bool FindAccountByPassword(string password)
+        public async Task<bool> FindAccountByPassword(string password)
         {
-            return _accountsStorage.Any(x => x.Password.Equals(password, StringComparison.Ordinal));
+            return await Task.FromResult(_accountsStorage
+                .Any(x => x.Password.Equals(password, StringComparison.Ordinal)));
         }
 
 
         public async Task AddAccountToStorageAsync(UserAccount account)
         {
-            _accountsStorage.Add(account);
-            if (_accountsStorage.Count == 1)
-                await _jsonHelper.SerializeAsync(_accountsStorage);
-            else
-                await _jsonHelper.AddAccountToFile(account);
+            await  _semaphoreSlim.WaitAsync();
+            try
+            {
+                _accountsStorage.Add(account);
+                if (_accountsStorage.Count == 1)
+                    await _jsonHelper.SerializeAsync(_accountsStorage);
+                else
+                    await _jsonHelper.AddAccountToFile(account);
+            }
+            finally
+            {
+                _semaphoreSlim.Release();
+            }
         }
 
     }

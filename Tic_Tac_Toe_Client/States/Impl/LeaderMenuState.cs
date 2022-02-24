@@ -52,4 +52,9 @@ public class LeaderMenuState : ILeaderMenuState
             }
         }
     }
+
+    public Task<string> GetMessageFromResponseAsync(HttpResponseMessage response)
+    {
+        throw new NotImplementedException();
+    }
 }
