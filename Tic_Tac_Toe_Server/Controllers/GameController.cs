@@ -65,7 +65,7 @@ public class GameController : ControllerBase
         var room = await _roomService.FindRoomByIdAsync(id);
         if (room is null)
             return BadRequest();
-        if (room.LoginSecondPlayer is not null || room.LoginSecondPlayer.Length != 0)
+        if (room.IsClosed)
             return Ok();
         
         return NotFound();

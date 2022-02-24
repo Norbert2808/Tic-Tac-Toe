@@ -30,5 +30,6 @@ public class Room
         Settings = settings;
         RoomId = settings.RoomId.Length == 0 ? Guid.NewGuid().ToString() : settings.RoomId;
         CreationDate = DateTime.UtcNow;
+        IsClosed = false;
     }
 }

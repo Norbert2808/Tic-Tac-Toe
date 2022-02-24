@@ -55,6 +55,7 @@ public class RoomService : IRoomService
                 continue;
 
             room.LoginSecondPlayer = login;
+            room.IsClosed = true;
             return room;
         }
 
