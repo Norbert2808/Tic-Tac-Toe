@@ -52,6 +52,7 @@ namespace TicTacToe.Client.States.Impl
                     _logger.LogError(ex.Message);
                     ConsoleHelper.WriteInConsole(new[] { "Failed to connect with server!" },
                         ConsoleColor.Red);
+                    Console.ReadLine();
                 }
             }
         }

@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using TicTacToe.Server.Enum;
+﻿using TicTacToe.Server.Enum;
 using TicTacToe.Server.Models;
 using TicTacToe.Server.Tools;
 
@@ -13,37 +12,54 @@ public class RoomService : IRoomService
 
     private JsonHelper<Room> _jsonHelper;
 
+    private SemaphoreSlim _semaphoreSlim = new(1, 1);
+
     public RoomService()
     {
         _roomStorage = new List<Room>();
         _jsonHelper =  new JsonHelper<Room>(Path);
     }
-    
+
     public async Task<string> CreateRoomAsync(string login, RoomSettings settings)
     {
-        if (settings.Type == RoomType.Public)
+        await _semaphoreSlim.WaitAsync();
+        try
         {
-            var room = ConnectionToPublicRoom(login, settings.RoomId);
-    
-            if (room is null)
+            switch (settings.Type)
             {
-                room = new Room(login, settings);
-                _roomStorage.Add(room);
+                case RoomType.Public:
+                {
+                    var room = ConnectionToPublicRoom(login, settings.RoomId);
+
+                    if (room is null)
+                    {
+                        room = new Room(login, settings);
+                        _roomStorage.Add(room);
+                    }
+
+                    return room.RoomId;
+                }
+
+                case RoomType.Private when settings.IsConnection:
+                {
+                    var room = await ConnectionToPrivateRoom(login, settings.RoomId);
+                    return room is null ? null : room.RoomId;
+                }
+
+                case RoomType.Practice:
+
+                    return null;
+                default:
+                {
+                    var room = new Room(login, settings);
+                    _roomStorage.Add(room);
+                    return room.RoomId;
+                }
             }
-
-            return room.RoomId;   
         }
-
-        if (settings.Type == RoomType.Private && settings.IsConnection)
+        finally
         {
-            var room = await ConnectionToPrivateRoom(login, settings.RoomId);
-            return room is null ? null : room.RoomId;
-        }
-        else
-        {
-            var room = new Room(login, settings);
-            _roomStorage.Add(room);
-            return room.RoomId;
+            _semaphoreSlim.Release();
         }
     }
 
@@ -51,7 +67,7 @@ public class RoomService : IRoomService
     {
         foreach (var room in _roomStorage)
         {
-            if (room.IsCompleted)
+            if (room.IsCompleted || room.Settings.Type != RoomType.Public)
                 continue;
             
             if (room.LoginFirstPlayer is null || room.LoginFirstPlayer.Length == 0)

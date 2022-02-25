@@ -49,7 +49,7 @@ public class GameMenuState : IGameMenuState
                     case 2:
                         _logger.LogInformation("Connect to private room executed");
                         type = RoomType.Private;
-                        ConsoleHelper.WriteInConsoleWithOutReadLine(new []{ "Please enter token:"}, 
+                        ConsoleHelper.WriteInConsole(new []{ "Please enter token:"}, 
                             ConsoleColor.Yellow );
                         roomId = Console.ReadLine();
                         isConnecting = true;
@@ -77,6 +77,7 @@ public class GameMenuState : IGameMenuState
                 _logger.LogError(ex.Message);
                 ConsoleHelper.WriteInConsole(new[] { "Failed to connect with server!" },
                     ConsoleColor.Red);
+                Console.ReadLine();
             }
 
             await StartConnectionWithRoomAsync(type, roomId, isConnecting);
@@ -93,15 +94,19 @@ public class GameMenuState : IGameMenuState
         {
             if (type == RoomType.Public)
             {
-                Console.WriteLine("Room was found! Please, be wait when your opponent will entering.");
+                ConsoleHelper.WriteInConsole(new []{ "Room was found! Please, be wait when your" + 
+                                                     " opponent will entering." }, ConsoleColor.Green, "");
             }
 
             if (type == RoomType.Private)
             {
-                Console.WriteLine($"Your private token: { await response.Content.ReadAsStringAsync()}");
-                Console.WriteLine("Please, be wait when your opponent will entering.");
+                ConsoleHelper.WriteInConsole(new []{ "Your private token:" + 
+                                                     $"{ await response.Content.ReadAsStringAsync()}", 
+                        "Please, be wait when your opponent will entering." },
+                    ConsoleColor.Green);
+               
             }
-
+            
             await WaitSecondPlayerAsync();
         }
 
@@ -109,6 +114,7 @@ public class GameMenuState : IGameMenuState
         {
             var errorMessage = await GetMessageFromResponseAsync(response);
             ConsoleHelper.WriteInConsole(new []{ errorMessage }, ConsoleColor.Red);
+            Console.ReadLine();
         }
 
     }

@@ -65,12 +65,14 @@ namespace TicTacToe.Client.States.Impl
                     _logger.LogError(ex.Message);
                     ConsoleHelper.WriteInConsole(new[] { "It's not a number!" },
                         ConsoleColor.Red);
+                    Console.ReadLine();
                 }
                 catch (HttpRequestException ex)
                 {
                     _logger.LogError(ex.Message);
                     ConsoleHelper.WriteInConsole(new[] { "Failed to connect with server!" },
                         ConsoleColor.Red);
+                    Console.ReadLine();
                 }
             }
         }
@@ -110,6 +112,7 @@ namespace TicTacToe.Client.States.Impl
                 _logger.LogInformation("User blocked");
                 ConsoleHelper.WriteInConsole(
                        new[] { "You are blocked! Please waiting 1 minute" }, ConsoleColor.Red);
+                Console.ReadLine();
             }
 
             if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
@@ -117,6 +120,7 @@ namespace TicTacToe.Client.States.Impl
                 _logger.LogInformation("Input invalid data. HttpStatus::BadRequest");
                 ConsoleHelper.WriteInConsole(
                        new[] { "Login and password must be at least 6 symbol long" }, ConsoleColor.Red);
+                Console.ReadLine();
             }
 
             if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
@@ -125,6 +129,7 @@ namespace TicTacToe.Client.States.Impl
                 var errorMessage = await GetMessageFromResponseAsync(response);
                 ConsoleHelper.WriteInConsole(
                        new[] { errorMessage }, ConsoleColor.Red);
+                Console.ReadLine();
             }
             
             if (response.StatusCode == System.Net.HttpStatusCode.Conflict)
@@ -133,6 +138,7 @@ namespace TicTacToe.Client.States.Impl
                 var errorMessage = await GetMessageFromResponseAsync(response);
                 ConsoleHelper.WriteInConsole(
                     new[] { errorMessage }, ConsoleColor.Red);
+                Console.ReadLine();
             }
         }
 
