@@ -15,7 +15,7 @@ public class LeaderMenuState : ILeaderMenuState
         _logger = logger;
     }
     
-    public async Task InvokeAsync()
+    public async Task InvokeMenuAsync()
     {
         while (true)
         {

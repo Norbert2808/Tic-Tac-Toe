@@ -2,7 +2,7 @@
 
 public class PrivateUserStatistic : IState
 {
-    public Task InvokeAsync()
+    public Task InvokeMenuAsync()
     {
         throw new NotImplementedException();
     }

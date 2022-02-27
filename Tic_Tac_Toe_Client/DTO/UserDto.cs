@@ -1,7 +1,7 @@
 ﻿
-namespace TicTacToe.Client.Models
+namespace TicTacToe.Client.DTO
 {
-    public class User
+    public class UserDto
     { 
         public string Login { get; set; }
 

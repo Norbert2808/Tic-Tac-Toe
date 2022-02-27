@@ -1,5 +1,4 @@
 ﻿using System.Text.Json.Serialization;
-using TicTacToe.Server.Enum;
 
 namespace TicTacToe.Server.Models;
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using System.Net;
+using Microsoft.Extensions.Logging;
 using TicTacToe.Client.Services;
 
 namespace TicTacToe.Client.States.Impl
@@ -24,7 +25,7 @@ namespace TicTacToe.Client.States.Impl
             _logger = logger;
         }
 
-        public async Task InvokeAsync()
+        public async Task InvokeMenuAsync()
         {
             _logger.LogInformation("Class AuthorizationMenuState. InvokeAsync method");
             while (true)
@@ -53,7 +54,7 @@ namespace TicTacToe.Client.States.Impl
                             break;
 
                         case 3:
-                            await _leaderMenu.InvokeAsync();
+                            await _leaderMenu.InvokeMenuAsync();
                             break;
                         
                         case 0:
@@ -79,9 +80,9 @@ namespace TicTacToe.Client.States.Impl
 
         public async Task ExecuteLoginAsync()
         {
-            Console.WriteLine("Enter login:");
+            ConsoleHelper.WriteInConsole(new []{ "Enter login:" }, ConsoleColor.Cyan, "");
             var login = Console.ReadLine();
-            Console.WriteLine("Enter password:");
+            ConsoleHelper.WriteInConsole(new []{ "Enter password:" }, ConsoleColor.Cyan,"");
             var password = Console.ReadLine();
 
             var response = await _userService.LoginAsync(login!, password!);
@@ -90,9 +91,9 @@ namespace TicTacToe.Client.States.Impl
 
         public async Task ExecuteRegistrationAsync()
         {
-            Console.WriteLine("Enter login for registration:");
+            ConsoleHelper.WriteInConsole(new []{ "Enter login for registration:" }, ConsoleColor.Cyan, "");
             var login = Console.ReadLine();
-            Console.WriteLine("Enter password for registration:");
+            ConsoleHelper.WriteInConsole(new []{ "Enter password for registration:" }, ConsoleColor.Cyan, "");
             var password = Console.ReadLine();
 
             var response = await _userService.RegistrationAsync(login!, password!);
@@ -101,13 +102,13 @@ namespace TicTacToe.Client.States.Impl
 
         private async Task ResponseHandlerAsync(HttpResponseMessage response)
         {
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            if (response.StatusCode == HttpStatusCode.OK)
             {
                 Console.Clear();
-                await _mainMenuState.InvokeAsync();
+                await _mainMenuState.InvokeMenuAsync();
             }
 
-            if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+            if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
                 _logger.LogInformation("User blocked");
                 ConsoleHelper.WriteInConsole(
@@ -115,7 +116,7 @@ namespace TicTacToe.Client.States.Impl
                 Console.ReadLine();
             }
 
-            if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
+            if (response.StatusCode == HttpStatusCode.BadRequest)
             {
                 _logger.LogInformation("Input invalid data. HttpStatus::BadRequest");
                 ConsoleHelper.WriteInConsole(
@@ -123,21 +124,14 @@ namespace TicTacToe.Client.States.Impl
                 Console.ReadLine();
             }
 
-            if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+            if (response.StatusCode == HttpStatusCode.NotFound 
+                || response.StatusCode == HttpStatusCode.Conflict)
             {
-                _logger.LogInformation("Input invalid data. HttpStatus::NotFound");
+                _logger.LogInformation("User with such login already registered or" + 
+                                       " input invalid data. HttpStatus::NotFound or HttpStatus::Conflict");
                 var errorMessage = await GetMessageFromResponseAsync(response);
                 ConsoleHelper.WriteInConsole(
                        new[] { errorMessage }, ConsoleColor.Red);
-                Console.ReadLine();
-            }
-            
-            if (response.StatusCode == System.Net.HttpStatusCode.Conflict)
-            {
-                _logger.LogInformation("User with such login already registered. HttpStatus::NotFound");
-                var errorMessage = await GetMessageFromResponseAsync(response);
-                ConsoleHelper.WriteInConsole(
-                    new[] { errorMessage }, ConsoleColor.Red);
                 Console.ReadLine();
             }
         }

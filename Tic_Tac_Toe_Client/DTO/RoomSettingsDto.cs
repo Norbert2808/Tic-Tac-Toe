@@ -2,7 +2,7 @@
 
 namespace TicTacToe.Client.DTO;
 
-public class SessionSettings
+public class RoomSettingsDto
 {
     public RoomType Type { get; set; }
 
@@ -10,7 +10,7 @@ public class SessionSettings
 
     public bool IsConnection { get; set; }
 
-    public SessionSettings(RoomType type, string roomId, bool isConnection)
+    public RoomSettingsDto(RoomType type, string roomId, bool isConnection)
     {
         Type = type;
         RoomId = roomId;

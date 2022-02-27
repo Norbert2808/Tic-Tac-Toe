@@ -13,7 +13,6 @@ namespace TicTacToe.Server.Models
         [JsonPropertyName("password")]
         public string Password { get; set; }
 
-
         public UserAccount(string login, string password)
         {
             Login = login;

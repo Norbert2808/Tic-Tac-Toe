@@ -33,8 +33,8 @@ namespace TicTacToe.Server.Controllers
         public async Task<IActionResult> LoginAsync([FromBody] UserAccount account)
         {
             await _accService.UpdateAllUsersAccountAsync();
-
-            var loginIsExist = _accService.FindAccountByLogin(account.Login);
+            
+            var loginIsExist = _accService.IsAccountExistByLoginAsync(account.Login);
 
             if (!await loginIsExist)
                 return NotFound("Input login does not exist");
@@ -45,7 +45,7 @@ namespace TicTacToe.Server.Controllers
                 return Unauthorized(account.Login);   
             }
 
-            var passwordIsExist = _accService.FindAccountByPassword(account.Password);
+            var passwordIsExist = _accService.IsAccountExistByPasswordAsync(account.Password);
 
             if (!await passwordIsExist)
             {
@@ -54,6 +54,12 @@ namespace TicTacToe.Server.Controllers
             }
 
             _blocker.UnBlock(account.Login);
+
+            if (_accService.IsActiveUserByLogin(account.Login))
+                return Conflict("User have already logged-in");
+
+            _accService.AddActiveAccount(account);
+            
             return Ok(account.Login);
         }
 
@@ -65,16 +71,25 @@ namespace TicTacToe.Server.Controllers
         {
             await _accService.UpdateAllUsersAccountAsync();
 
-            if (await _accService.FindAccountByLogin(account.Login))
+            if (await _accService.IsAccountExistByLoginAsync(account.Login))
             {
                 _logger.LogInformation($"Input login already exists {account.Login}");
                 return Conflict("User with such login already registered");
             }
 
+            _accService.AddActiveAccount(account);
+
             await _accService.AddAccountToStorageAsync(account);
             return Ok(account.Login);
         }
 
+        [HttpPost("logout")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        public async Task<IActionResult> LogoutAsync([FromBody] string login)
+        {
+            await _accService.RemoveActiveAccountByLoginAsync(login);
 
+            return Ok("User successfully left.");
+        }
     }
 }

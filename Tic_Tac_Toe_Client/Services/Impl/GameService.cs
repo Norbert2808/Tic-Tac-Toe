@@ -15,11 +15,13 @@ public class GameService : IGameService
         _httpClient = httpClient;
     }
 
-    public async Task<HttpResponseMessage> StartSessionAsync(RoomType roomType, string roomId, bool isConnect)
+    public async Task<HttpResponseMessage> StartRoomAsync(RoomType roomType, string roomId, bool isConnect)
     {
-        var settings = new SessionSettings(roomType, roomId, isConnect);
+        var settings = new RoomSettingsDto(roomType, roomId, isConnect);
         
-        var response = await _httpClient.PostAsync("api/Game/create_room", settings, new JsonMediaTypeFormatter());
+        var response = await _httpClient.PostAsync("api/Game/create_room",
+            settings,
+            new JsonMediaTypeFormatter());
 
         if (response.StatusCode == System.Net.HttpStatusCode.OK)
         {
@@ -32,5 +34,19 @@ public class GameService : IGameService
     public async Task<HttpResponseMessage> CheckSecondPlayerAsync()
     {
         return await _httpClient.GetAsync("api/Game/check_room/" + RoomId);
+    }
+
+    public async Task<HttpResponseMessage> MakeMoveAsync(int index, int number)
+    {
+        var moveDto = new MoveDto(index, number);
+        var response = await _httpClient.PostAsync("api/Game/move/" + RoomId,
+            moveDto,
+            new JsonMediaTypeFormatter());
+        return response;
+    }
+
+    public async Task<HttpResponseMessage> CheckMoveAsync()
+    {
+        return await _httpClient.GetAsync("api/Game/check_move/" + RoomId);
     }
 }

@@ -75,10 +75,46 @@ public class GameController : ControllerBase
         return NotFound();
     }
 
-    [NonAction]
-    public async Task<bool> FindUser()
+    [HttpGet("check_move/{id}")]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    public async Task<IActionResult> CheckMoveAsync(string id)
     {
-        return await _accountService.FindAccountByLogin(LoginUser);
+        if (!await FindUser())
+        {
+            _logger.LogWarning("Unauthorized users");
+            return Unauthorized("Unauthorized users");
+        }
+        
+        
+        
+        return NotFound();
+    }
+    
+    [HttpGet("move/{id}")]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    public async Task<IActionResult> CheckMoveAsync(string id, [FromBody] Move move)
+    {
+        if (!await FindUser())
+        {
+            _logger.LogWarning("Unauthorized users");
+            return Unauthorized("Unauthorized users");
+        }
+        
+        
+       
+        return NotFound();
+    }
+    
+    [NonAction]
+    private async Task<bool> FindUser()
+    {
+        return await _accountService.IsAccountExistByLoginAsync(LoginUser);
     }
     
 }

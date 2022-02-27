@@ -9,7 +9,7 @@ public interface IRoomService
 
     Room? ConnectionToPublicRoom(string login, string roomId);
 
-    Task<Room?> ConnectionToPrivateRoom(string login, string roomId);
+    Task<Room?> ConnectionToPrivateRoomAsync(string login, string roomId);
 
     Task<Room?> FindRoomByIdAsync(string roomId);
 }

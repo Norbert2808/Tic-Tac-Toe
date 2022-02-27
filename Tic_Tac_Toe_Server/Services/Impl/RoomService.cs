@@ -42,7 +42,7 @@ public class RoomService : IRoomService
 
                 case RoomType.Private when settings.IsConnection:
                 {
-                    var room = await ConnectionToPrivateRoom(login, settings.RoomId);
+                    var room = await ConnectionToPrivateRoomAsync(login, settings.RoomId);
                     return room is null ? null : room.RoomId;
                 }
 
@@ -83,7 +83,7 @@ public class RoomService : IRoomService
         return null;
     }
 
-    public async Task<Room?> ConnectionToPrivateRoom(string login, string roomId)
+    public async Task<Room?> ConnectionToPrivateRoomAsync(string login, string roomId)
     {
         var room = await FindRoomByIdAsync(roomId);
         if (room is null)

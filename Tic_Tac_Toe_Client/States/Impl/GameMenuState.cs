@@ -9,16 +9,20 @@ public class GameMenuState : IGameMenuState
 {
     private readonly IGameService _gameService;
 
+    private readonly IGameState _gameState;
+
     private readonly ILogger<IGameMenuState> _logger;
 
-    public GameMenuState(IGameService gameService,
+    public GameMenuState(IGameState gameState,
+        IGameService gameService,
         ILogger<IGameMenuState> logger)
     {
         _gameService = gameService;
+        _gameState = gameState;
         _logger = logger;
     }
 
-    public async Task InvokeAsync()
+    public async Task InvokeMenuAsync()
     {
         _logger.LogInformation("Class MainMenuState. InvokeAsync method");
         
@@ -88,7 +92,7 @@ public class GameMenuState : IGameMenuState
     {
         _logger.LogInformation("Creating room.");
 
-        var response = await _gameService.StartSessionAsync(type, roomId, isConnecting);
+        var response = await _gameService.StartRoomAsync(type, roomId, isConnecting);
 
         if (response.StatusCode == HttpStatusCode.OK)
         {
@@ -104,19 +108,16 @@ public class GameMenuState : IGameMenuState
                                                      $"{ await response.Content.ReadAsStringAsync()}", 
                         "Please, be wait when your opponent will entering." },
                     ConsoleColor.Green);
-               
             }
-            
-            await WaitSecondPlayerAsync();
-        }
 
+            await WaitSecondPlayerAsync();
+        }   
         if (response.StatusCode == HttpStatusCode.BadRequest)
         {
             var errorMessage = await GetMessageFromResponseAsync(response);
             ConsoleHelper.WriteInConsole(new []{ errorMessage }, ConsoleColor.Red);
             Console.ReadLine();
         }
-
     }
 
     public async Task WaitSecondPlayerAsync()
@@ -125,11 +126,10 @@ public class GameMenuState : IGameMenuState
         while (true)
         {
             var response = await _gameService.CheckSecondPlayerAsync();
-            
+
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                Console.WriteLine("Player was found. Please, press to start.");
-                Console.ReadLine();
+                await _gameState.InvokeMenuAsync();
                 return;
             }
         }

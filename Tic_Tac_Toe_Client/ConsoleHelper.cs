@@ -8,7 +8,6 @@ namespace TicTacToe.Client
             ConsoleColor color,
             string lastMessage = "Please press to continue")
         {
-            Console.Clear();
             var startColor = Console.ForegroundColor;
             Console.ForegroundColor = color;
 

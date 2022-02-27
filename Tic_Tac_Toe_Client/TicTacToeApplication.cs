@@ -18,7 +18,7 @@ namespace TicTacToe.Client
             while (true)
             {
                 var authorizationMenu = provider.GetRequiredService<AuthorizationMenuState>();
-                await authorizationMenu.InvokeAsync();
+                await authorizationMenu.InvokeMenuAsync();
                 return;
             }
         }
@@ -36,7 +36,8 @@ namespace TicTacToe.Client
                 .AddTransient<AuthorizationMenuState>()
                 .AddTransient<IMainMenuState, MainMenuState>()
                 .AddTransient<ILeaderMenuState, LeaderMenuState>()
-                .AddTransient<IGameMenuState, GameMenuState>();
+                .AddTransient<IGameMenuState, GameMenuState>()
+                .AddTransient<IGameState, GameState>();
 
             var serilog = new LoggerConfiguration()
                 .WriteTo
