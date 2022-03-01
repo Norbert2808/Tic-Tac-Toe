@@ -8,9 +8,9 @@ namespace TicTacToe.Client.States.Impl
     {
         private readonly IUserService _userService;
 
-        private readonly IState _mainMenuState;
+        private readonly IMainMenuState _mainMenuState;
         
-        private readonly IState _leaderMenu;
+        private readonly ILeaderMenuState _leaderMenu;
 
         private readonly ILogger<AuthorizationMenuState> _logger;
 
@@ -31,12 +31,16 @@ namespace TicTacToe.Client.States.Impl
             while (true)
             {
                 Console.Clear();
-                Console.WriteLine("Authorization Menu");
-                Console.WriteLine("Please choose action:");
-                Console.WriteLine("1 -- Login");
-                Console.WriteLine("2 -- Registration");
-                Console.WriteLine("3 -- LeaderBoard");
-                Console.WriteLine("0 -- Exit");
+                Introduction();
+                ConsoleHelper.WriteInConsole(new []
+                {
+                    "Authorization Menu",
+                    "Please choose action:",
+                    "1 -- Login",
+                    "2 -- Registration",
+                    "3 -- LeaderBoard",
+                    "0 -- Exit"
+                }, ConsoleColor.Yellow);
                 try
                 {
                     _logger.LogInformation("User choose action.");
@@ -134,6 +138,18 @@ namespace TicTacToe.Client.States.Impl
                        new[] { errorMessage }, ConsoleColor.Red);
                 Console.ReadLine();
             }
+        }
+        
+        private static void Introduction()
+        {
+            ConsoleHelper.WriteInConsole(new []
+            {
+                ".-----. _         .-----.             .-----.            ",
+                "`-. .-':_;        `-. .-'             `-. .-'            ",
+                "  : :  .-. .--.     : : .--.   .--.     : : .--.  .--.   ",
+                "  : :  : :'  ..'    : :' .; ; '  ..'    : :' .; :' '_.'  ",
+                "  :_;  :_;`.__.'    :_;`.__,_;`.__.'    :_;`.__.'`.__.'  "
+            }, ConsoleColor.Blue, "Welcome to Tic Tac Toe" );
         }
 
         public async Task<string> GetMessageFromResponseAsync(HttpResponseMessage response)

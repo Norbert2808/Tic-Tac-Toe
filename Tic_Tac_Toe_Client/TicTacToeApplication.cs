@@ -1,5 +1,6 @@
 ﻿using System.Text.Json;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Serilog;
 using TicTacToe.Client.Models;
 using TicTacToe.Client.Services;
@@ -43,7 +44,9 @@ namespace TicTacToe.Client
                 .WriteTo
                 .File("clientLoggs.log")
                 .CreateLogger();
-            _ = serviceCollection.AddLogging(builder => builder.AddSerilog(serilog, true));
+            _ = serviceCollection.AddLogging(builder => builder
+                .ClearProviders()
+                .AddSerilog(serilog, true));
             
             return serviceCollection.BuildServiceProvider();
         }
@@ -53,6 +56,10 @@ namespace TicTacToe.Client
             var client = new HttpClient();
             var json = File.ReadAllText("userConfig.json");
             var option = JsonSerializer.Deserialize<ClientOption>(json);
+            
+            if (option is null || option.UriAddress is null)
+                return client;
+            
             client.BaseAddress = new Uri(option.UriAddress);
             return client;
         }

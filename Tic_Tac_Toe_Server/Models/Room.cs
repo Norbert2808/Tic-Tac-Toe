@@ -9,7 +9,7 @@ public class Room
 
     public TimeSpan ConnectionTimeOut { get; set; } = TimeSpan.FromMinutes(5);
 
-    public TimeSpan RoundTimeOut { get; set; } = TimeSpan.FromMinutes(2);
+    public TimeSpan RoundTimeOut { get; set; } = TimeSpan.FromSeconds(20);
 
     [JsonPropertyName("CreationDate")]
     public DateTime CreationDate { get; set; }

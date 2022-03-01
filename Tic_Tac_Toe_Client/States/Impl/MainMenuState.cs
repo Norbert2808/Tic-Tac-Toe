@@ -6,7 +6,7 @@ namespace TicTacToe.Client.States.Impl
 {
     internal class MainMenuState : IMainMenuState
     {
-        private readonly IState _gameMenuState;
+        private readonly IGameMenuState _gameMenuState;
 
         private readonly IUserService _userService;
         
@@ -28,11 +28,14 @@ namespace TicTacToe.Client.States.Impl
             while (true)
             {
                 Console.Clear();
-                Console.WriteLine("Main Menu");
-                Console.WriteLine("Please choose action:");
-                Console.WriteLine("1 -- Start game");
-                Console.WriteLine("2 -- Private statistic");
-                Console.WriteLine("0 -- Logout");
+                ConsoleHelper.WriteInConsole(new []
+                {
+                    "Main Menu",
+                    "Please choose action:",
+                    "1 -- Start room",
+                    "2 -- Private statistic",
+                    "0 -- Logout"
+                }, ConsoleColor.Cyan);
                 try
                 {
                     ConsoleHelper.ReadIntFromConsole(out var choose);

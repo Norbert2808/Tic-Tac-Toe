@@ -6,7 +6,7 @@ namespace TicTacToe.Client.Models;
 public class Board
 {
     private int[] _boards = new int[9];
-
+    
 
     public void Draw()
     {

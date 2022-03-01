@@ -28,11 +28,15 @@ public class GameState : IGameState
         {
             try
             {
-
                 Console.Clear();
                 _board.Draw();
-                Console.WriteLine("1 -- To make a move");
-                Console.WriteLine("0 -- Exit");
+                ConsoleHelper.WriteInConsole(new []
+                {
+                    "GAME",
+                    "1 -- To make a move",
+                    "0 -- Exit"
+                }, ConsoleColor.Cyan);
+                
                 ConsoleHelper.ReadIntFromConsole(out var choose);
                 switch (choose)
                 {

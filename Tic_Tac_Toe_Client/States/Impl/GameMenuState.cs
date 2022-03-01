@@ -29,13 +29,16 @@ public class GameMenuState : IGameMenuState
         while (true)
         {
             Console.Clear();
-            Console.WriteLine("Game Menu");
-            Console.WriteLine("Please choose room:");
-            Console.WriteLine("1 -- Create private room");
-            Console.WriteLine("2 -- Connect to private room");
-            Console.WriteLine("3 -- Public room");
-            Console.WriteLine("4 -- Practice room");
-            Console.WriteLine("0 -- Close");
+            ConsoleHelper.WriteInConsole(new []
+            {
+                "Game Menu",
+                "Please choose room:",
+                "1 -- Create private room",
+                "2 -- Connect to private room",
+                "3 -- Public room",
+                "4 -- Practice room",
+                "0 -- Close"
+            }, ConsoleColor.Cyan);
 
             RoomType type = default;
             var roomId = "";
@@ -84,7 +87,7 @@ public class GameMenuState : IGameMenuState
                 Console.ReadLine();
             }
 
-            await StartConnectionWithRoomAsync(type, roomId, isConnecting);
+            await StartConnectionWithRoomAsync(type, roomId!, isConnecting);
         }
     }
 
@@ -107,7 +110,7 @@ public class GameMenuState : IGameMenuState
                 ConsoleHelper.WriteInConsole(new []{ "Your private token:" + 
                                                      $"{ await response.Content.ReadAsStringAsync()}", 
                         "Please, be wait when your opponent will entering." },
-                    ConsoleColor.Green);
+                    ConsoleColor.Green, "");
             }
 
             await WaitSecondPlayerAsync();

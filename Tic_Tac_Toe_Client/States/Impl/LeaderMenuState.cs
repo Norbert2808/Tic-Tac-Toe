@@ -20,10 +20,13 @@ public class LeaderMenuState : ILeaderMenuState
         while (true)
         {
             Console.Clear();
-            Console.WriteLine("LeaderBoard menu");
-            Console.WriteLine("1 -- By wins");
-            Console.WriteLine("2 -- By times");
-            Console.WriteLine("0 -- Close");
+            ConsoleHelper.WriteInConsole(new []
+            {
+                "LeaderBoard menu",
+                "1 -- By wins",
+                "2 -- By times",
+                "0 -- Close"
+            }, ConsoleColor.Cyan);
             
             try
             {
