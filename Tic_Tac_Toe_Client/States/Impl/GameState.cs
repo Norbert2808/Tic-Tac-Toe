@@ -29,11 +29,11 @@ public class GameState : IGameState
             try
             {
                 Console.Clear();
-                _board.Draw();
+                await EnemyBarMenu();
                 ConsoleHelper.WriteInConsole(new []
                 {
-                    "GAME",
-                    "1 -- To make a move",
+                    "------------------",
+                    "1 -- Start round",
                     "0 -- Exit"
                 }, ConsoleColor.Cyan);
                 
@@ -41,9 +41,10 @@ public class GameState : IGameState
                 switch (choose)
                 {
                     case 1:
-                        await MakeMoveAsync();
+                        await WaitingStartGame();
                         break;
                     case 0:
+                        await ExitAsync();
                         return;
                 }
             }
@@ -51,8 +52,62 @@ public class GameState : IGameState
             {
                 _logger.LogError(ex.Message);
             }
+            catch (HttpRequestException ex)
+            {
+                _logger.LogError(ex.Message);
+                ConsoleHelper.WriteInConsole(new[] { "Failed to connect with server!" },
+                    ConsoleColor.Red);
+                Console.ReadLine();
+            }
 
         }
+    }
+
+    public async Task WaitingStartGame()
+    {
+        Console.Clear();
+            ConsoleHelper.WriteInConsole(new []{ "Waiting for enemy confirmation" },
+                ConsoleColor.Green, "");
+            var responseMessage = await _gameService.SendConfirmationAsync();
+
+            if (responseMessage.StatusCode == HttpStatusCode.OK)
+            {
+                while (true)
+                {
+                    var responseConfirmation = await _gameService.CheckConfirmationAsync();
+
+                    if (responseConfirmation.StatusCode == HttpStatusCode.OK)
+                    {
+                        await GameMenu();
+                        return;
+                    }   
+                }
+            }
+            
+    }
+
+    public async Task GameMenu()
+    {
+        while (true)
+        {
+            Console.Clear();
+            await EnemyBarMenu();
+            _board.Draw();
+            Console.WriteLine("Test");
+            Console.ReadLine();
+        }
+    }
+    
+    public async Task EnemyBarMenu()
+    {
+        var responsePlayerMessage = await _gameService.CheckPlayersAsync();
+        string[] opponents = null!;
+        if (responsePlayerMessage.StatusCode == HttpStatusCode.OK)
+        {
+            opponents = await  responsePlayerMessage.Content.ReadAsAsync<string[]>();
+        }
+        
+        Console.WriteLine($"{opponents[0]} -- VS -- {opponents[1]}");
     }
 
     public async Task MakeMoveAsync()
@@ -94,4 +149,9 @@ public class GameState : IGameState
         }
     }
 
+    public async Task ExitAsync()
+    {
+        await _gameService.ExitFromRoomAsync();
+    }
+    
 }

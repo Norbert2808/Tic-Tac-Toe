@@ -1,18 +1,34 @@
 [
   {
-    "login": "qwerty",
-    "password": "111111"
+    "login": "xxxxxx",
+    "password": "888888"
   },
   {
-    "login": "sasha",
-    "password": "22222"
+    "login": "yyyyyy",
+    "password": "666666"
+  },
+  {
+    "login": "iiiiii",
+    "password": "666666"
+  },
+  {
+    "login": "oooooo",
+    "password": "777777"
+  },
+  {
+    "login": "nnnnnnn",
+    "password": "8888888"
+  },
+  {
+    "login": "qwerty",
+    "password": "111111"
   },
   {
     "login": "qwerty123",
     "password": "string"
   },
   {
-    "login": "newUser",
-    "password": "string"
-  }
+    "login": "mmmmmm",
+    "password": "666666"
+  } 
 ]

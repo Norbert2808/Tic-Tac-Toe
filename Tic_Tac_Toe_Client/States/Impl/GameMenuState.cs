@@ -57,7 +57,7 @@ public class GameMenuState : IGameMenuState
                         _logger.LogInformation("Connect to private room executed");
                         type = RoomType.Private;
                         ConsoleHelper.WriteInConsole(new []{ "Please enter token:"}, 
-                            ConsoleColor.Yellow );
+                            ConsoleColor.Yellow, "");
                         roomId = Console.ReadLine();
                         isConnecting = true;
                         break;
@@ -73,6 +73,8 @@ public class GameMenuState : IGameMenuState
                         break;
                     case 0:
                         return;
+                    default:
+                        continue;
                 }
             }
             catch (FormatException ex)
@@ -113,6 +115,11 @@ public class GameMenuState : IGameMenuState
                     ConsoleColor.Green, "");
             }
 
+            if (type == RoomType.Practice)
+            {
+                
+            }
+
             await WaitSecondPlayerAsync();
         }   
         if (response.StatusCode == HttpStatusCode.BadRequest)
@@ -128,7 +135,7 @@ public class GameMenuState : IGameMenuState
         _logger.LogInformation("Waiting second player.");
         while (true)
         {
-            var response = await _gameService.CheckSecondPlayerAsync();
+            var response = await _gameService.CheckPlayersAsync();
 
             if (response.StatusCode == HttpStatusCode.OK)
             {

@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using TicTacToe.Server.Enum;
 
 namespace TicTacToe.Server.Models;
 
@@ -24,11 +25,18 @@ public class Room
 
     public bool IsCompleted { get; set; }
 
+    public bool IsBot { get; set; }
+
+    public bool ConfirmFirstPlayer { get; set; }
+    
+    public bool ConfirmSecondPlayer { get; set; }
+
     public Room(string login, RoomSettings settings)
     {
         LoginFirstPlayer = login;
         Settings = settings;
         RoomId = settings.RoomId.Length == 0 ? Guid.NewGuid().ToString() : settings.RoomId;
+        IsBot = settings.Type == RoomType.Practice;
         CreationDate = DateTime.UtcNow;
         IsCompleted = false;
     }

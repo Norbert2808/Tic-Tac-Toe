@@ -25,54 +25,57 @@ public class RoomService : IRoomService
         await _semaphoreSlim.WaitAsync();
         try
         {
-            switch (settings.Type)
+            if(settings.Type == RoomType.Public)
             {
-                case RoomType.Public:
+                var room = ConnectionToPublicRoom(login, settings.RoomId);
+
+                if (room is null)
                 {
-                    var room = ConnectionToPublicRoom(login, settings.RoomId);
-
-                    if (room is null)
-                    {
-                        room = new Room(login, settings);
-                        _roomStorage.Add(room);
-                    }
-
-                    return room.RoomId;
+                    room = new Room(login, settings);
+                    _roomStorage.Add(room);
                 }
 
-                case RoomType.Private when settings.IsConnection:
+                return room.RoomId;
+            }
+
+            if (settings.Type == RoomType.Private)
+            {
+                if (settings.IsConnection)
                 {
                     var room = await ConnectionToPrivateRoomAsync(login, settings.RoomId);
-                    return room is null ? null : room.RoomId;
+                    return room is null ? null! : room.RoomId;    
                 }
-
-                case RoomType.Practice:
-
-                    return null;
-                default:
+                else
                 {
                     var room = new Room(login, settings);
                     _roomStorage.Add(room);
                     return room.RoomId;
                 }
+                
+            }
+
+            if(settings.Type == RoomType.Practice)
+            {
+                return null!;
             }
         }
         finally
         {
             _semaphoreSlim.Release();
         }
+
+        return null!;
     }
 
     public Room? ConnectionToPublicRoom(string login, string roomId)
     {
-        foreach (var room in _roomStorage)
+        foreach (var room in _roomStorage.Where(room => !room.IsCompleted && room.Settings.Type == RoomType.Public))
         {
-            if (room.IsCompleted || room.Settings.Type != RoomType.Public)
-                continue;
-            
-            if (room.LoginFirstPlayer is null || room.LoginFirstPlayer.Length == 0)
+            if (room.LoginFirstPlayer.Length == 0)
             { 
-                room.LoginFirstPlayer = login; 
+                room.LoginFirstPlayer = login;
+                if (room.LoginSecondPlayer.Length != 0)
+                    room.IsCompleted = true;
                 return room;
             } 
             room.LoginSecondPlayer = login; 
@@ -97,5 +100,58 @@ public class RoomService : IRoomService
     {
         return await Task.FromResult(_roomStorage
             .FirstOrDefault(x => x.RoomId.Equals(roomId, StringComparison.Ordinal)));
+    }
+
+    public async Task<Room?> AppendConfirmation(bool confirmation, string roomId, string login)
+    {
+        var room = await FindRoomByIdAsync(roomId);
+        if (room is null)
+            return null;
+        if (room.ConfirmFirstPlayer == false)
+        {
+            room.ConfirmFirstPlayer = true;   
+        }
+        else
+        {
+            room.ConfirmSecondPlayer = true;
+        }
+
+        return room;
+    }
+
+    public async Task<bool> ExitFromRoom(string login, string id)
+    {
+        var room = await FindRoomByIdAsync(id);
+
+        if (room is null)
+            return false;
+        
+        if (room.LoginFirstPlayer.Equals(login, StringComparison.Ordinal))
+        {
+            room.LoginFirstPlayer = "";
+            room.IsCompleted = false;
+        }
+        else
+        {
+            room.LoginSecondPlayer = "";
+            room.IsCompleted = false;
+        }
+
+        if (room.LoginFirstPlayer.Length == 0 
+            && room.LoginSecondPlayer.Length == 0)
+        {
+            _semaphoreSlim.Wait();
+            try
+            {
+                _roomStorage.Remove(room);
+            }
+            finally
+            {
+                _semaphoreSlim.Release();
+            }
+            
+        }
+
+        return true;
     }
 }

@@ -70,7 +70,7 @@ public class GameController : ControllerBase
             return BadRequest();
         
         if (room.IsCompleted)
-            return Ok();
+            return Ok(new[] { room.LoginFirstPlayer, room.LoginSecondPlayer});
         
         return NotFound();
     }
@@ -106,9 +106,67 @@ public class GameController : ControllerBase
             return Unauthorized("Unauthorized users");
         }
         
-        
-       
         return NotFound();
+    }
+    
+    [HttpPost("send_confirmation/{id}")]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    public async Task<IActionResult> AppendConfirmAsync([FromBody] bool confirmation, string id)
+    {
+        if (!await FindUser())
+        {
+            _logger.LogWarning("Unauthorized users");
+            return Unauthorized("Unauthorized users");
+        }
+        
+        var room = await _roomService.AppendConfirmation(confirmation, id, LoginUser);
+
+        if (room is null)
+            return NotFound("Room is not found.");
+        return Ok();
+    }
+    
+    [HttpGet("check_confirmation/{id}")]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    public async Task<IActionResult> CheckConfirmationAsync(string id)
+    {
+        if (!await FindUser())
+        {
+            _logger.LogWarning("Unauthorized users");
+            return Unauthorized("Unauthorized users");
+        }
+
+        var room = await _roomService.FindRoomByIdAsync(id);
+        if (room is null)
+            return NotFound("Room not found.");
+        if(room.ConfirmFirstPlayer && room.ConfirmSecondPlayer)
+            return Ok();
+
+        return NotFound("");
+    }
+    
+    [HttpGet("exit/{id}")]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    public async Task<IActionResult> ExitFromRoomAsync(string id)
+    {
+        if (!await FindUser())
+        {
+            _logger.LogWarning("Unauthorized users");
+            return Unauthorized("Unauthorized users");
+        }
+        
+        var work = await _roomService.ExitFromRoom(LoginUser, id);
+
+        if (!work)
+            return NotFound("Room is not found.");
+        
+        return Ok();
     }
     
     [NonAction]
