@@ -34,6 +34,10 @@ namespace TicTacToe.Server.Tools
                 using var fs = File.OpenRead(_path);
                 return await JsonSerializer.DeserializeAsync<List<T>>(fs) ?? new List<T>();
             }
+            catch
+            {
+                return await Task.FromResult(new List<T>());
+            }
             finally
             {
                 _ = _semaphore.Release();
@@ -78,11 +82,10 @@ namespace TicTacToe.Server.Tools
                 _ = fs.Seek(-3, SeekOrigin.End);
 
                 var jsonObj = Serialize(data);
-                var insertStr = $",\n  {jsonObj.Replace("\r\n", "\n  ")}\n]";
+                var insertStr = $",\n  {jsonObj.Replace("\r\n", "\n  ")} \n]";
                 var insertStrBytes = Encoding.UTF8.GetBytes(insertStr);
 
                 await fs.WriteAsync(insertStrBytes);
-                fs.SetLength(fs.Position);
             }
             finally
             {
