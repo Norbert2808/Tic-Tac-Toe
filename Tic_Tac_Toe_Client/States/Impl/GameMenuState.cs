@@ -73,6 +73,8 @@ public class GameMenuState : IGameMenuState
                         break;
                     case 0:
                         return;
+                    default:
+                        continue;
                 }
             }
             catch (FormatException ex)
