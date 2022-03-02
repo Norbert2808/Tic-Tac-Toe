@@ -71,8 +71,10 @@ public class GameMenuState : IGameMenuState
                         _logger.LogInformation("Creating practice room.");
                         type = RoomType.Practice;
                         break;
+                    
                     case 0:
                         return;
+                    
                     default:
                         continue;
                 }
@@ -99,28 +101,35 @@ public class GameMenuState : IGameMenuState
 
         var response = await _gameService.StartRoomAsync(type, roomId, isConnecting);
 
+        string[] message = {};
+        
         if (response.StatusCode == HttpStatusCode.OK)
         {
             if (type == RoomType.Public)
             {
-                ConsoleHelper.WriteInConsole(new []{ "Room was found! Please, be wait when your" + 
-                                                     " opponent will entering." }, ConsoleColor.Green, "");
+                message = new[]
+                {
+                    "Room was found! Please, be wait when your" +
+                    " opponent will entering."
+                };
             }
 
             if (type == RoomType.Private)
             {
-                ConsoleHelper.WriteInConsole(new []{ "Your private token:" + 
-                                                     $"{ await response.Content.ReadAsStringAsync()}", 
-                        "Please, be wait when your opponent will entering." },
-                    ConsoleColor.Green, "");
+                message = new[]
+                {
+                    "Your private token:" +
+                    $"{await response.Content.ReadAsStringAsync()}",
+                    "Please, be wait when your opponent will entering."
+                };
             }
 
             if (type == RoomType.Practice)
             {
                 
             }
-
-            await WaitSecondPlayerAsync();
+            
+            await WaitSecondPlayerAsync(message);
         }   
         if (response.StatusCode == HttpStatusCode.BadRequest)
         {
@@ -130,17 +139,32 @@ public class GameMenuState : IGameMenuState
         }
     }
 
-    public async Task WaitSecondPlayerAsync()
+    public async Task WaitSecondPlayerAsync(string[] message)
     {
         _logger.LogInformation("Waiting second player.");
         while (true)
         {
+            Console.Clear();
+            ConsoleHelper.WriteInConsole(message,
+                ConsoleColor.Green, "");
             var response = await _gameService.CheckPlayersAsync();
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 await _gameState.InvokeMenuAsync();
                 return;
+            }
+
+            if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                var time = await response.Content.ReadAsStringAsync();
+                ConsoleHelper.WriteInConsole(new []{ $"Time: {time}" }, ConsoleColor.Red, "");
+                await Task.Delay(1000);
+            }
+
+            if (response.StatusCode == HttpStatusCode.Conflict)
+            {
+                
             }
         }
     }

@@ -15,5 +15,5 @@ public interface IRoomService
 
     Task<Room?> AppendConfirmation(bool confirmation, string roomId, string login);
 
-    Task<bool> ExitFromRoom(string login, string id);
+    Task<bool> ExitFromRoomAsync(string login, string id);
 }

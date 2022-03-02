@@ -6,7 +6,7 @@ public interface IGameMenuState : IState
 {
     Task StartConnectionWithRoomAsync(RoomType type, string roomId, bool isConnecting);
 
-    Task WaitSecondPlayerAsync();
+    Task WaitSecondPlayerAsync(string[] message);
     
     Task<string> GetMessageFromResponseAsync(HttpResponseMessage response);
 }

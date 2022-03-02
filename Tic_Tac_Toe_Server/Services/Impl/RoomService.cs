@@ -109,7 +109,8 @@ public class RoomService : IRoomService
             return null;
         if (room.ConfirmFirstPlayer == false)
         {
-            room.ConfirmFirstPlayer = true;   
+            room.ConfirmFirstPlayer = true;
+            room.ConfirmationTime = DateTime.UtcNow;
         }
         else
         {
@@ -119,7 +120,7 @@ public class RoomService : IRoomService
         return room;
     }
 
-    public async Task<bool> ExitFromRoom(string login, string id)
+    public async Task<bool> ExitFromRoomAsync(string login, string id)
     {
         var room = await FindRoomByIdAsync(id);
 

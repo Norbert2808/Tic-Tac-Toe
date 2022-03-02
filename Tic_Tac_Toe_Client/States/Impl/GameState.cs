@@ -43,6 +43,7 @@ public class GameState : IGameState
                     case 1:
                         await WaitingStartGame();
                         break;
+                    
                     case 0:
                         await ExitAsync();
                         return;
@@ -66,23 +67,36 @@ public class GameState : IGameState
     public async Task WaitingStartGame()
     {
         Console.Clear();
-            ConsoleHelper.WriteInConsole(new []{ "Waiting for enemy confirmation" },
-                ConsoleColor.Green, "");
-            var responseMessage = await _gameService.SendConfirmationAsync();
+        var responseMessage = await _gameService.SendConfirmationAsync();
 
-            if (responseMessage.StatusCode == HttpStatusCode.OK)
+        if (responseMessage.StatusCode == HttpStatusCode.OK)
+        {
+            while (true)
             {
-                while (true)
-                {
-                    var responseConfirmation = await _gameService.CheckConfirmationAsync();
+                Console.Clear();
+                ConsoleHelper.WriteInConsole(new []{ "Waiting for enemy confirmation" },
+                    ConsoleColor.Green, "");
+                var responseConfirmation = await _gameService.CheckConfirmationAsync();
 
-                    if (responseConfirmation.StatusCode == HttpStatusCode.OK)
-                    {
+                if (responseConfirmation.StatusCode == HttpStatusCode.OK) 
+                {
                         await GameMenu();
                         return;
-                    }   
+                }
+
+                if (responseConfirmation.StatusCode == HttpStatusCode.NotFound)
+                {
+                    var time = await responseConfirmation.Content.ReadAsStringAsync();
+                    ConsoleHelper.WriteInConsole(new []{ $"Time: {time}" }, ConsoleColor.Red, "");
+                    await Task.Delay(1000);
+                }
+
+                if (responseConfirmation.StatusCode == HttpStatusCode.Conflict)
+                {
+                    await _gameService.ExitFromRoomAsync();
                 }
             }
+        }
             
     }
 
