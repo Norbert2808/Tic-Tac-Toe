@@ -1,4 +1,4 @@
-﻿using TicTacToe.Server.Enum;
+﻿using TicTacToe.Server.Enums;
 
 namespace TicTacToe.Server.Models;
 

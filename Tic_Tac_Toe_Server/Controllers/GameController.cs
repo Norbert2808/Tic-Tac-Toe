@@ -74,10 +74,11 @@ public class GameController : ControllerBase
         if (room.IsCompleted)
             return Ok(new[] { room.LoginFirstPlayer, room.LoginSecondPlayer});
         
-        if (room.IsConnectionTimeOut())
-            return Conflict("Time out");
+        if (!room.IsConnectionTimeOut())
+            return NotFound(room.GetConnectionTime().ToString(@"dd\:mm\:ss"));
         
-        return NotFound(room.GetConnectionTime().ToString(@"dd\:mm\:ss"));
+        _roomService.DeleteRoom(room);
+        return Conflict("Time out");
     }
 
     [HttpGet("check_move/{id}")]
@@ -92,7 +93,6 @@ public class GameController : ControllerBase
             _logger.LogWarning("Unauthorized users");
             return Unauthorized("Unauthorized users");
         }
-        
         
         
         return NotFound();

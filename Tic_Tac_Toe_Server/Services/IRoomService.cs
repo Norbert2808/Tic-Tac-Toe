@@ -1,5 +1,4 @@
-﻿using TicTacToe.Server.Enum;
-using TicTacToe.Server.Models;
+﻿using TicTacToe.Server.Models;
 
 namespace TicTacToe.Server.Services;
 
@@ -16,4 +15,6 @@ public interface IRoomService
     Task<Room?> AppendConfirmation(bool confirmation, string roomId, string login);
 
     Task<bool> ExitFromRoomAsync(string login, string id);
+
+    void DeleteRoom(Room room);
 }

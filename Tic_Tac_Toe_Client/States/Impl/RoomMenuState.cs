@@ -5,17 +5,17 @@ using TicTacToe.Client.Services;
 
 namespace TicTacToe.Client.States.Impl;
 
-public class GameMenuState : IGameMenuState
+public class RoomMenuState : IRoomMenuState
 {
     private readonly IGameService _gameService;
 
     private readonly IGameState _gameState;
 
-    private readonly ILogger<IGameMenuState> _logger;
+    private readonly ILogger<IRoomMenuState> _logger;
 
-    public GameMenuState(IGameState gameState,
+    public RoomMenuState(IGameState gameState,
         IGameService gameService,
-        ILogger<IGameMenuState> logger)
+        ILogger<IRoomMenuState> logger)
     {
         _gameService = gameService;
         _gameState = gameState;
@@ -101,7 +101,7 @@ public class GameMenuState : IGameMenuState
 
         var response = await _gameService.StartRoomAsync(type, roomId, isConnecting);
 
-        string[] message = {};
+        var message = Array.Empty<string>();
         
         if (response.StatusCode == HttpStatusCode.OK)
         {
@@ -147,7 +147,7 @@ public class GameMenuState : IGameMenuState
             Console.Clear();
             ConsoleHelper.WriteInConsole(message,
                 ConsoleColor.Green, "");
-            var response = await _gameService.CheckPlayersAsync();
+            var response = await _gameService.CheckRoomAsync();
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
@@ -159,12 +159,13 @@ public class GameMenuState : IGameMenuState
             {
                 var time = await response.Content.ReadAsStringAsync();
                 ConsoleHelper.WriteInConsole(new []{ $"Time: {time}" }, ConsoleColor.Red, "");
-                await Task.Delay(1000);
+                await Task.Delay(5000);
             }
 
             if (response.StatusCode == HttpStatusCode.Conflict)
             {
-                
+                await  _gameService.ExitFromRoomAsync();
+                return;
             }
         }
     }

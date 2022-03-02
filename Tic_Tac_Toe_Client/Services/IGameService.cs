@@ -6,7 +6,7 @@ public interface IGameService
 {
     Task<HttpResponseMessage> StartRoomAsync(RoomType roomType, string roomId, bool isConnect);
 
-    Task<HttpResponseMessage> CheckPlayersAsync();
+    Task<HttpResponseMessage> CheckRoomAsync();
 
     Task<HttpResponseMessage> MakeMoveAsync(int index, int number);
 

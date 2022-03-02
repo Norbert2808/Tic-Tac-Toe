@@ -1,5 +1,5 @@
 ﻿using System.Text.Json.Serialization;
-using TicTacToe.Server.Enum;
+using TicTacToe.Server.Enums;
 
 namespace TicTacToe.Server.Models;
 
@@ -8,9 +8,9 @@ public class Room
     [JsonPropertyName("RoomId")] 
     public string RoomId { get; set; }
 
-    public TimeSpan ConnectionTimeOut { get; set; } = TimeSpan.FromMinutes(3);
+    public TimeSpan ConnectionTimeOut { get; set; } = TimeSpan.FromMinutes(1);
 
-    public TimeSpan StartGameTimeOut { get; set; } = TimeSpan.FromMinutes(2);
+    public TimeSpan StartGameTimeOut { get; set; } = TimeSpan.FromMinutes(1);
     
     public DateTime ConfirmationTime { get; set; }
 
@@ -38,6 +38,7 @@ public class Room
     public Room(string login, RoomSettings settings)
     {
         LoginFirstPlayer = login;
+        LoginSecondPlayer = "";
         Settings = settings;
         RoomId = settings.RoomId.Length == 0 ? Guid.NewGuid().ToString() : settings.RoomId;
         IsBot = settings.Type == RoomType.Practice;

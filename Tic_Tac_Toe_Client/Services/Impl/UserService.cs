@@ -7,7 +7,7 @@ namespace TicTacToe.Client.Services.Impl
     {
         private readonly HttpClient _httpClient;
 
-        private string Login { get; set; }
+        private string? Login { get; set; }
 
         public UserService(HttpClient httpClient)
         {
@@ -17,7 +17,10 @@ namespace TicTacToe.Client.Services.Impl
         public async Task<HttpResponseMessage> LoginAsync(string login, string password)
         {
             var user = new UserDto { Login = login, Password = password };
-            var response = await _httpClient.PostAsync("api/Account/login", user, new JsonMediaTypeFormatter());
+            
+            var response = await _httpClient.PostAsync("api/Account/login",
+                user,
+                new JsonMediaTypeFormatter());
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
@@ -33,7 +36,10 @@ namespace TicTacToe.Client.Services.Impl
         public async Task<HttpResponseMessage> RegistrationAsync(string login, string password)
         {
             var user = new UserDto { Login = login, Password = password };
-            var response = await _httpClient.PostAsync("api/Account/registration", user, new JsonMediaTypeFormatter());
+            
+            var response = await _httpClient.PostAsync("api/Account/registration",
+                user,
+                new JsonMediaTypeFormatter());
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
@@ -48,9 +54,7 @@ namespace TicTacToe.Client.Services.Impl
 
         public async Task<HttpResponseMessage> LogoutAsync()
         {
-            var response = await _httpClient.PostAsync("api/Account/logout", Login, new JsonMediaTypeFormatter());
-
-            return response;
+            return await _httpClient.PostAsync("api/Account/logout", Login, new JsonMediaTypeFormatter());
         }
     }
 }

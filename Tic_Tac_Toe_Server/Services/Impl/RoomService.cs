@@ -1,4 +1,4 @@
-﻿using TicTacToe.Server.Enum;
+﻿using TicTacToe.Server.Enums;
 using TicTacToe.Server.Models;
 using TicTacToe.Server.Tools;
 
@@ -141,18 +141,22 @@ public class RoomService : IRoomService
         if (room.LoginFirstPlayer.Length == 0 
             && room.LoginSecondPlayer.Length == 0)
         {
-            _semaphoreSlim.Wait();
-            try
-            {
-                _roomStorage.Remove(room);
-            }
-            finally
-            {
-                _semaphoreSlim.Release();
-            }
-            
+            DeleteRoom(room);
         }
 
         return true;
+    }
+
+    public void DeleteRoom(Room room)
+    {
+        _semaphoreSlim.Wait();
+        try
+        {
+            _roomStorage.Remove(room);
+        }
+        finally
+        {
+            _semaphoreSlim.Release();
+        }
     }
 }

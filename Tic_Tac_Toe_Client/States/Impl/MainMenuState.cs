@@ -6,24 +6,24 @@ namespace TicTacToe.Client.States.Impl
 {
     internal class MainMenuState : IMainMenuState
     {
-        private readonly IGameMenuState _gameMenuState;
+        private readonly IRoomMenuState _roomMenuState;
 
         private readonly IUserService _userService;
         
         private readonly ILogger<IMainMenuState> _logger;
 
-        public MainMenuState(IGameMenuState gameMenuState,
+        public MainMenuState(IRoomMenuState roomMenuState,
             IUserService userService,
             ILogger<IMainMenuState> logger)
         {
-            _gameMenuState = gameMenuState;
+            _roomMenuState = roomMenuState;
             _userService = userService;
             _logger = logger;
         }
 
         public async Task InvokeMenuAsync()
         {
-            _logger.LogInformation("Class MainMenuState. InvokeAsync method");
+            _logger.LogInformation(@"Class MainMzenuState. InvokeAsync method");
             
             while (true)
             {
@@ -36,6 +36,7 @@ namespace TicTacToe.Client.States.Impl
                     "2 -- Private statistic",
                     "0 -- Logout"
                 }, ConsoleColor.Cyan);
+                
                 try
                 {
                     ConsoleHelper.ReadIntFromConsole(out var choose);
@@ -72,7 +73,7 @@ namespace TicTacToe.Client.States.Impl
         public async Task ExecuteGameMenuAsync()
         {
             _logger.LogInformation("Execute game menu state.");
-            await _gameMenuState.InvokeMenuAsync();
+            await _roomMenuState.InvokeMenuAsync();
         }
 
         public async Task LogoutAsync()
