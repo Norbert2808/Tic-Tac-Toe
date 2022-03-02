@@ -12,4 +12,8 @@ public interface IRoomService
     Task<Room?> ConnectionToPrivateRoomAsync(string login, string roomId);
 
     Task<Room?> FindRoomByIdAsync(string roomId);
+
+    Task<Room?> AppendConfirmation(bool confirmation, string roomId, string login);
+
+    Task<bool> ExitFromRoom(string login, string id);
 }

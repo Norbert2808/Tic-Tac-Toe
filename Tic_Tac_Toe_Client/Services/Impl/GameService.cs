@@ -31,7 +31,7 @@ public class GameService : IGameService
         return response;
     }
 
-    public async Task<HttpResponseMessage> CheckSecondPlayerAsync()
+    public async Task<HttpResponseMessage> CheckPlayersAsync()
     {
         return await _httpClient.GetAsync("api/Game/check_room/" + RoomId);
     }
@@ -48,5 +48,20 @@ public class GameService : IGameService
     public async Task<HttpResponseMessage> CheckMoveAsync()
     {
         return await _httpClient.GetAsync("api/Game/check_move/" + RoomId);
+    }
+
+    public async Task<HttpResponseMessage> SendConfirmationAsync()
+    {
+        return await _httpClient.PostAsync("api/Game/send_confirmation/"+ RoomId, true, new JsonMediaTypeFormatter());
+    }
+
+    public async Task<HttpResponseMessage> CheckConfirmationAsync()
+    {
+        return await _httpClient.GetAsync("api/Game/check_confirmation/" + RoomId);
+    }
+
+    public async Task<HttpResponseMessage> ExitFromRoomAsync()
+    {
+        return await _httpClient.GetAsync("api/Game/exit/" + RoomId);
     }
 }
