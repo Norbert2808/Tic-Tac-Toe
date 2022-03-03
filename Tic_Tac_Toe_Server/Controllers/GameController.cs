@@ -106,10 +106,9 @@ namespace TicTacToe.Server.Controllers
 
         [HttpPost("move/{id}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> MoveAsync(string id, [FromBody] Move move)
+        public async Task<IActionResult> MoveAsync([FromBody] Move move, string id)
         {
             if (!await FindUser())
             {

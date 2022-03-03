@@ -1,14 +1,19 @@
-﻿namespace TicTacToe.Client.DTO;
+﻿using System.Text.Json.Serialization;
 
-public class MoveDto
+namespace TicTacToe.Client.DTO
 {
-    public int IndexOfCell { get; set; }
-
-    public int Number { get; set; }
-
-    public MoveDto(int index, int number)
+    public class MoveDto
     {
-        IndexOfCell = index;
-        Number = number;
+        [JsonPropertyName("indexOfCell")]
+        public int IndexOfCell { get; set; }
+
+        [JsonPropertyName("number")]
+        public int Number { get; set; }
+
+        public MoveDto(int indexOfCell, int number)
+        {
+            IndexOfCell = indexOfCell;
+            Number = number;
+        }
     }
 }

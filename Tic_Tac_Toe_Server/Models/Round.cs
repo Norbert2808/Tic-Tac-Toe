@@ -18,7 +18,7 @@ public class Round
     {
         FirstPlayerMove = new List<Move>();
         SecondPlayerMove = new List<Move>();
-        _board = new List<Tuple<int, bool>>();
+        _board = Enumerable.Repeat(new Tuple<int, bool>(0, false), 9).ToList();
     }
 
     public bool DoMove(Move move, bool isFirst)
