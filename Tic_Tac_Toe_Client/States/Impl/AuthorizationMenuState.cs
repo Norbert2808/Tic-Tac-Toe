@@ -81,6 +81,18 @@ namespace TicTacToe.Client.States.Impl
                 }
             }
         }
+        
+        private static void Introduction()
+        {
+            ConsoleHelper.WriteInConsole(new []
+            {
+                ".-----. _         .-----.             .-----.            ",
+                "`-. .-':_;        `-. .-'             `-. .-'            ",
+                "  : :  .-. .--.     : : .--.   .--.     : : .--.  .--.   ",
+                "  : :  : :'  ..'    : :' .; ; '  ..'    : :' .; :' '_.'  ",
+                "  :_;  :_;`.__.'    :_;`.__,_;`.__.'    :_;`.__.'`.__.'  "
+            }, ConsoleColor.Blue, "Welcome to Tic Tac Toe" );
+        }
 
         public async Task ExecuteLoginAsync()
         {
@@ -95,9 +107,14 @@ namespace TicTacToe.Client.States.Impl
 
         public async Task ExecuteRegistrationAsync()
         {
-            ConsoleHelper.WriteInConsole(new []{ "Enter login for registration:" }, ConsoleColor.Cyan, "");
+            ConsoleHelper.WriteInConsole(new []{ "Enter login for registration:" },
+                ConsoleColor.Cyan,
+                "");
             var login = Console.ReadLine();
-            ConsoleHelper.WriteInConsole(new []{ "Enter password for registration:" }, ConsoleColor.Cyan, "");
+            
+            ConsoleHelper.WriteInConsole(new []{ "Enter password for registration:" },
+                ConsoleColor.Cyan,
+                "");
             var password = Console.ReadLine();
 
             var response = await _userService.RegistrationAsync(login!, password!);
@@ -116,7 +133,8 @@ namespace TicTacToe.Client.States.Impl
             {
                 _logger.LogInformation("User blocked");
                 ConsoleHelper.WriteInConsole(
-                       new[] { "You are blocked! Please waiting 1 minute" }, ConsoleColor.Red);
+                    new[] { "You are blocked! Please waiting 1 minute" },
+                    ConsoleColor.Red);
                 Console.ReadLine();
             }
 
@@ -124,7 +142,8 @@ namespace TicTacToe.Client.States.Impl
             {
                 _logger.LogInformation("Input invalid data. HttpStatus::BadRequest");
                 ConsoleHelper.WriteInConsole(
-                       new[] { "Login and password must be at least 6 symbol long" }, ConsoleColor.Red);
+                       new[] { "Login and password must be at least 6 symbol long" }, 
+                       ConsoleColor.Red);
                 Console.ReadLine();
             }
 
@@ -134,22 +153,9 @@ namespace TicTacToe.Client.States.Impl
                 _logger.LogInformation("User with such login already registered or" + 
                                        " input invalid data. HttpStatus::NotFound or HttpStatus::Conflict");
                 var errorMessage = await GetMessageFromResponseAsync(response);
-                ConsoleHelper.WriteInConsole(
-                       new[] { errorMessage }, ConsoleColor.Red);
+                ConsoleHelper.WriteInConsole(new[] { errorMessage }, ConsoleColor.Red);
                 Console.ReadLine();
             }
-        }
-        
-        private static void Introduction()
-        {
-            ConsoleHelper.WriteInConsole(new []
-            {
-                ".-----. _         .-----.             .-----.            ",
-                "`-. .-':_;        `-. .-'             `-. .-'            ",
-                "  : :  .-. .--.     : : .--.   .--.     : : .--.  .--.   ",
-                "  : :  : :'  ..'    : :' .; ; '  ..'    : :' .; :' '_.'  ",
-                "  :_;  :_;`.__.'    :_;`.__,_;`.__.'    :_;`.__.'`.__.'  "
-            }, ConsoleColor.Blue, "Welcome to Tic Tac Toe" );
         }
 
         public async Task<string> GetMessageFromResponseAsync(HttpResponseMessage response)

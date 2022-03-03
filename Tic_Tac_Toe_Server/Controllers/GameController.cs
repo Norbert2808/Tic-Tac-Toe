@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Globalization;
+using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using TicTacToe.Server.Models;
 using TicTacToe.Server.Services;
@@ -56,6 +57,7 @@ public class GameController : ControllerBase
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.Conflict)]
     public async Task<IActionResult> CheckRoomAsync(string id)
     {
         if (!await FindUser())
@@ -72,7 +74,11 @@ public class GameController : ControllerBase
         if (room.IsCompleted)
             return Ok(new[] { room.LoginFirstPlayer, room.LoginSecondPlayer});
         
-        return NotFound();
+        if (!room.IsConnectionTimeOut())
+            return NotFound(room.GetConnectionTime().ToString(@"dd\:mm\:ss"));
+
+        _roomService.DeleteRoom(room);
+        return Conflict("Time out");
     }
 
     [HttpGet("check_move/{id}")]
@@ -87,7 +93,6 @@ public class GameController : ControllerBase
             _logger.LogWarning("Unauthorized users");
             return Unauthorized("Unauthorized users");
         }
-        
         
         
         return NotFound();
@@ -125,6 +130,7 @@ public class GameController : ControllerBase
 
         if (room is null)
             return NotFound("Room is not found.");
+        
         return Ok();
     }
     
@@ -132,6 +138,7 @@ public class GameController : ControllerBase
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.Conflict)]
     public async Task<IActionResult> CheckConfirmationAsync(string id)
     {
         if (!await FindUser())
@@ -141,12 +148,17 @@ public class GameController : ControllerBase
         }
 
         var room = await _roomService.FindRoomByIdAsync(id);
+        
         if (room is null)
             return NotFound("Room not found.");
+        
         if(room.ConfirmFirstPlayer && room.ConfirmSecondPlayer)
             return Ok();
 
-        return NotFound("");
+        if (room.IsStartGameTimeOut())
+            return Conflict("Time out");
+        
+        return NotFound(room.GetStartGameWaitingTime().ToString(@"dd\:mm\:ss"));
     }
     
     [HttpGet("exit/{id}")]
@@ -161,7 +173,7 @@ public class GameController : ControllerBase
             return Unauthorized("Unauthorized users");
         }
         
-        var work = await _roomService.ExitFromRoom(LoginUser, id);
+        var work = await _roomService.ExitFromRoomAsync(LoginUser, id);
 
         if (!work)
             return NotFound("Room is not found.");

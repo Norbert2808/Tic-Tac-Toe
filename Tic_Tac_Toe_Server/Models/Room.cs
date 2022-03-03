@@ -1,5 +1,5 @@
 ﻿using System.Text.Json.Serialization;
-using TicTacToe.Server.Enum;
+using TicTacToe.Server.Enums;
 
 namespace TicTacToe.Server.Models;
 
@@ -8,12 +8,16 @@ public class Room
     [JsonPropertyName("RoomId")] 
     public string RoomId { get; set; }
 
-    public TimeSpan ConnectionTimeOut { get; set; } = TimeSpan.FromMinutes(5);
+    public TimeSpan ConnectionTimeOut { get; set; } = TimeSpan.FromMinutes(1);
+
+    public TimeSpan StartGameTimeOut { get; set; } = TimeSpan.FromMinutes(1);
+    
+    public DateTime ConfirmationTime { get; set; }
 
     public TimeSpan RoundTimeOut { get; set; } = TimeSpan.FromSeconds(20);
 
     [JsonPropertyName("CreationDate")]
-    public DateTime CreationDate { get; set; }
+    public DateTime CreationRoomDate { get; set; }
     
     public RoomSettings Settings { get; set; }
 
@@ -34,10 +38,19 @@ public class Room
     public Room(string login, RoomSettings settings)
     {
         LoginFirstPlayer = login;
+        LoginSecondPlayer = "";
         Settings = settings;
         RoomId = settings.RoomId.Length == 0 ? Guid.NewGuid().ToString() : settings.RoomId;
         IsBot = settings.Type == RoomType.Practice;
-        CreationDate = DateTime.UtcNow;
+        CreationRoomDate = DateTime.UtcNow;
         IsCompleted = false;
     }
+    
+    public TimeSpan GetStartGameWaitingTime() => DateTime.UtcNow - ConfirmationTime;
+
+    public TimeSpan GetConnectionTime() => DateTime.UtcNow - CreationRoomDate;
+
+    public bool IsStartGameTimeOut() => GetStartGameWaitingTime() > StartGameTimeOut;
+
+    public bool IsConnectionTimeOut() => GetConnectionTime() > ConnectionTimeOut;
 }

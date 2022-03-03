@@ -5,17 +5,17 @@ using TicTacToe.Client.Services;
 
 namespace TicTacToe.Client.States.Impl;
 
-public class GameMenuState : IGameMenuState
+public class RoomMenuState : IRoomMenuState
 {
     private readonly IGameService _gameService;
 
     private readonly IGameState _gameState;
 
-    private readonly ILogger<IGameMenuState> _logger;
+    private readonly ILogger<IRoomMenuState> _logger;
 
-    public GameMenuState(IGameState gameState,
+    public RoomMenuState(IGameState gameState,
         IGameService gameService,
-        ILogger<IGameMenuState> logger)
+        ILogger<IRoomMenuState> logger)
     {
         _gameService = gameService;
         _gameState = gameState;
@@ -71,8 +71,10 @@ public class GameMenuState : IGameMenuState
                         _logger.LogInformation("Creating practice room.");
                         type = RoomType.Practice;
                         break;
+                    
                     case 0:
                         return;
+                    
                     default:
                         continue;
                 }
@@ -99,28 +101,35 @@ public class GameMenuState : IGameMenuState
 
         var response = await _gameService.StartRoomAsync(type, roomId, isConnecting);
 
+        var message = Array.Empty<string>();
+        
         if (response.StatusCode == HttpStatusCode.OK)
         {
             if (type == RoomType.Public)
             {
-                ConsoleHelper.WriteInConsole(new []{ "Room was found! Please, be wait when your" + 
-                                                     " opponent will entering." }, ConsoleColor.Green, "");
+                message = new[]
+                {
+                    "Room was found! Please, be wait when your" +
+                    " opponent will entering."
+                };
             }
 
             if (type == RoomType.Private)
             {
-                ConsoleHelper.WriteInConsole(new []{ "Your private token:" + 
-                                                     $"{ await response.Content.ReadAsStringAsync()}", 
-                        "Please, be wait when your opponent will entering." },
-                    ConsoleColor.Green, "");
+                message = new[]
+                {
+                    "Your private token:" +
+                    $"{await response.Content.ReadAsStringAsync()}",
+                    "Please, be wait when your opponent will entering."
+                };
             }
 
             if (type == RoomType.Practice)
             {
                 
             }
-
-            await WaitSecondPlayerAsync();
+            
+            await WaitSecondPlayerAsync(message);
         }   
         if (response.StatusCode == HttpStatusCode.BadRequest)
         {
@@ -130,16 +139,32 @@ public class GameMenuState : IGameMenuState
         }
     }
 
-    public async Task WaitSecondPlayerAsync()
+    public async Task WaitSecondPlayerAsync(string[] message)
     {
         _logger.LogInformation("Waiting second player.");
         while (true)
         {
-            var response = await _gameService.CheckPlayersAsync();
+            Console.Clear();
+            ConsoleHelper.WriteInConsole(message,
+                ConsoleColor.Green, "");
+            var response = await _gameService.CheckRoomAsync();
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 await _gameState.InvokeMenuAsync();
+                return;
+            }
+
+            if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                var time = await response.Content.ReadAsStringAsync();
+                ConsoleHelper.WriteInConsole(new []{ $"Time: {time}" }, ConsoleColor.Red, "");
+                Thread.Sleep(5000);
+            }
+
+            if (response.StatusCode == HttpStatusCode.Conflict)
+            {
+                await  _gameService.ExitFromRoomAsync();
                 return;
             }
         }

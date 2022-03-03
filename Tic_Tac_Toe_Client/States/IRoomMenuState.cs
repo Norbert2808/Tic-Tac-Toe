@@ -2,11 +2,11 @@
 
 namespace TicTacToe.Client.States;
 
-public interface IGameMenuState : IState
+public interface IRoomMenuState : IState
 {
     Task StartConnectionWithRoomAsync(RoomType type, string roomId, bool isConnecting);
 
-    Task WaitSecondPlayerAsync();
+    Task WaitSecondPlayerAsync(string[] message);
     
     Task<string> GetMessageFromResponseAsync(HttpResponseMessage response);
 }
