@@ -42,12 +42,12 @@ namespace TicTacToe.Server.Controllers
             if (_blocker.IsBlocked(account.Login))
             {
                 _logger.LogWarning($"User in black list {account.Login}");
-                return Unauthorized(account.Login);
+                return Unauthorized("You’re blocked for 1 minute. You try log-in three times.");
             }
 
-            var passwordIsExist = _accService.IsAccountExistByPasswordAsync(account.Password);
+            var passwordIsExist = await _accService.IsAccountExistByPasswordAsync(account.Password);
 
-            if (!await passwordIsExist)
+            if (!passwordIsExist)
             {
                 _blocker.ErrorTryLogin(account.Login);
                 return NotFound("Password is wrong!");

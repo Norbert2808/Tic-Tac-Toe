@@ -31,7 +31,7 @@ namespace TicTacToe.Server.Tools
                     File.Create(_path).Close();
                 }
 
-                using var fs = File.OpenRead(_path);
+                await using var fs = File.OpenRead(_path);
                 return await JsonSerializer.DeserializeAsync<List<T>>(fs) ?? new List<T>();
             }
             catch

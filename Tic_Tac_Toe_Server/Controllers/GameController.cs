@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using Microsoft.AspNetCore.Mvc;
+using TicTacToe.Server.Enums;
 using TicTacToe.Server.Models;
 using TicTacToe.Server.Services;
 
@@ -43,6 +44,14 @@ namespace TicTacToe.Server.Controllers
             {
                 _logger.LogWarning("Settings is null");
                 return BadRequest("Settings is null");
+            }
+            
+            var room = await _roomService.FindRoomByIdAsync(settings.RoomId);
+            if (room is not null
+                && room.Settings.Type == RoomType.Private
+                && room.IsCompleted)
+            {
+                return BadRequest("Room's already taken!");   
             }
 
             var response = await _roomService.CreateRoomAsync(LoginUser, settings);

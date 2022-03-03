@@ -99,11 +99,11 @@ namespace TicTacToe.Client.States.Impl
         {
             _logger.LogInformation("Creating room.");
 
-            var response = await _gameService.StartRoomAsync(type, roomId, isConnecting);
+            var startRoomResponse = await _gameService.StartRoomAsync(type, roomId, isConnecting);
 
             var message = Array.Empty<string>();
 
-            if (response.StatusCode == HttpStatusCode.OK)
+            if (startRoomResponse.StatusCode == HttpStatusCode.OK)
             {
                 if (type == RoomType.Public)
                 {
@@ -119,7 +119,7 @@ namespace TicTacToe.Client.States.Impl
                     message = new[]
                     {
                     "Your private token:" +
-                    $"{await response.Content.ReadAsStringAsync()}",
+                    $"{await startRoomResponse.Content.ReadAsStringAsync()}",
                     "Please, be wait when your opponent will entering."
                 };
                 }
@@ -131,9 +131,9 @@ namespace TicTacToe.Client.States.Impl
 
                 await WaitSecondPlayerAsync(message);
             }
-            if (response.StatusCode == HttpStatusCode.BadRequest)
+            if (startRoomResponse.StatusCode == HttpStatusCode.BadRequest)
             {
-                var errorMessage = await GetMessageFromResponseAsync(response);
+                var errorMessage = await GetMessageFromResponseAsync(startRoomResponse);
                 ConsoleHelper.WriteInConsole(new[] { errorMessage }, ConsoleColor.Red);
                 _ = Console.ReadLine();
             }
@@ -147,22 +147,22 @@ namespace TicTacToe.Client.States.Impl
                 Console.Clear();
                 ConsoleHelper.WriteInConsole(message,
                     ConsoleColor.Green, "");
-                var response = await _gameService.CheckRoomAsync();
+                var checkRoomResponse = await _gameService.CheckRoomAsync();
 
-                if (response.StatusCode == HttpStatusCode.OK)
+                if (checkRoomResponse.StatusCode == HttpStatusCode.OK)
                 {
                     await _roundState.InvokeMenuAsync();
                     return;
                 }
 
-                if (response.StatusCode == HttpStatusCode.NotFound)
+                if (checkRoomResponse.StatusCode == HttpStatusCode.NotFound)
                 {
-                    var time = await response.Content.ReadAsStringAsync();
+                    var time = await checkRoomResponse.Content.ReadAsStringAsync();
                     ConsoleHelper.WriteInConsole(new[] { $"Time: {time}" }, ConsoleColor.Red, "");
                     Thread.Sleep(5000);
                 }
 
-                if (response.StatusCode == HttpStatusCode.Conflict)
+                if (checkRoomResponse.StatusCode == HttpStatusCode.Conflict)
                 {
                     _ = await _gameService.ExitFromRoomAsync();
                     return;

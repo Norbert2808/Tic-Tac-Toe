@@ -23,7 +23,7 @@ namespace TicTacToe.Client.States.Impl
 
         public async Task InvokeMenuAsync()
         {
-            _logger.LogInformation(@"Class MainMzenuState. InvokeAsync method");
+            _logger.LogInformation(@"Class MainMenuState. InvokeAsync method");
 
             while (true)
             {
@@ -43,7 +43,7 @@ namespace TicTacToe.Client.States.Impl
                     switch (choose)
                     {
                         case 1:
-                            await ExecuteGameMenuAsync();
+                            await ExecuteRoomMenuAsync();
                             break;
 
                         case 2:
@@ -73,7 +73,7 @@ namespace TicTacToe.Client.States.Impl
             }
         }
 
-        public async Task ExecuteGameMenuAsync()
+        public async Task ExecuteRoomMenuAsync()
         {
             _logger.LogInformation("Execute round menu state.");
             await _roomMenuState.InvokeMenuAsync();

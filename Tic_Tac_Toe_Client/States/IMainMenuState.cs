@@ -2,7 +2,7 @@
 
 public interface IMainMenuState : IState
 {
-    Task ExecuteGameMenuAsync();
+    Task ExecuteRoomMenuAsync();
 
     Task LogoutAsync();
     

@@ -14,9 +14,7 @@ namespace TicTacToe.Server.Services.Impl
         private readonly JsonHelper<UserAccount> _jsonHelper;
 
         private readonly SemaphoreSlim _semaphoreSlim = new(1, 1);
-
-        private readonly object _locker = new();
-
+        
         public AccountService()
         {
             _jsonHelper = new JsonHelper<UserAccount>(Path);
@@ -71,18 +69,28 @@ namespace TicTacToe.Server.Services.Impl
 
         public void RemoveActiveAccountByLogin(string login)
         {
-            lock (_locker)
+            _semaphoreSlim.Wait();
+            try
             {
                 var account = FindAccountByLogin(login);
                 _ = _activeAccounts.Remove(account);
+            }
+            finally
+            {
+                _semaphoreSlim.Release();
             }
         }
 
         public void AddActiveAccount(UserAccount account)
         {
-            lock (_locker)
+            _semaphoreSlim.Wait();
+            try
             {
                 _activeAccounts.Add(account);
+            }
+            finally
+            {
+                _semaphoreSlim.Release();
             }
         }
 
