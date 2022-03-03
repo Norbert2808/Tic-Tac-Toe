@@ -5,7 +5,7 @@ namespace TicTacToe.Client.Models;
 
 public class Board
 {
-    private List<Tuple<int, bool>> _board = new(9);
+    private List<Tuple<int, bool?>> _board = new(9);
     
     public void Draw()
     {
@@ -29,9 +29,13 @@ public class Board
         Console.WriteLine(" —————————————————");
     }
 
-    private ConsoleColor ChooseColor(bool isFirst)
+    private ConsoleColor ChooseColor(bool? isFirst)
     {
-        return isFirst ? ConsoleColor.Green : ConsoleColor.Red;
+        return isFirst is null
+            ? ConsoleColor.White
+            : (bool)isFirst
+            ? ConsoleColor.Green
+            : ConsoleColor.Red;
     }
 
     private void DrawLineInBoard(int x, ConsoleColor xColor,
@@ -50,11 +54,12 @@ public class Board
 
     public void SetNumberByIndex(MoveDto move, bool isFirst)
     {
-        _board[move.IndexOfCell] = new Tuple<int, bool>(move.Number, isFirst);
+        _board[move.IndexOfCell] = new Tuple<int, bool?>(move.Number, isFirst);
     }
 
     public void SetDefaultValuesInBoard()
-    { 
-       _board = Enumerable.Repeat(new Tuple<int, bool>(0, false), 9).ToList();
+    {
+        bool? player = null;
+        _board = Enumerable.Repeat(new Tuple<int, bool?>(0, player), 9).ToList();
     }
 }

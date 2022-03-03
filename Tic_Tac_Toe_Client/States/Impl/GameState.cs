@@ -97,7 +97,7 @@ namespace TicTacToe.Client.States.Impl
             {
                 Console.Clear();
                 _board.Draw();
-                ConsoleHelper.WriteInConsole(new[] { "Input index of сell:" }, ConsoleColor.Green, "");
+                ConsoleHelper.WriteInConsole(new[] { "Input index of cell:" }, ConsoleColor.Green, "");
                 ConsoleHelper.ReadIntFromConsole(out var index);
                 ConsoleHelper.WriteInConsole(new[] { "Input number:" }, ConsoleColor.Green, "");
                 ConsoleHelper.ReadIntFromConsole(out var number);
