@@ -159,7 +159,7 @@ public class RoomMenuState : IRoomMenuState
             {
                 var time = await response.Content.ReadAsStringAsync();
                 ConsoleHelper.WriteInConsole(new []{ $"Time: {time}" }, ConsoleColor.Red, "");
-                await Task.Delay(5000);
+                Thread.Sleep(5000);
             }
 
             if (response.StatusCode == HttpStatusCode.Conflict)

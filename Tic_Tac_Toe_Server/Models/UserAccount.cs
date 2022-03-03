@@ -5,10 +5,12 @@ namespace TicTacToe.Server.Models
 {
     public sealed class UserAccount
     {
+        [Required]
         [StringLength(maximumLength: 25, MinimumLength = 6)]
         [JsonPropertyName("login")]
         public string Login { get; set; }
 
+        [Required]
         [StringLength(maximumLength: 25, MinimumLength = 6)]
         [JsonPropertyName("password")]
         public string Password { get; set; }

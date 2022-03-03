@@ -76,7 +76,7 @@ public class GameController : ControllerBase
         
         if (!room.IsConnectionTimeOut())
             return NotFound(room.GetConnectionTime().ToString(@"dd\:mm\:ss"));
-        
+
         _roomService.DeleteRoom(room);
         return Conflict("Time out");
     }
@@ -130,6 +130,7 @@ public class GameController : ControllerBase
 
         if (room is null)
             return NotFound("Room is not found.");
+        
         return Ok();
     }
     
@@ -147,8 +148,10 @@ public class GameController : ControllerBase
         }
 
         var room = await _roomService.FindRoomByIdAsync(id);
+        
         if (room is null)
             return NotFound("Room not found.");
+        
         if(room.ConfirmFirstPlayer && room.ConfirmSecondPlayer)
             return Ok();
 

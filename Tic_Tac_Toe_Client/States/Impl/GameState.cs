@@ -33,7 +33,7 @@ public class GameState : IGameState
                 ConsoleHelper.WriteInConsole(new []
                 {
                     "------------------",
-                    "1 -- Start round",
+                    "1 -- Start new round",
                     "0 -- Exit"
                 }, ConsoleColor.Cyan);
                 
@@ -92,7 +92,7 @@ public class GameState : IGameState
                 {
                     var time = await responseConfirmation.Content.ReadAsStringAsync();
                     ConsoleHelper.WriteInConsole(new []{ $"Time: {time}" }, ConsoleColor.Red, "");
-                    await Task.Delay(1000);
+                    Thread.Sleep(1000);
                 }
 
                 if (responseConfirmation.StatusCode == HttpStatusCode.Conflict)
@@ -151,13 +151,12 @@ public class GameState : IGameState
     public async Task EnemyBarMenu()
     {
         var responsePlayerMessage = await _gameService.CheckRoomAsync();
-        string[] opponents = null!;
+
         if (responsePlayerMessage.StatusCode == HttpStatusCode.OK)
         {
-            opponents = await  responsePlayerMessage.Content.ReadAsAsync<string[]>();
+            var opponents = await  responsePlayerMessage.Content.ReadAsAsync<string[]>();
+            Console.WriteLine($"{opponents[0]} -- VS -- {opponents[1]}");
         }
-        
-        Console.WriteLine($"{opponents[0]} -- VS -- {opponents[1]}");
     }
 
     public async Task MakeMoveAsync()
