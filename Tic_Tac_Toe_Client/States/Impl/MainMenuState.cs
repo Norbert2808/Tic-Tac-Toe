@@ -72,7 +72,7 @@ namespace TicTacToe.Client.States.Impl
 
         public async Task ExecuteGameMenuAsync()
         {
-            _logger.LogInformation("Execute game menu state.");
+            _logger.LogInformation("Execute round menu state.");
             await _roomMenuState.InvokeMenuAsync();
         }
 

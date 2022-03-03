@@ -118,18 +118,21 @@ public class GameController : ControllerBase
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    public async Task<IActionResult> AppendConfirmAsync([FromBody] bool confirmation, string id)
+    public async Task<IActionResult> AppendConfirmationAsync([FromBody] bool confirmation, string id)
     {
         if (!await FindUser())
         {
             _logger.LogWarning("Unauthorized users");
             return Unauthorized("Unauthorized users");
         }
-        
+
         var room = await _roomService.AppendConfirmation(confirmation, id, LoginUser);
 
         if (room is null)
             return NotFound("Room is not found.");
+
+        if (room.IsStartGameTimeOut())
+            return Conflict("Time out");
         
         return Ok();
     }
@@ -151,7 +154,12 @@ public class GameController : ControllerBase
         
         if (room is null)
             return NotFound("Room not found.");
-        
+
+        if (!room.IsCompleted)
+        {
+            return Conflict("Player left the room.");
+        }
+
         if(room.ConfirmFirstPlayer && room.ConfirmSecondPlayer)
             return Ok();
 

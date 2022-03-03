@@ -81,9 +81,9 @@ namespace TicTacToe.Server.Services.Impl
 
         public bool IsActiveUserByLogin(string login)
         {
-            var test = _activeAccounts
+            var acc = _activeAccounts
                 .FirstOrDefault(x => x.Login.Equals(login, StringComparison.Ordinal)); 
-            return test is not null;
+            return acc is not null;
         }
     }
 }

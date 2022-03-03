@@ -1,16 +1,8 @@
 ﻿namespace TicTacToe.Client.States;
 
-public interface IGameState : IState
+public interface IGameState : IGame, IState
 {
-    Task WaitingStartGame();
-
-    Task GameMenu();
-    
     Task MakeMoveAsync();
 
     Task WaitMoveOpponentAsync();
-
-    Task ExitAsync();
-
-    Task EnemyBarMenu();
 }
