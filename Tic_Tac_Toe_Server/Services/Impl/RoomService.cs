@@ -72,17 +72,17 @@ public class RoomService : IRoomService
         foreach (var room in _roomStorage.Where(room => !room.IsCompleted && room.Settings.Type == RoomType.Public))
         {
             if (room.LoginFirstPlayer.Length == 0)
-            { 
+            {
                 room.LoginFirstPlayer = login;
                 if (room.LoginSecondPlayer.Length != 0)
                     room.IsCompleted = true;
                 return room;
-            } 
-            room.LoginSecondPlayer = login; 
+            }
+
+            room.LoginSecondPlayer = login;
             room.IsCompleted = true; 
             return room;
         }
-
         return null;
     }
 

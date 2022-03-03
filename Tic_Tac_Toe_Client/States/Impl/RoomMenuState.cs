@@ -9,16 +9,16 @@ public class RoomMenuState : IRoomMenuState
 {
     private readonly IGameService _gameService;
 
-    private readonly IGameState _gameState;
+    private readonly IRoundState _roundState;
 
     private readonly ILogger<IRoomMenuState> _logger;
 
-    public RoomMenuState(IGameState gameState,
+    public RoomMenuState(IRoundState roundState,
         IGameService gameService,
         ILogger<IRoomMenuState> logger)
     {
         _gameService = gameService;
-        _gameState = gameState;
+        _roundState = roundState;
         _logger = logger;
     }
 
@@ -31,7 +31,7 @@ public class RoomMenuState : IRoomMenuState
             Console.Clear();
             ConsoleHelper.WriteInConsole(new []
             {
-                "Game Menu",
+                "Room Menu",
                 "Please choose room:",
                 "1 -- Create private room",
                 "2 -- Connect to private room",
@@ -151,7 +151,7 @@ public class RoomMenuState : IRoomMenuState
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                await _gameState.InvokeMenuAsync();
+                await _roundState.InvokeMenuAsync();
                 return;
             }
 
