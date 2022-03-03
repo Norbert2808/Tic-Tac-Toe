@@ -17,9 +17,9 @@ host.ConfigureAppConfiguration(app =>
         .AddEnvironmentVariables();
 })
 .ConfigureLogging(loggerBuilder =>
-{ 
+{
     loggerBuilder.ClearProviders();
-   loggerBuilder.AddSerilog(new LoggerConfiguration()
+    loggerBuilder.AddSerilog(new LoggerConfiguration()
        .WriteTo.File("app.log")
        .CreateLogger());
 })

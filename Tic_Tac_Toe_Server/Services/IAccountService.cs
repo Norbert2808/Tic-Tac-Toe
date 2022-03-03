@@ -16,9 +16,9 @@ namespace TicTacToe.Server.Services
 
         bool IsActiveUserByLogin(string login);
 
-        Task<UserAccount> FindAccountByLoginAsync(string login);
+        UserAccount FindAccountByLogin(string login);
 
-        Task RemoveActiveAccountByLoginAsync(string login);
+        void RemoveActiveAccountByLogin(string login);
 
         void AddActiveAccount(UserAccount account);
     }

@@ -2,161 +2,162 @@
 using TicTacToe.Server.Models;
 using TicTacToe.Server.Tools;
 
-namespace TicTacToe.Server.Services.Impl;
-
-public class RoomService : IRoomService
+namespace TicTacToe.Server.Services.Impl
 {
-    private const string Path = "sessionsInfo.json";
-    
-    private readonly List<Room> _roomStorage;
-
-    private JsonHelper<Room> _jsonHelper;
-
-    private SemaphoreSlim _semaphoreSlim = new(1, 1);
-
-    public RoomService()
+    public class RoomService : IRoomService
     {
-        _roomStorage = new List<Room>();
-        _jsonHelper =  new JsonHelper<Room>(Path);
-    }
+        private const string Path = "sessionsInfo.json";
 
-    public async Task<string> CreateRoomAsync(string login, RoomSettings settings)
-    {
-        await _semaphoreSlim.WaitAsync();
-        try
+        private readonly List<Room> _roomStorage;
+
+        private readonly JsonHelper<Room> _jsonHelper;
+
+        private readonly SemaphoreSlim _semaphoreSlim = new(1, 1);
+
+        public RoomService()
         {
-            if(settings.Type == RoomType.Public)
+            _roomStorage = new List<Room>();
+            _jsonHelper = new JsonHelper<Room>(Path);
+        }
+
+        public async Task<string> CreateRoomAsync(string login, RoomSettings settings)
+        {
+            await _semaphoreSlim.WaitAsync();
+            try
             {
-                var room = ConnectionToPublicRoom(login, settings.RoomId);
-
-                if (room is null)
+                if (settings.Type == RoomType.Public)
                 {
-                    room = new Room(login, settings);
-                    _roomStorage.Add(room);
-                }
+                    var room = ConnectionToPublicRoom(login, settings.RoomId);
 
-                return room.RoomId;
-            }
+                    if (room is null)
+                    {
+                        room = new Room(login, settings);
+                        _roomStorage.Add(room);
+                    }
 
-            if (settings.Type == RoomType.Private)
-            {
-                if (settings.IsConnection)
-                {
-                    var room = await ConnectionToPrivateRoomAsync(login, settings.RoomId);
-                    return room is null ? null! : room.RoomId;    
-                }
-                else
-                {
-                    var room = new Room(login, settings);
-                    _roomStorage.Add(room);
                     return room.RoomId;
                 }
-                
+
+                if (settings.Type == RoomType.Private)
+                {
+                    if (settings.IsConnection)
+                    {
+                        var room = await ConnectionToPrivateRoomAsync(login, settings.RoomId);
+                        return room is null ? null! : room.RoomId;
+                    }
+                    else
+                    {
+                        var room = new Room(login, settings);
+                        _roomStorage.Add(room);
+                        return room.RoomId;
+                    }
+
+                }
+
+                if (settings.Type == RoomType.Practice)
+                {
+                    return null!;
+                }
+            }
+            finally
+            {
+                _ = _semaphoreSlim.Release();
             }
 
-            if(settings.Type == RoomType.Practice)
-            {
-                return null!;
-            }
-        }
-        finally
-        {
-            _semaphoreSlim.Release();
+            return null!;
         }
 
-        return null!;
-    }
-
-    public Room? ConnectionToPublicRoom(string login, string roomId)
-    {
-        foreach (var room in _roomStorage.Where(room => !room.IsCompleted && room.Settings.Type == RoomType.Public))
+        public Room? ConnectionToPublicRoom(string login, string roomId)
         {
-            if (room.LoginFirstPlayer.Length == 0)
+            foreach (var room in _roomStorage.Where(room => !room.IsCompleted && room.Settings.Type == RoomType.Public))
             {
-                room.LoginFirstPlayer = login;
-                if (room.LoginSecondPlayer.Length != 0)
-                    room.IsCompleted = true;
+                if (room.LoginFirstPlayer.Length == 0)
+                {
+                    room.LoginFirstPlayer = login;
+                    if (room.LoginSecondPlayer.Length != 0)
+                        room.IsCompleted = true;
+                    return room;
+                }
+
+                room.LoginSecondPlayer = login;
+                room.IsCompleted = true;
                 return room;
             }
+            return null;
+        }
 
+        public async Task<Room?> ConnectionToPrivateRoomAsync(string login, string roomId)
+        {
+            var room = await FindRoomByIdAsync(roomId);
+            if (room is null)
+                return null;
             room.LoginSecondPlayer = login;
-            room.IsCompleted = true; 
+            room.IsCompleted = true;
             return room;
         }
-        return null;
-    }
 
-    public async Task<Room?> ConnectionToPrivateRoomAsync(string login, string roomId)
-    {
-        var room = await FindRoomByIdAsync(roomId);
-        if (room is null)
-            return null;
-        room.LoginSecondPlayer = login;
-        room.IsCompleted = true;
-        return room;
-    }
-
-    public async Task<Room?> FindRoomByIdAsync(string roomId)
-    {
-        return await Task.FromResult(_roomStorage
-            .FirstOrDefault(x => x.RoomId.Equals(roomId, StringComparison.Ordinal)));
-    }
-
-    public async Task<Room?> AppendConfirmation(bool confirmation, string roomId, string login)
-    {
-        var room = await FindRoomByIdAsync(roomId);
-        if (room is null)
-            return null;
-        if (room.ConfirmFirstPlayer == false)
+        public async Task<Room?> FindRoomByIdAsync(string roomId)
         {
-            room.ConfirmFirstPlayer = true;
-            room.ConfirmationTime = DateTime.UtcNow;
-        }
-        else
-        {
-            room.ConfirmSecondPlayer = true;
+            return await Task.FromResult(_roomStorage
+                .FirstOrDefault(x => x.RoomId.Equals(roomId, StringComparison.Ordinal)));
         }
 
-        return room;
-    }
-
-    public async Task<bool> ExitFromRoomAsync(string login, string id)
-    {
-        var room = await FindRoomByIdAsync(id);
-
-        if (room is null)
-            return false;
-        
-        if (room.LoginFirstPlayer.Equals(login, StringComparison.Ordinal))
+        public async Task<Room?> AppendConfirmation(bool confirmation, string roomId, string login)
         {
-            room.LoginFirstPlayer = "";
-            room.IsCompleted = false;
-        }
-        else
-        {
-            room.LoginSecondPlayer = "";
-            room.IsCompleted = false;
+            var room = await FindRoomByIdAsync(roomId);
+            if (room is null)
+                return null;
+            if (room.ConfirmFirstPlayer == false)
+            {
+                room.ConfirmFirstPlayer = true;
+                room.ConfirmationTime = DateTime.UtcNow;
+            }
+            else
+            {
+                room.ConfirmSecondPlayer = true;
+            }
+
+            return room;
         }
 
-        if (room.LoginFirstPlayer.Length == 0 
-            && room.LoginSecondPlayer.Length == 0)
+        public async Task<bool> ExitFromRoomAsync(string login, string id)
         {
-            DeleteRoom(room);
+            var room = await FindRoomByIdAsync(id);
+
+            if (room is null)
+                return false;
+
+            if (room.LoginFirstPlayer.Equals(login, StringComparison.Ordinal))
+            {
+                room.LoginFirstPlayer = "";
+                room.IsCompleted = false;
+            }
+            else
+            {
+                room.LoginSecondPlayer = "";
+                room.IsCompleted = false;
+            }
+
+            if (room.LoginFirstPlayer.Length == 0
+                && room.LoginSecondPlayer.Length == 0)
+            {
+                DeleteRoom(room);
+            }
+
+            return true;
         }
 
-        return true;
-    }
-
-    public void DeleteRoom(Room room)
-    {
-        _semaphoreSlim.Wait();
-        try
+        public void DeleteRoom(Room room)
         {
-            _roomStorage.Remove(room);
-        }
-        finally
-        {
-            _semaphoreSlim.Release();
+            _semaphoreSlim.Wait();
+            try
+            {
+                _ = _roomStorage.Remove(room);
+            }
+            finally
+            {
+                _ = _semaphoreSlim.Release();
+            }
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using System.Collections.Concurrent;
-using TicTacToe.Server.Models;
+﻿using TicTacToe.Server.Models;
 using TicTacToe.Server.Tools;
 
 namespace TicTacToe.Server.Services.Impl
@@ -10,17 +9,19 @@ namespace TicTacToe.Server.Services.Impl
 
         private List<UserAccount> _accountsStorage;
 
-        private readonly ConcurrentBag<UserAccount> _activeAccounts;
+        private readonly List<UserAccount> _activeAccounts;
 
         private readonly JsonHelper<UserAccount> _jsonHelper;
 
         private readonly SemaphoreSlim _semaphoreSlim = new(1, 1);
 
+        private readonly object _locker = new();
+
         public AccountService()
         {
             _jsonHelper = new JsonHelper<UserAccount>(Path);
             _accountsStorage = new List<UserAccount>();
-            _activeAccounts = new ConcurrentBag<UserAccount>();
+            _activeAccounts = new List<UserAccount>();
         }
 
         public async Task UpdateAllUsersAccountAsync()
@@ -48,7 +49,7 @@ namespace TicTacToe.Server.Services.Impl
 
         public async Task AddAccountToStorageAsync(UserAccount account)
         {
-            await  _semaphoreSlim.WaitAsync();
+            await _semaphoreSlim.WaitAsync();
             try
             {
                 _accountsStorage.Add(account);
@@ -59,30 +60,36 @@ namespace TicTacToe.Server.Services.Impl
             }
             finally
             {
-                _semaphoreSlim.Release();
+                _ = _semaphoreSlim.Release();
             }
         }
-        
-        public Task<UserAccount> FindAccountByLoginAsync(string login)
+
+        public UserAccount FindAccountByLogin(string login)
         {
-            return Task.FromResult(_accountsStorage.FirstOrDefault(x => x.Login.Equals(login, StringComparison.Ordinal))!);
+            return _accountsStorage.FirstOrDefault(x => x.Login.Equals(login, StringComparison.Ordinal))!;
         }
 
-        public async Task RemoveActiveAccountByLoginAsync(string login)
+        public void RemoveActiveAccountByLogin(string login)
         {
-            var account = await FindAccountByLoginAsync(login);
-               _activeAccounts.TryTake(out account);
+            lock (_locker)
+            {
+                var account = FindAccountByLogin(login);
+                _ = _activeAccounts.Remove(account);
+            }
         }
 
         public void AddActiveAccount(UserAccount account)
         {
-            _activeAccounts.Add(account);
+            lock (_locker)
+            {
+                _activeAccounts.Add(account);
+            }
         }
 
         public bool IsActiveUserByLogin(string login)
         {
             var acc = _activeAccounts
-                .FirstOrDefault(x => x.Login.Equals(login, StringComparison.Ordinal)); 
+                .FirstOrDefault(x => x.Login.Equals(login, StringComparison.Ordinal));
             return acc is not null;
         }
     }

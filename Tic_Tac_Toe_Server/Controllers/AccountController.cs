@@ -33,7 +33,7 @@ namespace TicTacToe.Server.Controllers
         public async Task<IActionResult> LoginAsync([FromBody] UserAccount account)
         {
             await _accService.UpdateAllUsersAccountAsync();
-            
+
             var loginIsExist = _accService.IsAccountExistByLoginAsync(account.Login);
 
             if (!await loginIsExist)
@@ -42,7 +42,7 @@ namespace TicTacToe.Server.Controllers
             if (_blocker.IsBlocked(account.Login))
             {
                 _logger.LogWarning($"User in black list {account.Login}");
-                return Unauthorized(account.Login);   
+                return Unauthorized(account.Login);
             }
 
             var passwordIsExist = _accService.IsAccountExistByPasswordAsync(account.Password);
@@ -59,7 +59,7 @@ namespace TicTacToe.Server.Controllers
                 return Conflict("User have already logged-in");
 
             _accService.AddActiveAccount(account);
-            
+
             return Ok(account.Login);
         }
 
@@ -87,9 +87,9 @@ namespace TicTacToe.Server.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<IActionResult> LogoutAsync([FromBody] string login)
         {
-            await _accService.RemoveActiveAccountByLoginAsync(login);
+            _accService.RemoveActiveAccountByLogin(login);
 
-            return Ok("User successfully left.");
+            return await Task.FromResult(Ok("User successfully left."));
         }
     }
 }

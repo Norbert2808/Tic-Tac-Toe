@@ -17,7 +17,7 @@ namespace TicTacToe.Client.Services.Impl
         public async Task<HttpResponseMessage> LoginAsync(string login, string password)
         {
             var user = new UserDto { Login = login, Password = password };
-            
+
             var response = await _httpClient.PostAsync("api/Account/login",
                 user,
                 new JsonMediaTypeFormatter());
@@ -36,7 +36,7 @@ namespace TicTacToe.Client.Services.Impl
         public async Task<HttpResponseMessage> RegistrationAsync(string login, string password)
         {
             var user = new UserDto { Login = login, Password = password };
-            
+
             var response = await _httpClient.PostAsync("api/Account/registration",
                 user,
                 new JsonMediaTypeFormatter());

@@ -1,9 +1,10 @@
-﻿namespace TicTacToe.Client.States.Impl;
-
-public class PrivateUserStatistic : IState
+﻿namespace TicTacToe.Client.States.Impl
 {
-    public Task InvokeMenuAsync()
+    public class PrivateUserStatistic : IState
     {
-        throw new NotImplementedException();
+        public Task InvokeMenuAsync()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -9,7 +9,7 @@ namespace TicTacToe.Client.States.Impl
         private readonly IRoomMenuState _roomMenuState;
 
         private readonly IUserService _userService;
-        
+
         private readonly ILogger<IMainMenuState> _logger;
 
         public MainMenuState(IRoomMenuState roomMenuState,
@@ -24,11 +24,11 @@ namespace TicTacToe.Client.States.Impl
         public async Task InvokeMenuAsync()
         {
             _logger.LogInformation(@"Class MainMzenuState. InvokeAsync method");
-            
+
             while (true)
             {
                 Console.Clear();
-                ConsoleHelper.WriteInConsole(new []
+                ConsoleHelper.WriteInConsole(new[]
                 {
                     "Main Menu",
                     "Please choose action:",
@@ -36,7 +36,7 @@ namespace TicTacToe.Client.States.Impl
                     "2 -- Private statistic",
                     "0 -- Logout"
                 }, ConsoleColor.Cyan);
-                
+
                 try
                 {
                     ConsoleHelper.ReadIntFromConsole(out var choose);
@@ -47,12 +47,15 @@ namespace TicTacToe.Client.States.Impl
                             break;
 
                         case 2:
-                            
+
                             break;
 
                         case 0:
                             await LogoutAsync();
                             return;
+
+                        default:
+                            continue;
                     }
                 }
                 catch (FormatException ex)
@@ -64,7 +67,7 @@ namespace TicTacToe.Client.States.Impl
                     _logger.LogError(ex.Message);
                     ConsoleHelper.WriteInConsole(new[] { "Failed to connect with server!" },
                         ConsoleColor.Red);
-                    Console.ReadLine();
+                    _ = Console.ReadLine();
                     return;
                 }
             }
@@ -85,7 +88,7 @@ namespace TicTacToe.Client.States.Impl
                 var message = await GetMessageFromResponseAsync(response);
                 ConsoleHelper.WriteInConsole(
                     new[] { message }, ConsoleColor.Yellow);
-                Console.ReadLine();
+                _ = Console.ReadLine();
             }
         }
 

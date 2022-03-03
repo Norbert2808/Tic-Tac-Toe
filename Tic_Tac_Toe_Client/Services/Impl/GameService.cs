@@ -2,68 +2,69 @@
 using TicTacToe.Client.DTO;
 using TicTacToe.Client.Enums;
 
-namespace TicTacToe.Client.Services.Impl;
-
-public class GameService : IGameService
+namespace TicTacToe.Client.Services.Impl
 {
-    private readonly HttpClient _httpClient;
-
-    public string? RoomId { get; private set; }
-
-    public GameService(HttpClient httpClient)
+    public class GameService : IGameService
     {
-        _httpClient = httpClient;
-    }
+        private readonly HttpClient _httpClient;
 
-    public async Task<HttpResponseMessage> StartRoomAsync(RoomType roomType, string roomId, bool isConnect)
-    {
-        var settings = new RoomSettingsDto(roomType, roomId, isConnect);
-        
-        var response = await _httpClient.PostAsync("api/Game/create_room",
-            settings,
-            new JsonMediaTypeFormatter());
+        public string? RoomId { get; private set; }
 
-        if (response.StatusCode == System.Net.HttpStatusCode.OK)
+        public GameService(HttpClient httpClient)
         {
-            RoomId = await response.Content.ReadAsStringAsync();
+            _httpClient = httpClient;
         }
 
-        return response;
-    }
+        public async Task<HttpResponseMessage> StartRoomAsync(RoomType roomType, string roomId, bool isConnect)
+        {
+            var settings = new RoomSettingsDto(roomType, roomId, isConnect);
 
-    public async Task<HttpResponseMessage> CheckRoomAsync()
-    {
-        return await _httpClient.GetAsync("api/Game/check_room/" + RoomId);
-    }
+            var response = await _httpClient.PostAsync("api/Game/create_room",
+                settings,
+                new JsonMediaTypeFormatter());
 
-    public async Task<HttpResponseMessage> MakeMoveAsync(int index, int number)
-    {
-        var moveDto = new MoveDto(index, number);
-        var response = await _httpClient.PostAsync("api/Game/move/" + RoomId,
-            moveDto,
-            new JsonMediaTypeFormatter());
-        return response;
-    }
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                RoomId = await response.Content.ReadAsStringAsync();
+            }
 
-    public async Task<HttpResponseMessage> CheckMoveAsync()
-    {
-        return await _httpClient.GetAsync("api/Game/check_move/" + RoomId);
-    }
+            return response;
+        }
 
-    public async Task<HttpResponseMessage> SendConfirmationAsync()
-    {
-        return await _httpClient.PostAsync("api/Game/send_confirmation/"+ RoomId,
-            true,
-            new JsonMediaTypeFormatter());
-    }
+        public async Task<HttpResponseMessage> CheckRoomAsync()
+        {
+            return await _httpClient.GetAsync("api/Game/check_room/" + RoomId);
+        }
 
-    public async Task<HttpResponseMessage> CheckConfirmationAsync()
-    {
-        return await _httpClient.GetAsync("api/Game/check_confirmation/" + RoomId);
-    }
+        public async Task<HttpResponseMessage> MakeMoveAsync(int index, int number)
+        {
+            var moveDto = new MoveDto(index, number);
+            var response = await _httpClient.PostAsync("api/Game/move/" + RoomId,
+                moveDto,
+                new JsonMediaTypeFormatter());
+            return response;
+        }
 
-    public async Task<HttpResponseMessage> ExitFromRoomAsync()
-    {
-        return await _httpClient.GetAsync("api/Game/exit/" + RoomId);
+        public async Task<HttpResponseMessage> CheckMoveAsync()
+        {
+            return await _httpClient.GetAsync("api/Game/check_move/" + RoomId);
+        }
+
+        public async Task<HttpResponseMessage> SendConfirmationAsync()
+        {
+            return await _httpClient.PostAsync("api/Game/send_confirmation/" + RoomId,
+                true,
+                new JsonMediaTypeFormatter());
+        }
+
+        public async Task<HttpResponseMessage> CheckConfirmationAsync()
+        {
+            return await _httpClient.GetAsync("api/Game/check_confirmation/" + RoomId);
+        }
+
+        public async Task<HttpResponseMessage> ExitFromRoomAsync()
+        {
+            return await _httpClient.GetAsync("api/Game/exit/" + RoomId);
+        }
     }
 }

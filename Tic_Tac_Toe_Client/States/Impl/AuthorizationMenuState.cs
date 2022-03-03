@@ -9,12 +9,12 @@ namespace TicTacToe.Client.States.Impl
         private readonly IUserService _userService;
 
         private readonly IMainMenuState _mainMenuState;
-        
+
         private readonly ILeaderMenuState _leaderMenu;
 
         private readonly ILogger<AuthorizationMenuState> _logger;
 
-        public AuthorizationMenuState(IUserService userService, 
+        public AuthorizationMenuState(IUserService userService,
             IMainMenuState mainMenuState,
             ILeaderMenuState leaderMenu,
             ILogger<AuthorizationMenuState> logger)
@@ -32,7 +32,7 @@ namespace TicTacToe.Client.States.Impl
             {
                 Console.Clear();
                 Introduction();
-                ConsoleHelper.WriteInConsole(new []
+                ConsoleHelper.WriteInConsole(new[]
                 {
                     "Authorization Menu",
                     "Please choose action:",
@@ -51,7 +51,7 @@ namespace TicTacToe.Client.States.Impl
                             _logger.LogInformation("Execute login method");
                             await ExecuteLoginAsync();
                             break;
-                        
+
                         case 2:
                             _logger.LogInformation("Execute registration method");
                             await ExecuteRegistrationAsync();
@@ -60,9 +60,12 @@ namespace TicTacToe.Client.States.Impl
                         case 3:
                             await _leaderMenu.InvokeMenuAsync();
                             break;
-                        
+
                         case 0:
                             return;
+
+                        default:
+                            continue;
                     }
                 }
                 catch (FormatException ex)
@@ -70,35 +73,35 @@ namespace TicTacToe.Client.States.Impl
                     _logger.LogError(ex.Message);
                     ConsoleHelper.WriteInConsole(new[] { "It's not a number!" },
                         ConsoleColor.Red);
-                    Console.ReadLine();
+                    _ = Console.ReadLine();
                 }
                 catch (HttpRequestException ex)
                 {
                     _logger.LogError(ex.Message);
                     ConsoleHelper.WriteInConsole(new[] { "Failed to connect with server!" },
                         ConsoleColor.Red);
-                    Console.ReadLine();
+                    _ = Console.ReadLine();
                 }
             }
         }
-        
+
         private static void Introduction()
         {
-            ConsoleHelper.WriteInConsole(new []
+            ConsoleHelper.WriteInConsole(new[]
             {
                 ".-----. _         .-----.             .-----.            ",
                 "`-. .-':_;        `-. .-'             `-. .-'            ",
                 "  : :  .-. .--.     : : .--.   .--.     : : .--.  .--.   ",
                 "  : :  : :'  ..'    : :' .; ; '  ..'    : :' .; :' '_.'  ",
                 "  :_;  :_;`.__.'    :_;`.__,_;`.__.'    :_;`.__.'`.__.'  "
-            }, ConsoleColor.Blue, "Welcome to Tic Tac Toe" );
+            }, ConsoleColor.Blue, "Welcome to Tic Tac Toe");
         }
 
         public async Task ExecuteLoginAsync()
         {
-            ConsoleHelper.WriteInConsole(new []{ "Enter login:" }, ConsoleColor.Cyan, "");
+            ConsoleHelper.WriteInConsole(new[] { "Enter login:" }, ConsoleColor.Cyan, "");
             var login = Console.ReadLine();
-            ConsoleHelper.WriteInConsole(new []{ "Enter password:" }, ConsoleColor.Cyan,"");
+            ConsoleHelper.WriteInConsole(new[] { "Enter password:" }, ConsoleColor.Cyan, "");
             var password = Console.ReadLine();
 
             var response = await _userService.LoginAsync(login!, password!);
@@ -107,12 +110,12 @@ namespace TicTacToe.Client.States.Impl
 
         public async Task ExecuteRegistrationAsync()
         {
-            ConsoleHelper.WriteInConsole(new []{ "Enter login for registration:" },
+            ConsoleHelper.WriteInConsole(new[] { "Enter login for registration:" },
                 ConsoleColor.Cyan,
                 "");
             var login = Console.ReadLine();
-            
-            ConsoleHelper.WriteInConsole(new []{ "Enter password for registration:" },
+
+            ConsoleHelper.WriteInConsole(new[] { "Enter password for registration:" },
                 ConsoleColor.Cyan,
                 "");
             var password = Console.ReadLine();
@@ -135,26 +138,26 @@ namespace TicTacToe.Client.States.Impl
                 ConsoleHelper.WriteInConsole(
                     new[] { "You are blocked! Please waiting 1 minute" },
                     ConsoleColor.Red);
-                Console.ReadLine();
+                _ = Console.ReadLine();
             }
 
             if (response.StatusCode == HttpStatusCode.BadRequest)
             {
                 _logger.LogInformation("Input invalid data. HttpStatus::BadRequest");
                 ConsoleHelper.WriteInConsole(
-                       new[] { "Login and password must be at least 6 symbol long" }, 
+                       new[] { "Login and password must be at least 6 symbol long" },
                        ConsoleColor.Red);
-                Console.ReadLine();
+                _ = Console.ReadLine();
             }
 
-            if (response.StatusCode == HttpStatusCode.NotFound 
-                || response.StatusCode == HttpStatusCode.Conflict)
+            if (response.StatusCode is HttpStatusCode.NotFound
+                or HttpStatusCode.Conflict)
             {
-                _logger.LogInformation("User with such login already registered or" + 
+                _logger.LogInformation("User with such login already registered or" +
                                        " input invalid data. HttpStatus::NotFound or HttpStatus::Conflict");
                 var errorMessage = await GetMessageFromResponseAsync(response);
                 ConsoleHelper.WriteInConsole(new[] { errorMessage }, ConsoleColor.Red);
-                Console.ReadLine();
+                _ = Console.ReadLine();
             }
         }
 

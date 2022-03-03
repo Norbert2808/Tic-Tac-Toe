@@ -1,11 +1,12 @@
-﻿namespace TicTacToe.Client.Services.Impl;
-
-public class StatisticService : IStatisticService
+﻿namespace TicTacToe.Client.Services.Impl
 {
-    private readonly HttpClient _httpClient;
-    
-    public StatisticService(HttpClient httpClient)
+    public class StatisticService : IStatisticService
     {
-        _httpClient = httpClient;
+        private readonly HttpClient _httpClient;
+
+        public StatisticService(HttpClient httpClient)
+        {
+            _httpClient = httpClient;
+        }
     }
 }
