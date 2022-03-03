@@ -16,6 +16,8 @@ public interface IGameService
 
     Task<HttpResponseMessage> CheckConfirmationAsync();
 
+    Task<bool> CheckPlayerPosition();
+
     Task<HttpResponseMessage> ExitFromRoomAsync();
 
 }

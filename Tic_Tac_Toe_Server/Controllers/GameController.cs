@@ -99,24 +99,36 @@ namespace TicTacToe.Server.Controllers
                 _logger.LogWarning("Unauthorized users");
                 return Unauthorized("Unauthorized users");
             }
-
+            
 
             return NotFound();
         }
 
-        [HttpGet("move/{id}")]
+        [HttpPost("move/{id}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> CheckMoveAsync(string id, [FromBody] Move move)
+        public async Task<IActionResult> MoveAsync(string id, [FromBody] Move move)
         {
             if (!await FindUser())
             {
                 _logger.LogWarning("Unauthorized users");
                 return Unauthorized("Unauthorized users");
             }
+            
+            var room = await _roomService.FindRoomByIdAsync(id);
 
+            if (room is null)
+                return NotFound("Room not found.");
+
+            var round = room.Rounds.Peek();
+            
+            var isValid = round.DoMove(move, room.LoginFirstPlayer.Equals(LoginUser, StringComparison.Ordinal));
+
+            if (isValid)
+                return Ok();
+            
             return NotFound();
         }
 
@@ -164,12 +176,38 @@ namespace TicTacToe.Server.Controllers
             }
 
             if (room.ConfirmFirstPlayer && room.ConfirmSecondPlayer)
-                return Ok();
+            {
+                room.Rounds.Push(new Round());
+                return Ok();   
+            }
 
             if (room.IsStartGameTimeOut())
                 return Conflict("Time out");
 
             return NotFound(room.GetStartGameWaitingTime().ToString(@"dd\:mm\:ss"));
+        }
+        
+        [HttpGet("check_position/{id}")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.Conflict)]
+        public async Task<IActionResult> CheckPlayerPositionAsync(string id)
+        {
+            if (!await FindUser())
+            {
+                _logger.LogWarning("Unauthorized users");
+                return Unauthorized("Unauthorized users");
+            }
+
+            var room = await _roomService.FindRoomByIdAsync(id);
+
+            if (room is null)
+                return NotFound("Room not found.");
+
+            var isFirst = room.LoginFirstPlayer.Equals(LoginUser, StringComparison.Ordinal);
+            
+            return Ok(isFirst);
         }
 
         [HttpGet("exit/{id}")]

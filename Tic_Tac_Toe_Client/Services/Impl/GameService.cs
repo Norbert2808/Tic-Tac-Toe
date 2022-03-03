@@ -1,4 +1,5 @@
-﻿using System.Net.Http.Formatting;
+﻿using System.Net;
+using System.Net.Http.Formatting;
 using TicTacToe.Client.DTO;
 using TicTacToe.Client.Enums;
 
@@ -60,6 +61,16 @@ namespace TicTacToe.Client.Services.Impl
         public async Task<HttpResponseMessage> CheckConfirmationAsync()
         {
             return await _httpClient.GetAsync("api/Game/check_confirmation/" + RoomId);
+        }
+
+        public async Task<bool> CheckPlayerPosition()
+        {
+            var response = await _httpClient.GetAsync("api/Game/check_position/" + RoomId);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+               return await response.Content.ReadAsAsync<bool>();  
+            }
+            return false;
         }
 
         public async Task<HttpResponseMessage> ExitFromRoomAsync()

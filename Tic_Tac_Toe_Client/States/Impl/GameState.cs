@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using Microsoft.Extensions.Logging;
+using TicTacToe.Client.DTO;
 using TicTacToe.Client.Models;
 using TicTacToe.Client.Services;
 
@@ -24,50 +25,72 @@ namespace TicTacToe.Client.States.Impl
 
         public async Task InvokeMenuAsync()
         {
+            _board.SetDefaultValuesInBoard();
+            var isFirst = await _gameService.CheckPlayerPosition();
             while (true)
             {
-                Console.Clear();
-                await ShowEnemyBar();
-                _board.Draw();
-                ConsoleHelper.WriteInConsole(new[]
+                if (isFirst)
                 {
-                "1 -- Do move",
-                "2 -- Surender",
-                "0 -- Exit"
-            }, ConsoleColor.Cyan);
+                    Console.Clear();
+                    await ShowEnemyBar();
+                    _board.Draw();
+                    ConsoleHelper.WriteInConsole(new[]
+                        {
+                            "1 -- Do move",
+                            "2 -- Surender",
+                            "0 -- Exit"
+                        },
+                        ConsoleColor.Cyan);
 
-                try
-                {
-                    ConsoleHelper.ReadIntFromConsole(out var choose);
-                    switch (choose)
+                    try
                     {
-                        case 1:
-                            break;
+                        ConsoleHelper.ReadIntFromConsole(out var choose);
+                        switch (choose)
+                        {
+                            case 1:
+                                await MakeMoveAsync();
+                                break;
 
-                        case 2:
-                            break;
+                            case 2:
+                                break;
 
-                        case 0:
-                            continue;
+                            case 0:
+                                continue;
 
-                        default:
-                            continue;
+                            default:
+                                continue;
+                        }
                     }
+                    catch (FormatException ex)
+                    {
+                        _logger.LogError(ex.Message);
+                    }
+                    catch (HttpRequestException ex)
+                    {
+                        _logger.LogError(ex.Message);
+                        ConsoleHelper.WriteInConsole(new[] {"Failed to connect with server!"},
+                            ConsoleColor.Red);
+                        _ = Console.ReadLine();
+                    }
+
+                    isFirst = false;
                 }
-                catch (FormatException ex)
+                else
                 {
-                    _logger.LogError(ex.Message);
-                }
-                catch (HttpRequestException ex)
-                {
-                    _logger.LogError(ex.Message);
-                    ConsoleHelper.WriteInConsole(new[] { "Failed to connect with server!" },
-                        ConsoleColor.Red);
-                    _ = Console.ReadLine();
+                    while (true)
+                    {
+                        Console.Clear();
+                        _board.Draw();
+                        ConsoleHelper.WriteInConsole(new[] { "Please, Wait till the other player moves" },
+                            ConsoleColor.Green,"");
+                        await WaitMoveOpponentAsync();
+                        Console.ReadLine();
+                        isFirst = true;
+                    }
                 }
             }
         }
-
+        
         public async Task MakeMoveAsync()
         {
             while (true)
@@ -83,12 +106,13 @@ namespace TicTacToe.Client.States.Impl
 
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
+                    _board.SetNumberByIndex(new MoveDto(index, number), await _gameService.CheckPlayerPosition());
                     break;
                 }
 
                 if (response.StatusCode == HttpStatusCode.BadRequest)
                 {
-
+                    
                 }
             }
 

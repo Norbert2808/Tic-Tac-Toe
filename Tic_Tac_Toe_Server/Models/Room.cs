@@ -8,7 +8,7 @@ public class Room
     [JsonPropertyName("RoomId")] 
     public string RoomId { get; set; }
 
-    public TimeSpan ConnectionTimeOut { get; set; } = TimeSpan.FromMinutes(1);
+    public TimeSpan ConnectionTimeOut { get; set; } = TimeSpan.FromMinutes(3);
 
     public TimeSpan StartGameTimeOut { get; set; } = TimeSpan.FromMinutes(1);
     
@@ -35,6 +35,9 @@ public class Room
     
     public bool ConfirmSecondPlayer { get; set; }
 
+    [JsonPropertyName("Rounds")]
+    public Stack<Round> Rounds { get; private set;  }
+
     public Room(string login, RoomSettings settings)
     {
         LoginFirstPlayer = login;
@@ -44,6 +47,7 @@ public class Room
         IsBot = settings.Type == RoomType.Practice;
         CreationRoomDate = DateTime.UtcNow;
         IsCompleted = false;
+        Rounds = new Stack<Round>();
     }
     
     public TimeSpan GetStartGameWaitingTime() => DateTime.UtcNow - ConfirmationTime;

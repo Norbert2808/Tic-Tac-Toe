@@ -159,7 +159,7 @@ namespace TicTacToe.Client.States.Impl
                 {
                     var time = await checkRoomResponse.Content.ReadAsStringAsync();
                     ConsoleHelper.WriteInConsole(new[] { $"Time: {time}" }, ConsoleColor.Red, "");
-                    Thread.Sleep(5000);
+                    Thread.Sleep(3000);
                 }
 
                 if (checkRoomResponse.StatusCode == HttpStatusCode.Conflict)

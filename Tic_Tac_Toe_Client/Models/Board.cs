@@ -5,28 +5,33 @@ namespace TicTacToe.Client.Models;
 
 public class Board
 {
-    private int[] _boards = new int[9];
+    private List<Tuple<int, bool>> _board = new(9);
     
     public void Draw()
     {
         Console.WriteLine(" —————————————————");
 
-        DrawLineInBoard(_boards[0], ConsoleColor.Red,
-            _boards[1], ConsoleColor.Red,
-            _boards[2], ConsoleColor.Green);
+        DrawLineInBoard(_board[0].Item1, ChooseColor(_board[0].Item2),
+            _board[1].Item1, ChooseColor(_board[1].Item2),
+            _board[2].Item1, ChooseColor(_board[2].Item2));
         Console.WriteLine("|_____|_____|_____|");
 
-        DrawLineInBoard(_boards[3], ConsoleColor.Green,
-            _boards[4], ConsoleColor.Red,
-            _boards[5], ConsoleColor.Green);
+        DrawLineInBoard(_board[3].Item1, ChooseColor(_board[3].Item2),
+            _board[4].Item1, ChooseColor(_board[4].Item2),
+            _board[5].Item1, ChooseColor(_board[5].Item2));
         Console.WriteLine("|_____|_____|_____|");
 
-        DrawLineInBoard(_boards[6], ConsoleColor.Red,
-            _boards[7], ConsoleColor.Green,
-            _boards[8], ConsoleColor.Red);
+        DrawLineInBoard(_board[6].Item1, ChooseColor(_board[6].Item2),
+            _board[7].Item1, ChooseColor(_board[7].Item2),
+            _board[8].Item1, ChooseColor(_board[8].Item2));
 
         Console.WriteLine("|     |     |     |");
         Console.WriteLine(" —————————————————");
+    }
+
+    private ConsoleColor ChooseColor(bool isFirst)
+    {
+        return isFirst ? ConsoleColor.Green : ConsoleColor.Red;
     }
 
     private void DrawLineInBoard(int x, ConsoleColor xColor,
@@ -43,8 +48,13 @@ public class Board
         Console.WriteLine("  |");
     }
 
-    public void SetNumberByIndex(MoveDto move)
+    public void SetNumberByIndex(MoveDto move, bool isFirst)
     {
-        _boards[move.IndexOfCell] = move.Number;
+        _board[move.IndexOfCell] = new Tuple<int, bool>(move.Number, isFirst);
+    }
+
+    public void SetDefaultValuesInBoard()
+    { 
+       _board = Enumerable.Repeat(new Tuple<int, bool>(0, false), 9).ToList();
     }
 }
