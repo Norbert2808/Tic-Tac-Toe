@@ -111,7 +111,7 @@ namespace TicTacToe.Server.Controllers
 
             if (rightMove)
             {
-                return round.CheckEndOfGame(out var firstWin)
+                return round.CheckEndOfGame()
                     ? Accepted(round.LasMove)
                     : Ok(round.LasMove);
             }
@@ -144,8 +144,8 @@ namespace TicTacToe.Server.Controllers
 
             if (isValid)
             {
-                return round.CheckEndOfGame(out var firstWin)
-                    ? Accepted(firstWin)
+                return round.CheckEndOfGame()
+                    ? Accepted()
                     : Ok();
             }
 

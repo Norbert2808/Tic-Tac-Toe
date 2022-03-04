@@ -47,26 +47,23 @@ namespace TicTacToe.Server.Models
                 : FirstPlayerMove.Count - 1 == SecondPlayerMove.Count;
         }
 
-        public bool CheckEndOfGame(out bool? firstWin)
+        public bool CheckEndOfGame()
         {
             if (_board[0].Item2 is not null)
             {
                 // first row
                 if (_board[0].Item2 == _board[1].Item2 && _board[0].Item2 == _board[2].Item2)
                 {
-                    firstWin = _board[0].Item2;
                     return true;
                 }
                 // first colum
                 if (_board[0].Item2 == _board[3].Item2 && _board[0].Item2 == _board[6].Item2)
                 {
-                    firstWin = _board[0].Item2;
                     return true;
                 }
                 // head diagonal
                 if (_board[0].Item2 == _board[4].Item2 && _board[0].Item2 == _board[9].Item2)
                 {
-                    firstWin = _board[0].Item2;
                     return true;
                 }
             }
@@ -75,19 +72,16 @@ namespace TicTacToe.Server.Models
                 // second row
                 if (_board[4].Item2 == _board[3].Item2 && _board[4].Item2 == _board[5].Item2)
                 {
-                    firstWin = _board[4].Item2;
                     return true;
                 }
                 // second colum
                 if (_board[4].Item2 == _board[1].Item2 && _board[4].Item2 == _board[7].Item2)
                 {
-                    firstWin = _board[4].Item2;
                     return true;
                 }
                 // second diagonal
                 if (_board[4].Item2 == _board[2].Item2 && _board[4].Item2 == _board[6].Item2)
                 {
-                    firstWin = _board[4].Item2;
                     return true;
                 }
             }
@@ -96,18 +90,15 @@ namespace TicTacToe.Server.Models
                 // third row
                 if (_board[8].Item2 == _board[7].Item2 && _board[8].Item2 == _board[6].Item2)
                 {
-                    firstWin = _board[4].Item2;
                     return true;
                 }
                 // Third colum
                 if (_board[8].Item2 == _board[5].Item2 && _board[8].Item2 == _board[2].Item2)
                 {
-                    firstWin = _board[4].Item2;
                     return true;
                 }
             }
 
-            firstWin = default;
             return false;
         }
     }
