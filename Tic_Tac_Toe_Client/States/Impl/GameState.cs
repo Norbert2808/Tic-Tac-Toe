@@ -15,6 +15,8 @@ namespace TicTacToe.Client.States.Impl
 
         private readonly Board _board;
 
+        private bool _iAmFirst;
+
         public GameState(IGameService gameService,
             ILogger<GameState> logger)
         {
@@ -26,14 +28,16 @@ namespace TicTacToe.Client.States.Impl
         public async Task InvokeMenuAsync()
         {
             _board.SetDefaultValuesInBoard();
-            var isFirst = await _gameService.CheckPlayerPosition();
+            _iAmFirst = await _gameService.CheckPlayerPosition();
+            var myTurnToMove = _iAmFirst;
             while (true)
             {
-                if (isFirst)
+                Console.Clear();
+                await ShowEnemyBar();
+                _board.Draw();
+
+                if (myTurnToMove)
                 {
-                    Console.Clear();
-                    await ShowEnemyBar();
-                    _board.Draw();
                     ConsoleHelper.WriteInConsole(new[]
                         {
                             "1 -- Do move",
@@ -68,24 +72,22 @@ namespace TicTacToe.Client.States.Impl
                     catch (HttpRequestException ex)
                     {
                         _logger.LogError(ex.Message);
-                        ConsoleHelper.WriteInConsole(new[] {"Failed to connect with server!"},
+                        ConsoleHelper.WriteInConsole(new[] { "Failed to connect with server!"},
                             ConsoleColor.Red);
                         _ = Console.ReadLine();
                     }
 
-                    isFirst = false;
+                    myTurnToMove = false;
                 }
                 else
                 {
                     while (true)
                     {
-                        Console.Clear();
-                        _board.Draw();
                         ConsoleHelper.WriteInConsole(new[] { "Please, Wait till the other player moves" },
-                            ConsoleColor.Green,"");
+                            ConsoleColor.Green, "");
                         await WaitMoveOpponentAsync();
-                        Console.ReadLine();
-                        isFirst = true;
+                        _ = Console.ReadLine();
+                        myTurnToMove = true;
                     }
                 }
             }
@@ -96,23 +98,26 @@ namespace TicTacToe.Client.States.Impl
             while (true)
             {
                 Console.Clear();
+                await ShowEnemyBar();
                 _board.Draw();
-                ConsoleHelper.WriteInConsole(new[] { "Input index of cell:" }, ConsoleColor.Green, "");
+
+                ConsoleHelper.WriteInConsole(new[] { "Input number of cell[1;9]:" }, ConsoleColor.Green, "");
                 ConsoleHelper.ReadIntFromConsole(out var index);
-                ConsoleHelper.WriteInConsole(new[] { "Input number:" }, ConsoleColor.Green, "");
+                index--;
+                ConsoleHelper.WriteInConsole(new[] { "Input number[1;9]:" }, ConsoleColor.Green, "");
                 ConsoleHelper.ReadIntFromConsole(out var number);
 
                 var response = await _gameService.MakeMoveAsync(index, number);
 
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
-                    _board.SetNumberByIndex(new MoveDto(index, number), await _gameService.CheckPlayerPosition());
+                    _board.SetNumberByIndex(new MoveDto(index, number), _iAmFirst);
                     break;
                 }
 
                 if (response.StatusCode == HttpStatusCode.BadRequest)
                 {
-                    
+
                 }
             }
 
@@ -139,7 +144,9 @@ namespace TicTacToe.Client.States.Impl
             if (responsePlayerMessage.StatusCode == HttpStatusCode.OK)
             {
                 var opponents = await responsePlayerMessage.Content.ReadAsAsync<string[]>();
-                Console.WriteLine($"{opponents[0]} -- VS -- {opponents[1]}");
+                ConsoleHelper.WriteInConsole($"{opponents[0]} -- VS -- {opponents[1]}\n", ConsoleColor.Cyan);
+                var color = _iAmFirst ? ConsoleColor.Green : ConsoleColor.Red;
+                ConsoleHelper.WriteInConsole($"Your color is {color}\n", color);
             }
         }
 
