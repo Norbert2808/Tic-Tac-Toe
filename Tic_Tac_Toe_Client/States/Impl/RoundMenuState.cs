@@ -43,7 +43,7 @@ namespace TicTacToe.Client.States.Impl
                     {
                         case 1:
                             await WaitingStartGame();
-                            return;
+                            break;
 
                         case 0:
                             await ExitFromRoomAsync();
