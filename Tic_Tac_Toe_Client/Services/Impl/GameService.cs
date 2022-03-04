@@ -37,11 +37,10 @@ namespace TicTacToe.Client.Services.Impl
             return await _httpClient.GetAsync("api/Game/check_room/" + RoomId);
         }
 
-        public async Task<HttpResponseMessage> MakeMoveAsync(int index, int number)
+        public async Task<HttpResponseMessage> MakeMoveAsync(MoveDto move)
         {
-            var moveDto = new MoveDto(index, number);
             var response = await _httpClient.PostAsync("api/Game/move/" + RoomId,
-                moveDto,
+                move,
                 new JsonMediaTypeFormatter());
             return response;
         }

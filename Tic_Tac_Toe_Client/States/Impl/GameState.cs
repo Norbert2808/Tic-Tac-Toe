@@ -66,7 +66,9 @@ namespace TicTacToe.Client.States.Impl
                         switch (choose)
                         {
                             case 1:
-                                await MakeMoveAsync();
+                                var validMove = await MakeMoveAsync();
+                                if (!validMove)
+                                    continue;
                                 break;
 
                             case 2:
@@ -82,13 +84,17 @@ namespace TicTacToe.Client.States.Impl
                     catch (FormatException ex)
                     {
                         _logger.LogError(ex.Message);
+                        ConsoleHelper.WriteInConsole(new[] { "It's not a number!" }, ConsoleColor.DarkRed);
+                        _ = Console.ReadLine();
+                        continue;
                     }
                     catch (HttpRequestException ex)
                     {
                         _logger.LogError(ex.Message);
-                        ConsoleHelper.WriteInConsole(new[] { "Failed to connect with server!"},
-                            ConsoleColor.Red);
+                        ConsoleHelper.WriteInConsole(new[] { "Failed to connect with server!"} ,
+                            ConsoleColor.DarkRed);
                         _ = Console.ReadLine();
+                        continue;
                     }
 
                     myTurnToMove = false;
@@ -103,45 +109,36 @@ namespace TicTacToe.Client.States.Impl
                 }
             }
         }
-        
-        public async Task MakeMoveAsync()
+
+        public async Task<bool> MakeMoveAsync()
         {
             while (true)
             {
-                Console.Clear();
-                await ShowEnemyBar();
-                _board.Draw();
-
-                ConsoleHelper.WriteInConsole(new[] { "Input number of cell[1;9]:" }, ConsoleColor.Green, "");
-                ConsoleHelper.ReadIntFromConsole(out var index);
-                index--;
-                ConsoleHelper.WriteInConsole(new[] { "Input number[1;9]:" }, ConsoleColor.Green, "");
-                ConsoleHelper.ReadIntFromConsole(out var number);
-
-                var response = await _gameService.MakeMoveAsync(index, number);
+                var move = await GetMoveDtoFromPlayer();
+                var response = await _gameService.MakeMoveAsync(move);
 
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
-                    _board.SetNumberByIndex(new MoveDto(index, number), _iAmFirst);
-                    break;
+                    _board.SetNumberByIndex(move, _iAmFirst);
+                    return true;
                 }
 
                 if (response.StatusCode == HttpStatusCode.Accepted)
                 {
-                    _board.SetNumberByIndex(new MoveDto(index, number), _iAmFirst);
+                    _board.SetNumberByIndex(move, _iAmFirst);
                     _isEndOfGame = true;
                     _winnerFirst = _iAmFirst;
-                    break;
+                    return true;
                 }
 
                 if (response.StatusCode == HttpStatusCode.BadRequest)
                 {
-
+                    var errorMes = await response.Content.ReadAsStringAsync();
+                    ConsoleHelper.WriteInConsole(new string[] { errorMes }, ConsoleColor.DarkRed);
+                    _ = Console.ReadLine();
+                    return false;
                 }
             }
-
-            //Тут обновить борду. И ждать ход противника.
-
         }
 
         public async Task WaitMoveOpponentAsync()
@@ -176,6 +173,35 @@ namespace TicTacToe.Client.States.Impl
                 ConsoleHelper.WriteInConsole($"{opponents[0]} -- VS -- {opponents[1]}\n", ConsoleColor.Cyan);
                 var color = _iAmFirst ? ConsoleColor.Green : ConsoleColor.Red;
                 ConsoleHelper.WriteInConsole($"Your color is {color}\n", color);
+            }
+        }
+
+        private async Task<MoveDto> GetMoveDtoFromPlayer()
+        {
+            while (true)
+            {
+                Console.Clear();
+                await ShowEnemyBar();
+                _board.Draw();
+
+                int index;
+                int number;
+                try
+                {
+                    ConsoleHelper.WriteInConsole(new[] { "Input number of cell[1;9]:" }, ConsoleColor.Green, "");
+                    ConsoleHelper.ReadIntFromConsole(out index);
+                    ConsoleHelper.WriteInConsole(new[] { "Input number[1;9]:" }, ConsoleColor.Green, "");
+                    ConsoleHelper.ReadIntFromConsole(out number);
+                    index -= 1;
+                }
+                catch (FormatException ex)
+                {
+                    _logger.LogError(ex.Message);
+                    ConsoleHelper.WriteInConsole(new[] { "It's not a number!" }, ConsoleColor.DarkRed);
+                    _ = Console.ReadLine();
+                    continue;
+                }
+                return new MoveDto(index, number);
             }
         }
 

@@ -2,7 +2,7 @@
 
 public interface IGameState : IGame, IState
 {
-    Task MakeMoveAsync();
+    Task<bool> MakeMoveAsync();
 
     Task WaitMoveOpponentAsync();
 }

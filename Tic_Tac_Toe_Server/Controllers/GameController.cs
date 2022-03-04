@@ -140,15 +140,21 @@ namespace TicTacToe.Server.Controllers
             var round = room.Rounds.Peek();
 
             var isFirstPlayer = room.LoginFirstPlayer.Equals(LoginUser, StringComparison.Ordinal);
-            var isValid = round.DoMove(move, isFirstPlayer);
-
-            if (isValid)
+            try
             {
-                return round.CheckEndOfGame()
-                    ? Accepted()
-                    : Ok();
-            }
+                var isValid = round.DoMove(move, isFirstPlayer);
 
+                if (isValid)
+                {
+                    return round.CheckEndOfGame()
+                        ? Accepted()
+                        : Ok();
+                }
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
             return NotFound();
         }
 

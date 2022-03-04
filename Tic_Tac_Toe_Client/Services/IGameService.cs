@@ -1,4 +1,5 @@
-﻿using TicTacToe.Client.Enums;
+﻿using TicTacToe.Client.DTO;
+using TicTacToe.Client.Enums;
 
 namespace TicTacToe.Client.Services;
 
@@ -8,7 +9,7 @@ public interface IGameService
 
     Task<HttpResponseMessage> CheckRoomAsync();
 
-    Task<HttpResponseMessage> MakeMoveAsync(int index, int number);
+    Task<HttpResponseMessage> MakeMoveAsync(MoveDto move);
 
     Task<HttpResponseMessage> CheckMoveAsync();
 
