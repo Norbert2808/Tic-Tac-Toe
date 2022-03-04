@@ -17,16 +17,22 @@ namespace TicTacToe.Client.States.Impl
 
         private bool _iAmFirst;
 
+        private bool _isEndOfGame;
+
+        private bool _winnerFirst;
+
         public GameState(IGameService gameService,
             ILogger<GameState> logger)
         {
             _gameService = gameService;
             _logger = logger;
             _board = new Board();
+            _isEndOfGame = false;
         }
 
         public async Task InvokeMenuAsync()
         {
+            _isEndOfGame = false;
             _board.SetDefaultValuesInBoard();
             _iAmFirst = await _gameService.CheckPlayerPosition();
             var myTurnToMove = _iAmFirst;
@@ -35,6 +41,14 @@ namespace TicTacToe.Client.States.Impl
                 Console.Clear();
                 await ShowEnemyBar();
                 _board.Draw();
+
+                if (_isEndOfGame)
+                {
+                    var message = _iAmFirst == _winnerFirst ? "YOU WIN!" : "YOU LOST!";
+                    ConsoleHelper.WriteInConsole(new string[] { message }, ConsoleColor.Magenta);
+                    _ = Console.ReadLine();
+                    break;
+                }
 
                 if (myTurnToMove)
                 {
@@ -81,14 +95,11 @@ namespace TicTacToe.Client.States.Impl
                 }
                 else
                 {
-                    while (true)
-                    {
-                        ConsoleHelper.WriteInConsole(new[] { "Please, Wait till the other player moves" },
-                            ConsoleColor.Green, "");
-                        await WaitMoveOpponentAsync();
-                        _ = Console.ReadLine();
-                        myTurnToMove = true;
-                    }
+                    ConsoleHelper.WriteInConsole(new[] { "Please, Wait till the other player moves" },
+                        ConsoleColor.Green, "");
+                    await WaitMoveOpponentAsync();
+
+                    myTurnToMove = true;
                 }
             }
         }
@@ -115,6 +126,14 @@ namespace TicTacToe.Client.States.Impl
                     break;
                 }
 
+                if (response.StatusCode == HttpStatusCode.Accepted)
+                {
+                    _board.SetNumberByIndex(new MoveDto(index, number), _iAmFirst);
+                    _isEndOfGame = true;
+                    _winnerFirst = _iAmFirst;
+                    break;
+                }
+
                 if (response.StatusCode == HttpStatusCode.BadRequest)
                 {
 
@@ -132,7 +151,17 @@ namespace TicTacToe.Client.States.Impl
                 var responseMessage = await _gameService.CheckMoveAsync();
                 if (responseMessage.StatusCode == HttpStatusCode.OK)
                 {
-                    /// _board.SetNumberByIndex();
+                    var move = await responseMessage.Content.ReadAsAsync<MoveDto>();
+                    _board.SetNumberByIndex(move, !_iAmFirst);
+                    break;
+                }
+                if (responseMessage.StatusCode == HttpStatusCode.Accepted)
+                {
+                    var move = await responseMessage.Content.ReadAsAsync<MoveDto>();
+                    _board.SetNumberByIndex(move, !_iAmFirst);
+                    _isEndOfGame = true;
+                    _winnerFirst = !_iAmFirst;
+                    break;
                 }
             }
         }

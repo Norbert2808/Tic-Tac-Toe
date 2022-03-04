@@ -92,6 +92,7 @@ namespace TicTacToe.Server.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.Accepted)]
         public async Task<IActionResult> CheckMoveAsync(string id)
         {
             if (!await FindUser())
@@ -99,15 +100,30 @@ namespace TicTacToe.Server.Controllers
                 _logger.LogWarning("Unauthorized users");
                 return Unauthorized("Unauthorized users");
             }
-            
+            var room = await _roomService.FindRoomByIdAsync(id);
 
-            return NotFound();
+            if (room is null)
+                return NotFound("Room not found.");
+
+            var round = room.Rounds.Peek();
+            var isFirstPlayer = room.LoginFirstPlayer.Equals(LoginUser, StringComparison.Ordinal);
+            var rightMove = round.CheckOpponentsMove(isFirstPlayer);
+
+            if (rightMove)
+            {
+                return round.CheckEndOfGame(out var firstWin)
+                    ? Accepted(round.LasMove)
+                    : Ok(round.LasMove);
+            }
+
+            return BadRequest();
         }
 
         [HttpPost("move/{id}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.Accepted)]
         public async Task<IActionResult> MoveAsync([FromBody] Move move, string id)
         {
             if (!await FindUser())
@@ -115,19 +131,24 @@ namespace TicTacToe.Server.Controllers
                 _logger.LogWarning("Unauthorized users");
                 return Unauthorized("Unauthorized users");
             }
-            
+
             var room = await _roomService.FindRoomByIdAsync(id);
 
             if (room is null)
                 return NotFound("Room not found.");
 
             var round = room.Rounds.Peek();
-            
-            var isValid = round.DoMove(move, room.LoginFirstPlayer.Equals(LoginUser, StringComparison.Ordinal));
+
+            var isFirstPlayer = room.LoginFirstPlayer.Equals(LoginUser, StringComparison.Ordinal);
+            var isValid = round.DoMove(move, isFirstPlayer);
 
             if (isValid)
-                return Ok();
-            
+            {
+                return round.CheckEndOfGame(out var firstWin)
+                    ? Accepted(firstWin)
+                    : Ok();
+            }
+
             return NotFound();
         }
 

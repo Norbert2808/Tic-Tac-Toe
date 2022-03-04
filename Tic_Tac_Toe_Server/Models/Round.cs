@@ -24,7 +24,7 @@ namespace TicTacToe.Server.Models
 
         public bool DoMove(Move move, bool isFirst)
         {
-            _board[move.IndexOfCell] = new Tuple<int, bool?>(move.Number, true);
+            _board[move.IndexOfCell] = new Tuple<int, bool?>(move.Number, isFirst);
 
             LasMove = move;
 
@@ -38,6 +38,13 @@ namespace TicTacToe.Server.Models
             }
 
             return true;
+        }
+
+        public bool CheckOpponentsMove(bool isFirst)
+        {
+            return isFirst
+                ? FirstPlayerMove.Count == SecondPlayerMove.Count
+                : FirstPlayerMove.Count - 1 == SecondPlayerMove.Count;
         }
 
         public bool CheckEndOfGame(out bool? firstWin)
