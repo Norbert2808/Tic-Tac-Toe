@@ -2,6 +2,6 @@
 {
     public interface IGame
     {
-        Task ExitFromRoomAsync();
+        Task ExitAsync();
     }
 }

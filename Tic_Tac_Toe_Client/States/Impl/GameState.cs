@@ -55,6 +55,7 @@ namespace TicTacToe.Client.States.Impl
                     ConsoleHelper.WriteInConsole($"Your color is {color}\n", color);
                     ConsoleHelper.WriteInConsole(new[]
                         {
+                            "You have 20 seconds to move",
                             "1 -- Do move",
                             "2 -- Surender",
                         },
@@ -72,7 +73,8 @@ namespace TicTacToe.Client.States.Impl
                                 break;
 
                             case 2:
-                                break;
+                                await ExitAsync();
+                                return;
 
                             default:
                                 continue;
@@ -128,10 +130,20 @@ namespace TicTacToe.Client.States.Impl
                     return true;
                 }
 
+                var errorMes = await response.Content.ReadAsStringAsync();
+
                 if (response.StatusCode == HttpStatusCode.BadRequest)
                 {
-                    var errorMes = await response.Content.ReadAsStringAsync();
                     ConsoleHelper.WriteInConsole(new string[] { errorMes }, ConsoleColor.DarkRed);
+                    _ = Console.ReadLine();
+                    return false;
+                }
+
+                if (response.StatusCode == HttpStatusCode.Conflict)
+                {
+                    _isEndOfGame = true;
+                    _winnerFirst = !_iAmFirst;
+                    ConsoleHelper.WriteInConsole(errorMes + '\n', ConsoleColor.DarkRed);
                     _ = Console.ReadLine();
                     return false;
                 }
@@ -149,12 +161,22 @@ namespace TicTacToe.Client.States.Impl
                     _board.SetNumberByIndex(move, !_iAmFirst);
                     break;
                 }
+
                 if (responseMessage.StatusCode == HttpStatusCode.Accepted)
                 {
                     var move = await responseMessage.Content.ReadAsAsync<MoveDto>();
                     _board.SetNumberByIndex(move, !_iAmFirst);
                     _isEndOfGame = true;
                     _winnerFirst = !_iAmFirst;
+                    break;
+                }
+
+                if (responseMessage.StatusCode == HttpStatusCode.Conflict)
+                {
+                    _isEndOfGame = true;
+                    _winnerFirst = _iAmFirst;
+                    ConsoleHelper.WriteInConsole("Time out" + '\n', ConsoleColor.DarkRed);
+                    _ = Console.ReadLine();
                     break;
                 }
             }
@@ -188,9 +210,9 @@ namespace TicTacToe.Client.States.Impl
             }
         }
 
-        public async Task ExitFromRoomAsync()
+        public async Task ExitAsync()
         {
-            _ = await _gameService.ExitFromRoomAsync();
+
         }
     }
 }

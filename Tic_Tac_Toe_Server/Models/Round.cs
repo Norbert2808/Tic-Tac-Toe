@@ -12,12 +12,16 @@ namespace TicTacToe.Server.Models
         [JsonPropertyName("SecondPlayerMove")]
         public List<Move> SecondPlayerMove { get; set; }
 
+        [JsonIgnore]
         private HashSet<int> FirstPlayerNumbers { get; set; }
 
+        [JsonIgnore]
         private HashSet<int> SecondPlayerNumbers { get; set; }
 
-        public Move? LastMove { get; private set; }
+        [JsonIgnore]
+        public Move? LastMove { get; set; }
 
+        [JsonIgnore]
         private readonly object _locker = new();
 
         public Round()
@@ -114,7 +118,7 @@ namespace TicTacToe.Server.Models
                         return true;
                     }
 
-                    // third colum
+                    // third column
                     if (_board[8].Item2 == _board[5].Item2 && _board[8].Item2 == _board[2].Item2)
                     {
                         return true;

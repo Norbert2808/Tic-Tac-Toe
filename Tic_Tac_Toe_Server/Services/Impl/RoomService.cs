@@ -113,6 +113,13 @@ namespace TicTacToe.Server.Services.Impl
             var isFirstPlayer = room.LoginFirstPlayer.Equals(login, StringComparison.Ordinal);
             var rightMove = round.CheckOpponentsMove(isFirstPlayer);
 
+            if (room.IsRoundTimeOut())
+            {
+                room.ConfirmFirstPlayer = false;
+                room.ConfirmSecondPlayer = false;
+                throw new TimeOutException("Time out.");
+            }
+
             if (rightMove)
             {
                 return round.CheckEndOfGame()
@@ -130,6 +137,10 @@ namespace TicTacToe.Server.Services.Impl
             if (room is null)
                 throw new RoomException("Room not found.");
 
+            if (room.IsRoundTimeOut())
+                throw new TimeOutException("Time out.");
+
+
             var round = room.Rounds.Peek();
 
             var isFirstPlayer = room.LoginFirstPlayer.Equals(login, StringComparison.Ordinal);
@@ -137,6 +148,8 @@ namespace TicTacToe.Server.Services.Impl
             var isValid = round.DoMove(move, isFirstPlayer);
             if (isValid)
             {
+                room.LastMoveTime = DateTime.UtcNow;
+
                 if (round.CheckEndOfGame())
                 {
                     room.ConfirmFirstPlayer = false;
@@ -164,6 +177,7 @@ namespace TicTacToe.Server.Services.Impl
             if (room.ConfirmFirstPlayer && room.ConfirmSecondPlayer)
             {
                 room.Rounds.Push(new Round());
+                room.LastMoveTime = DateTime.UtcNow;
                 return (true, null!);
             }
 

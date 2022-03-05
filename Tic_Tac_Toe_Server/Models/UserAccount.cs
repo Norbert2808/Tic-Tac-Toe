@@ -21,16 +21,9 @@ namespace TicTacToe.Server.Models
             Password = password;
         }
 
-        public static bool operator ==(UserAccount a, UserAccount b)
-        {
-            return a.Login == b.Login && a.Password == b.Password;
-        }
+        public static bool operator ==(UserAccount a, UserAccount b) => a.Login == b.Login && a.Password == b.Password;
 
-        // ReSharper disable once FunctionRecursiveOnAllPaths
-        public static bool operator !=(UserAccount a, UserAccount b)
-        {
-            return a != b;
-        }
+        public static bool operator !=(UserAccount a, UserAccount b) => a != b;
 
         public override bool Equals(object? obj)
         {

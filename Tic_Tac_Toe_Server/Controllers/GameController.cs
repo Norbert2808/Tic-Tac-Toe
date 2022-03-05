@@ -87,10 +87,10 @@ namespace TicTacToe.Server.Controllers
 
         [HttpGet("check_move/{id}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.Accepted)]
+        [ProducesResponseType((int)HttpStatusCode.Conflict)]
         public async Task<IActionResult> CheckMoveAsync([FromRoute] string id)
         {
             if (LoginUser is null or "")
@@ -109,6 +109,10 @@ namespace TicTacToe.Server.Controllers
             {
                 return NotFound(exception.Message);
             }
+            catch (TimeOutException exception)
+            {
+                return Conflict(exception.Message);
+            }
         }
 
         [HttpPost("move/{id}")]
@@ -116,6 +120,7 @@ namespace TicTacToe.Server.Controllers
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.Accepted)]
+        [ProducesResponseType((int)HttpStatusCode.Conflict)]
         public async Task<IActionResult> MoveAsync([FromRoute] string id, [FromBody] Move move)
         {
             if (LoginUser is null or "")
@@ -136,6 +141,10 @@ namespace TicTacToe.Server.Controllers
             catch (ArgumentException ex)
             {
                 return BadRequest(ex.Message);
+            }
+            catch (TimeOutException exception)
+            {
+                return Conflict(exception.Message);
             }
         }
 

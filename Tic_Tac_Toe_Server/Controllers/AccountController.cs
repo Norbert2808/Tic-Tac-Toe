@@ -13,7 +13,7 @@ namespace TicTacToe.Server.Controllers
         private readonly ILogger<AccountController> _logger;
 
         private readonly IAccountService _accService;
-        
+
         public AccountController(ILogger<AccountController> logger,
             IAccountService accountService)
         {
@@ -63,8 +63,7 @@ namespace TicTacToe.Server.Controllers
                 _logger.LogInformation(exception.Message);
                 return Conflict(exception.Message);
             }
-            
-            
+
             return Ok(account.Login);
         }
 

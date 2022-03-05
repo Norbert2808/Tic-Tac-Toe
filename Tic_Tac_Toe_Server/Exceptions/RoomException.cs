@@ -1,10 +1,11 @@
-﻿namespace TicTacToe.Server.Exceptions;
-
-class RoomException : Exception
+﻿namespace TicTacToe.Server.Exceptions
 {
-    public RoomException(string message)
-        : base(message)
+    public class RoomException : Exception
     {
-        
+        public RoomException(string message)
+            : base(message)
+        {
+
+        }
     }
 }

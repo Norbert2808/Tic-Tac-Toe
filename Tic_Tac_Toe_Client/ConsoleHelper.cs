@@ -33,7 +33,5 @@ namespace TicTacToe.Client
         {
             choose = Convert.ToInt32(Console.ReadLine(), CultureInfo.CurrentCulture);
         }
-
-        
     }
 }

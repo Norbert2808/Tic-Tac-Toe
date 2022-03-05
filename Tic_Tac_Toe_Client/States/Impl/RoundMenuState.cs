@@ -47,7 +47,7 @@ namespace TicTacToe.Client.States.Impl
                             return;
 
                         case 0:
-                            await ExitFromRoomAsync();
+                            await ExitAsync();
                             return;
 
                         default:
@@ -134,7 +134,7 @@ namespace TicTacToe.Client.States.Impl
             }
         }
 
-        public async Task ExitFromRoomAsync()
+        public async Task ExitAsync()
         {
             _ = await _gameService.ExitFromRoomAsync();
         }
@@ -145,7 +145,7 @@ namespace TicTacToe.Client.States.Impl
             {
                 ConsoleHelper.WriteInConsole(new[] { "Your opponent left the room" },
                     ConsoleColor.Red);
-                await ExitFromRoomAsync();
+                await ExitAsync();
                 _ = Console.ReadLine();
                 return true;
             }
