@@ -1,24 +1,26 @@
 ﻿using TicTacToe.Client.DTO;
 using TicTacToe.Client.Enums;
 
-namespace TicTacToe.Client.Services;
-
-public interface IGameService
+namespace TicTacToe.Client.Services
 {
-    Task<HttpResponseMessage> StartRoomAsync(RoomType roomType, string roomId, bool isConnect);
+    public interface IGameService
+    {
+        Task<HttpResponseMessage> StartRoomAsync(RoomType roomType, string roomId, bool isConnect);
 
-    Task<HttpResponseMessage> CheckRoomAsync();
+        Task<HttpResponseMessage> CheckRoomAsync();
 
-    Task<HttpResponseMessage> MakeMoveAsync(MoveDto move);
+        Task<HttpResponseMessage> MakeMoveAsync(MoveDto move);
 
-    Task<HttpResponseMessage> CheckMoveAsync();
+        Task<HttpResponseMessage> CheckMoveAsync();
 
-    Task<HttpResponseMessage> SendConfirmationAsync();
+        Task<HttpResponseMessage> SendConfirmationAsync();
 
-    Task<HttpResponseMessage> CheckConfirmationAsync();
+        Task<HttpResponseMessage> CheckConfirmationAsync();
 
-    Task<bool> CheckPlayerPosition();
+        Task<bool> CheckPlayerPosition();
 
-    Task<HttpResponseMessage> ExitFromRoomAsync();
+        Task<bool> OpponentLeftTheRoomAsync();
 
+        Task<HttpResponseMessage> ExitFromRoomAsync();
+    }
 }

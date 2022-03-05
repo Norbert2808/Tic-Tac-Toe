@@ -1,12 +1,13 @@
 ﻿using TicTacToe.Client.Enums;
 
-namespace TicTacToe.Client.States;
-
-public interface IRoomMenuState : IState
+namespace TicTacToe.Client.States
 {
-    Task StartConnectionWithRoomAsync(RoomType type, string roomId, bool isConnecting);
+    public interface IRoomMenuState : IState
+    {
+        Task StartConnectionWithRoomAsync(RoomType type, string roomId, bool isConnecting);
 
-    Task WaitSecondPlayerAsync(string[] message);
-    
-    Task<string> GetMessageFromResponseAsync(HttpResponseMessage response);
+        Task WaitSecondPlayerAsync(string[] message);
+
+        Task<string> GetMessageFromResponseAsync(HttpResponseMessage response);
+    }
 }

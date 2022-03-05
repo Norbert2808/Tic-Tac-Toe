@@ -65,11 +65,12 @@ namespace TicTacToe.Client.Services.Impl
         public async Task<bool> CheckPlayerPosition()
         {
             var response = await _httpClient.GetAsync("api/Game/check_position/" + RoomId);
-            if (response.StatusCode == HttpStatusCode.OK)
-            {
-               return await response.Content.ReadAsAsync<bool>();  
-            }
-            return false;
+            return response.StatusCode == HttpStatusCode.OK && await response.Content.ReadAsAsync<bool>();
+        }
+        public async Task<bool> OpponentLeftTheRoomAsync()
+        {
+            var response = await _httpClient.GetAsync("api/Game/check_position/" + RoomId);
+            return response.StatusCode == HttpStatusCode.Conflict;
         }
 
         public async Task<HttpResponseMessage> ExitFromRoomAsync()

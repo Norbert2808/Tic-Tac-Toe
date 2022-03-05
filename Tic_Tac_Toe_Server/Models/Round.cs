@@ -16,7 +16,7 @@ namespace TicTacToe.Server.Models
 
         private HashSet<int> SecondPlayerNumbers { get; set; }
 
-        public Move LastMove { get; private set; }
+        public Move? LastMove { get; private set; }
 
         private readonly object _locker = new();
 
@@ -133,7 +133,7 @@ namespace TicTacToe.Server.Models
                 throw new ArgumentException("This cell contains a greater or equal number");
             if (_board[move.IndexOfCell].Item2 == isFirst)
                 throw new ArgumentException("You can't change your cell");
-            
+
             if (isFirst)
             {
                 if (!FirstPlayerNumbers.Contains(move.Number))

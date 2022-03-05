@@ -35,11 +35,10 @@ namespace TicTacToe.Client.States.Impl
             _board.SetDefaultValuesInBoard();
             _iAmFirst = await _gameService.CheckPlayerPosition();
             var myTurnToMove = _iAmFirst;
-            
+
             while (true)
             {
                 Console.Clear();
-                await ShowEnemyBar();
                 _board.Draw();
 
                 if (_isEndOfGame)
@@ -52,6 +51,8 @@ namespace TicTacToe.Client.States.Impl
 
                 if (myTurnToMove)
                 {
+                    var color = _iAmFirst ? ConsoleColor.Green : ConsoleColor.Red;
+                    ConsoleHelper.WriteInConsole($"Your color is {color}\n", color);
                     ConsoleHelper.WriteInConsole(new[]
                         {
                             "1 -- Do move",
@@ -72,7 +73,7 @@ namespace TicTacToe.Client.States.Impl
 
                             case 2:
                                 break;
-                            
+
                             default:
                                 continue;
                         }
@@ -87,7 +88,7 @@ namespace TicTacToe.Client.States.Impl
                     catch (HttpRequestException ex)
                     {
                         _logger.LogError(ex.Message);
-                        ConsoleHelper.WriteInConsole(new[] { "Failed to connect with server!"} ,
+                        ConsoleHelper.WriteInConsole(new[] { "Failed to connect with server!" },
                             ConsoleColor.DarkRed);
                         _ = Console.ReadLine();
                         continue;
@@ -110,7 +111,7 @@ namespace TicTacToe.Client.States.Impl
         {
             while (true)
             {
-                var move = await GetMoveFromPlayer();
+                var move = GetMoveFromPlayer();
                 var response = await _gameService.MakeMoveAsync(move);
 
                 if (response.StatusCode == HttpStatusCode.OK)
@@ -159,25 +160,11 @@ namespace TicTacToe.Client.States.Impl
             }
         }
 
-        public async Task ShowEnemyBar()
-        {
-            var responsePlayerMessage = await _gameService.CheckRoomAsync();
-
-            if (responsePlayerMessage.StatusCode == HttpStatusCode.OK)
-            {
-                var opponents = await responsePlayerMessage.Content.ReadAsAsync<string[]>();
-                ConsoleHelper.WriteInConsole($"{opponents[0]} -- VS -- {opponents[1]}\n", ConsoleColor.Cyan);
-                var color = _iAmFirst ? ConsoleColor.Green : ConsoleColor.Red;
-                ConsoleHelper.WriteInConsole($"Your color is {color}\n", color);
-            }
-        }
-
-        private async Task<MoveDto> GetMoveFromPlayer()
+        private MoveDto GetMoveFromPlayer()
         {
             while (true)
             {
                 Console.Clear();
-                await ShowEnemyBar();
                 _board.Draw();
 
                 int index;

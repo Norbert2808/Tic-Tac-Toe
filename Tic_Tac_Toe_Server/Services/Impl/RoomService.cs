@@ -24,7 +24,7 @@ namespace TicTacToe.Server.Services.Impl
         public async Task<string> StartRoomAsync(string id, string login, RoomSettings settings)
         {
             var room = await FindRoomByIdAsync(id);
-            
+
             if (room is not null
                 && room.Settings.Type == RoomType.Private
                 && room.IsCompleted)
@@ -33,9 +33,9 @@ namespace TicTacToe.Server.Services.Impl
             }
 
             var response = await CreateRoomAsync(login, settings);
-            if (response is null)
-                throw new RoomException("Such a token does not exist.");
-            return response;
+            return response is null
+                ? throw new RoomException("Such a token does not exist.")
+                : response;
         }
 
         private async Task<string> CreateRoomAsync(string login, RoomSettings settings)
@@ -45,7 +45,7 @@ namespace TicTacToe.Server.Services.Impl
             {
                 if (settings.Type == RoomType.Public)
                 {
-                    var room = ConnectionToPublicRoom(login, settings.RoomId);
+                    var room = ConnectionToPublicRoom(login);
 
                     if (room is null)
                     {
@@ -116,11 +116,11 @@ namespace TicTacToe.Server.Services.Impl
             if (rightMove)
             {
                 return round.CheckEndOfGame()
-                    ? (true, round.LastMove)
-                    : (false, round.LastMove);
+                    ? (true, round.LastMove!)
+                    : (false, round.LastMove!);
             }
 
-            return (false, null)!; 
+            return (false, null)!;
         }
 
         public async Task<bool> DoMoveAsync(string id, string login, Move move)
@@ -133,7 +133,7 @@ namespace TicTacToe.Server.Services.Impl
             var round = room.Rounds.Peek();
 
             var isFirstPlayer = room.LoginFirstPlayer.Equals(login, StringComparison.Ordinal);
-            
+
             var isValid = round.DoMove(move, isFirstPlayer);
             if (isValid)
             {
@@ -164,18 +164,17 @@ namespace TicTacToe.Server.Services.Impl
             if (room.ConfirmFirstPlayer && room.ConfirmSecondPlayer)
             {
                 room.Rounds.Push(new Round());
-                return (true, null!);   
+                return (true, null!);
             }
 
-            if (room.IsStartGameTimeOut())
-                throw new TimeoutException("Time out");
-
-            return(false, room.GetStartGameWaitingTime().ToString(@"dd\:mm\:ss")); 
+            return room.IsStartGameTimeOut()
+                ? throw new TimeoutException("Time out")
+                : (false, room.GetStartGameWaitingTime().ToString(@"dd\:mm\:ss"));
         }
 
-        public async Task AppendConfirmationAsync(bool confirmation, string id, string login)
+        public async Task AppendConfirmationAsync(bool confirmation, string id)
         {
-            var room = await AddConfirmationAsync(confirmation, id, login);
+            var room = await AddConfirmationAsync(confirmation, id);
 
             if (room is null)
                 throw new RoomException("Room not found.");
@@ -190,12 +189,15 @@ namespace TicTacToe.Server.Services.Impl
             if (room is null)
                 throw new RoomException("Room not found.");
 
+            if (!room.IsCompleted)
+                throw new AuthorizationException();
+
             var isFirst = room.LoginFirstPlayer.Equals(login, StringComparison.Ordinal);
-            
+
             return isFirst;
         }
 
-        private Room? ConnectionToPublicRoom(string login, string roomId)
+        private Room? ConnectionToPublicRoom(string login)
         {
             foreach (var room in _roomStorage.Where(room => !room.IsCompleted && room.Settings.Type == RoomType.Public))
             {
@@ -230,7 +232,7 @@ namespace TicTacToe.Server.Services.Impl
                 .FirstOrDefault(x => x.RoomId.Equals(roomId, StringComparison.Ordinal)));
         }
 
-        private async Task<Room?> AddConfirmationAsync(bool confirmation, string roomId, string login)
+        private async Task<Room?> AddConfirmationAsync(bool confirmation, string roomId)
         {
             var room = await FindRoomByIdAsync(roomId);
             if (room is null)
@@ -247,7 +249,7 @@ namespace TicTacToe.Server.Services.Impl
 
             return room;
         }
-        
+
         public async Task<bool> ExitFromRoomAsync(string login, string id)
         {
             var room = await FindRoomByIdAsync(id);

@@ -22,8 +22,8 @@ namespace TicTacToe.Server.Controllers
         }
 
         [FromHeader(Name = "Login")]
-        public string LoginUser { get; set; }
-        
+        public string? LoginUser { get; set; }
+
         [HttpPost("create_room")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
@@ -35,20 +35,20 @@ namespace TicTacToe.Server.Controllers
                 _logger.LogWarning("Unauthorized users");
                 return Unauthorized("Unauthorized users");
             }
-            
+
             if (settings is null)
             {
                 _logger.LogWarning("Settings is null");
                 return BadRequest("Settings is null");
-            } 
+            }
             string response;
-            
+
             try
             {
-               response = await _roomService.StartRoomAsync(settings.RoomId, LoginUser, settings);
+                response = await _roomService.StartRoomAsync(settings.RoomId, LoginUser, settings);
             }
             catch (RoomException exception)
-            { 
+            {
                 return BadRequest(exception.Message);
             }
 
@@ -72,9 +72,7 @@ namespace TicTacToe.Server.Controllers
             try
             {
                 var (isCompleted, message) = await _roomService.CheckRoomAsync(id);
-                if (isCompleted)
-                    return Ok(message);
-                return NotFound(message);
+                return isCompleted ? Ok(message) : NotFound(message);
             }
             catch (RoomException exception)
             {
@@ -84,7 +82,7 @@ namespace TicTacToe.Server.Controllers
             {
                 return Conflict(exception.Message);
             }
-          
+
         }
 
         [HttpGet("check_move/{id}")]
@@ -100,14 +98,12 @@ namespace TicTacToe.Server.Controllers
                 _logger.LogWarning("Unauthorized users");
                 return Unauthorized("Unauthorized users");
             }
-     
+
             try
             {
                 var (isFinished, lastMove) = await _roomService.CheckMoveAsync(id, LoginUser);
-                
-                if (isFinished)
-                    return Accepted(lastMove);
-                return Ok(lastMove);
+
+                return isFinished ? Accepted(lastMove) : Ok(lastMove);
             }
             catch (RoomException exception)
             {
@@ -127,13 +123,11 @@ namespace TicTacToe.Server.Controllers
                 _logger.LogWarning("Unauthorized users");
                 return Unauthorized("Unauthorized users");
             }
-            
+
             try
             {
                 var isFinished = await _roomService.DoMoveAsync(id, LoginUser, move);
-                if (isFinished)
-                    return Accepted();
-                return Ok();
+                return isFinished ? Accepted() : Ok();
             }
             catch (RoomException exception)
             {
@@ -149,17 +143,17 @@ namespace TicTacToe.Server.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> AppendConfirmationAsync([FromRoute]string id, [FromBody] bool confirmation)
+        public async Task<IActionResult> AppendConfirmationAsync([FromRoute] string id, [FromBody] bool confirmation)
         {
             if (LoginUser is null or "")
             {
                 _logger.LogWarning("Unauthorized users");
                 return Unauthorized("Unauthorized users");
             }
-            
+
             try
             {
-                await _roomService.AppendConfirmationAsync(confirmation, id, LoginUser);
+                await _roomService.AppendConfirmationAsync(confirmation, id);
             }
             catch (RoomException exception)
             {
@@ -185,13 +179,11 @@ namespace TicTacToe.Server.Controllers
                 _logger.LogWarning("Unauthorized users");
                 return Unauthorized("Unauthorized users");
             }
-            
+
             try
             {
                 var (isConfirm, message) = await _roomService.CheckConfirmationAsync(id);
-                if (isConfirm)
-                    return Ok();
-                return NotFound(message);
+                return isConfirm ? Ok() : NotFound(message);
             }
             catch (RoomException exception)
             {
@@ -204,9 +196,9 @@ namespace TicTacToe.Server.Controllers
             catch (TimeoutException exception)
             {
                 return Conflict(exception.Message);
-            } 
+            }
         }
-        
+
         [HttpGet("check_position/{id}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
@@ -228,6 +220,10 @@ namespace TicTacToe.Server.Controllers
             catch (RoomException exception)
             {
                 return NotFound(exception.Message);
+            }
+            catch (AuthorizationException)
+            {
+                return Conflict();
             }
         }
 

@@ -4,7 +4,7 @@ namespace TicTacToe.Server.Services
 {
     public interface IRoomService
     {
-        Task<string> StartRoomAsync(string id,string login, RoomSettings settings);
+        Task<string> StartRoomAsync(string id, string login, RoomSettings settings);
 
         Task<(bool, string[])> CheckRoomAsync(string id);
 
@@ -14,7 +14,7 @@ namespace TicTacToe.Server.Services
 
         Task<(bool, string)> CheckConfirmationAsync(string id);
 
-        Task AppendConfirmationAsync(bool confirmation, string id, string login);
+        Task AppendConfirmationAsync(bool confirmation, string id);
 
         Task<bool> CheckPlayerPositionAsync(string id, string login);
 

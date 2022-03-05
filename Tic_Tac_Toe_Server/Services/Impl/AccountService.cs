@@ -13,11 +13,11 @@ namespace TicTacToe.Server.Services.Impl
         private readonly List<UserAccount> _activeAccounts;
 
         private readonly JsonHelper<UserAccount> _jsonHelper;
-        
+
         private readonly IBlocker _blocker;
 
         private readonly SemaphoreSlim _semaphoreSlim = new(1, 1);
-        
+
         public AccountService(IBlocker blocker)
         {
             _blocker = blocker;
@@ -125,7 +125,7 @@ namespace TicTacToe.Server.Services.Impl
             }
             finally
             {
-                _semaphoreSlim.Release();
+                _ = _semaphoreSlim.Release();
             }
         }
 
@@ -138,7 +138,7 @@ namespace TicTacToe.Server.Services.Impl
             }
             finally
             {
-                _semaphoreSlim.Release();
+                _ = _semaphoreSlim.Release();
             }
         }
 

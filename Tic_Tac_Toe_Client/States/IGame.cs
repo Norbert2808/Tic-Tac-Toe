@@ -1,8 +1,7 @@
-﻿namespace TicTacToe.Client.States;
-
-public interface IGame
+﻿namespace TicTacToe.Client.States
 {
-    Task ExitFromRoomAsync();
-    
-    Task ShowEnemyBar();
+    public interface IGame
+    {
+        Task ExitFromRoomAsync();
+    }
 }

@@ -1,8 +1,11 @@
-﻿namespace TicTacToe.Client.States;
-
-public interface IRoundState : IGame, IState
+﻿namespace TicTacToe.Client.States
 {
-    Task WaitingStartGame();
+    public interface IRoundState : IGame, IState
+    {
+        Task<bool> WaitingStartGame();
 
-    Task<string> GetMessageFromResponseAsync(HttpResponseMessage response);
+        Task<string> GetMessageFromResponseAsync(HttpResponseMessage response);
+
+        Task ShowEnemyBarAsync();
+    }
 }

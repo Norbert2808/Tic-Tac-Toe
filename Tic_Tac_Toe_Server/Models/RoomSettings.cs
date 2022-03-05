@@ -1,12 +1,13 @@
 ﻿using TicTacToe.Server.Enums;
 
-namespace TicTacToe.Server.Models;
-
-public class RoomSettings
+namespace TicTacToe.Server.Models
 {
-    public RoomType Type { get; set; }
+    public class RoomSettings
+    {
+        public RoomType Type { get; set; }
 
-    public string RoomId { get; set; }
+        public string RoomId { get; set; }
 
-    public bool IsConnection { get; set; }
+        public bool IsConnection { get; set; }
+    }
 }

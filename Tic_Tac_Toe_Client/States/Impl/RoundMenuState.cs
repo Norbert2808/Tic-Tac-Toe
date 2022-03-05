@@ -30,7 +30,7 @@ namespace TicTacToe.Client.States.Impl
                 try
                 {
                     Console.Clear();
-                    await ShowEnemyBar();
+                    await ShowEnemyBarAsync();
                     ConsoleHelper.WriteInConsole(new[]
                     {
                     "------------------",
@@ -42,7 +42,8 @@ namespace TicTacToe.Client.States.Impl
                     switch (choose)
                     {
                         case 1:
-                            await WaitingStartGame();
+                            if (await WaitingStartGame())
+                                continue;
                             return;
 
                         case 0:
@@ -68,7 +69,7 @@ namespace TicTacToe.Client.States.Impl
             }
         }
 
-        public async Task WaitingStartGame()
+        public async Task<bool> WaitingStartGame()
         {
             Console.Clear();
             var responseSendConfirmation = await _gameService.SendConfirmationAsync();
@@ -84,12 +85,18 @@ namespace TicTacToe.Client.States.Impl
 
                     if (responseConfirmation.StatusCode == HttpStatusCode.OK)
                     {
+                        if (await CheckOpponentLeftTheRoomAsync())
+                            return false;
+
                         await _gameState.InvokeMenuAsync();
-                        return;
+                        return true;
                     }
 
                     if (responseConfirmation.StatusCode == HttpStatusCode.NotFound)
                     {
+                        if (await CheckOpponentLeftTheRoomAsync())
+                            return false;
+
                         var time = await responseConfirmation.Content.ReadAsStringAsync();
                         ConsoleHelper.WriteInConsole(new[] { $"Time: {time}" }, ConsoleColor.Red, "");
                         Thread.Sleep(1000);
@@ -101,7 +108,7 @@ namespace TicTacToe.Client.States.Impl
                         ConsoleHelper.WriteInConsole(new[] { errorMsg }, ConsoleColor.Red);
                         _ = Console.ReadLine();
                         _ = _gameService.ExitFromRoomAsync();
-                        return;
+                        return false;
                     }
                 }
             }
@@ -113,9 +120,10 @@ namespace TicTacToe.Client.States.Impl
                 _ = await _gameService.ExitFromRoomAsync();
             }
 
+            return true;
         }
 
-        public async Task ShowEnemyBar()
+        public async Task ShowEnemyBarAsync()
         {
             var responsePlayerMessage = await _gameService.CheckRoomAsync();
 
@@ -126,16 +134,27 @@ namespace TicTacToe.Client.States.Impl
             }
         }
 
-
         public async Task ExitFromRoomAsync()
         {
             _ = await _gameService.ExitFromRoomAsync();
+        }
+
+        private async Task<bool> CheckOpponentLeftTheRoomAsync()
+        {
+            if (await _gameService.OpponentLeftTheRoomAsync())
+            {
+                ConsoleHelper.WriteInConsole(new[] { "Your opponent left the room" },
+                    ConsoleColor.Red);
+                await ExitFromRoomAsync();
+                _ = Console.ReadLine();
+                return true;
+            }
+            return false;
         }
 
         public async Task<string> GetMessageFromResponseAsync(HttpResponseMessage response)
         {
             return await response.Content.ReadAsStringAsync();
         }
-
     }
 }
