@@ -16,9 +16,13 @@ public class Room
 
     public TimeSpan RoundTimeOut { get; set; } = TimeSpan.FromSeconds(20);
 
+    public DateTime LastMoveTime { get; set; }
+
     [JsonPropertyName("CreationDate")]
     public DateTime CreationRoomDate { get; set; }
-    
+
+    public DateTime FinishRoomDate { get; set; }
+
     public RoomSettings Settings { get; set; }
 
     [JsonPropertyName("First player")]

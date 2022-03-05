@@ -8,7 +8,6 @@ namespace TicTacToe.Client.States.Impl
 {
     public class GameState : IGameState
     {
-
         private readonly IGameService _gameService;
 
         private readonly ILogger<GameState> _logger;
@@ -36,6 +35,7 @@ namespace TicTacToe.Client.States.Impl
             _board.SetDefaultValuesInBoard();
             _iAmFirst = await _gameService.CheckPlayerPosition();
             var myTurnToMove = _iAmFirst;
+            
             while (true)
             {
                 Console.Clear();
@@ -56,7 +56,6 @@ namespace TicTacToe.Client.States.Impl
                         {
                             "1 -- Do move",
                             "2 -- Surender",
-                            "0 -- Exit"
                         },
                         ConsoleColor.Cyan);
 
@@ -73,10 +72,7 @@ namespace TicTacToe.Client.States.Impl
 
                             case 2:
                                 break;
-
-                            case 0:
-                                continue;
-
+                            
                             default:
                                 continue;
                         }
@@ -114,7 +110,7 @@ namespace TicTacToe.Client.States.Impl
         {
             while (true)
             {
-                var move = await GetMoveDtoFromPlayer();
+                var move = await GetMoveFromPlayer();
                 var response = await _gameService.MakeMoveAsync(move);
 
                 if (response.StatusCode == HttpStatusCode.OK)
@@ -176,7 +172,7 @@ namespace TicTacToe.Client.States.Impl
             }
         }
 
-        private async Task<MoveDto> GetMoveDtoFromPlayer()
+        private async Task<MoveDto> GetMoveFromPlayer()
         {
             while (true)
             {

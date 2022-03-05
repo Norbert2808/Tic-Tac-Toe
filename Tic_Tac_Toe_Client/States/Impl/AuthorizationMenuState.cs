@@ -134,15 +134,6 @@ namespace TicTacToe.Client.States.Impl
             
             var errorMessage = await GetMessageFromResponseAsync(response);
 
-            if (response.StatusCode == HttpStatusCode.Unauthorized)
-            {
-                _logger.LogInformation("User blocked");
-                ConsoleHelper.WriteInConsole(
-                    new[] { errorMessage },
-                    ConsoleColor.Red);
-                _ = Console.ReadLine();
-            }
-
             if (response.StatusCode == HttpStatusCode.BadRequest)
             {
                 _logger.LogInformation("Input invalid data. HttpStatus::BadRequest");
@@ -156,7 +147,8 @@ namespace TicTacToe.Client.States.Impl
                 or HttpStatusCode.Conflict)
             {
                 _logger.LogInformation("User with such login already registered or" +
-                                       " input invalid data. HttpStatus::NotFound or HttpStatus::Conflict");
+                                       " input invalid data. HttpStatus::NotFound or" + 
+                                       " HttpStatus::Conflict or HttpStatus::Unauthorized");
                 ConsoleHelper.WriteInConsole(new[] { errorMessage }, ConsoleColor.Red);
                 _ = Console.ReadLine();
             }

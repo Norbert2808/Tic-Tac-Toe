@@ -4,22 +4,11 @@ namespace TicTacToe.Server.Services
 {
     public interface IAccountService
     {
-        Task UpdateAllUsersAccountAsync();
+        Task InvokeLoginAsync(UserAccount account);
 
-        Task<bool> IsAccountExistByLoginAsync(string login);
-
-        Task<bool> IsAccountExistByPasswordAsync(string password);
-
-        List<UserAccount> GetStorage();
-
-        Task AddAccountToStorageAsync(UserAccount account);
-
-        bool IsActiveUserByLogin(string login);
-
-        UserAccount FindAccountByLogin(string login);
+        Task InvokeRegistrationAsync(UserAccount account);
 
         void RemoveActiveAccountByLogin(string login);
 
-        void AddActiveAccount(UserAccount account);
     }
 }

@@ -24,7 +24,7 @@ namespace TicTacToe.Client.Services.Impl
                 settings,
                 new JsonMediaTypeFormatter());
 
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            if (response.StatusCode == HttpStatusCode.OK)
             {
                 RoomId = await response.Content.ReadAsStringAsync();
             }

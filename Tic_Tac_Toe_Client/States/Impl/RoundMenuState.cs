@@ -43,7 +43,7 @@ namespace TicTacToe.Client.States.Impl
                     {
                         case 1:
                             await WaitingStartGame();
-                            break;
+                            return;
 
                         case 0:
                             await ExitFromRoomAsync();
@@ -84,7 +84,6 @@ namespace TicTacToe.Client.States.Impl
 
                     if (responseConfirmation.StatusCode == HttpStatusCode.OK)
                     {
-                        //ToDo Create Round
                         await _gameState.InvokeMenuAsync();
                         return;
                     }
@@ -101,7 +100,7 @@ namespace TicTacToe.Client.States.Impl
                         var errorMsg = await GetMessageFromResponseAsync(responseConfirmation);
                         ConsoleHelper.WriteInConsole(new[] { errorMsg }, ConsoleColor.Red);
                         _ = Console.ReadLine();
-                        _ = await _gameService.ExitFromRoomAsync();
+                        _ = _gameService.ExitFromRoomAsync();
                         return;
                     }
                 }

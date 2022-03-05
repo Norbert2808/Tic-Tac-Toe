@@ -1,4 +1,5 @@
-﻿using TicTacToe.Server.Models;
+﻿using TicTacToe.Server.Exceptions;
+using TicTacToe.Server.Models;
 using TicTacToe.Server.Tools;
 
 namespace TicTacToe.Server.Services.Impl
@@ -12,17 +13,64 @@ namespace TicTacToe.Server.Services.Impl
         private readonly List<UserAccount> _activeAccounts;
 
         private readonly JsonHelper<UserAccount> _jsonHelper;
+        
+        private readonly IBlocker _blocker;
 
         private readonly SemaphoreSlim _semaphoreSlim = new(1, 1);
         
-        public AccountService()
+        public AccountService(IBlocker blocker)
         {
+            _blocker = blocker;
             _jsonHelper = new JsonHelper<UserAccount>(Path);
             _accountsStorage = new List<UserAccount>();
             _activeAccounts = new List<UserAccount>();
         }
 
-        public async Task UpdateAllUsersAccountAsync()
+        public async Task InvokeLoginAsync(UserAccount account)
+        {
+            await UpdateAllUsersAccountAsync();
+
+            var loginIsExist = IsAccountExistByLoginAsync(account.Login);
+
+            if (!await loginIsExist)
+                throw new AuthorizationException("Input login does not exist");
+
+            if (_blocker.IsBlocked(account.Login))
+            {
+                throw new TimeoutException("You’re blocked for 1 minute. You try log-in three times.");
+            }
+
+            var passwordIsExist = await IsAccountExistByPasswordAsync(account.Password);
+
+            if (!passwordIsExist)
+            {
+                _blocker.ErrorTryLogin(account.Login);
+                throw new AuthorizationException("Password is wrong!");
+            }
+
+            _blocker.UnBlock(account.Login);
+
+            if (IsActiveUserByLogin(account.Login))
+                throw new AuthorizationException("User have already logged-in");
+
+            AddActiveAccount(account);
+        }
+
+        public async Task InvokeRegistrationAsync(UserAccount account)
+        {
+            await UpdateAllUsersAccountAsync();
+
+            if (await IsAccountExistByLoginAsync(account.Login))
+            {
+                throw new AuthorizationException("User with such login already registered");
+            }
+
+            AddActiveAccount(account);
+
+            await AddAccountToStorageAsync(account);
+        }
+
+        private async Task UpdateAllUsersAccountAsync()
         {
             _accountsStorage = await _jsonHelper.DeserializeAsync();
         }
@@ -32,20 +80,20 @@ namespace TicTacToe.Server.Services.Impl
             return _accountsStorage;
         }
 
-        public async Task<bool> IsAccountExistByLoginAsync(string login)
+        private async Task<bool> IsAccountExistByLoginAsync(string login)
         {
             return await Task.FromResult(_accountsStorage
                 .Any(x => x.Login.Equals(login, StringComparison.OrdinalIgnoreCase)));
         }
 
-        public async Task<bool> IsAccountExistByPasswordAsync(string password)
+        private async Task<bool> IsAccountExistByPasswordAsync(string password)
         {
             return await Task.FromResult(_accountsStorage
                 .Any(x => x.Password.Equals(password, StringComparison.Ordinal)));
         }
 
 
-        public async Task AddAccountToStorageAsync(UserAccount account)
+        private async Task AddAccountToStorageAsync(UserAccount account)
         {
             await _semaphoreSlim.WaitAsync();
             try
@@ -62,7 +110,7 @@ namespace TicTacToe.Server.Services.Impl
             }
         }
 
-        public UserAccount FindAccountByLogin(string login)
+        private UserAccount FindAccountByLogin(string login)
         {
             return _accountsStorage.FirstOrDefault(x => x.Login.Equals(login, StringComparison.Ordinal))!;
         }
@@ -81,7 +129,7 @@ namespace TicTacToe.Server.Services.Impl
             }
         }
 
-        public void AddActiveAccount(UserAccount account)
+        private void AddActiveAccount(UserAccount account)
         {
             _semaphoreSlim.Wait();
             try
@@ -94,7 +142,7 @@ namespace TicTacToe.Server.Services.Impl
             }
         }
 
-        public bool IsActiveUserByLogin(string login)
+        private bool IsActiveUserByLogin(string login)
         {
             var acc = _activeAccounts
                 .FirstOrDefault(x => x.Login.Equals(login, StringComparison.Ordinal));

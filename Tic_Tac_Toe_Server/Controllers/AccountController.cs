@@ -1,8 +1,8 @@
 ﻿using System.Net;
 using Microsoft.AspNetCore.Mvc;
+using TicTacToe.Server.Exceptions;
 using TicTacToe.Server.Models;
 using TicTacToe.Server.Services;
-using TicTacToe.Server.Tools;
 
 namespace TicTacToe.Server.Controllers
 {
@@ -13,52 +13,36 @@ namespace TicTacToe.Server.Controllers
         private readonly ILogger<AccountController> _logger;
 
         private readonly IAccountService _accService;
-
-        private readonly IBlocker _blocker;
-
+        
         public AccountController(ILogger<AccountController> logger,
-            IAccountService accountService,
-            IBlocker blocker)
+            IAccountService accountService)
         {
             _logger = logger;
             _accService = accountService;
-            _blocker = blocker;
         }
 
         [HttpPost("login")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.Conflict)]
         public async Task<IActionResult> LoginAsync([FromBody] UserAccount account)
         {
-            await _accService.UpdateAllUsersAccountAsync();
-
-            var loginIsExist = _accService.IsAccountExistByLoginAsync(account.Login);
-
-            if (!await loginIsExist)
-                return NotFound("Input login does not exist");
-
-            if (_blocker.IsBlocked(account.Login))
+            try
             {
-                _logger.LogWarning($"User in black list {account.Login}");
-                return Unauthorized("You’re blocked for 1 minute. You try log-in three times.");
+                _logger.LogInformation("Invoke log-in state");
+                await _accService.InvokeLoginAsync(account);
             }
-
-            var passwordIsExist = await _accService.IsAccountExistByPasswordAsync(account.Password);
-
-            if (!passwordIsExist)
+            catch (AuthorizationException exception)
             {
-                _blocker.ErrorTryLogin(account.Login);
-                return NotFound("Password is wrong!");
+                _logger.LogInformation(exception.Message);
+                return NotFound(exception.Message);
             }
-
-            _blocker.UnBlock(account.Login);
-
-            if (_accService.IsActiveUserByLogin(account.Login))
-                return Conflict("User have already logged-in");
-
-            _accService.AddActiveAccount(account);
+            catch (TimeoutException exception)
+            {
+                _logger.LogInformation(exception.Message);
+                return Conflict(exception.Message);
+            }
 
             return Ok(account.Login);
         }
@@ -69,17 +53,18 @@ namespace TicTacToe.Server.Controllers
         [ProducesResponseType((int)HttpStatusCode.Conflict)]
         public async Task<IActionResult> RegistrationAsync([FromBody] UserAccount account)
         {
-            await _accService.UpdateAllUsersAccountAsync();
-
-            if (await _accService.IsAccountExistByLoginAsync(account.Login))
+            try
             {
-                _logger.LogInformation($"Input login already exists {account.Login}");
-                return Conflict("User with such login already registered");
+                _logger.LogInformation("Invoke registration state");
+                await _accService.InvokeRegistrationAsync(account);
             }
-
-            _accService.AddActiveAccount(account);
-
-            await _accService.AddAccountToStorageAsync(account);
+            catch (AuthorizationException exception)
+            {
+                _logger.LogInformation(exception.Message);
+                return Conflict(exception.Message);
+            }
+            
+            
             return Ok(account.Login);
         }
 

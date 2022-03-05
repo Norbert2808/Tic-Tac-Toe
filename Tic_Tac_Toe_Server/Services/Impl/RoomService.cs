@@ -1,4 +1,5 @@
 ﻿using TicTacToe.Server.Enums;
+using TicTacToe.Server.Exceptions;
 using TicTacToe.Server.Models;
 using TicTacToe.Server.Tools;
 
@@ -18,6 +19,23 @@ namespace TicTacToe.Server.Services.Impl
         {
             _roomStorage = new List<Room>();
             _jsonHelper = new JsonHelper<Room>(Path);
+        }
+
+        public async Task<string> StartRoomAsync(string id, string login, RoomSettings settings)
+        {
+            var room = await FindRoomByIdAsync(id);
+            
+            if (room is not null
+                && room.Settings.Type == RoomType.Private
+                && room.IsCompleted)
+            {
+                throw new RoomException("Room's already taken!");
+            }
+
+            var response = await CreateRoomAsync(login, settings);
+            if (response is null)
+                throw new RoomException("Such a token does not exist.");
+            return response;
         }
 
         public async Task<string> CreateRoomAsync(string login, RoomSettings settings)
@@ -119,7 +137,7 @@ namespace TicTacToe.Server.Services.Impl
 
             return room;
         }
-
+        
         public async Task<bool> ExitFromRoomAsync(string login, string id)
         {
             var room = await FindRoomByIdAsync(id);

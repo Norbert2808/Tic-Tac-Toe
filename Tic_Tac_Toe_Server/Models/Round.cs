@@ -12,11 +12,13 @@ namespace TicTacToe.Server.Models
         [JsonPropertyName("SecondPlayerMove")]
         public List<Move> SecondPlayerMove { get; set; }
 
-        private HashSet<int> _firstPlayerNumbers { get; set; }
+        private HashSet<int> FirstPlayerNumbers { get; set; }
 
-        private HashSet<int> _secondPlayerNumbers { get; set; }
+        private HashSet<int> SecondPlayerNumbers { get; set; }
 
-        public Move LasMove { get; private set; }
+        public Move LastMove { get; private set; }
+
+        private readonly object _locker = new();
 
         public Round()
         {
@@ -24,25 +26,28 @@ namespace TicTacToe.Server.Models
             SecondPlayerMove = new List<Move>();
             bool? player = null;
             _board = Enumerable.Repeat(new Tuple<int, bool?>(0, player), 9).ToList();
-            _firstPlayerNumbers = new HashSet<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-            _secondPlayerNumbers = new HashSet<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+            FirstPlayerNumbers = new HashSet<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+            SecondPlayerNumbers = new HashSet<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
         }
 
         public bool DoMove(Move move, bool isFirst)
         {
-            MovingValidation(move, isFirst);
-
-            _board[move.IndexOfCell] = new Tuple<int, bool?>(move.Number, isFirst);
-
-            LasMove = move;
-
-            if (isFirst)
+            lock (_locker)
             {
-                FirstPlayerMove.Add(move);
-            }
-            else
-            {
-                SecondPlayerMove.Add(move);
+                MovingValidation(move, isFirst);
+
+                _board[move.IndexOfCell] = new Tuple<int, bool?>(move.Number, isFirst);
+
+                LastMove = move;
+
+                if (isFirst)
+                {
+                    FirstPlayerMove.Add(move);
+                }
+                else
+                {
+                    SecondPlayerMove.Add(move);
+                }
             }
 
             return true;
@@ -118,25 +123,26 @@ namespace TicTacToe.Server.Models
                 throw new ArgumentException("This cell contains a greater or equal number");
             if (_board[move.IndexOfCell].Item2 == isFirst)
                 throw new ArgumentException("You can't change your cell");
+            
             if (isFirst)
             {
-                if (!_firstPlayerNumbers.Contains(move.Number))
+                if (!FirstPlayerNumbers.Contains(move.Number))
                 {
-                    var unusedNumbers = string.Join(" ", _firstPlayerNumbers.Select(x => x.ToString()));
+                    var unusedNumbers = string.Join(" ", FirstPlayerNumbers.Select(x => x.ToString()));
                     throw new ArgumentException($"You have already used the number: {move.Number}" +
                         $"\nYou have numbers: {unusedNumbers}");
                 }
-                _ = _firstPlayerNumbers.Remove(move.Number);
+                _ = FirstPlayerNumbers.Remove(move.Number);
             }
             else
             {
-                if (!_secondPlayerNumbers.Contains(move.Number))
+                if (!SecondPlayerNumbers.Contains(move.Number))
                 {
-                    var unusedNumbers = string.Join(" ", _secondPlayerNumbers.Select(x => x.ToString()));
+                    var unusedNumbers = string.Join(" ", SecondPlayerNumbers.Select(x => x.ToString()));
                     throw new ArgumentException($"You have already used the number: {move.Number}" +
                         $"\nYou have numbers: {unusedNumbers}");
                 }
-                _ = _secondPlayerNumbers.Remove(move.Number);
+                _ = SecondPlayerNumbers.Remove(move.Number);
             }
         }
     }
