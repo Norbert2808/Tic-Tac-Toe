@@ -75,7 +75,7 @@ namespace TicTacToe.Server.Models
                     return true;
                 }
                 // head diagonal
-                if (_board[0].Item2 == _board[4].Item2 && _board[0].Item2 == _board[9].Item2)
+                if (_board[0].Item2 == _board[4].Item2 && _board[0].Item2 == _board[8].Item2)
                 {
                     return true;
                 }
@@ -105,7 +105,7 @@ namespace TicTacToe.Server.Models
                 {
                     return true;
                 }
-                // Third colum
+                // third colum
                 if (_board[8].Item2 == _board[5].Item2 && _board[8].Item2 == _board[2].Item2)
                 {
                     return true;
