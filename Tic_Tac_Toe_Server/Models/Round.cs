@@ -62,57 +62,67 @@ namespace TicTacToe.Server.Models
 
         public bool CheckEndOfGame()
         {
-            if (_board[0].Item2 is not null)
+            lock (_locker)
             {
-                // first row
-                if (_board[0].Item2 == _board[1].Item2 && _board[0].Item2 == _board[2].Item2)
+                if (_board[0].Item2 is not null)
                 {
-                    return true;
-                }
-                // first colum
-                if (_board[0].Item2 == _board[3].Item2 && _board[0].Item2 == _board[6].Item2)
-                {
-                    return true;
-                }
-                // head diagonal
-                if (_board[0].Item2 == _board[4].Item2 && _board[0].Item2 == _board[8].Item2)
-                {
-                    return true;
-                }
-            }
-            if (_board[4].Item2 is not null)
-            {
-                // second row
-                if (_board[4].Item2 == _board[3].Item2 && _board[4].Item2 == _board[5].Item2)
-                {
-                    return true;
-                }
-                // second colum
-                if (_board[4].Item2 == _board[1].Item2 && _board[4].Item2 == _board[7].Item2)
-                {
-                    return true;
-                }
-                // second diagonal
-                if (_board[4].Item2 == _board[2].Item2 && _board[4].Item2 == _board[6].Item2)
-                {
-                    return true;
-                }
-            }
-            if (_board[8].Item2 is not null)
-            {
-                // third row
-                if (_board[8].Item2 == _board[7].Item2 && _board[8].Item2 == _board[6].Item2)
-                {
-                    return true;
-                }
-                // third colum
-                if (_board[8].Item2 == _board[5].Item2 && _board[8].Item2 == _board[2].Item2)
-                {
-                    return true;
-                }
-            }
+                    // first row
+                    if (_board[0].Item2 == _board[1].Item2 && _board[0].Item2 == _board[2].Item2)
+                    {
+                        return true;
+                    }
 
-            return false;
+                    // first colum
+                    if (_board[0].Item2 == _board[3].Item2 && _board[0].Item2 == _board[6].Item2)
+                    {
+                        return true;
+                    }
+
+                    // head diagonal
+                    if (_board[0].Item2 == _board[4].Item2 && _board[0].Item2 == _board[8].Item2)
+                    {
+                        return true;
+                    }
+                }
+
+                if (_board[4].Item2 is not null)
+                {
+                    // second row
+                    if (_board[4].Item2 == _board[3].Item2 && _board[4].Item2 == _board[5].Item2)
+                    {
+                        return true;
+                    }
+
+                    // second colum
+                    if (_board[4].Item2 == _board[1].Item2 && _board[4].Item2 == _board[7].Item2)
+                    {
+                        return true;
+                    }
+
+                    // second diagonal
+                    if (_board[4].Item2 == _board[2].Item2 && _board[4].Item2 == _board[6].Item2)
+                    {
+                        return true;
+                    }
+                }
+
+                if (_board[8].Item2 is not null)
+                {
+                    // third row
+                    if (_board[8].Item2 == _board[7].Item2 && _board[8].Item2 == _board[6].Item2)
+                    {
+                        return true;
+                    }
+
+                    // third colum
+                    if (_board[8].Item2 == _board[5].Item2 && _board[8].Item2 == _board[2].Item2)
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
         }
 
         private void MovingValidation(Move move, bool isFirst)

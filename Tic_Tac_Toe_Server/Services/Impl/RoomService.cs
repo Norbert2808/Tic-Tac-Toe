@@ -38,7 +38,7 @@ namespace TicTacToe.Server.Services.Impl
             return response;
         }
 
-        public async Task<string> CreateRoomAsync(string login, RoomSettings settings)
+        private async Task<string> CreateRoomAsync(string login, RoomSettings settings)
         {
             await _semaphoreSlim.WaitAsync();
             try
@@ -85,7 +85,117 @@ namespace TicTacToe.Server.Services.Impl
             return null!;
         }
 
-        public Room? ConnectionToPublicRoom(string login, string roomId)
+        public async Task<(bool, string[])> CheckRoomAsync(string id)
+        {
+            var room = await FindRoomByIdAsync(id);
+
+            if (room is null)
+                throw new RoomException("Room not found");
+
+            if (room.IsCompleted)
+                return (true, new[] { room.LoginFirstPlayer, room.LoginSecondPlayer });
+
+            if (!room.IsConnectionTimeOut())
+                return (false, new[] { room.GetConnectionTime().ToString(@"dd\:mm\:ss") });
+
+            DeleteRoom(room);
+            throw new TimeoutException("Timeout");
+        }
+
+        public async Task<(bool, Move)> CheckMoveAsync(string id, string login)
+        {
+            var room = await FindRoomByIdAsync(id);
+
+            if (room is null)
+                throw new RoomException("Room not found.");
+
+            var round = room.Rounds.Peek();
+            var isFirstPlayer = room.LoginFirstPlayer.Equals(login, StringComparison.Ordinal);
+            var rightMove = round.CheckOpponentsMove(isFirstPlayer);
+
+            if (rightMove)
+            {
+                return round.CheckEndOfGame()
+                    ? (true, round.LastMove)
+                    : (false, round.LastMove);
+            }
+
+            return (false, null)!; 
+        }
+
+        public async Task<bool> DoMoveAsync(string id, string login, Move move)
+        {
+            var room = await FindRoomByIdAsync(id);
+
+            if (room is null)
+                throw new RoomException("Room not found.");
+
+            var round = room.Rounds.Peek();
+
+            var isFirstPlayer = room.LoginFirstPlayer.Equals(login, StringComparison.Ordinal);
+            
+            var isValid = round.DoMove(move, isFirstPlayer);
+            if (isValid)
+            {
+                if (round.CheckEndOfGame())
+                {
+                    room.ConfirmFirstPlayer = false;
+                    room.ConfirmSecondPlayer = false;
+                    return true;
+                }
+                return false;
+            }
+
+            throw new RoomException("Not valid data.");
+        }
+
+        public async Task<(bool, string)> CheckConfirmationAsync(string id)
+        {
+            var room = await FindRoomByIdAsync(id);
+
+            if (room is null)
+                throw new RoomException("Room not found.");
+
+            if (!room.IsCompleted)
+            {
+                throw new AuthorizationException("Player left the room.");
+            }
+
+            if (room.ConfirmFirstPlayer && room.ConfirmSecondPlayer)
+            {
+                room.Rounds.Push(new Round());
+                return (true, null!);   
+            }
+
+            if (room.IsStartGameTimeOut())
+                throw new TimeoutException("Time out");
+
+            return(false, room.GetStartGameWaitingTime().ToString(@"dd\:mm\:ss")); 
+        }
+
+        public async Task AppendConfirmationAsync(bool confirmation, string id, string login)
+        {
+            var room = await AddConfirmationAsync(confirmation, id, login);
+
+            if (room is null)
+                throw new RoomException("Room not found.");
+            if (room.IsStartGameTimeOut())
+                throw new TimeoutException("Time out");
+        }
+
+        public async Task<bool> CheckPlayerPositionAsync(string id, string login)
+        {
+            var room = await FindRoomByIdAsync(id);
+
+            if (room is null)
+                throw new RoomException("Room not found.");
+
+            var isFirst = room.LoginFirstPlayer.Equals(login, StringComparison.Ordinal);
+            
+            return isFirst;
+        }
+
+        private Room? ConnectionToPublicRoom(string login, string roomId)
         {
             foreach (var room in _roomStorage.Where(room => !room.IsCompleted && room.Settings.Type == RoomType.Public))
             {
@@ -104,7 +214,7 @@ namespace TicTacToe.Server.Services.Impl
             return null;
         }
 
-        public async Task<Room?> ConnectionToPrivateRoomAsync(string login, string roomId)
+        private async Task<Room?> ConnectionToPrivateRoomAsync(string login, string roomId)
         {
             var room = await FindRoomByIdAsync(roomId);
             if (room is null)
@@ -114,25 +224,25 @@ namespace TicTacToe.Server.Services.Impl
             return room;
         }
 
-        public async Task<Room?> FindRoomByIdAsync(string roomId)
+        private async Task<Room?> FindRoomByIdAsync(string roomId)
         {
             return await Task.FromResult(_roomStorage
                 .FirstOrDefault(x => x.RoomId.Equals(roomId, StringComparison.Ordinal)));
         }
 
-        public async Task<Room?> AppendConfirmation(bool confirmation, string roomId, string login)
+        private async Task<Room?> AddConfirmationAsync(bool confirmation, string roomId, string login)
         {
             var room = await FindRoomByIdAsync(roomId);
             if (room is null)
                 return null;
             if (room.ConfirmFirstPlayer == false)
             {
-                room.ConfirmFirstPlayer = true;
+                room.ConfirmFirstPlayer = confirmation;
                 room.ConfirmationTime = DateTime.UtcNow;
             }
             else
             {
-                room.ConfirmSecondPlayer = true;
+                room.ConfirmSecondPlayer = confirmation;
             }
 
             return room;
@@ -165,7 +275,7 @@ namespace TicTacToe.Server.Services.Impl
             return true;
         }
 
-        public void DeleteRoom(Room room)
+        private void DeleteRoom(Room room)
         {
             _semaphoreSlim.Wait();
             try

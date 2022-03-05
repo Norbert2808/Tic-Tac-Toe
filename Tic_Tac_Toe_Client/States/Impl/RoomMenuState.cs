@@ -157,8 +157,8 @@ namespace TicTacToe.Client.States.Impl
 
                 if (checkRoomResponse.StatusCode == HttpStatusCode.NotFound)
                 {
-                    var time = await checkRoomResponse.Content.ReadAsStringAsync();
-                    ConsoleHelper.WriteInConsole(new[] { $"Time: {time}" }, ConsoleColor.Red, "");
+                    var time = await checkRoomResponse.Content.ReadAsAsync<string[]>();
+                    ConsoleHelper.WriteInConsole(new[] { $"Time: {time[0]}" }, ConsoleColor.Red, "");
                     Thread.Sleep(3000);
                 }
 

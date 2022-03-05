@@ -69,19 +69,22 @@ namespace TicTacToe.Server.Controllers
                 return Unauthorized("Unauthorized users");
             }
 
-            var room = await _roomService.FindRoomByIdAsync(id);
-
-            if (room is null)
-                return BadRequest("Room not found.");
-
-            if (room.IsCompleted)
-                return Ok(new[] { room.LoginFirstPlayer, room.LoginSecondPlayer });
-
-            if (!room.IsConnectionTimeOut())
-                return NotFound(room.GetConnectionTime().ToString(@"dd\:mm\:ss"));
-
-            _roomService.DeleteRoom(room);
-            return Conflict("Time out");
+            try
+            {
+                var (isCompleted, message) = await _roomService.CheckRoomAsync(id);
+                if (isCompleted)
+                    return Ok(message);
+                return NotFound(message);
+            }
+            catch (RoomException exception)
+            {
+                return BadRequest(exception.Message);
+            }
+            catch (TimeoutException exception)
+            {
+                return Conflict(exception.Message);
+            }
+          
         }
 
         [HttpGet("check_move/{id}")]
@@ -97,23 +100,19 @@ namespace TicTacToe.Server.Controllers
                 _logger.LogWarning("Unauthorized users");
                 return Unauthorized("Unauthorized users");
             }
-            var room = await _roomService.FindRoomByIdAsync(id);
- 
-            if (room is null)
-                 return NotFound("Room not found.");
- 
-            var round = room.Rounds.Peek();
-            var isFirstPlayer = room.LoginFirstPlayer.Equals(LoginUser, StringComparison.Ordinal);
-            var rightMove = round.CheckOpponentsMove(isFirstPlayer);
-
-            if (rightMove)
+     
+            try
             {
-                return round.CheckEndOfGame()
-                    ? Accepted(round.LastMove)
-                    : Ok(round.LastMove);
+                var (isFinished, lastMove) = await _roomService.CheckMoveAsync(id, LoginUser);
+                
+                if (isFinished)
+                    return Accepted(lastMove);
+                return Ok(lastMove);
             }
-
-            return BadRequest();
+            catch (RoomException exception)
+            {
+                return NotFound(exception.Message);
+            }
         }
 
         [HttpPost("move/{id}")]
@@ -128,35 +127,22 @@ namespace TicTacToe.Server.Controllers
                 _logger.LogWarning("Unauthorized users");
                 return Unauthorized("Unauthorized users");
             }
-
-            var room = await _roomService.FindRoomByIdAsync(id);
-
-            if (room is null)
-                return NotFound("Room not found.");
-
-            var round = room.Rounds.Peek();
-
-            var isFirstPlayer = room.LoginFirstPlayer.Equals(LoginUser, StringComparison.Ordinal);
+            
             try
             {
-                var isValid = round.DoMove(move, isFirstPlayer);
-                if (isValid)
-                {
-                    if (round.CheckEndOfGame())
-                    {
-                        room.ConfirmFirstPlayer = false;
-                        room.ConfirmSecondPlayer = false;
-                        return Accepted();
-                    }
-
-                    return Ok();
-                }
+                var isFinished = await _roomService.DoMoveAsync(id, LoginUser, move);
+                if (isFinished)
+                    return Accepted();
+                return Ok();
+            }
+            catch (RoomException exception)
+            {
+                return NotFound(exception.Message);
             }
             catch (ArgumentException ex)
             {
                 return BadRequest(ex.Message);
             }
-            return NotFound();
         }
 
         [HttpPost("send_confirmation/{id}")]
@@ -170,13 +156,21 @@ namespace TicTacToe.Server.Controllers
                 _logger.LogWarning("Unauthorized users");
                 return Unauthorized("Unauthorized users");
             }
+            
+            try
+            {
+                await _roomService.AppendConfirmationAsync(confirmation, id, LoginUser);
+            }
+            catch (RoomException exception)
+            {
+                return NotFound(exception.Message);
+            }
+            catch (TimeoutException exception)
+            {
+                return Conflict(exception.Message);
+            }
 
-            var room = await _roomService.AppendConfirmation(confirmation, id, LoginUser);
-
-            if (room is null)
-                return NotFound("Room is not found.");
-
-            return room.IsStartGameTimeOut() ? Conflict("Time out") : Ok();
+            return Ok();
         }
 
         [HttpGet("check_confirmation/{id}")]
@@ -191,27 +185,26 @@ namespace TicTacToe.Server.Controllers
                 _logger.LogWarning("Unauthorized users");
                 return Unauthorized("Unauthorized users");
             }
-
-            var room = await _roomService.FindRoomByIdAsync(id);
-
-            if (room is null)
-                return NotFound("Room not found.");
-
-            if (!room.IsCompleted)
+            
+            try
             {
-                return Conflict("Player left the room.");
+                var (isConfirm, message) = await _roomService.CheckConfirmationAsync(id);
+                if (isConfirm)
+                    return Ok();
+                return NotFound(message);
             }
-
-            if (room.ConfirmFirstPlayer && room.ConfirmSecondPlayer)
+            catch (RoomException exception)
             {
-                room.Rounds.Push(new Round());
-                return Ok();   
+                return NotFound(exception.Message);
             }
-
-            if (room.IsStartGameTimeOut())
-                return Conflict("Time out");
-
-            return NotFound(room.GetStartGameWaitingTime().ToString(@"dd\:mm\:ss"));
+            catch (AuthorizationException exception)
+            {
+                return Conflict(exception.Message);
+            }
+            catch (TimeoutException exception)
+            {
+                return Conflict(exception.Message);
+            } 
         }
         
         [HttpGet("check_position/{id}")]
@@ -227,14 +220,15 @@ namespace TicTacToe.Server.Controllers
                 return Unauthorized("Unauthorized users");
             }
 
-            var room = await _roomService.FindRoomByIdAsync(id);
-
-            if (room is null)
-                return NotFound("Room not found.");
-
-            var isFirst = room.LoginFirstPlayer.Equals(LoginUser, StringComparison.Ordinal);
-            
-            return Ok(isFirst);
+            try
+            {
+                var isFirst = await _roomService.CheckPlayerPositionAsync(id, LoginUser);
+                return Ok(isFirst);
+            }
+            catch (RoomException exception)
+            {
+                return NotFound(exception.Message);
+            }
         }
 
         [HttpGet("exit/{id}")]
@@ -249,9 +243,9 @@ namespace TicTacToe.Server.Controllers
                 return Unauthorized("Unauthorized users");
             }
 
-            var work = await _roomService.ExitFromRoomAsync(LoginUser, id);
+            var isExit = await _roomService.ExitFromRoomAsync(LoginUser, id);
 
-            return !work ? NotFound("Room is not found.") : Ok();
+            return !isExit ? NotFound("Room is not found.") : Ok();
         }
 
     }
