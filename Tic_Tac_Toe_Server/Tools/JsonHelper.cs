@@ -44,7 +44,7 @@ namespace TicTacToe.Server.Tools
             }
         }
 
-        public async Task SerializeAsync(List<T> data)
+        public async Task AddObjectToFileAsync(T data)
         {
             await _semaphore.WaitAsync();
             try
@@ -53,9 +53,15 @@ namespace TicTacToe.Server.Tools
                 {
                     File.Create(_path).Close();
                 }
+                if (string.IsNullOrWhiteSpace(File.ReadAllText(_path)))
+                {
+                    await SerializeAsync(new List<T>() { data });
+                }
+                else
+                {
+                    await AddObjectToEndFileAsync(data);
+                }
 
-                var jsonString = JsonSerializer.Serialize(data, _options);
-                await File.WriteAllTextAsync(_path, jsonString);
             }
             finally
             {
@@ -63,34 +69,26 @@ namespace TicTacToe.Server.Tools
             }
         }
 
-        public string Serialize(T data)
+        private async Task AddObjectToEndFileAsync(T data)
         {
-            if (!File.Exists(_path))
-            {
-                File.Create(_path).Close();
-            }
+            using var fs = new FileStream(_path, FileMode.Open);
+            _ = fs.Seek(-3, SeekOrigin.End);
 
+            var jsonObj = Serialize(data);
+            var insertStr = $",\n  {jsonObj.Replace("\r\n", "\n  ")} \n]";
+            var insertStrBytes = Encoding.UTF8.GetBytes(insertStr);
+
+            await fs.WriteAsync(insertStrBytes);
+        }
+        private async Task SerializeAsync(List<T> data)
+        {
+            var jsonString = JsonSerializer.Serialize(data, _options);
+            await File.WriteAllTextAsync(_path, jsonString);
+        }
+
+        private string Serialize(T data)
+        {
             return JsonSerializer.Serialize(data, _options);
-        }
-
-        public async Task AddAccountToFile(T data)
-        {
-            await _semaphore.WaitAsync();
-            try
-            {
-                using var fs = new FileStream(_path, FileMode.Open);
-                _ = fs.Seek(-3, SeekOrigin.End);
-
-                var jsonObj = Serialize(data);
-                var insertStr = $",\n  {jsonObj.Replace("\r\n", "\n  ")} \n]";
-                var insertStrBytes = Encoding.UTF8.GetBytes(insertStr);
-
-                await fs.WriteAsync(insertStrBytes);
-            }
-            finally
-            {
-                _ = _semaphore.Release();
-            }
         }
     }
 }

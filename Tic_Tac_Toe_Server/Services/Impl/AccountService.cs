@@ -99,10 +99,7 @@ namespace TicTacToe.Server.Services.Impl
             try
             {
                 _accountsStorage.Add(account);
-                if (_accountsStorage.Count == 1)
-                    await _jsonHelper.SerializeAsync(_accountsStorage);
-                else
-                    await _jsonHelper.AddAccountToFile(account);
+                await _jsonHelper.AddObjectToFileAsync(account);
             }
             finally
             {
