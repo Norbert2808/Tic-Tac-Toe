@@ -57,7 +57,7 @@ namespace TicTacToe.Client.States.Impl
                         {
                             "You have 20 seconds to move",
                             "1 -- Do move",
-                            "2 -- Surender",
+                            "2 -- Surrender",
                         },
                         ConsoleColor.Cyan);
 
@@ -143,7 +143,7 @@ namespace TicTacToe.Client.States.Impl
                 {
                     _isEndOfGame = true;
                     _winnerFirst = !_iAmFirst;
-                    ConsoleHelper.WriteInConsole(errorMes + '\n', ConsoleColor.DarkRed);
+                    ConsoleHelper.WriteInConsole("Time out, you didn’t make a move in 20 seconds.\n", ConsoleColor.DarkRed);
                     _ = Console.ReadLine();
                     return false;
                 }
@@ -175,7 +175,7 @@ namespace TicTacToe.Client.States.Impl
                 {
                     _isEndOfGame = true;
                     _winnerFirst = _iAmFirst;
-                    ConsoleHelper.WriteInConsole("Time out" + '\n', ConsoleColor.DarkRed);
+                    ConsoleHelper.WriteInConsole("Time out,  your opponent didn't moved.\n", ConsoleColor.DarkRed);
                     _ = Console.ReadLine();
                     break;
                 }

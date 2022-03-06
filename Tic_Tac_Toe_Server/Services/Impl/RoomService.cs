@@ -7,7 +7,7 @@ namespace TicTacToe.Server.Services.Impl
 {
     public class RoomService : IRoomService
     {
-        private const string Path = "sessionsInfo.json";
+        private const string Path = "roomInfo.json";
 
         private readonly List<Room> _roomStorage;
 
@@ -176,8 +176,17 @@ namespace TicTacToe.Server.Services.Impl
 
             if (room.ConfirmFirstPlayer && room.ConfirmSecondPlayer)
             {
-                room.Rounds.Push(new Round());
-                room.LastMoveTime = DateTime.UtcNow;
+                await _semaphoreSlim.WaitAsync();
+                try
+                {
+                    room.Rounds.Push(new Round());
+                    room.LastMoveTime = DateTime.UtcNow;
+                }
+                finally
+                {
+                    _ = _semaphoreSlim.Release();
+                }
+
                 return (true, null!);
             }
 
@@ -209,6 +218,47 @@ namespace TicTacToe.Server.Services.Impl
             var isFirst = room.LoginFirstPlayer.Equals(login, StringComparison.Ordinal);
 
             return isFirst;
+        }
+
+        public async Task SurrenderAsync(string id, string login)
+        {
+            var room = await FindRoomByIdAsync(id);
+
+            if (room is null)
+                throw new RoomException("Room not found.");
+
+
+        }
+
+        public async Task<bool> ExitFromRoomAsync(string login, string id)
+        {
+            var room = await FindRoomByIdAsync(id);
+
+            if (room is null)
+                return false;
+
+            if (room.LoginFirstPlayer.Equals(login, StringComparison.Ordinal))
+            {
+                room.ConfirmFirstPlayer = false;
+                room.IsCompleted = false;
+            }
+            else
+            {
+                room.ConfirmSecondPlayer = false;
+                room.IsCompleted = false;
+            }
+
+            if (room.ConfirmSecondPlayer == false
+                && room.ConfirmFirstPlayer == false)
+            {
+                room.FinishRoomDate = DateTime.UtcNow;
+                room.IsFinished = true;
+
+                await _jsonHelper.AddObjectToFileAsync(room);
+                DeleteRoom(room);
+            }
+
+            return true;
         }
 
         private Room? ConnectionToPublicRoom(string login)
@@ -262,33 +312,6 @@ namespace TicTacToe.Server.Services.Impl
             }
 
             return room;
-        }
-
-        public async Task<bool> ExitFromRoomAsync(string login, string id)
-        {
-            var room = await FindRoomByIdAsync(id);
-
-            if (room is null)
-                return false;
-
-            if (room.LoginFirstPlayer.Equals(login, StringComparison.Ordinal))
-            {
-                room.LoginFirstPlayer = "";
-                room.IsCompleted = false;
-            }
-            else
-            {
-                room.LoginSecondPlayer = "";
-                room.IsCompleted = false;
-            }
-
-            if (room.LoginFirstPlayer.Length == 0
-                && room.LoginSecondPlayer.Length == 0)
-            {
-                DeleteRoom(room);
-            }
-
-            return true;
         }
 
         private void DeleteRoom(Room room)

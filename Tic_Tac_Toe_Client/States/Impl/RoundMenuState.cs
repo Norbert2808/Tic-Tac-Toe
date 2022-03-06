@@ -87,7 +87,7 @@ namespace TicTacToe.Client.States.Impl
                     {
                         if (await CheckOpponentLeftTheRoomAsync())
                             return false;
-
+                        
                         await _gameState.InvokeMenuAsync();
                         return true;
                     }
@@ -118,6 +118,13 @@ namespace TicTacToe.Client.States.Impl
                 ConsoleHelper.WriteInConsole(new[] { "You didn`t confirm the game. Room was closed." }, ConsoleColor.Red);
                 _ = Console.ReadLine();
                 _ = await _gameService.ExitFromRoomAsync();
+            }
+
+            if (responseSendConfirmation.StatusCode == HttpStatusCode.NotFound)
+            {
+                ConsoleHelper.WriteInConsole(new[] { "Your opponent left the room and room was deleting" }, ConsoleColor.Red);
+                _ = Console.ReadLine();
+                return false;
             }
 
             return true;
