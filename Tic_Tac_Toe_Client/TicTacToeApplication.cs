@@ -40,7 +40,7 @@ namespace TicTacToe.Client
                 .AddTransient<IRoomMenuState, RoomMenuState>()
                 .AddTransient<IRoundState, RoundMenuState>()
                 .AddTransient<IGameState, GameState>()
-                .AddTransient<IPrivateUserStatistic, PrivateUserStatistic>();
+                .AddTransient<IPrivateStatisticState, PrivateStatisticState>();
 
 
             var serilog = new LoggerConfiguration()
