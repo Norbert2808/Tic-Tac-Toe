@@ -28,7 +28,7 @@ namespace TicTacToe.Client
         {
             var httpClient = ConfigureHttpClient();
             var serviceCollection = new ServiceCollection();
-            
+
             _ = serviceCollection.AddSingleton<IUserService>(_ => new UserService(httpClient));
             _ = serviceCollection.AddSingleton<IStatisticService>(_ => new StatisticService(httpClient));
             _ = serviceCollection.AddSingleton<IGameService>(_ => new GameService(httpClient));
@@ -50,7 +50,7 @@ namespace TicTacToe.Client
             _ = serviceCollection.AddLogging(builder => builder
                 .ClearProviders()
                 .AddSerilog(serilog, true));
-            
+
             return serviceCollection.BuildServiceProvider();
         }
 
@@ -59,10 +59,10 @@ namespace TicTacToe.Client
             var client = new HttpClient();
             var json = File.ReadAllText("userConfig.json");
             var option = JsonSerializer.Deserialize<ClientOption>(json);
-            
+
             if (option is null || option.UriAddress is null)
                 return client;
-            
+
             client.BaseAddress = new Uri(option.UriAddress);
             return client;
         }

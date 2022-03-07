@@ -8,10 +8,10 @@ namespace TicTacToe.Server.Models
         private readonly List<Tuple<int, bool?>> _board;
 
         [JsonPropertyName("firstPlayerMove")]
-        public List<Move> FirstPlayerMove { get; set; }
+        public List<MoveDto> FirstPlayerMove { get; set; }
 
         [JsonPropertyName("secondPlayerMove")]
-        public List<Move> SecondPlayerMove { get; set; }
+        public List<MoveDto> SecondPlayerMove { get; set; }
 
         [JsonPropertyName("firstWin")]
         public bool FirstWin { get; set; }
@@ -23,7 +23,7 @@ namespace TicTacToe.Server.Models
         private HashSet<int> SecondPlayerNumbers { get; set; }
 
         [JsonIgnore]
-        public Move? LastMove { get; set; }
+        public MoveDto? LastMove { get; set; }
 
         [JsonIgnore]
         private readonly object _locker = new();
@@ -33,8 +33,8 @@ namespace TicTacToe.Server.Models
 
         public Round()
         {
-            FirstPlayerMove = new List<Move>();
-            SecondPlayerMove = new List<Move>();
+            FirstPlayerMove = new List<MoveDto>();
+            SecondPlayerMove = new List<MoveDto>();
             bool? player = null;
             _board = Enumerable.Repeat(new Tuple<int, bool?>(0, player), 9).ToList();
             FirstPlayerNumbers = Enumerable.Range(1, 9).ToHashSet();
@@ -56,7 +56,7 @@ namespace TicTacToe.Server.Models
             SecondPlayerNumbers = Enumerable.Range(1, 9).ToHashSet();
         }
 
-        public bool DoMove(Move move, bool isFirst)
+        public bool DoMove(MoveDto move, bool isFirst)
         {
             lock (_locker)
             {
@@ -151,7 +151,7 @@ namespace TicTacToe.Server.Models
             }
         }
 
-        private void MovingValidation(Move move, bool isFirst)
+        private void MovingValidation(MoveDto move, bool isFirst)
         {
             if (move.IndexOfCell is < 0 or > 8)
                 throw new ArgumentException("Cell number must be in range [1;9]");

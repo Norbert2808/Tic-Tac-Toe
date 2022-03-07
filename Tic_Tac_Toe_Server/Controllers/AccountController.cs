@@ -26,11 +26,11 @@ namespace TicTacToe.Server.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.Conflict)]
-        public async Task<IActionResult> LoginAsync([FromBody] UserAccount account)
+        public async Task<IActionResult> LoginAsync([FromBody] UserAccountDto account)
         {
             try
             {
-                _logger.LogInformation("Invoke log-in state");
+                _logger.LogInformation("Invoke log-in");
                 await _accService.InvokeLoginAsync(account);
             }
             catch (AccountException exception)
@@ -51,11 +51,11 @@ namespace TicTacToe.Server.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Conflict)]
-        public async Task<IActionResult> RegistrationAsync([FromBody] UserAccount account)
+        public async Task<IActionResult> RegistrationAsync([FromBody] UserAccountDto account)
         {
             try
             {
-                _logger.LogInformation("Invoke registration state");
+                _logger.LogInformation("Invoke registration");
                 await _accService.InvokeRegistrationAsync(account);
             }
             catch (AccountException exception)
@@ -71,6 +71,7 @@ namespace TicTacToe.Server.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<IActionResult> LogoutAsync([FromBody] string login)
         {
+            _logger.LogInformation("Invoke logout form app");
             _accService.RemoveActiveAccountByLogin(login);
 
             return await Task.FromResult(Ok("User successfully left."));

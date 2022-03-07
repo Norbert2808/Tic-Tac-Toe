@@ -8,11 +8,11 @@ namespace TicTacToe.Server.Services.Impl
     {
         private const string Path = "usersStorage.json";
 
-        private List<UserAccount> _accountsStorage;
+        private List<UserAccountDto> _accountsStorage;
 
-        private readonly List<UserAccount> _activeAccounts;
+        private readonly List<UserAccountDto> _activeAccounts;
 
-        private readonly JsonHelper<UserAccount> _jsonHelper;
+        private readonly JsonHelper<UserAccountDto> _jsonHelper;
 
         private readonly IBlocker _blocker;
 
@@ -21,12 +21,12 @@ namespace TicTacToe.Server.Services.Impl
         public AccountService(IBlocker blocker)
         {
             _blocker = blocker;
-            _jsonHelper = new JsonHelper<UserAccount>(Path);
-            _accountsStorage = new List<UserAccount>();
-            _activeAccounts = new List<UserAccount>();
+            _jsonHelper = new JsonHelper<UserAccountDto>(Path);
+            _accountsStorage = new List<UserAccountDto>();
+            _activeAccounts = new List<UserAccountDto>();
         }
 
-        public async Task InvokeLoginAsync(UserAccount account)
+        public async Task InvokeLoginAsync(UserAccountDto account)
         {
             await UpdateAllUsersAccountAsync();
 
@@ -56,7 +56,7 @@ namespace TicTacToe.Server.Services.Impl
             AddActiveAccount(account);
         }
 
-        public async Task InvokeRegistrationAsync(UserAccount account)
+        public async Task InvokeRegistrationAsync(UserAccountDto account)
         {
             await UpdateAllUsersAccountAsync();
 
@@ -75,7 +75,7 @@ namespace TicTacToe.Server.Services.Impl
             _accountsStorage = await _jsonHelper.DeserializeAsync();
         }
 
-        public List<UserAccount> GetStorage()
+        public List<UserAccountDto> GetStorage()
         {
             return _accountsStorage;
         }
@@ -93,7 +93,7 @@ namespace TicTacToe.Server.Services.Impl
         }
 
 
-        private async Task AddAccountToStorageAsync(UserAccount account)
+        private async Task AddAccountToStorageAsync(UserAccountDto account)
         {
             await _semaphoreSlim.WaitAsync();
             try
@@ -107,7 +107,7 @@ namespace TicTacToe.Server.Services.Impl
             }
         }
 
-        private UserAccount FindAccountByLogin(string login)
+        private UserAccountDto FindAccountByLogin(string login)
         {
             return _accountsStorage.FirstOrDefault(x => x.Login.Equals(login, StringComparison.Ordinal))!;
         }
@@ -126,7 +126,7 @@ namespace TicTacToe.Server.Services.Impl
             }
         }
 
-        private void AddActiveAccount(UserAccount account)
+        private void AddActiveAccount(UserAccountDto account)
         {
             _semaphoreSlim.Wait();
             try

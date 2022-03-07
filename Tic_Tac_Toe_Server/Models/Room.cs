@@ -59,7 +59,7 @@ namespace TicTacToe.Server.Models
         [JsonPropertyName("rounds")]
         public Stack<Round> Rounds { get; private set; }
 
-        public Room(string login, RoomSettings settings)
+        public Room(string login, RoomSettingsDto settings)
         {
             LoginFirstPlayer = login;
             LoginSecondPlayer = "";

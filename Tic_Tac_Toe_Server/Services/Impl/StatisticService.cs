@@ -51,10 +51,10 @@ namespace TicTacToe.Server.Services.Impl
             _roomStorage = await _jsonHelper.DeserializeAsync();
         }
 
-        private List<Move> GetAllMovesFromRoomStorage(string login)
+        private List<MoveDto> GetAllMovesFromRoomStorage(string login)
         {
-            var result = new List<Move>();
-            _roomStorage.ForEach(room =>
+            var result = new List<MoveDto>();
+            _roomStorage.ForEach(x =>
             {
                 if (login.Equals(room.LoginFirstPlayer, StringComparison.Ordinal))
                 {

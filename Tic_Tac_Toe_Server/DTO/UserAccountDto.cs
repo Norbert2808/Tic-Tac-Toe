@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace TicTacToe.Server.Models
 {
-    public sealed class UserAccount
+    public sealed class UserAccountDto
     {
         [Required]
         [StringLength(maximumLength: 25, MinimumLength = 6)]
@@ -15,19 +15,19 @@ namespace TicTacToe.Server.Models
         [JsonPropertyName("password")]
         public string Password { get; set; }
 
-        public UserAccount(string login, string password)
+        public UserAccountDto(string login, string password)
         {
             Login = login;
             Password = password;
         }
 
-        public static bool operator ==(UserAccount a, UserAccount b) => a.Login == b.Login && a.Password == b.Password;
+        public static bool operator ==(UserAccountDto a, UserAccountDto b) => a.Login == b.Login && a.Password == b.Password;
 
-        public static bool operator !=(UserAccount a, UserAccount b) => a != b;
+        public static bool operator !=(UserAccountDto a, UserAccountDto b) => a != b;
 
         public override bool Equals(object? obj)
         {
-            return ReferenceEquals(this, obj) || (obj is not null && (UserAccount)obj == this);
+            return ReferenceEquals(this, obj) || (obj is not null && (UserAccountDto)obj == this);
         }
 
         public override int GetHashCode()

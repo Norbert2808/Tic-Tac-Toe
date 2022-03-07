@@ -2,7 +2,7 @@
 
 namespace TicTacToe.Server.Models
 {
-    public class RoomSettings
+    public class RoomSettingsDto
     {
         public RoomType Type { get; set; }
 

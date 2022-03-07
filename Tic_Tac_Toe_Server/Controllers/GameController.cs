@@ -22,15 +22,16 @@ namespace TicTacToe.Server.Controllers
         }
 
         [FromHeader(Name = "Login")]
+
         public string? LoginUser { get; set; }
 
         [HttpPost("create_room")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
-        public async Task<IActionResult> StartRoomAsync([FromBody] RoomSettings? settings)
+        public async Task<IActionResult> StartRoomAsync([FromBody] RoomSettingsDto? settings)
         {
-            if (LoginUser is null or "")
+            if (string.IsNullOrEmpty(LoginUser))
             {
                 _logger.LogWarning("Unauthorized users");
                 return Unauthorized("Unauthorized users");
@@ -63,7 +64,7 @@ namespace TicTacToe.Server.Controllers
         [ProducesResponseType((int)HttpStatusCode.Conflict)]
         public async Task<IActionResult> CheckRoomAsync([FromRoute] string id)
         {
-            if (LoginUser is null or "")
+            if (string.IsNullOrEmpty(LoginUser))
             {
                 _logger.LogWarning("Unauthorized users");
                 return Unauthorized("Unauthorized users");
@@ -93,7 +94,7 @@ namespace TicTacToe.Server.Controllers
         [ProducesResponseType((int)HttpStatusCode.Conflict)]
         public async Task<IActionResult> CheckMoveAsync([FromRoute] string id)
         {
-            if (LoginUser is null or "")
+            if (string.IsNullOrEmpty(LoginUser))
             {
                 _logger.LogWarning("Unauthorized users");
                 return Unauthorized("Unauthorized users");
@@ -121,9 +122,9 @@ namespace TicTacToe.Server.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.Accepted)]
         [ProducesResponseType((int)HttpStatusCode.Conflict)]
-        public async Task<IActionResult> MoveAsync([FromRoute] string id, [FromBody] Move move)
+        public async Task<IActionResult> MoveAsync([FromRoute] string id, [FromBody] MoveDto move)
         {
-            if (LoginUser is null or "")
+            if (string.IsNullOrEmpty(LoginUser))
             {
                 _logger.LogWarning("Unauthorized users");
                 return Unauthorized("Unauthorized users");
@@ -154,7 +155,7 @@ namespace TicTacToe.Server.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> AppendConfirmationAsync([FromRoute] string id, [FromBody] bool confirmation)
         {
-            if (LoginUser is null or "")
+            if (string.IsNullOrEmpty(LoginUser))
             {
                 _logger.LogWarning("Unauthorized users");
                 return Unauthorized("Unauthorized users");
@@ -183,7 +184,7 @@ namespace TicTacToe.Server.Controllers
         [ProducesResponseType((int)HttpStatusCode.Conflict)]
         public async Task<IActionResult> CheckConfirmationAsync([FromRoute] string id)
         {
-            if (LoginUser is null or "")
+            if (string.IsNullOrEmpty(LoginUser))
             {
                 _logger.LogWarning("Unauthorized users");
                 return Unauthorized("Unauthorized users");
@@ -215,7 +216,7 @@ namespace TicTacToe.Server.Controllers
         [ProducesResponseType((int)HttpStatusCode.Conflict)]
         public async Task<IActionResult> CheckPlayerPositionAsync([FromRoute] string id)
         {
-            if (LoginUser is null or "")
+            if (string.IsNullOrEmpty(LoginUser))
             {
                 _logger.LogWarning("Unauthorized users");
                 return Unauthorized("Unauthorized users");
@@ -242,7 +243,7 @@ namespace TicTacToe.Server.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> ExitFromRoomAsync([FromRoute] string id)
         {
-            if (LoginUser is null or "")
+            if (string.IsNullOrEmpty(LoginUser))
             {
                 _logger.LogWarning("Unauthorized users");
                 return Unauthorized("Unauthorized users");
@@ -259,7 +260,7 @@ namespace TicTacToe.Server.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> SurrenderAsync([FromRoute] string id)
         {
-            if (LoginUser is null or "")
+            if (string.IsNullOrEmpty(LoginUser))
             {
                 _logger.LogWarning("Unauthorized users");
                 return Unauthorized("Unauthorized users");
@@ -273,7 +274,6 @@ namespace TicTacToe.Server.Controllers
             {
                 return BadRequest(ex.Message);
             }
-
 
             return Ok();
         }
