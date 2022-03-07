@@ -153,6 +153,7 @@ namespace TicTacToe.Server.Services.Impl
                 {
                     room.ConfirmFirstPlayer = false;
                     room.ConfirmSecondPlayer = false;
+                    round.IsStarted = false;
                     return true;
                 }
                 return false;
@@ -176,8 +177,20 @@ namespace TicTacToe.Server.Services.Impl
                 await _semaphoreSlim.WaitAsync();
                 try
                 {
-                    room.Rounds.Push(new Round());
-                    room.LastMoveTime = DateTime.UtcNow;
+                    if (room.Rounds.Count == 0)
+                    {
+                        room.Rounds.Push(new Round());
+                        room.LastMoveTime = DateTime.UtcNow;
+                    }
+                    else
+                    {
+                        var round = room.Rounds.Peek();
+                        if (!round.IsStarted)
+                        {
+                            room.Rounds.Push(new Round());
+                            room.LastMoveTime = DateTime.UtcNow;
+                        }
+                    }
                 }
                 finally
                 {

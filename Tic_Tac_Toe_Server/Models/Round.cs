@@ -25,6 +25,9 @@ namespace TicTacToe.Server.Models
         [JsonIgnore]
         private readonly object _locker = new();
 
+        [JsonIgnore]
+        public bool IsStarted { get; set; }
+
         public Round()
         {
             FirstPlayerMove = new List<Move>();
@@ -33,6 +36,7 @@ namespace TicTacToe.Server.Models
             _board = Enumerable.Repeat(new Tuple<int, bool?>(0, player), 9).ToList();
             FirstPlayerNumbers = new HashSet<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
             SecondPlayerNumbers = new HashSet<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+            IsStarted = true;
         }
 
         public bool DoMove(Move move, bool isFirst)
