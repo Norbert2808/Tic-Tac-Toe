@@ -10,20 +10,18 @@ namespace TicTacToe.Client.States.Impl
 
         private readonly IUserService _userService;
 
-        private readonly IStatisticService _statisticService;
-
-        private readonly IStatisticService _statisticService;
+        private readonly IPrivateUserStatistic _privateUserStatistic;
 
         private readonly ILogger<IMainMenuState> _logger;
 
         public MainMenuState(IRoomMenuState roomMenuState,
             IUserService userService,
-            IStatisticService statisticService,
+            IPrivateUserStatistic privateUserStatistic,
             ILogger<IMainMenuState> logger)
         {
             _roomMenuState = roomMenuState;
             _userService = userService;
-            _statisticService = statisticService;
+            _privateUserStatistic = privateUserStatistic;
             _logger = logger;
         }
 
@@ -53,7 +51,7 @@ namespace TicTacToe.Client.States.Impl
                             break;
 
                         case 2:
-
+                            await _privateUserStatistic.InvokeMenuAsync();
                             break;
 
                         case 0:

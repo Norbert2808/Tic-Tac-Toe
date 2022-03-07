@@ -54,6 +54,9 @@ namespace TicTacToe.Server.Models
         [JsonIgnore]
         public bool ConfirmSecondPlayer { get; set; }
 
+        [JsonPropertyName("firstWin")]
+        public bool FirstWin { get; set; }
+
         [JsonPropertyName("rounds")]
         public Stack<Round> Rounds { get; private set; }
 

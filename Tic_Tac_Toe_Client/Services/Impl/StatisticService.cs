@@ -1,6 +1,4 @@
-﻿using System.Net.Http.Formatting;
-
-namespace TicTacToe.Client.Services.Impl
+﻿namespace TicTacToe.Client.Services.Impl
 {
     public class StatisticService : IStatisticService
     {
@@ -13,7 +11,7 @@ namespace TicTacToe.Client.Services.Impl
 
         public async Task<HttpResponseMessage> GetPrivateStatisticDto()
         {
-            return await _httpClient.PostAsync("api/Statistic/private", Login, new JsonMediaTypeFormatter());
+            return await _httpClient.GetAsync("api/Statistic/private");
         }
     }
 }

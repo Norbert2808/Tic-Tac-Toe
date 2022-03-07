@@ -1,6 +1,7 @@
-﻿namespace TicTacToe.Client.Services;
-
-public interface IStatisticService
+﻿namespace TicTacToe.Client.Services
 {
-    
+    public interface IStatisticService
+    {
+        Task<HttpResponseMessage> GetPrivateStatisticDto();
+    }
 }

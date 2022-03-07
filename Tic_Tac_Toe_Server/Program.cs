@@ -29,6 +29,7 @@ host.ConfigureAppConfiguration(app =>
     service.AddControllers();
     service.AddSingleton<IAccountService, AccountService>();
     service.AddSingleton<IRoomService, RoomService>();
+    service.AddSingleton<IStatisticService, StatisticService>();
     service.AddSingleton<IBlocker, UserBlocker>();
 });
 
