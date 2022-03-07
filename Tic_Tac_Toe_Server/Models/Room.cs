@@ -32,7 +32,7 @@ namespace TicTacToe.Server.Models
         public DateTime FinishRoomDate { get; set; }
 
         [JsonIgnore]
-        public RoomSettings Settings { get; set; }
+        public RoomSettingsDto Settings { get; set; }
 
         [JsonPropertyName("loginFirstPlayer")]
         public string LoginFirstPlayer { get; set; }

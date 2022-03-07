@@ -16,7 +16,7 @@ namespace TicTacToe.Client.States.Impl
 
         public MainMenuState(IRoomMenuState roomMenuState,
             IUserService userService,
-            IPrivateUserStatistic privateUserStatistic,
+            IPrivateStatisticState privateUserStatistic,
             ILogger<MainMenuState> logger)
         {
             _roomMenuState = roomMenuState;

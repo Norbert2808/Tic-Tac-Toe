@@ -43,8 +43,8 @@ namespace TicTacToe.Server.Models
         }
 
         [JsonConstructor]
-        public Round(List<Move> firstPlayerMove,
-            List<Move> secondPlayerMove,
+        public Round(List<MoveDto> firstPlayerMove,
+            List<MoveDto> secondPlayerMove,
             bool firstWin)
         {
             FirstPlayerMove = firstPlayerMove;

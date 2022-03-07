@@ -54,7 +54,7 @@ namespace TicTacToe.Server.Services.Impl
         private List<MoveDto> GetAllMovesFromRoomStorage(string login)
         {
             var result = new List<MoveDto>();
-            _roomStorage.ForEach(x =>
+            _roomStorage.ForEach(room =>
             {
                 if (login.Equals(room.LoginFirstPlayer, StringComparison.Ordinal))
                 {
