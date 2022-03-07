@@ -255,26 +255,12 @@ namespace TicTacToe.Server.Services.Impl
             if (room is null)
                 return false;
 
-            if (room.LoginFirstPlayer.Equals(login, StringComparison.Ordinal))
-            {
-                room.ConfirmFirstPlayer = false;
-                room.IsCompleted = false;
-            }
-            else
-            {
-                room.ConfirmSecondPlayer = false;
-                room.IsCompleted = false;
-            }
+            room.FinishRoomDate = DateTime.UtcNow;
 
-            if (room.ConfirmSecondPlayer == false
-                && room.ConfirmFirstPlayer == false)
-            {
-                room.FinishRoomDate = DateTime.UtcNow;
-                room.IsFinished = true;
-
+            if (room.Rounds.Count > 0)
                 await _jsonHelper.AddObjectToFileAsync(room);
-                DeleteRoom(room);
-            }
+
+            DeleteRoom(room);
 
             return true;
         }

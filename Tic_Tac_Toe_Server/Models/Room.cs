@@ -1,5 +1,4 @@
 ﻿using System.Text.Json.Serialization;
-//using Newtonsoft.Json;
 using TicTacToe.Server.Enums;
 
 namespace TicTacToe.Server.Models
@@ -9,12 +8,30 @@ namespace TicTacToe.Server.Models
         [JsonPropertyName("roomId")]
         public string RoomId { get; set; }
 
-        //Times
-        [JsonIgnore]
-        public TimeSpan ConnectionTimeOut { get; set; } = TimeSpan.FromMinutes(3);
+        [JsonPropertyName("rounds")]
+        public Stack<Round> Rounds { get; private set; }
+
+        [JsonPropertyName("winsFirstPlayer")]
+        public int WinsFirstPlayer { get; set; }
+
+        [JsonPropertyName("winsSecondPlayer")]
+        public int WinsSecondPlayer { get; set; }
 
         [JsonIgnore]
-        public TimeSpan StartGameTimeOut { get; set; } = TimeSpan.FromMinutes(2);
+        public RoomSettingsDto Settings { get; set; }
+
+        [JsonPropertyName("loginFirstPlayer")]
+        public string LoginFirstPlayer { get; set; }
+
+        [JsonPropertyName("loginSecondPlayer")]
+        public string LoginSecondPlayer { get; set; }
+
+        //Times
+        [JsonIgnore]
+        public TimeSpan ConnectionTimeOut { get; set; } = TimeSpan.FromMinutes(1);
+
+        [JsonIgnore]
+        public TimeSpan StartGameTimeOut { get; set; } = TimeSpan.FromMinutes(1);
 
         [JsonIgnore]
         public DateTime ConfirmationTime { get; set; }
@@ -31,15 +48,6 @@ namespace TicTacToe.Server.Models
         [JsonPropertyName("finishRoomDate")]
         public DateTime FinishRoomDate { get; set; }
 
-        [JsonIgnore]
-        public RoomSettingsDto Settings { get; set; }
-
-        [JsonPropertyName("loginFirstPlayer")]
-        public string LoginFirstPlayer { get; set; }
-
-        [JsonPropertyName("loginSecondPlayer")]
-        public string LoginSecondPlayer { get; set; }
-
         //Flags 
         [JsonIgnore]
         public bool IsFinished { get; set; }
@@ -55,9 +63,6 @@ namespace TicTacToe.Server.Models
 
         [JsonIgnore]
         public bool ConfirmSecondPlayer { get; set; }
-
-        [JsonPropertyName("rounds")]
-        public Stack<Round> Rounds { get; private set; }
 
         public Room(string login, RoomSettingsDto settings)
         {
