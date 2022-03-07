@@ -17,9 +17,9 @@ namespace TicTacToe.Client.Services
 
         Task<HttpResponseMessage> CheckConfirmationAsync();
 
-        Task<bool> CheckPlayerPosition();
+        Task<HttpResponseMessage> CheckPlayerPosition();
 
-        Task<bool> OpponentLeftTheRoomAsync();
+        Task<HttpResponseMessage> SurrenderAsync();
 
         Task<HttpResponseMessage> ExitFromRoomAsync();
     }

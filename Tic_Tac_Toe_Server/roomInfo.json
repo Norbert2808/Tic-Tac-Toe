@@ -1,0 +1,15 @@
+[
+  {
+    "roomId": "6e4853bc-76d7-4da9-9f13-a5086bc19f5a",
+    "creationDate": "2022-03-07T12:28:39.01193Z",
+    "finishDate": "2022-03-07T12:28:44.3870749Z",
+    "settings": {
+      "type": 1,
+      "roomId": "",
+      "isConnection": false
+    },
+    "firstPlayer": "qwerty",
+    "secondPlayer": "qwerty123",
+    "rounds": []
+  }
+]

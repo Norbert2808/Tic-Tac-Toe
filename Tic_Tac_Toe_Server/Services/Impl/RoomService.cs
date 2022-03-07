@@ -7,7 +7,7 @@ namespace TicTacToe.Server.Services.Impl
 {
     public class RoomService : IRoomService
     {
-        private const string Path = "sessionsInfo.json";
+        private const string Path = "roomInfo.json";
 
         private readonly List<Room> _roomStorage;
 
@@ -140,7 +140,6 @@ namespace TicTacToe.Server.Services.Impl
             if (room.IsRoundTimeOut())
                 throw new TimeOutException("Time out.");
 
-
             var round = room.Rounds.Peek();
 
             var isFirstPlayer = room.LoginFirstPlayer.Equals(login, StringComparison.Ordinal);
@@ -170,14 +169,21 @@ namespace TicTacToe.Server.Services.Impl
                 throw new RoomException("Room not found.");
 
             if (!room.IsCompleted)
-            {
                 throw new AuthorizationException("Player left the room.");
-            }
 
             if (room.ConfirmFirstPlayer && room.ConfirmSecondPlayer)
             {
-                room.Rounds.Push(new Round());
-                room.LastMoveTime = DateTime.UtcNow;
+                _ = await _semaphoreSlim.WaitAsync(1);
+                try
+                {
+                    room.Rounds.Push(new Round());
+                    room.LastMoveTime = DateTime.UtcNow;
+                }
+                finally
+                {
+                    _ = _semaphoreSlim.Release();
+                }
+
                 return (true, null!);
             }
 
@@ -188,12 +194,20 @@ namespace TicTacToe.Server.Services.Impl
 
         public async Task AppendConfirmationAsync(bool confirmation, string id)
         {
-            var room = await AddConfirmationAsync(confirmation, id);
+            var room = await FindRoomByIdAsync(id);
 
             if (room is null)
                 throw new RoomException("Room not found.");
-            if (room.IsStartGameTimeOut())
-                throw new TimeoutException("Time out");
+
+            if (room.ConfirmFirstPlayer == false)
+            {
+                room.ConfirmFirstPlayer = confirmation;
+                room.ConfirmationTime = DateTime.UtcNow;
+            }
+            else
+            {
+                room.ConfirmSecondPlayer = confirmation;
+            }
         }
 
         public async Task<bool> CheckPlayerPositionAsync(string id, string login)
@@ -209,6 +223,47 @@ namespace TicTacToe.Server.Services.Impl
             var isFirst = room.LoginFirstPlayer.Equals(login, StringComparison.Ordinal);
 
             return isFirst;
+        }
+
+        public async Task SurrenderAsync(string id, string login)
+        {
+            var room = await FindRoomByIdAsync(id);
+
+            if (room is null)
+                throw new RoomException("Room not found.");
+
+            //ToDo Make surrender
+        }
+
+        public async Task<bool> ExitFromRoomAsync(string login, string id)
+        {
+            var room = await FindRoomByIdAsync(id);
+
+            if (room is null)
+                return false;
+
+            if (room.LoginFirstPlayer.Equals(login, StringComparison.Ordinal))
+            {
+                room.ConfirmFirstPlayer = false;
+                room.IsCompleted = false;
+            }
+            else
+            {
+                room.ConfirmSecondPlayer = false;
+                room.IsCompleted = false;
+            }
+
+            if (room.ConfirmSecondPlayer == false
+                && room.ConfirmFirstPlayer == false)
+            {
+                room.FinishRoomDate = DateTime.UtcNow;
+                room.IsFinished = true;
+
+                await _jsonHelper.AddObjectToFileAsync(room);
+                DeleteRoom(room);
+            }
+
+            return true;
         }
 
         private Room? ConnectionToPublicRoom(string login)
@@ -244,51 +299,6 @@ namespace TicTacToe.Server.Services.Impl
         {
             return await Task.FromResult(_roomStorage
                 .FirstOrDefault(x => x.RoomId.Equals(roomId, StringComparison.Ordinal)));
-        }
-
-        private async Task<Room?> AddConfirmationAsync(bool confirmation, string roomId)
-        {
-            var room = await FindRoomByIdAsync(roomId);
-            if (room is null)
-                return null;
-            if (room.ConfirmFirstPlayer == false)
-            {
-                room.ConfirmFirstPlayer = confirmation;
-                room.ConfirmationTime = DateTime.UtcNow;
-            }
-            else
-            {
-                room.ConfirmSecondPlayer = confirmation;
-            }
-
-            return room;
-        }
-
-        public async Task<bool> ExitFromRoomAsync(string login, string id)
-        {
-            var room = await FindRoomByIdAsync(id);
-
-            if (room is null)
-                return false;
-
-            if (room.LoginFirstPlayer.Equals(login, StringComparison.Ordinal))
-            {
-                room.LoginFirstPlayer = "";
-                room.IsCompleted = false;
-            }
-            else
-            {
-                room.LoginSecondPlayer = "";
-                room.IsCompleted = false;
-            }
-
-            if (room.LoginFirstPlayer.Length == 0
-                && room.LoginSecondPlayer.Length == 0)
-            {
-                DeleteRoom(room);
-            }
-
-            return true;
         }
 
         private void DeleteRoom(Room room)

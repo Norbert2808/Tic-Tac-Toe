@@ -253,5 +253,30 @@ namespace TicTacToe.Server.Controllers
             return !isExit ? NotFound("Room is not found.") : Ok();
         }
 
+        [HttpGet("surrender/{id}")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> SurrenderAsync([FromRoute] string id)
+        {
+            if (LoginUser is null or "")
+            {
+                _logger.LogWarning("Unauthorized users");
+                return Unauthorized("Unauthorized users");
+            }
+
+            try
+            {
+                await _roomService.SurrenderAsync(id, LoginUser);
+            }
+            catch (RoomException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+
+            return Ok();
+        }
+
     }
 }

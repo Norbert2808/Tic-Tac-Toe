@@ -41,6 +41,7 @@ namespace TicTacToe.Client.States.Impl
                     "3 -- LeaderBoard",
                     "0 -- Exit"
                 }, ConsoleColor.Yellow);
+
                 try
                 {
                     _logger.LogInformation("User choose action.");
@@ -131,7 +132,7 @@ namespace TicTacToe.Client.States.Impl
                 Console.Clear();
                 await _mainMenuState.InvokeMenuAsync();
             }
-            
+
             var errorMessage = await GetMessageFromResponseAsync(response);
 
             if (response.StatusCode == HttpStatusCode.BadRequest)
@@ -148,7 +149,7 @@ namespace TicTacToe.Client.States.Impl
             {
                 _logger.LogInformation("User with such login already registered or" +
                                        " input invalid data. HttpStatus::NotFound or" + 
-                                       " HttpStatus::Conflict or HttpStatus::Unauthorized");
+                                       " HttpStatus::Conflict");
                 ConsoleHelper.WriteInConsole(new[] { errorMessage }, ConsoleColor.Red);
                 _ = Console.ReadLine();
             }

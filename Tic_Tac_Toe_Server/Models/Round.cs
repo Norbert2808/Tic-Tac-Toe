@@ -4,6 +4,7 @@ namespace TicTacToe.Server.Models
 {
     public class Round
     {
+        [JsonIgnore]
         private readonly List<Tuple<int, bool?>> _board;
 
         [JsonPropertyName("FirstPlayerMove")]

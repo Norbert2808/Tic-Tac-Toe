@@ -31,14 +31,14 @@ namespace TicTacToe.Client.States.Impl
                 Console.Clear();
                 ConsoleHelper.WriteInConsole(new[]
                 {
-                "Room Menu",
-                "Please choose room:",
-                "1 -- Create private room",
-                "2 -- Connect to private room",
-                "3 -- Public room",
-                "4 -- Practice room",
-                "0 -- Close"
-            }, ConsoleColor.Cyan);
+                    "Room Menu",
+                    "Please choose room:",
+                    "1 -- Create private room",
+                    "2 -- Connect to private room",
+                    "3 -- Public room",
+                    "4 -- Practice room",
+                    "0 -- Close"
+                }, ConsoleColor.Cyan);
 
                 RoomType type = default;
                 var roomId = "";
@@ -56,9 +56,7 @@ namespace TicTacToe.Client.States.Impl
                         case 2:
                             _logger.LogInformation("Connect to private room executed");
                             type = RoomType.Private;
-                            ConsoleHelper.WriteInConsole(new[] { "Please enter token:" },
-                                ConsoleColor.Yellow, "");
-                            roomId = Console.ReadLine();
+                            TokenHandler(out roomId);
                             isConnecting = true;
                             break;
 
@@ -95,6 +93,13 @@ namespace TicTacToe.Client.States.Impl
             }
         }
 
+        private static void TokenHandler(out string? token)
+        {
+            ConsoleHelper.WriteInConsole(new[] { "Please enter token:" },
+                ConsoleColor.Yellow, "");
+           token = Console.ReadLine();
+        }
+
         public async Task StartConnectionWithRoomAsync(RoomType type, string roomId, bool isConnecting)
         {
             _logger.LogInformation("Creating room.");
@@ -109,19 +114,19 @@ namespace TicTacToe.Client.States.Impl
                 {
                     message = new[]
                     {
-                    "Room was found! Please, be wait when your" +
-                    " opponent will entering."
-                };
+                        "Room was found! Please, be wait when your" +
+                        " opponent will entering."
+                    };
                 }
 
                 if (type == RoomType.Private)
                 {
                     message = new[]
                     {
-                    "Your private token:" +
-                    $"{await startRoomResponse.Content.ReadAsStringAsync()}",
-                    "Please, be wait when your opponent will entering."
-                };
+                        "Your private token:" +
+                        $"{await startRoomResponse.Content.ReadAsStringAsync()}",
+                        "Please, be wait when your opponent will entering."
+                    };
                 }
 
                 if (type == RoomType.Practice)
