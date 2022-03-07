@@ -4,8 +4,6 @@
     {
         Task<bool> WaitingStartGame();
 
-        Task<string> GetMessageFromResponseAsync(HttpResponseMessage response);
-
         Task ShowEnemyBarAsync();
     }
 }

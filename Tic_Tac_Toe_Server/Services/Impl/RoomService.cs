@@ -169,11 +169,11 @@ namespace TicTacToe.Server.Services.Impl
                 throw new RoomException("Room not found.");
 
             if (!room.IsCompleted)
-                throw new AuthorizationException("Player left the room.");
+                throw new AccountException("Player left the room.");
 
             if (room.ConfirmFirstPlayer && room.ConfirmSecondPlayer)
             {
-                _ = await _semaphoreSlim.WaitAsync(1);
+                await _semaphoreSlim.WaitAsync();
                 try
                 {
                     room.Rounds.Push(new Round());
@@ -218,7 +218,7 @@ namespace TicTacToe.Server.Services.Impl
                 throw new RoomException("Room not found.");
 
             if (!room.IsCompleted)
-                throw new AuthorizationException();
+                throw new AccountException();
 
             var isFirst = room.LoginFirstPlayer.Equals(login, StringComparison.Ordinal);
 

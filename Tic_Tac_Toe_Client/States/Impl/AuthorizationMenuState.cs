@@ -133,7 +133,7 @@ namespace TicTacToe.Client.States.Impl
                 await _mainMenuState.InvokeMenuAsync();
             }
 
-            var errorMessage = await GetMessageFromResponseAsync(response);
+            var errorMessage = await response.Content.ReadAsStringAsync();
 
             if (response.StatusCode == HttpStatusCode.BadRequest)
             {
@@ -148,16 +148,11 @@ namespace TicTacToe.Client.States.Impl
                 or HttpStatusCode.Conflict)
             {
                 _logger.LogInformation("User with such login already registered or" +
-                                       " input invalid data. HttpStatus::NotFound or" + 
+                                       " input invalid data. HttpStatus::NotFound or" +
                                        " HttpStatus::Conflict");
                 ConsoleHelper.WriteInConsole(new[] { errorMessage }, ConsoleColor.Red);
                 _ = Console.ReadLine();
             }
-        }
-
-        public async Task<string> GetMessageFromResponseAsync(HttpResponseMessage response)
-        {
-            return await response.Content.ReadAsStringAsync();
         }
     }
 }

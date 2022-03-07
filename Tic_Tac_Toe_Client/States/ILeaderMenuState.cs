@@ -1,6 +1,7 @@
-﻿namespace TicTacToe.Client.States;
-
-public interface ILeaderMenuState : IState
+﻿namespace TicTacToe.Client.States
 {
-    Task<string> GetMessageFromResponseAsync(HttpResponseMessage response);
+    public interface ILeaderMenuState : IState
+    {
+        Task<string> GetMessageFromResponseAsync(HttpResponseMessage response);
+    }
 }

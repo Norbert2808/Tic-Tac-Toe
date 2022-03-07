@@ -1,14 +1,14 @@
 ﻿namespace TicTacToe.Server.Exceptions
 {
-    public class AuthorizationException : Exception
+    public class AccountException : Exception
     {
-        public AuthorizationException(string message)
+        public AccountException(string message)
             : base(message)
         {
 
         }
 
-        public AuthorizationException()
+        public AccountException()
             : base()
         {
 

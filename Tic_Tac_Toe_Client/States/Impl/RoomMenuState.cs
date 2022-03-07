@@ -97,7 +97,7 @@ namespace TicTacToe.Client.States.Impl
         {
             ConsoleHelper.WriteInConsole(new[] { "Please enter token:" },
                 ConsoleColor.Yellow, "");
-           token = Console.ReadLine();
+            token = Console.ReadLine();
         }
 
         public async Task StartConnectionWithRoomAsync(RoomType type, string roomId, bool isConnecting)
@@ -138,7 +138,8 @@ namespace TicTacToe.Client.States.Impl
             }
             if (startRoomResponse.StatusCode == HttpStatusCode.BadRequest)
             {
-                var errorMessage = await GetMessageFromResponseAsync(startRoomResponse);
+                var errorMessage = await startRoomResponse.Content.ReadAsStringAsync();
+                ;
                 ConsoleHelper.WriteInConsole(new[] { errorMessage }, ConsoleColor.Red);
                 _ = Console.ReadLine();
             }
@@ -173,11 +174,6 @@ namespace TicTacToe.Client.States.Impl
                     return;
                 }
             }
-        }
-
-        public async Task<string> GetMessageFromResponseAsync(HttpResponseMessage response)
-        {
-            return await response.Content.ReadAsStringAsync();
         }
     }
 }

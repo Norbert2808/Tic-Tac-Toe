@@ -33,7 +33,7 @@ namespace TicTacToe.Server.Controllers
                 _logger.LogInformation("Invoke log-in state");
                 await _accService.InvokeLoginAsync(account);
             }
-            catch (AuthorizationException exception)
+            catch (AccountException exception)
             {
                 _logger.LogInformation(exception.Message);
                 return NotFound(exception.Message);
@@ -58,7 +58,7 @@ namespace TicTacToe.Server.Controllers
                 _logger.LogInformation("Invoke registration state");
                 await _accService.InvokeRegistrationAsync(account);
             }
-            catch (AuthorizationException exception)
+            catch (AccountException exception)
             {
                 _logger.LogInformation(exception.Message);
                 return Conflict(exception.Message);
