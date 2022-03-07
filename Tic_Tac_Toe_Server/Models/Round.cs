@@ -13,6 +13,9 @@ namespace TicTacToe.Server.Models
         [JsonPropertyName("secondPlayerMove")]
         public List<MoveDto> SecondPlayerMove { get; set; }
 
+        [JsonPropertyName("firstWin")]
+        public bool FirstWin { get; set; }
+
         [JsonIgnore]
         private HashSet<int> FirstPlayerNumbers { get; set; }
 
@@ -34,9 +37,23 @@ namespace TicTacToe.Server.Models
             SecondPlayerMove = new List<MoveDto>();
             bool? player = null;
             _board = Enumerable.Repeat(new Tuple<int, bool?>(0, player), 9).ToList();
-            FirstPlayerNumbers = new HashSet<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-            SecondPlayerNumbers = new HashSet<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+            FirstPlayerNumbers = Enumerable.Range(1, 9).ToHashSet();
+            SecondPlayerNumbers = Enumerable.Range(1, 9).ToHashSet();
             IsStarted = true;
+        }
+
+        [JsonConstructor]
+        public Round(List<Move> firstPlayerMove,
+            List<Move> secondPlayerMove,
+            bool firstWin)
+        {
+            FirstPlayerMove = firstPlayerMove;
+            SecondPlayerMove = secondPlayerMove;
+            FirstWin = firstWin;
+            bool? player = null;
+            _board = Enumerable.Repeat(new Tuple<int, bool?>(0, player), 9).ToList();
+            FirstPlayerNumbers = Enumerable.Range(1, 9).ToHashSet();
+            SecondPlayerNumbers = Enumerable.Range(1, 9).ToHashSet();
         }
 
         public bool DoMove(MoveDto move, bool isFirst)

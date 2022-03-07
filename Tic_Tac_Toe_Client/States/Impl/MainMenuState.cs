@@ -10,7 +10,7 @@ namespace TicTacToe.Client.States.Impl
 
         private readonly IUserService _userService;
 
-        private readonly IPrivateUserStatistic _privateUserStatistic;
+        private readonly IPrivateStatisticState _privateUserStatistic;
 
         private readonly ILogger<MainMenuState> _logger;
 

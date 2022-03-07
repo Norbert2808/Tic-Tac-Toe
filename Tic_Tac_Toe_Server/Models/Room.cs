@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+//using Newtonsoft.Json;
 using TicTacToe.Server.Enums;
 
 namespace TicTacToe.Server.Models
@@ -24,18 +25,19 @@ namespace TicTacToe.Server.Models
         [JsonIgnore]
         public DateTime LastMoveTime { get; set; }
 
-        [JsonPropertyName("creationDate")]
+        [JsonPropertyName("creationRoomDate")]
         public DateTime CreationRoomDate { get; set; }
 
-        [JsonPropertyName("finishDate")]
+        [JsonPropertyName("finishRoomDate")]
         public DateTime FinishRoomDate { get; set; }
 
-        public RoomSettingsDto Settings { get; set; }
+        [JsonIgnore]
+        public RoomSettings Settings { get; set; }
 
-        [JsonPropertyName("firstPlayer")]
+        [JsonPropertyName("loginFirstPlayer")]
         public string LoginFirstPlayer { get; set; }
 
-        [JsonPropertyName("secondPlayer")]
+        [JsonPropertyName("loginSecondPlayer")]
         public string LoginSecondPlayer { get; set; }
 
         //Flags 
@@ -54,9 +56,6 @@ namespace TicTacToe.Server.Models
         [JsonIgnore]
         public bool ConfirmSecondPlayer { get; set; }
 
-        [JsonPropertyName("firstWin")]
-        public bool FirstWin { get; set; }
-
         [JsonPropertyName("rounds")]
         public Stack<Round> Rounds { get; private set; }
 
@@ -71,6 +70,22 @@ namespace TicTacToe.Server.Models
             IsCompleted = false;
             IsFinished = false;
             Rounds = new Stack<Round>();
+        }
+
+        [JsonConstructor]
+        public Room(string roomId,
+            DateTime creationRoomDate,
+            DateTime finishRoomDate,
+            string loginFirstPlayer,
+            string loginSecondPlayer,
+            Stack<Round> rounds)
+        {
+            RoomId = roomId;
+            CreationRoomDate = creationRoomDate;
+            FinishRoomDate = finishRoomDate;
+            LoginFirstPlayer = loginFirstPlayer;
+            LoginSecondPlayer = loginSecondPlayer;
+            Rounds = rounds;
         }
 
         public TimeSpan GetStartGameWaitingTime()

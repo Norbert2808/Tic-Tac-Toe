@@ -5,14 +5,14 @@ using TicTacToe.Client.Services;
 
 namespace TicTacToe.Client.States.Impl
 {
-    internal class PrivateUserStatistic : IPrivateUserStatistic
+    internal class PrivateStatisticState : IPrivateStatisticState
     {
         private readonly IStatisticService _statisticService;
 
-        private readonly ILogger<IPrivateUserStatistic> _logger;
+        private readonly ILogger<IPrivateStatisticState> _logger;
 
-        public PrivateUserStatistic(IStatisticService statisticService,
-            ILogger<IPrivateUserStatistic> logger)
+        public PrivateStatisticState(IStatisticService statisticService,
+            ILogger<IPrivateStatisticState> logger)
         {
             _statisticService = statisticService;
             _logger = logger;
@@ -20,6 +20,7 @@ namespace TicTacToe.Client.States.Impl
 
         public async Task InvokeMenuAsync()
         {
+            _logger.LogInformation("Invoke private statistic");
             var response = await _statisticService.GetPrivateStatisticDto();
 
             if (response.StatusCode == HttpStatusCode.OK)
@@ -34,7 +35,7 @@ namespace TicTacToe.Client.States.Impl
                 {
                     "--- Private statistic ---",
                     $"Count of winning games - {statisticDto.Winnings}",
-                    $"Count of lost games - {statisticDto.Winnings}",
+                    $"Count of lost games - {statisticDto.Losses}",
                     $"Most used position: {mostUsedPosition}",
                     $"Most used numbers: {mostUsedNumbers}"
                 }, ConsoleColor.Cyan);

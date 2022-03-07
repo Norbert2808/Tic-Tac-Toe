@@ -10,10 +10,10 @@ namespace TicTacToe.Client.DTO
         [JsonPropertyName("losses")]
         public int Losses { get; set; }
 
-        [JsonPropertyName("mostNumbers")]
+        [JsonPropertyName("mostUsedNumbers")]
         public List<int> MostUsedNumbers { get; set; }
 
-        [JsonPropertyName("mostPosition")]
+        [JsonPropertyName("mostUsedPosition")]
         public List<int> MostUsedPosition { get; set; }
 
         public PrivateStatisticDto(int winnings, int losses,

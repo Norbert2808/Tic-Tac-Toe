@@ -56,18 +56,18 @@ namespace TicTacToe.Server.Services.Impl
             var result = new List<MoveDto>();
             _roomStorage.ForEach(x =>
             {
-                if (login.Equals(x.LoginFirstPlayer, StringComparison.Ordinal))
+                if (login.Equals(room.LoginFirstPlayer, StringComparison.Ordinal))
                 {
-                    foreach (var moves in x.Rounds)
+                    foreach (var moves in room.Rounds)
                     {
                         result.AddRange(moves.FirstPlayerMove);
                     }
                 }
-                else if (login.Equals(x.LoginSecondPlayer, StringComparison.Ordinal))
+                else if (login.Equals(room.LoginSecondPlayer, StringComparison.Ordinal))
                 {
-                    foreach (var moves in x.Rounds)
+                    foreach (var moves in room.Rounds)
                     {
-                        result.AddRange(moves.FirstPlayerMove);
+                        result.AddRange(moves.SecondPlayerMove);
                     }
                 }
             });
@@ -79,21 +79,27 @@ namespace TicTacToe.Server.Services.Impl
         {
             var winCount = 0;
             var lostCount = 0;
-            _roomStorage.ForEach(x =>
+            _roomStorage.ForEach(room =>
             {
-                if (login.Equals(x.LoginFirstPlayer, StringComparison.Ordinal))
+                if (login.Equals(room.LoginFirstPlayer, StringComparison.Ordinal))
                 {
-                    if (x.FirstWin)
-                        winCount++;
-                    else
-                        lostCount++;
+                    foreach (var moves in room.Rounds)
+                    {
+                        if (moves.FirstWin)
+                            winCount++;
+                        else
+                            lostCount++;
+                    }
                 }
-                else if (login.Equals(x.LoginSecondPlayer, StringComparison.Ordinal))
+                else if (login.Equals(room.LoginSecondPlayer, StringComparison.Ordinal))
                 {
-                    if (x.FirstWin)
-                        lostCount++;
-                    else
-                        winCount++;
+                    foreach (var moves in room.Rounds)
+                    {
+                        if (moves.FirstWin)
+                            lostCount++;
+                        else
+                            winCount++;
+                    }
                 }
             });
 
