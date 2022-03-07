@@ -23,7 +23,7 @@ namespace TicTacToe.Client.States.Impl
 
         public async Task InvokeMenuAsync()
         {
-            _logger.LogInformation(@"Class MainMenuState. InvokeAsync method");
+            _logger.LogInformation("Class MainMenuState. InvokeAsync method");
 
             while (true)
             {

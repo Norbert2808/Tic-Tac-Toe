@@ -140,7 +140,6 @@ namespace TicTacToe.Server.Services.Impl
             if (room.IsRoundTimeOut())
                 throw new TimeOutException("Time out.");
 
-
             var round = room.Rounds.Peek();
 
             var isFirstPlayer = room.LoginFirstPlayer.Equals(login, StringComparison.Ordinal);
@@ -170,13 +169,11 @@ namespace TicTacToe.Server.Services.Impl
                 throw new RoomException("Room not found.");
 
             if (!room.IsCompleted)
-            {
                 throw new AuthorizationException("Player left the room.");
-            }
 
             if (room.ConfirmFirstPlayer && room.ConfirmSecondPlayer)
             {
-                await _semaphoreSlim.WaitAsync();
+                _ = await _semaphoreSlim.WaitAsync(1);
                 try
                 {
                     room.Rounds.Push(new Round());
@@ -197,12 +194,20 @@ namespace TicTacToe.Server.Services.Impl
 
         public async Task AppendConfirmationAsync(bool confirmation, string id)
         {
-            var room = await AddConfirmationAsync(confirmation, id);
+            var room = await FindRoomByIdAsync(id);
 
             if (room is null)
                 throw new RoomException("Room not found.");
-            if (room.IsStartGameTimeOut())
-                throw new TimeoutException("Time out");
+
+            if (room.ConfirmFirstPlayer == false)
+            {
+                room.ConfirmFirstPlayer = confirmation;
+                room.ConfirmationTime = DateTime.UtcNow;
+            }
+            else
+            {
+                room.ConfirmSecondPlayer = confirmation;
+            }
         }
 
         public async Task<bool> CheckPlayerPositionAsync(string id, string login)
@@ -227,7 +232,7 @@ namespace TicTacToe.Server.Services.Impl
             if (room is null)
                 throw new RoomException("Room not found.");
 
-
+            //ToDo Make surrender
         }
 
         public async Task<bool> ExitFromRoomAsync(string login, string id)
@@ -294,24 +299,6 @@ namespace TicTacToe.Server.Services.Impl
         {
             return await Task.FromResult(_roomStorage
                 .FirstOrDefault(x => x.RoomId.Equals(roomId, StringComparison.Ordinal)));
-        }
-
-        private async Task<Room?> AddConfirmationAsync(bool confirmation, string roomId)
-        {
-            var room = await FindRoomByIdAsync(roomId);
-            if (room is null)
-                return null;
-            if (room.ConfirmFirstPlayer == false)
-            {
-                room.ConfirmFirstPlayer = confirmation;
-                room.ConfirmationTime = DateTime.UtcNow;
-            }
-            else
-            {
-                room.ConfirmSecondPlayer = confirmation;
-            }
-
-            return room;
         }
 
         private void DeleteRoom(Room room)

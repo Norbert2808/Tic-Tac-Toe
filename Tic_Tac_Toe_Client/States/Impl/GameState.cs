@@ -31,9 +31,11 @@ namespace TicTacToe.Client.States.Impl
 
         public async Task InvokeMenuAsync()
         {
+            _logger.LogInformation("Invoke Game state class");
+
             _isEndOfGame = false;
             _board.SetDefaultValuesInBoard();
-            _iAmFirst = await _gameService.CheckPlayerPosition();
+            await CheckPositionAsync();
             var myTurnToMove = _iAmFirst;
 
             while (true)
@@ -43,14 +45,15 @@ namespace TicTacToe.Client.States.Impl
 
                 if (_isEndOfGame)
                 {
-                    var message = _iAmFirst == _winnerFirst ? "YOU WIN!" : "YOU LOST!";
-                    ConsoleHelper.WriteInConsole(new string[] { message }, ConsoleColor.Magenta);
-                    _ = Console.ReadLine();
+                    _logger.LogInformation("Results game.");
+                    ResultMenu();
                     break;
                 }
 
                 if (myTurnToMove)
                 {
+                    _logger.LogInformation("Invoke game menu.");
+
                     var color = _iAmFirst ? ConsoleColor.Green : ConsoleColor.Red;
                     ConsoleHelper.WriteInConsole($"Your color is {color}\n", color);
                     ConsoleHelper.WriteInConsole(new[]
@@ -109,8 +112,27 @@ namespace TicTacToe.Client.States.Impl
             }
         }
 
+        private void ResultMenu()
+        {
+            var message = _iAmFirst == _winnerFirst ? "YOU WIN!" : "YOU LOST!";
+            ConsoleHelper.WriteInConsole(new[] { message }, ConsoleColor.Magenta);
+            _ = Console.ReadLine();
+        }
+
+        private async Task CheckPositionAsync()
+        {
+            var responsePosition = await _gameService.CheckPlayerPosition();
+
+            if (responsePosition.StatusCode == HttpStatusCode.OK)
+            {
+                _iAmFirst = await responsePosition.Content.ReadAsAsync<bool>();
+            }
+        }
+
         public async Task<bool> MakeMoveAsync()
         {
+            _logger.LogInformation("Making move...");
+
             while (true)
             {
                 var move = GetMoveFromPlayer();
@@ -134,7 +156,7 @@ namespace TicTacToe.Client.States.Impl
 
                 if (response.StatusCode == HttpStatusCode.BadRequest)
                 {
-                    ConsoleHelper.WriteInConsole(new string[] { errorMes }, ConsoleColor.DarkRed);
+                    ConsoleHelper.WriteInConsole(new[] { errorMes }, ConsoleColor.DarkRed);
                     _ = Console.ReadLine();
                     return false;
                 }
@@ -143,7 +165,7 @@ namespace TicTacToe.Client.States.Impl
                 {
                     _isEndOfGame = true;
                     _winnerFirst = !_iAmFirst;
-                    ConsoleHelper.WriteInConsole("Time out, you didn’t make a move in 20 seconds.\n", ConsoleColor.DarkRed);
+                    ConsoleHelper.WriteInConsole("Time out, you didn't make a move in 20 seconds.\n", ConsoleColor.DarkRed);
                     _ = Console.ReadLine();
                     return false;
                 }
@@ -152,6 +174,8 @@ namespace TicTacToe.Client.States.Impl
 
         public async Task WaitMoveOpponentAsync()
         {
+            _logger.LogInformation("Waiting opponent's move.");
+
             while (true)
             {
                 var responseMessage = await _gameService.CheckMoveAsync();
@@ -184,6 +208,8 @@ namespace TicTacToe.Client.States.Impl
 
         private MoveDto GetMoveFromPlayer()
         {
+            _logger.LogInformation("Get player's move.");
+
             while (true)
             {
                 Console.Clear();
@@ -206,13 +232,14 @@ namespace TicTacToe.Client.States.Impl
                     _ = Console.ReadLine();
                     continue;
                 }
+
                 return new MoveDto(index, number);
             }
         }
 
         public async Task ExitAsync()
         {
-
+            var responseSurrender = await _gameService.SurrenderAsync();
         }
     }
 }

@@ -65,7 +65,6 @@ namespace TicTacToe.Client.States.Impl
                         ConsoleColor.Red);
                     _ = Console.ReadLine();
                 }
-
             }
         }
 
@@ -76,53 +75,21 @@ namespace TicTacToe.Client.States.Impl
 
             if (responseSendConfirmation.StatusCode == HttpStatusCode.OK)
             {
-                while (true)
-                {
-                    Console.Clear();
-                    ConsoleHelper.WriteInConsole(new[] { "Waiting for enemy confirmation" },
-                        ConsoleColor.Green, "");
-                    var responseConfirmation = await _gameService.CheckConfirmationAsync();
-
-                    if (responseConfirmation.StatusCode == HttpStatusCode.OK)
-                    {
-                        if (await CheckOpponentLeftTheRoomAsync())
-                            return false;
-                        
-                        await _gameState.InvokeMenuAsync();
-                        return true;
-                    }
-
-                    if (responseConfirmation.StatusCode == HttpStatusCode.NotFound)
-                    {
-                        if (await CheckOpponentLeftTheRoomAsync())
-                            return false;
-
-                        var time = await responseConfirmation.Content.ReadAsStringAsync();
-                        ConsoleHelper.WriteInConsole(new[] { $"Time: {time}" }, ConsoleColor.Red, "");
-                        Thread.Sleep(1000);
-                    }
-
-                    if (responseConfirmation.StatusCode == HttpStatusCode.Conflict)
-                    {
-                        var errorMsg = await GetMessageFromResponseAsync(responseConfirmation);
-                        ConsoleHelper.WriteInConsole(new[] { errorMsg }, ConsoleColor.Red);
-                        _ = Console.ReadLine();
-                        _ = _gameService.ExitFromRoomAsync();
-                        return false;
-                    }
-                }
+                return await WaitConfirmationSecondPlayer();
             }
 
             if (responseSendConfirmation.StatusCode == HttpStatusCode.Conflict)
             {
-                ConsoleHelper.WriteInConsole(new[] { "You didn`t confirm the game. Room was closed." }, ConsoleColor.Red);
+                ConsoleHelper.WriteInConsole(new[] { "You didn't confirm the game. Room was closed." },
+                    ConsoleColor.Red);
                 _ = Console.ReadLine();
                 _ = await _gameService.ExitFromRoomAsync();
             }
 
             if (responseSendConfirmation.StatusCode == HttpStatusCode.NotFound)
             {
-                ConsoleHelper.WriteInConsole(new[] { "Your opponent left the room and room was deleting" }, ConsoleColor.Red);
+                ConsoleHelper.WriteInConsole(new[] { "Your opponent left the room and room was deleting" },
+                    ConsoleColor.Red);
                 _ = Console.ReadLine();
                 return false;
             }
@@ -141,6 +108,45 @@ namespace TicTacToe.Client.States.Impl
             }
         }
 
+        private async Task<bool> WaitConfirmationSecondPlayer()
+        {
+            while (true)
+            {
+                Console.Clear();
+                ConsoleHelper.WriteInConsole(new[] { "Waiting for enemy confirmation" },
+                    ConsoleColor.Green, "");
+                var responseConfirmation = await _gameService.CheckConfirmationAsync();
+
+                if (responseConfirmation.StatusCode == HttpStatusCode.OK)
+                {
+                    if (await CheckOpponentLeftTheRoomAsync())
+                        return false;
+
+                    await _gameState.InvokeMenuAsync();
+                    return true;
+                }
+
+                if (responseConfirmation.StatusCode == HttpStatusCode.NotFound)
+                {
+                    if (await CheckOpponentLeftTheRoomAsync())
+                        return false;
+
+                    var time = await responseConfirmation.Content.ReadAsStringAsync();
+                    ConsoleHelper.WriteInConsole(new[] { $"Time: {time}" }, ConsoleColor.Red, "");
+                    Thread.Sleep(1000);
+                }
+
+                if (responseConfirmation.StatusCode == HttpStatusCode.Conflict)
+                {
+                    var errorMsg = await GetMessageFromResponseAsync(responseConfirmation);
+                    ConsoleHelper.WriteInConsole(new[] { errorMsg }, ConsoleColor.Red);
+                    _ = Console.ReadLine();
+                    _ = _gameService.ExitFromRoomAsync();
+                    return false;
+                }
+            }
+        }
+
         public async Task ExitAsync()
         {
             _ = await _gameService.ExitFromRoomAsync();
@@ -148,7 +154,8 @@ namespace TicTacToe.Client.States.Impl
 
         private async Task<bool> CheckOpponentLeftTheRoomAsync()
         {
-            if (await _gameService.OpponentLeftTheRoomAsync())
+            var responsePosition = await _gameService.CheckPlayerPosition();
+            if (responsePosition.StatusCode == HttpStatusCode.Conflict)
             {
                 ConsoleHelper.WriteInConsole(new[] { "Your opponent left the room" },
                     ConsoleColor.Red);
