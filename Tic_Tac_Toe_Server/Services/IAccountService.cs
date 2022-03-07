@@ -4,9 +4,9 @@ namespace TicTacToe.Server.Services
 {
     public interface IAccountService
     {
-        Task InvokeLoginAsync(UserAccount account);
+        Task InvokeLoginAsync(UserAccountDto account);
 
-        Task InvokeRegistrationAsync(UserAccount account);
+        Task InvokeRegistrationAsync(UserAccountDto account);
 
         void RemoveActiveAccountByLogin(string login);
 

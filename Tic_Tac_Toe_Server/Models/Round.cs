@@ -7,11 +7,11 @@ namespace TicTacToe.Server.Models
         [JsonIgnore]
         private readonly List<Tuple<int, bool?>> _board;
 
-        [JsonPropertyName("FirstPlayerMove")]
-        public List<Move> FirstPlayerMove { get; set; }
+        [JsonPropertyName("firstPlayerMove")]
+        public List<MoveDto> FirstPlayerMove { get; set; }
 
-        [JsonPropertyName("SecondPlayerMove")]
-        public List<Move> SecondPlayerMove { get; set; }
+        [JsonPropertyName("secondPlayerMove")]
+        public List<MoveDto> SecondPlayerMove { get; set; }
 
         [JsonIgnore]
         private HashSet<int> FirstPlayerNumbers { get; set; }
@@ -20,7 +20,7 @@ namespace TicTacToe.Server.Models
         private HashSet<int> SecondPlayerNumbers { get; set; }
 
         [JsonIgnore]
-        public Move? LastMove { get; set; }
+        public MoveDto? LastMove { get; set; }
 
         [JsonIgnore]
         private readonly object _locker = new();
@@ -30,15 +30,16 @@ namespace TicTacToe.Server.Models
 
         public Round()
         {
-            FirstPlayerMove = new List<Move>();
-            SecondPlayerMove = new List<Move>();
+            FirstPlayerMove = new List<MoveDto>();
+            SecondPlayerMove = new List<MoveDto>();
             bool? player = null;
             _board = Enumerable.Repeat(new Tuple<int, bool?>(0, player), 9).ToList();
             FirstPlayerNumbers = new HashSet<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
             SecondPlayerNumbers = new HashSet<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+            IsStarted = true;
         }
 
-        public bool DoMove(Move move, bool isFirst)
+        public bool DoMove(MoveDto move, bool isFirst)
         {
             lock (_locker)
             {
@@ -133,7 +134,7 @@ namespace TicTacToe.Server.Models
             }
         }
 
-        private void MovingValidation(Move move, bool isFirst)
+        private void MovingValidation(MoveDto move, bool isFirst)
         {
             if (move.IndexOfCell is < 0 or > 8)
                 throw new ArgumentException("Cell number must be in range [1;9]");

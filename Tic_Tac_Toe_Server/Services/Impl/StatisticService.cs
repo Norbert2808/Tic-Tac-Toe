@@ -51,9 +51,9 @@ namespace TicTacToe.Server.Services.Impl
             _roomStorage = await _jsonHelper.DeserializeAsync();
         }
 
-        private List<Move> GetAllMovesFromRoomStorage(string login)
+        private List<MoveDto> GetAllMovesFromRoomStorage(string login)
         {
-            var result = new List<Move>();
+            var result = new List<MoveDto>();
             _roomStorage.ForEach(x =>
             {
                 if (login.Equals(x.LoginFirstPlayer, StringComparison.Ordinal))
@@ -99,23 +99,6 @@ namespace TicTacToe.Server.Services.Impl
 
             return (winCount, lostCount);
         }
-
-       //public List<int> GetTopNumbers(List<Move> moves)
-       // {
-       //     var countOfNumbers = new List<int>(9);
-       //     moves.ForEach(x => countOfNumbers[x.Number - 1] += 1);
-       //     var topCount = countOfNumbers.Max();
-
-       //     var result = new List<int>();
-       //     var index = 0;
-       //     countOfNumbers.ForEach(x =>
-       //     {
-       //         if (x == topCount)
-       //             result.Add(index + 1);
-       //         index++;
-       //     });
-       //     return result;
-       // } 
 
         private List<int> GetTopProperty(List<int> prop)
         {

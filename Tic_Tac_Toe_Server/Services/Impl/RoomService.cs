@@ -21,7 +21,7 @@ namespace TicTacToe.Server.Services.Impl
             _jsonHelper = new JsonHelper<Room>(Path);
         }
 
-        public async Task<string> StartRoomAsync(string id, string login, RoomSettings settings)
+        public async Task<string> StartRoomAsync(string id, string login, RoomSettingsDto settings)
         {
             var room = await FindRoomByIdAsync(id);
 
@@ -38,7 +38,7 @@ namespace TicTacToe.Server.Services.Impl
                 : response;
         }
 
-        private async Task<string> CreateRoomAsync(string login, RoomSettings settings)
+        private async Task<string> CreateRoomAsync(string login, RoomSettingsDto settings)
         {
             await _semaphoreSlim.WaitAsync();
             try
@@ -102,7 +102,7 @@ namespace TicTacToe.Server.Services.Impl
             throw new TimeoutException("Timeout");
         }
 
-        public async Task<(bool, Move)> CheckMoveAsync(string id, string login)
+        public async Task<(bool, MoveDto)> CheckMoveAsync(string id, string login)
         {
             var room = await FindRoomByIdAsync(id);
 
@@ -130,7 +130,7 @@ namespace TicTacToe.Server.Services.Impl
             return (false, null)!;
         }
 
-        public async Task<bool> DoMoveAsync(string id, string login, Move move)
+        public async Task<bool> DoMoveAsync(string id, string login, MoveDto move)
         {
             var room = await FindRoomByIdAsync(id);
 

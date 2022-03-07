@@ -30,7 +30,7 @@ namespace TicTacToe.Server.Models
         [JsonPropertyName("finishDate")]
         public DateTime FinishRoomDate { get; set; }
 
-        public RoomSettings Settings { get; set; }
+        public RoomSettingsDto Settings { get; set; }
 
         [JsonPropertyName("firstPlayer")]
         public string LoginFirstPlayer { get; set; }
@@ -60,7 +60,7 @@ namespace TicTacToe.Server.Models
         [JsonPropertyName("rounds")]
         public Stack<Round> Rounds { get; private set; }
 
-        public Room(string login, RoomSettings settings)
+        public Room(string login, RoomSettingsDto settings)
         {
             LoginFirstPlayer = login;
             LoginSecondPlayer = "";

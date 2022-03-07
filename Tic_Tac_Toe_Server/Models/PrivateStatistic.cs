@@ -10,9 +10,6 @@ namespace TicTacToe.Server.Models
         [JsonPropertyName("losses")]
         public int Losses { get; set; }
 
-        // [JsonPropertyName("moves")]
-        // public List<int>? Moves { get; set; }
-
         [JsonPropertyName("mostNumbers")]
         public List<int> MostUsedNumbers { get; set; }
 
