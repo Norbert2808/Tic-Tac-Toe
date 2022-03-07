@@ -5,7 +5,5 @@
         Task ExecuteRoomMenuAsync();
 
         Task LogoutAsync();
-
-        Task<string> GetMessageFromResponseAsync(HttpResponseMessage response);
     }
 }

@@ -12,12 +12,12 @@ namespace TicTacToe.Client.States.Impl
 
         private readonly IPrivateUserStatistic _privateUserStatistic;
 
-        private readonly ILogger<IMainMenuState> _logger;
+        private readonly ILogger<MainMenuState> _logger;
 
         public MainMenuState(IRoomMenuState roomMenuState,
             IUserService userService,
             IPrivateUserStatistic privateUserStatistic,
-            ILogger<IMainMenuState> logger)
+            ILogger<MainMenuState> logger)
         {
             _roomMenuState = roomMenuState;
             _userService = userService;
@@ -89,16 +89,13 @@ namespace TicTacToe.Client.States.Impl
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                var message = await GetMessageFromResponseAsync(response);
+                _logger.LogInformation("Response : Successful response 200");
+
+                var message = await response.Content.ReadAsStringAsync();
                 ConsoleHelper.WriteInConsole(
                     new[] { message }, ConsoleColor.Yellow);
                 _ = Console.ReadLine();
             }
-        }
-
-        public async Task<string> GetMessageFromResponseAsync(HttpResponseMessage response)
-        {
-            return await response.Content.ReadAsStringAsync();
         }
     }
 }

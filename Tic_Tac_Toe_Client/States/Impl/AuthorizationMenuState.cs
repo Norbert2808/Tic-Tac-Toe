@@ -129,6 +129,7 @@ namespace TicTacToe.Client.States.Impl
         {
             if (response.StatusCode == HttpStatusCode.OK)
             {
+                _logger.LogInformation("Response : Successful response 200.");
                 Console.Clear();
                 await _mainMenuState.InvokeMenuAsync();
             }
@@ -137,7 +138,7 @@ namespace TicTacToe.Client.States.Impl
 
             if (response.StatusCode == HttpStatusCode.BadRequest)
             {
-                _logger.LogInformation("Input invalid data. HttpStatus::BadRequest");
+                _logger.LogInformation("Input invalid data. HttpStatus::BadRequest 400.");
                 ConsoleHelper.WriteInConsole(
                        new[] { "Login and password must be at least 6 symbol long" },
                        ConsoleColor.Red);
@@ -148,8 +149,8 @@ namespace TicTacToe.Client.States.Impl
                 or HttpStatusCode.Conflict)
             {
                 _logger.LogInformation("User with such login already registered or" +
-                                       " input invalid data. HttpStatus::NotFound or" +
-                                       " HttpStatus::Conflict");
+                                       " input invalid data. HttpStatus::NotFound 404 or" +
+                                       " HttpStatus::Conflict 409");
                 ConsoleHelper.WriteInConsole(new[] { errorMessage }, ConsoleColor.Red);
                 _ = Console.ReadLine();
             }

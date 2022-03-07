@@ -11,11 +11,11 @@ namespace TicTacToe.Client.States.Impl
 
         private readonly IRoundState _roundState;
 
-        private readonly ILogger<IRoomMenuState> _logger;
+        private readonly ILogger<RoomMenuState> _logger;
 
         public RoomMenuState(IRoundState roundState,
             IGameService gameService,
-            ILogger<IRoomMenuState> logger)
+            ILogger<RoomMenuState> logger)
         {
             _gameService = gameService;
             _roundState = roundState;
@@ -110,6 +110,8 @@ namespace TicTacToe.Client.States.Impl
 
             if (startRoomResponse.StatusCode == HttpStatusCode.OK)
             {
+                _logger.LogInformation("Succesul response 200");
+
                 if (type == RoomType.Public)
                 {
                     message = new[]
@@ -138,6 +140,7 @@ namespace TicTacToe.Client.States.Impl
             }
             if (startRoomResponse.StatusCode == HttpStatusCode.BadRequest)
             {
+                _logger.LogInformation("Bad request 400");
                 var errorMessage = await startRoomResponse.Content.ReadAsStringAsync();
                 ;
                 ConsoleHelper.WriteInConsole(new[] { errorMessage }, ConsoleColor.Red);
@@ -157,12 +160,14 @@ namespace TicTacToe.Client.States.Impl
 
                 if (checkRoomResponse.StatusCode == HttpStatusCode.OK)
                 {
+                    _logger.LogInformation("Succesful response 200");
                     await _roundState.InvokeMenuAsync();
                     return;
                 }
 
                 if (checkRoomResponse.StatusCode == HttpStatusCode.NotFound)
                 {
+                    _logger.LogInformation("Response : NotFound 404");
                     var time = await checkRoomResponse.Content.ReadAsAsync<string[]>();
                     ConsoleHelper.WriteInConsole(new[] { $"Time: {time[0]}" }, ConsoleColor.Red, "");
                     Thread.Sleep(3000);
@@ -170,6 +175,7 @@ namespace TicTacToe.Client.States.Impl
 
                 if (checkRoomResponse.StatusCode == HttpStatusCode.Conflict)
                 {
+                    _logger.LogInformation("Response : Conflict 409");
                     _ = await _gameService.ExitFromRoomAsync();
                     return;
                 }
