@@ -33,7 +33,7 @@ namespace TicTacToe.Server.Services.Impl
             var loginIsExist = IsAccountExistByLoginAsync(account.Login);
 
             if (!await loginIsExist)
-                throw new AuthorizationException("Input login does not exist");
+                throw new AccountException("Input login does not exist");
 
             if (_blocker.IsBlocked(account.Login))
             {
@@ -45,13 +45,13 @@ namespace TicTacToe.Server.Services.Impl
             if (!passwordIsExist)
             {
                 _blocker.ErrorTryLogin(account.Login);
-                throw new AuthorizationException("Password is wrong!");
+                throw new AccountException("Password is wrong!");
             }
 
             _blocker.UnBlock(account.Login);
 
             if (IsActiveUserByLogin(account.Login))
-                throw new AuthorizationException("User have already logged-in");
+                throw new AccountException("User have already logged-in");
 
             AddActiveAccount(account);
         }
@@ -62,7 +62,7 @@ namespace TicTacToe.Server.Services.Impl
 
             if (await IsAccountExistByLoginAsync(account.Login))
             {
-                throw new AuthorizationException("User with such login already registered");
+                throw new AccountException("User with such login already registered");
             }
 
             AddActiveAccount(account);

@@ -138,7 +138,7 @@ namespace TicTacToe.Client.States.Impl
 
                 if (responseConfirmation.StatusCode == HttpStatusCode.Conflict)
                 {
-                    var errorMsg = await GetMessageFromResponseAsync(responseConfirmation);
+                    var errorMsg = await responseConfirmation.Content.ReadAsStringAsync();
                     ConsoleHelper.WriteInConsole(new[] { errorMsg }, ConsoleColor.Red);
                     _ = Console.ReadLine();
                     _ = _gameService.ExitFromRoomAsync();
@@ -164,11 +164,6 @@ namespace TicTacToe.Client.States.Impl
                 return true;
             }
             return false;
-        }
-
-        public async Task<string> GetMessageFromResponseAsync(HttpResponseMessage response)
-        {
-            return await response.Content.ReadAsStringAsync();
         }
     }
 }

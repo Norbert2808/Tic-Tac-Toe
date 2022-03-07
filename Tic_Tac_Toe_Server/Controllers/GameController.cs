@@ -198,7 +198,7 @@ namespace TicTacToe.Server.Controllers
             {
                 return NotFound(exception.Message);
             }
-            catch (AuthorizationException exception)
+            catch (AccountException exception)
             {
                 return Conflict(exception.Message);
             }
@@ -230,7 +230,7 @@ namespace TicTacToe.Server.Controllers
             {
                 return NotFound(exception.Message);
             }
-            catch (AuthorizationException)
+            catch (AccountException)
             {
                 return Conflict();
             }

@@ -153,6 +153,7 @@ namespace TicTacToe.Server.Services.Impl
                 {
                     room.ConfirmFirstPlayer = false;
                     room.ConfirmSecondPlayer = false;
+                    round.IsStarted = false;
                     return true;
                 }
                 return false;
@@ -169,15 +170,27 @@ namespace TicTacToe.Server.Services.Impl
                 throw new RoomException("Room not found.");
 
             if (!room.IsCompleted)
-                throw new AuthorizationException("Player left the room.");
+                throw new AccountException("Player left the room.");
 
             if (room.ConfirmFirstPlayer && room.ConfirmSecondPlayer)
             {
-                _ = await _semaphoreSlim.WaitAsync(1);
+                await _semaphoreSlim.WaitAsync();
                 try
                 {
-                    room.Rounds.Push(new Round());
-                    room.LastMoveTime = DateTime.UtcNow;
+                    if (room.Rounds.Count == 0)
+                    {
+                        room.Rounds.Push(new Round());
+                        room.LastMoveTime = DateTime.UtcNow;
+                    }
+                    else
+                    {
+                        var round = room.Rounds.Peek();
+                        if (!round.IsStarted)
+                        {
+                            room.Rounds.Push(new Round());
+                            room.LastMoveTime = DateTime.UtcNow;
+                        }
+                    }
                 }
                 finally
                 {
@@ -218,7 +231,7 @@ namespace TicTacToe.Server.Services.Impl
                 throw new RoomException("Room not found.");
 
             if (!room.IsCompleted)
-                throw new AuthorizationException();
+                throw new AccountException();
 
             var isFirst = room.LoginFirstPlayer.Equals(login, StringComparison.Ordinal);
 

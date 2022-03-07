@@ -8,6 +8,5 @@ namespace TicTacToe.Client.States
 
         Task WaitSecondPlayerAsync(string[] message);
 
-        Task<string> GetMessageFromResponseAsync(HttpResponseMessage response);
     }
 }

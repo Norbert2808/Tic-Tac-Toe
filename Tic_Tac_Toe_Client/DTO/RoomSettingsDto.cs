@@ -1,19 +1,20 @@
 ﻿using TicTacToe.Client.Enums;
 
-namespace TicTacToe.Client.DTO;
-
-public class RoomSettingsDto
+namespace TicTacToe.Client.DTO
 {
-    public RoomType Type { get; set; }
-
-    public string RoomId { get; set; }
-
-    public bool IsConnection { get; set; }
-
-    public RoomSettingsDto(RoomType type, string roomId, bool isConnection)
+    public class RoomSettingsDto
     {
-        Type = type;
-        RoomId = roomId;
-        IsConnection = isConnection;
+        public RoomType Type { get; set; }
+
+        public string RoomId { get; set; }
+
+        public bool IsConnection { get; set; }
+
+        public RoomSettingsDto(RoomType type, string roomId, bool isConnection)
+        {
+            Type = type;
+            RoomId = roomId;
+            IsConnection = isConnection;
+        }
     }
 }
