@@ -54,7 +54,12 @@ namespace TicTacToe.Client.Services.Impl
 
         public async Task<HttpResponseMessage> LogoutAsync()
         {
-            return await _httpClient.PostAsync("api/Account/logout", Login, new JsonMediaTypeFormatter());
+            var response = await _httpClient.PostAsync("api/Account/logout", Login, new JsonMediaTypeFormatter());
+
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                _httpClient.DefaultRequestHeaders.Clear();
+
+            return response;
         }
     }
 }

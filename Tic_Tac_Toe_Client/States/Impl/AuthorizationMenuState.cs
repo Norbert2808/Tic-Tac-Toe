@@ -129,7 +129,7 @@ namespace TicTacToe.Client.States.Impl
         {
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                _logger.LogInformation("Response : Successful response 200.");
+                _logger.LogInformation("AuthorizationMenuState::ResponseHandlerAsync::Response: Successful response 200.");
                 Console.Clear();
                 await _mainMenuState.InvokeMenuAsync();
             }
@@ -138,7 +138,8 @@ namespace TicTacToe.Client.States.Impl
 
             if (response.StatusCode == HttpStatusCode.BadRequest)
             {
-                _logger.LogInformation("Input invalid data. HttpStatus::BadRequest 400.");
+                _logger.LogInformation("Input invalid data.AuthorizationMenuState::" +
+                    "ResponseHandlerAsync::Response: BadRequest 400.");
                 ConsoleHelper.WriteInConsole(
                        new[] { "Login and password must be at least 6 symbol long" },
                        ConsoleColor.Red);

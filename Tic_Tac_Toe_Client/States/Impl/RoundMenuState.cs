@@ -75,13 +75,13 @@ namespace TicTacToe.Client.States.Impl
 
             if (responseSendConfirmation.StatusCode == HttpStatusCode.OK)
             {
-                _logger.LogInformation("Successful response 200");
+                _logger.LogInformation("RoundMenuState::WaitingStartGame::Successful response 200");
                 return await WaitConfirmationSecondPlayer();
             }
 
             if (responseSendConfirmation.StatusCode == HttpStatusCode.Conflict)
             {
-                _logger.LogInformation("Response : Conflict 409");
+                _logger.LogInformation("RoundMenuState::WaitingStartGame::Response: Conflict 409");
 
                 ConsoleHelper.WriteInConsole(new[] { "You didn't confirm the game. Room was closed." },
                     ConsoleColor.Red);
@@ -91,7 +91,7 @@ namespace TicTacToe.Client.States.Impl
 
             if (responseSendConfirmation.StatusCode == HttpStatusCode.NotFound)
             {
-                _logger.LogInformation("Response : NotFound 404");
+                _logger.LogInformation("RoundMenuState::WaitingStartGame::Response: NotFound 404");
 
                 ConsoleHelper.WriteInConsole(new[] { "Your opponent left the room and room was deleting" },
                     ConsoleColor.Red);
@@ -108,7 +108,7 @@ namespace TicTacToe.Client.States.Impl
 
             if (responsePlayerMessage.StatusCode == HttpStatusCode.OK)
             {
-                _logger.LogInformation("Successful response 200");
+                _logger.LogInformation("RoundMenuState::ShowEnemyBarAsync::Successful response 200");
                 var opponents = await responsePlayerMessage.Content.ReadAsAsync<string[]>();
                 Console.WriteLine($"{opponents[0]} -- VS -- {opponents[1]}");
             }
@@ -125,7 +125,7 @@ namespace TicTacToe.Client.States.Impl
 
                 if (responseConfirmation.StatusCode == HttpStatusCode.OK)
                 {
-                    _logger.LogInformation("Successful response 200");
+                    _logger.LogInformation("RoundMenuState::WaitConfirmationSecondPlayer::Successful response 200");
 
                     if (await CheckOpponentLeftTheRoomAsync())
                         return false;
@@ -136,7 +136,7 @@ namespace TicTacToe.Client.States.Impl
 
                 if (responseConfirmation.StatusCode == HttpStatusCode.NotFound)
                 {
-                    _logger.LogInformation("Response : NotFound 404");
+                    _logger.LogInformation("RoundMenuState::WaitConfirmationSecondPlayer::Response: NotFound 404");
 
                     if (await CheckOpponentLeftTheRoomAsync())
                         return false;
@@ -148,7 +148,7 @@ namespace TicTacToe.Client.States.Impl
 
                 if (responseConfirmation.StatusCode == HttpStatusCode.Conflict)
                 {
-                    _logger.LogInformation("Response : Conflict 409");
+                    _logger.LogInformation("RoundMenuState::WaitConfirmationSecondPlayer::Response: Conflict 409");
 
                     var errorMsg = await responseConfirmation.Content.ReadAsStringAsync();
                     ConsoleHelper.WriteInConsole(new[] { errorMsg }, ConsoleColor.Red);
@@ -169,7 +169,7 @@ namespace TicTacToe.Client.States.Impl
             var responsePosition = await _gameService.CheckPlayerPosition();
             if (responsePosition.StatusCode == HttpStatusCode.Conflict)
             {
-                _logger.LogInformation("Response : Conflict 409");
+                _logger.LogInformation("RoundMenuState::CheckOpponentLeftTheRoomAsync::Response: Conflict 409");
 
                 ConsoleHelper.WriteInConsole(new[] { "Your opponent left the room" },
                     ConsoleColor.Red);

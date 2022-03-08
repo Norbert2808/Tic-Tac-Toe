@@ -89,7 +89,7 @@ namespace TicTacToe.Client.States.Impl
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                _logger.LogInformation("Response : Successful response 200");
+                _logger.LogInformation("MainMenuState::LogoutAsync::Response: Successful response 200");
 
                 var message = await response.Content.ReadAsStringAsync();
                 ConsoleHelper.WriteInConsole(

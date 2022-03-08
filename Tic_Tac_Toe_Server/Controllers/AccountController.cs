@@ -30,7 +30,7 @@ namespace TicTacToe.Server.Controllers
         {
             try
             {
-                _logger.LogInformation("Invoke log-in");
+                _logger.LogInformation("AccountController::LoginAsync::Invoke log-in");
                 await _accService.InvokeLoginAsync(account);
             }
             catch (AccountException exception)
@@ -55,7 +55,7 @@ namespace TicTacToe.Server.Controllers
         {
             try
             {
-                _logger.LogInformation("Invoke registration");
+                _logger.LogInformation("AccountController::RegistrationAsync::Invoke registration");
                 await _accService.InvokeRegistrationAsync(account);
             }
             catch (AccountException exception)
@@ -71,7 +71,7 @@ namespace TicTacToe.Server.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<IActionResult> LogoutAsync([FromBody] string login)
         {
-            _logger.LogInformation("Invoke logout form app");
+            _logger.LogInformation("AccountController::LogoutAsync::Invoke logout form app");
             _accService.RemoveActiveAccountByLogin(login);
 
             return await Task.FromResult(Ok("User successfully left."));

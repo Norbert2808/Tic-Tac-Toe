@@ -20,7 +20,7 @@ namespace TicTacToe.Client.States.Impl
 
         public async Task InvokeMenuAsync()
         {
-            _logger.LogInformation("Invoke private statistic");
+            _logger.LogInformation("PrivateStatisticState::Invoke private statistic");
             var response = await _statisticService.GetPrivateStatisticDto();
 
             if (response.StatusCode == HttpStatusCode.OK)
