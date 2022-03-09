@@ -5,7 +5,7 @@ namespace TicTacToe.Server.Models
     public class Round
     {
         [JsonIgnore]
-        private readonly List<Tuple<int, bool?>> _board;
+        public List<Cell> Board { get; private set; }
 
         [JsonPropertyName("firstPlayerMove")]
         public List<MoveDto> FirstPlayerMove { get; set; }
@@ -13,14 +13,11 @@ namespace TicTacToe.Server.Models
         [JsonPropertyName("secondPlayerMove")]
         public List<MoveDto> SecondPlayerMove { get; set; }
 
-        [JsonPropertyName("firstWin")]
-        public bool FirstWin { get; set; }
+        [JsonIgnore]
+        private HashSet<int> AvailableValueFirstPlayerNumbers { get; set; }
 
         [JsonIgnore]
-        private HashSet<int> FirstPlayerNumbers { get; set; }
-
-        [JsonIgnore]
-        private HashSet<int> SecondPlayerNumbers { get; set; }
+        private HashSet<int> AvailableValueSecondPlayerNumbers { get; set; }
 
         [JsonIgnore]
         public MoveDto? LastMove { get; set; }
@@ -29,31 +26,32 @@ namespace TicTacToe.Server.Models
         private readonly object _locker = new();
 
         [JsonIgnore]
-        public bool IsStarted { get; set; }
+        public bool IsActiveFirstPlayer { get; set; }
+
+        [JsonIgnore]
+        public bool IsFinished { get; set; }
 
         public Round()
         {
             FirstPlayerMove = new List<MoveDto>();
             SecondPlayerMove = new List<MoveDto>();
             bool? player = null;
-            _board = Enumerable.Repeat(new Tuple<int, bool?>(0, player), 9).ToList();
-            FirstPlayerNumbers = Enumerable.Range(1, 9).ToHashSet();
-            SecondPlayerNumbers = Enumerable.Range(1, 9).ToHashSet();
-            IsStarted = true;
+            Board = Enumerable.Repeat(new Cell(0, player), 9).ToList();
+            AvailableValueFirstPlayerNumbers = Enumerable.Range(1, 9).ToHashSet();
+            AvailableValueSecondPlayerNumbers = Enumerable.Range(1, 9).ToHashSet();
+            IsFinished = false;
         }
 
         [JsonConstructor]
         public Round(List<MoveDto> firstPlayerMove,
-            List<MoveDto> secondPlayerMove,
-            bool firstWin)
+            List<MoveDto> secondPlayerMove)
         {
             FirstPlayerMove = firstPlayerMove;
             SecondPlayerMove = secondPlayerMove;
-            FirstWin = firstWin;
             bool? player = null;
-            _board = Enumerable.Repeat(new Tuple<int, bool?>(0, player), 9).ToList();
-            FirstPlayerNumbers = Enumerable.Range(1, 9).ToHashSet();
-            SecondPlayerNumbers = Enumerable.Range(1, 9).ToHashSet();
+            Board = Enumerable.Repeat(new Cell(0, player), 9).ToList();
+            AvailableValueFirstPlayerNumbers = Enumerable.Range(1, 9).ToHashSet();
+            AvailableValueSecondPlayerNumbers = Enumerable.Range(1, 9).ToHashSet();
         }
 
         public bool DoMove(MoveDto move, bool isFirst)
@@ -62,7 +60,7 @@ namespace TicTacToe.Server.Models
             {
                 MovingValidation(move, isFirst);
 
-                _board[move.IndexOfCell] = new Tuple<int, bool?>(move.Number, isFirst);
+                Board[move.IndexOfCell] = new Cell(move.Number, isFirst);
 
                 LastMove = move;
 
@@ -90,58 +88,58 @@ namespace TicTacToe.Server.Models
         {
             lock (_locker)
             {
-                if (_board[0].Item2 is not null)
+                if (Board[0].IsFirstPlayer is not null)
                 {
                     // first row
-                    if (_board[0].Item2 == _board[1].Item2 && _board[0].Item2 == _board[2].Item2)
+                    if (Board[0].IsFirstPlayer == Board[1].IsFirstPlayer && Board[0].IsFirstPlayer == Board[2].IsFirstPlayer)
                     {
                         return true;
                     }
 
                     // first colum
-                    if (_board[0].Item2 == _board[3].Item2 && _board[0].Item2 == _board[6].Item2)
+                    if (Board[0].IsFirstPlayer == Board[3].IsFirstPlayer && Board[0].IsFirstPlayer == Board[6].IsFirstPlayer)
                     {
                         return true;
                     }
 
                     // head diagonal
-                    if (_board[0].Item2 == _board[4].Item2 && _board[0].Item2 == _board[8].Item2)
+                    if (Board[0].IsFirstPlayer == Board[4].IsFirstPlayer && Board[0].IsFirstPlayer == Board[8].IsFirstPlayer)
                     {
                         return true;
                     }
                 }
 
-                if (_board[4].Item2 is not null)
+                if (Board[4].IsFirstPlayer is not null)
                 {
                     // second row
-                    if (_board[4].Item2 == _board[3].Item2 && _board[4].Item2 == _board[5].Item2)
+                    if (Board[4].IsFirstPlayer == Board[3].IsFirstPlayer && Board[4].IsFirstPlayer == Board[5].IsFirstPlayer)
                     {
                         return true;
                     }
 
                     // second colum
-                    if (_board[4].Item2 == _board[1].Item2 && _board[4].Item2 == _board[7].Item2)
+                    if (Board[4].IsFirstPlayer == Board[1].IsFirstPlayer && Board[4].IsFirstPlayer == Board[7].IsFirstPlayer)
                     {
                         return true;
                     }
 
                     // second diagonal
-                    if (_board[4].Item2 == _board[2].Item2 && _board[4].Item2 == _board[6].Item2)
+                    if (Board[4].IsFirstPlayer == Board[2].IsFirstPlayer && Board[4].IsFirstPlayer == Board[6].IsFirstPlayer)
                     {
                         return true;
                     }
                 }
 
-                if (_board[8].Item2 is not null)
+                if (Board[8].IsFirstPlayer is not null)
                 {
                     // third row
-                    if (_board[8].Item2 == _board[7].Item2 && _board[8].Item2 == _board[6].Item2)
+                    if (Board[8].IsFirstPlayer == Board[7].IsFirstPlayer && Board[8].IsFirstPlayer == Board[6].IsFirstPlayer)
                     {
                         return true;
                     }
 
                     // third column
-                    if (_board[8].Item2 == _board[5].Item2 && _board[8].Item2 == _board[2].Item2)
+                    if (Board[8].IsFirstPlayer == Board[5].IsFirstPlayer && Board[8].IsFirstPlayer == Board[2].IsFirstPlayer)
                     {
                         return true;
                     }
@@ -155,30 +153,30 @@ namespace TicTacToe.Server.Models
         {
             if (move.IndexOfCell is < 0 or > 8)
                 throw new ArgumentException("Cell number must be in range [1;9]");
-            if (_board[move.IndexOfCell].Item1 >= move.Number)
+            if (Board[move.IndexOfCell].Value >= move.Number)
                 throw new ArgumentException("This cell contains a greater or equal number");
-            if (_board[move.IndexOfCell].Item2 == isFirst)
+            if (Board[move.IndexOfCell].IsFirstPlayer == isFirst)
                 throw new ArgumentException("You can't change your cell");
 
             if (isFirst)
             {
-                if (!FirstPlayerNumbers.Contains(move.Number))
+                if (!AvailableValueFirstPlayerNumbers.Contains(move.Number))
                 {
-                    var unusedNumbers = string.Join(" ", FirstPlayerNumbers.Select(x => x.ToString()));
+                    var unusedNumbers = string.Join(" ", AvailableValueFirstPlayerNumbers.Select(x => x.ToString()));
                     throw new ArgumentException($"You have already used the number: {move.Number}" +
                         $"\nYou have numbers: {unusedNumbers}");
                 }
-                _ = FirstPlayerNumbers.Remove(move.Number);
+                _ = AvailableValueFirstPlayerNumbers.Remove(move.Number);
             }
             else
             {
-                if (!SecondPlayerNumbers.Contains(move.Number))
+                if (!AvailableValueSecondPlayerNumbers.Contains(move.Number))
                 {
-                    var unusedNumbers = string.Join(" ", SecondPlayerNumbers.Select(x => x.ToString()));
+                    var unusedNumbers = string.Join(" ", AvailableValueSecondPlayerNumbers.Select(x => x.ToString()));
                     throw new ArgumentException($"You have already used the number: {move.Number}" +
                         $"\nYou have numbers: {unusedNumbers}");
                 }
-                _ = SecondPlayerNumbers.Remove(move.Number);
+                _ = AvailableValueSecondPlayerNumbers.Remove(move.Number);
             }
         }
     }

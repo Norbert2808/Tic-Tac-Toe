@@ -2,7 +2,7 @@
 
 namespace TicTacToe.Client.DTO
 {
-    public class MoveDto
+    public sealed class MoveDto
     {
         [JsonPropertyName("indexOfCell")]
         public int IndexOfCell { get; set; }

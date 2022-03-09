@@ -166,7 +166,7 @@ namespace TicTacToe.Client.States.Impl
 
         private async Task<bool> CheckOpponentLeftTheRoomAsync()
         {
-            var responsePosition = await _gameService.CheckPlayerPosition();
+            var responsePosition = await _gameService.CheckRoundStateAsync();
             if (responsePosition.StatusCode == HttpStatusCode.Conflict)
             {
                 _logger.LogInformation("RoundMenuState::CheckOpponentLeftTheRoomAsync::Response: Conflict 409");

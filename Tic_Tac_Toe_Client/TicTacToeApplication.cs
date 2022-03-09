@@ -29,9 +29,9 @@ namespace TicTacToe.Client
             var httpClient = ConfigureHttpClient();
             var serviceCollection = new ServiceCollection();
 
-            _ = serviceCollection.AddSingleton<IUserService>(_ => new UserService(httpClient));
-            _ = serviceCollection.AddSingleton<IStatisticService>(_ => new StatisticService(httpClient));
-            _ = serviceCollection.AddSingleton<IGameService>(_ => new GameService(httpClient));
+            _ = serviceCollection.AddSingleton<IUserService>(_ => new UserService(httpClient))
+                    .AddSingleton<IStatisticService>(_ => new StatisticService(httpClient))
+                    .AddSingleton<IGameService>(_ => new GameService(httpClient));
 
             _ = serviceCollection
                 .AddTransient<AuthorizationMenuState>()

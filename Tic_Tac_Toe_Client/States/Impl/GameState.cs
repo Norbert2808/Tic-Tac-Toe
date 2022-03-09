@@ -14,11 +14,11 @@ namespace TicTacToe.Client.States.Impl
 
         private readonly Board _board;
 
-        private bool _iAmFirst;
+        private bool _isFirst;
 
         private bool _isEndOfGame;
 
-        private bool _winnerFirst;
+        private bool _isActivePlayer;
 
         public GameState(IGameService gameService,
             ILogger<GameState> logger)
@@ -26,44 +26,39 @@ namespace TicTacToe.Client.States.Impl
             _gameService = gameService;
             _logger = logger;
             _board = new Board();
-            _isEndOfGame = false;
         }
 
         public async Task InvokeMenuAsync()
         {
             _logger.LogInformation("Invoke Game state class");
 
-            _isEndOfGame = false;
-            _board.SetDefaultValuesInBoard();
-            await CheckPositionAsync();
-            var myTurnToMove = _iAmFirst;
-
-            while (true)
+            await CheckRoundStateAsync();
+            while (!_isEndOfGame)
             {
                 Console.Clear();
                 _board.Draw();
 
-                if (_isEndOfGame)
+                _logger.LogInformation("Invoke game menu.");
+
+                if (_isActivePlayer == _isFirst)
                 {
-                    _logger.LogInformation("Results game.");
-                    ResultMenu();
-                    break;
+                    ConsoleHelper.WriteInConsole(new[] { "Please, Wait till the other player moves" },
+                        ConsoleColor.Green, "");
+                    await WaitMoveOpponentAsync();
+                    continue;
                 }
-
-                if (myTurnToMove)
+                else
                 {
-                    _logger.LogInformation("Invoke game menu.");
 
-                    var color = _iAmFirst ? ConsoleColor.Green : ConsoleColor.Red;
+                    var color = _isFirst ? ConsoleColor.Green : ConsoleColor.Red;
                     ConsoleHelper.WriteInConsole($"Your color is {color}\n", color);
                     ConsoleHelper.WriteInConsole(new[]
-                        {
-                            "You have 20 seconds to move",
-                            "1 -- Do move",
-                            "2 -- Surrender",
-                        },
+                    {
+                        "You have 20 seconds to move",
+                        "1 -- Do move",
+                        "2 -- Surrender",
+                    },
                         ConsoleColor.Cyan);
-
                     try
                     {
                         ConsoleHelper.ReadIntFromConsole(out var choose);
@@ -94,38 +89,39 @@ namespace TicTacToe.Client.States.Impl
                     {
                         _logger.LogError(ex.Message);
                         ConsoleHelper.WriteInConsole(new[] { "Failed to connect with server!" },
-                            ConsoleColor.DarkRed);
+                                ConsoleColor.DarkRed);
                         _ = Console.ReadLine();
                         continue;
                     }
-
-                    myTurnToMove = false;
-                }
-                else
-                {
-                    ConsoleHelper.WriteInConsole(new[] { "Please, Wait till the other player moves" },
-                        ConsoleColor.Green, "");
-                    await WaitMoveOpponentAsync();
-
-                    myTurnToMove = true;
                 }
             }
+
+            ResultMenu();
         }
 
         private void ResultMenu()
         {
-            var message = _iAmFirst == _winnerFirst ? "YOU WIN!" : "YOU LOST!";
-            ConsoleHelper.WriteInConsole(new[] { message }, ConsoleColor.Magenta);
+            Console.Clear();
+            _board.Draw();
+            if (_isFirst == _isActivePlayer)
+                DrawWin();
+            else
+                DrawLost();
+
             _ = Console.ReadLine();
         }
 
-        private async Task CheckPositionAsync()
+        private async Task CheckRoundStateAsync()
         {
-            var responsePosition = await _gameService.CheckPlayerPosition();
+            var response = await _gameService.CheckRoundStateAsync();
 
-            if (responsePosition.StatusCode == HttpStatusCode.OK)
+            if (response.StatusCode == HttpStatusCode.OK)
             {
-                _iAmFirst = await responsePosition.Content.ReadAsAsync<bool>();
+                var roundState = await response.Content.ReadAsAsync<RoundStateDto>();
+                _board.SetBoard(roundState.Board);
+                _isEndOfGame = roundState.IsFinished;
+                _isFirst = roundState.IsFirstPlayer;
+                _isActivePlayer = roundState.IsActiveFirstPlayer;
             }
         }
 
@@ -140,15 +136,7 @@ namespace TicTacToe.Client.States.Impl
 
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
-                    _board.SetNumberByIndex(move, _iAmFirst);
-                    return true;
-                }
-
-                if (response.StatusCode == HttpStatusCode.Accepted)
-                {
-                    _board.SetNumberByIndex(move, _iAmFirst);
-                    _isEndOfGame = true;
-                    _winnerFirst = _iAmFirst;
+                    await CheckRoundStateAsync();
                     return true;
                 }
 
@@ -164,7 +152,6 @@ namespace TicTacToe.Client.States.Impl
                 if (response.StatusCode == HttpStatusCode.Conflict)
                 {
                     _isEndOfGame = true;
-                    _winnerFirst = !_iAmFirst;
                     ConsoleHelper.WriteInConsole("Time out, you didn't make a move in 20 seconds.\n", ConsoleColor.DarkRed);
                     _ = Console.ReadLine();
                     return false;
@@ -181,24 +168,17 @@ namespace TicTacToe.Client.States.Impl
                 var responseMessage = await _gameService.CheckMoveAsync();
                 if (responseMessage.StatusCode == HttpStatusCode.OK)
                 {
-                    var move = await responseMessage.Content.ReadAsAsync<MoveDto>();
-                    _board.SetNumberByIndex(move, !_iAmFirst);
-                    break;
-                }
-
-                if (responseMessage.StatusCode == HttpStatusCode.Accepted)
-                {
-                    var move = await responseMessage.Content.ReadAsAsync<MoveDto>();
-                    _board.SetNumberByIndex(move, !_iAmFirst);
-                    _isEndOfGame = true;
-                    _winnerFirst = !_iAmFirst;
+                    var roundState = await responseMessage.Content.ReadAsAsync<RoundStateDto>();
+                    _board.SetBoard(roundState.Board);
+                    _isFirst = roundState.IsFirstPlayer;
+                    _isEndOfGame = roundState.IsFinished;
+                    _isActivePlayer = roundState.IsActiveFirstPlayer;
                     break;
                 }
 
                 if (responseMessage.StatusCode == HttpStatusCode.Conflict)
                 {
                     _isEndOfGame = true;
-                    _winnerFirst = _iAmFirst;
                     ConsoleHelper.WriteInConsole("Time out,  your opponent didn't moved.\n", ConsoleColor.DarkRed);
                     _ = Console.ReadLine();
                     break;
@@ -235,6 +215,32 @@ namespace TicTacToe.Client.States.Impl
 
                 return new MoveDto(index, number);
             }
+        }
+
+        private void DrawWin()
+        {
+            ConsoleHelper.WriteInConsole(new[] 
+            {
+                "╔╗╔╗╔══╗╔╗╔╗───╔╗╔╗╔╗╔══╗╔╗─╔╗",
+                "║║║║║╔╗║║║║║───║║║║║║╚╗╔╝║╚═╝║",
+                "║╚╝║║║║║║║║║───║║║║║║─║║─║╔╗─║",
+                "╚═╗║║║║║║║║║───║║║║║║─║║─║║╚╗║",
+                "─╔╝║║╚╝║║╚╝║───║╚╝╚╝║╔╝╚╗║║─║║",
+                "─╚═╝╚══╝╚══╝───╚═╝╚═╝╚══╝╚╝─╚╝"
+            }, ConsoleColor.Green);
+        }
+
+        private void DrawLost()
+        {
+            ConsoleHelper.WriteInConsole(new[]
+                        {
+                "╔╗╔╗╔══╗╔╗╔╗───╔╗──╔══╗╔══╗╔════╗",
+                "║║║║║╔╗║║║║║───║║──║╔╗║║╔═╝╚═╗╔═╝",
+                "║╚╝║║║║║║║║║───║║──║║║║║╚═╗──║║──",
+                "╚═╗║║║║║║║║║───║║──║║║║╚═╗║──║║──",
+                "─╔╝║║╚╝║║╚╝║───║╚═╗║╚╝║╔═╝║──║║──",
+                "─╚═╝╚══╝╚══╝───╚══╝╚══╝╚══╝──╚╝──"
+            }, ConsoleColor.Red);
         }
 
         public async Task ExitAsync()

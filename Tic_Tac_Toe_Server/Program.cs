@@ -25,12 +25,13 @@ host.ConfigureAppConfiguration(app =>
 })
 .ConfigureServices(service =>
 {
-    service.AddOptions();
-    service.AddControllers();
-    service.AddSingleton<IAccountService, AccountService>();
-    service.AddSingleton<IRoomService, RoomService>();
-    service.AddSingleton<IStatisticService, StatisticService>();
-    service.AddSingleton<IBlocker, UserBlocker>();
+    _ = service.AddOptions()
+        .AddSingleton<IAccountService, AccountService>()
+        .AddSingleton<IRoomService, RoomService>()
+        .AddSingleton<IRoundService, RoundService>()
+        .AddSingleton<IStatisticService, StatisticService>()
+        .AddSingleton<IBlocker, UserBlocker>()
+        .AddControllers();
 });
 
 var app = builder.Build();

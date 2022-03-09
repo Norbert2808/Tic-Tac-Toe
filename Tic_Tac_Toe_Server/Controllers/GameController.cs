@@ -89,7 +89,6 @@ namespace TicTacToe.Server.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        [ProducesResponseType((int)HttpStatusCode.Accepted)]
         [ProducesResponseType((int)HttpStatusCode.Conflict)]
         public async Task<IActionResult> CheckMoveAsync([FromRoute] string id)
         {
@@ -101,9 +100,9 @@ namespace TicTacToe.Server.Controllers
 
             try
             {
-                var (isFinished, lastMove) = await _roomService.CheckMoveAsync(id, LoginUser);
+                var roundState = await _roomService.CheckMoveAsync(id, LoginUser);
 
-                return isFinished ? Accepted(lastMove) : Ok(lastMove);
+                return roundState is null ? NotFound() : Ok(roundState);
             }
             catch (RoomException exception)
             {
@@ -119,7 +118,6 @@ namespace TicTacToe.Server.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        [ProducesResponseType((int)HttpStatusCode.Accepted)]
         [ProducesResponseType((int)HttpStatusCode.Conflict)]
         public async Task<IActionResult> MoveAsync([FromRoute] string id, [FromBody] MoveDto move)
         {
@@ -131,8 +129,8 @@ namespace TicTacToe.Server.Controllers
 
             try
             {
-                var isFinished = await _roomService.DoMoveAsync(id, LoginUser, move);
-                return isFinished ? Accepted() : Ok();
+                await _roomService.DoMoveAsync(id, LoginUser, move);
+                return Ok();
             }
             catch (RoomException exception)
             {
@@ -191,7 +189,7 @@ namespace TicTacToe.Server.Controllers
 
             try
             {
-                var (isConfirm, message) = await _roomService.CheckConfirmationAsync(id);
+                var (isConfirm, message) = await _roomService.CheckConfirmationAsync(id, LoginUser);
                 return isConfirm ? Ok() : NotFound(message);
             }
             catch (RoomException exception)
@@ -208,12 +206,12 @@ namespace TicTacToe.Server.Controllers
             }
         }
 
-        [HttpGet("check_position/{id}")]
+        [HttpGet("check_round_state/{id}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.Conflict)]
-        public async Task<IActionResult> CheckPlayerPositionAsync([FromRoute] string id)
+        public async Task<IActionResult> CheckStateRoundAsync([FromRoute] string id)
         {
             if (string.IsNullOrEmpty(LoginUser))
             {
@@ -223,8 +221,8 @@ namespace TicTacToe.Server.Controllers
 
             try
             {
-                var isFirst = await _roomService.CheckPlayerPositionAsync(id, LoginUser);
-                return Ok(isFirst);
+                var roundState = await _roomService.CheckStateRoundAsync(id, LoginUser);
+                return Ok(roundState);
             }
             catch (RoomException exception)
             {
