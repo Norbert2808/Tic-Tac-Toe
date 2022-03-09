@@ -56,14 +56,14 @@ namespace TicTacToe.Server.Services.Impl
             var result = new List<MoveDto>();
             _roomStorage.ForEach(room =>
             {
-                if (login.Equals(room.LoginFirstPlayer, StringComparison.Ordinal))
+                if (login.Equals(room.FirstPlayer.Login, StringComparison.Ordinal))
                 {
                     foreach (var moves in room.Rounds)
                     {
                         result.AddRange(moves.FirstPlayerMove);
                     }
                 }
-                else if (login.Equals(room.LoginSecondPlayer, StringComparison.Ordinal))
+                else if (login.Equals(room.SecondPlayer.Login, StringComparison.Ordinal))
                 {
                     foreach (var moves in room.Rounds)
                     {
@@ -81,7 +81,7 @@ namespace TicTacToe.Server.Services.Impl
             var lostCount = 0;
             _roomStorage.ForEach(room =>
             {
-                if (login.Equals(room.LoginFirstPlayer, StringComparison.Ordinal))
+                if (login.Equals(room.FirstPlayer.Login, StringComparison.Ordinal))
                 {
                     foreach (var moves in room.Rounds)
                     {
@@ -91,7 +91,7 @@ namespace TicTacToe.Server.Services.Impl
                         //    lostCount++;
                     }
                 }
-                else if (login.Equals(room.LoginSecondPlayer, StringComparison.Ordinal))
+                else if (login.Equals(room.SecondPlayer.Login, StringComparison.Ordinal))
                 {
                     foreach (var moves in room.Rounds)
                     {

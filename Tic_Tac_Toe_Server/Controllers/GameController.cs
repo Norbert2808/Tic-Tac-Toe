@@ -112,6 +112,10 @@ namespace TicTacToe.Server.Controllers
             {
                 return Conflict(exception.Message);
             }
+            catch (GameException exception)
+            {
+                return Conflict(exception.Message);
+            }
         }
 
         [HttpPost("move/{id}")]

@@ -72,7 +72,7 @@ namespace TicTacToe.Client.States.Impl
 
                             case 2:
                                 await ExitAsync();
-                                return;
+                                break;
 
                             default:
                                 continue;
@@ -106,7 +106,7 @@ namespace TicTacToe.Client.States.Impl
             if (_isFirst == _isActivePlayer)
                 DrawWin();
             else
-                DrawLost();
+                DrawLose();
 
             _ = Console.ReadLine();
         }
@@ -179,7 +179,8 @@ namespace TicTacToe.Client.States.Impl
                 if (responseMessage.StatusCode == HttpStatusCode.Conflict)
                 {
                     _isEndOfGame = true;
-                    ConsoleHelper.WriteInConsole("Time out,  your opponent didn't moved.\n", ConsoleColor.DarkRed);
+                    var errorMsg = await responseMessage.Content.ReadAsStringAsync();
+                    ConsoleHelper.WriteInConsole(errorMsg + "\n", ConsoleColor.DarkRed);
                     _ = Console.ReadLine();
                     break;
                 }
@@ -219,7 +220,7 @@ namespace TicTacToe.Client.States.Impl
 
         private void DrawWin()
         {
-            ConsoleHelper.WriteInConsole(new[] 
+            ConsoleHelper.WriteInConsole(new[]
             {
                 "╔╗╔╗╔══╗╔╗╔╗───╔╗╔╗╔╗╔══╗╔╗─╔╗",
                 "║║║║║╔╗║║║║║───║║║║║║╚╗╔╝║╚═╝║",
@@ -230,22 +231,26 @@ namespace TicTacToe.Client.States.Impl
             }, ConsoleColor.Green);
         }
 
-        private void DrawLost()
+        private void DrawLose()
         {
             ConsoleHelper.WriteInConsole(new[]
                         {
-                "╔╗╔╗╔══╗╔╗╔╗───╔╗──╔══╗╔══╗╔════╗",
-                "║║║║║╔╗║║║║║───║║──║╔╗║║╔═╝╚═╗╔═╝",
-                "║╚╝║║║║║║║║║───║║──║║║║║╚═╗──║║──",
-                "╚═╗║║║║║║║║║───║║──║║║║╚═╗║──║║──",
-                "─╔╝║║╚╝║║╚╝║───║╚═╗║╚╝║╔═╝║──║║──",
-                "─╚═╝╚══╝╚══╝───╚══╝╚══╝╚══╝──╚╝──"
+                "╔╗╔╗╔══╗╔╗╔╗───╔╗──╔══╗╔══╗╔═══╗",
+                "║║║║║╔╗║║║║║───║║──║╔╗║║╔═╝║╔══╝",
+                "║╚╝║║║║║║║║║───║║──║║║║║╚═╗║╚══╗",
+                "╚═╗║║║║║║║║║───║║──║║║║╚═╗║║╔══╝",
+                "─╔╝║║╚╝║║╚╝║───║╚═╗║╚╝║╔═╝║║╚══╗",
+                "─╚═╝╚══╝╚══╝───╚══╝╚══╝╚══╝╚═══╝"
             }, ConsoleColor.Red);
         }
 
         public async Task ExitAsync()
         {
             var responseSurrender = await _gameService.SurrenderAsync();
+            if (responseSurrender.StatusCode == HttpStatusCode.OK)
+            {
+                await CheckRoundStateAsync();
+            }
         }
     }
 }
