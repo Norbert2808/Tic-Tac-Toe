@@ -97,10 +97,10 @@ namespace TicTacToe.Server.Services.Impl
                 throw new RoomException("Room not found");
 
             if (room.IsCompleted)
-                return (true, new[] { room.LoginFirstPlayer, room.LoginSecondPlayer });
+                return (true, new[] { room.FirstPlayer.Login, room.SecondPlayer.Login });
 
-            if (!room.IsConnectionTimeOut())
-                return (false, new[] { room.GetConnectionTime().ToString(@"dd\:mm\:ss") });
+            if (!room.TimeOuts.IsConnectionTimeOut())
+                return (false, new[] { room.TimeOuts.GetConnectionTime().ToString(@"dd\:mm\:ss") });
 
             DeleteRoom(room);
             throw new TimeoutException("Timeout");
@@ -113,46 +113,9 @@ namespace TicTacToe.Server.Services.Impl
             if (room is null)
                 throw new RoomException("Room not found.");
 
-            var round = room.Rounds.Peek();
-            var isFirst = room.LoginFirstPlayer.Equals(login, StringComparison.Ordinal);
-            var isOpponentMove = round.CheckOpponentsMove(isFirst);
+            var isFirst = room.FirstPlayer.Login.Equals(login, StringComparison.Ordinal);
 
-            if (room.IsRoundTimeOut())
-            {
-                room.ConfirmFirstPlayer = false;
-                room.ConfirmSecondPlayer = false;
-                round.IsFinished = true;
-                throw new TimeOutException("Time out.");
-            }
-
-            if (isOpponentMove)
-            {
-
-                if (round.CheckEndOfGame())
-                {
-                    room.ConfirmFirstPlayer = false;
-                    room.ConfirmSecondPlayer = false;
-                    round.IsFinished = true;
-                    if (isFirst)
-                    {
-                        room.WinsSecondPlayer++;
-                    }
-                    else
-                    {
-                        room.WinsFirstPlayer++;
-                    }
-                }
-
-                return new RoundStateDto
-                {
-                    Board = round.Board,
-                    IsFinished = round.IsFinished,
-                    IsFirstPlayer = isFirst,
-                    IsActiveFirstPlayer = round.IsActiveFirstPlayer
-                };
-            }
-
-            return null;
+            return _roundService.CheckMove(room, isFirst);
         }
 
         public async Task DoMoveAsync(string id, string login, MoveDto move)
@@ -162,25 +125,13 @@ namespace TicTacToe.Server.Services.Impl
             if (room is null)
                 throw new RoomException("Room not found.");
 
-            if (room.IsRoundTimeOut())
+            if (room.TimeOuts.IsRoundTimeOut())
                 throw new TimeOutException("Time out.");
 
-            var round = room.Rounds.Peek();
 
-            var isFirstPlayer = room.LoginFirstPlayer.Equals(login, StringComparison.Ordinal);
+            var isFirstPlayer = room.FirstPlayer.Login.Equals(login, StringComparison.Ordinal);
 
-            var isValid = round.DoMove(move, isFirstPlayer);
-            if (isValid)
-            {
-                room.LastMoveTime = DateTime.UtcNow;
-                round.IsActiveFirstPlayer = !round.IsActiveFirstPlayer;
-                if (round.CheckEndOfGame())
-                {
-                    room.ConfirmFirstPlayer = false;
-                    room.ConfirmSecondPlayer = false;
-                    round.IsFinished = true;
-                }
-            }
+            _roundService.DoMove(room, move, isFirstPlayer);
         }
 
         public async Task<(bool, string)> CheckConfirmationAsync(string id, string login)
@@ -201,7 +152,7 @@ namespace TicTacToe.Server.Services.Impl
                     if (room.Rounds.Count == 0)
                     {
                         room.Rounds.Push(new Round());
-                        room.LastMoveTime = DateTime.UtcNow;
+                        room.TimeOuts.LastMoveTime = DateTime.UtcNow;
                     }
                     else
                     {
@@ -209,7 +160,7 @@ namespace TicTacToe.Server.Services.Impl
                         if (round.IsFinished)
                         {
                             room.Rounds.Push(new Round());
-                            room.LastMoveTime = DateTime.UtcNow;
+                            room.TimeOuts.LastMoveTime = DateTime.UtcNow;
                         }
                     }
                 }
@@ -221,9 +172,9 @@ namespace TicTacToe.Server.Services.Impl
                 return (true, null!);
             }
 
-            return room.IsStartGameTimeOut()
+            return room.TimeOuts.IsStartGameTimeOut()
                 ? throw new TimeoutException("Time out")
-                : (false, room.GetStartGameWaitingTime().ToString(@"dd\:mm\:ss"));
+                : (false, room.TimeOuts.GetStartGameWaitingTime().ToString(@"dd\:mm\:ss"));
         }
 
         public async Task AppendConfirmationAsync(bool confirmation, string id)
@@ -236,7 +187,7 @@ namespace TicTacToe.Server.Services.Impl
             if (room.ConfirmFirstPlayer == false)
             {
                 room.ConfirmFirstPlayer = confirmation;
-                room.ConfirmationTime = DateTime.UtcNow;
+                room.TimeOuts.ConfirmationTime = DateTime.UtcNow;
             }
             else
             {
@@ -254,16 +205,9 @@ namespace TicTacToe.Server.Services.Impl
             if (!room.IsCompleted)
                 throw new AccountException();
 
-            var round = room.Rounds.Peek();
-            var isFirst = room.LoginFirstPlayer.Equals(login, StringComparison.Ordinal);
+            var isFirst = room.FirstPlayer.Login.Equals(login, StringComparison.Ordinal);
 
-            return new RoundStateDto
-            {
-                Board = round.Board,
-                IsFinished = round.IsFinished,
-                IsFirstPlayer = isFirst,
-                IsActiveFirstPlayer = round.IsActiveFirstPlayer,
-            };
+            return _roundService.CheckState(room, isFirst);
 
         }
 
@@ -274,7 +218,9 @@ namespace TicTacToe.Server.Services.Impl
             if (room is null)
                 throw new RoomException("Room not found.");
 
-            //ToDo Make surrender
+            var isFirst = room.FirstPlayer.Login.Equals(login, StringComparison.Ordinal);
+
+            _roundService.ExitFormRound(room, isFirst);
         }
 
         public async Task<bool> ExitFromRoomAsync(string login, string id)
@@ -284,13 +230,12 @@ namespace TicTacToe.Server.Services.Impl
             if (room is null)
                 return false;
 
-            room.FinishRoomDate = DateTime.UtcNow;
+            room.TimeOuts.FinishRoomDate = DateTime.UtcNow;
 
             if (room.Rounds.Count > 0)
                 await _jsonHelper.AddObjectToFileAsync(room);
 
             DeleteRoom(room);
-
             return true;
         }
 
@@ -298,15 +243,15 @@ namespace TicTacToe.Server.Services.Impl
         {
             foreach (var room in _roomStorage.Where(room => !room.IsCompleted && room.Settings.Type == RoomType.Public))
             {
-                if (room.LoginFirstPlayer.Length == 0)
+                if (room.FirstPlayer.Login.Length == 0)
                 {
-                    room.LoginFirstPlayer = login;
-                    if (room.LoginSecondPlayer.Length != 0)
+                    room.FirstPlayer.Login = login;
+                    if (room.SecondPlayer.Login.Length != 0)
                         room.IsCompleted = true;
                     return room;
                 }
 
-                room.LoginSecondPlayer = login;
+                room.SecondPlayer.Login = login;
                 room.IsCompleted = true;
                 return room;
             }
@@ -319,7 +264,7 @@ namespace TicTacToe.Server.Services.Impl
             if (room is null)
                 return null;
 
-            room.LoginSecondPlayer = login;
+            room.SecondPlayer.Login = login;
             room.IsCompleted = true;
             return room;
         }

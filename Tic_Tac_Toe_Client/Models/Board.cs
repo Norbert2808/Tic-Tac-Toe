@@ -1,5 +1,5 @@
 ﻿using System.Globalization;
-using TicTacToe.Client.DTO;
+
 
 namespace TicTacToe.Client.Models
 {
@@ -50,11 +50,6 @@ namespace TicTacToe.Client.Models
             Console.Write("  |  ");
             ConsoleHelper.WriteInConsole(z.ToString(CultureInfo.InvariantCulture), zColor);
             Console.WriteLine("  |");
-        }
-
-        public void SetNumberByIndex(MoveDto move, bool isFirst)
-        {
-            _board[move.IndexOfCell] = new Cell(move.Number, isFirst);
         }
 
         public void SetBoard(List<Cell> board)

@@ -11,42 +11,17 @@ namespace TicTacToe.Server.Models
         [JsonPropertyName("rounds")]
         public Stack<Round> Rounds { get; private set; }
 
-        [JsonPropertyName("winsFirstPlayer")]
-        public int WinsFirstPlayer { get; set; }
-
-        [JsonPropertyName("winsSecondPlayer")]
-        public int WinsSecondPlayer { get; set; }
-
         [JsonIgnore]
         public RoomSettingsDto Settings { get; set; }
 
-        [JsonPropertyName("loginFirstPlayer")]
-        public string LoginFirstPlayer { get; set; }
+        [JsonPropertyName("firstPlayer")]
+        public Player FirstPlayer { get; set; }
 
-        [JsonPropertyName("loginSecondPlayer")]
-        public string LoginSecondPlayer { get; set; }
+        [JsonPropertyName("secondPlayer")]
+        public Player SecondPlayer { get; set; }
 
-        //Times
-        [JsonIgnore]
-        public TimeSpan ConnectionTimeOut { get; set; } = TimeSpan.FromMinutes(3);
-
-        [JsonIgnore]
-        public TimeSpan StartGameTimeOut { get; set; } = TimeSpan.FromMinutes(2);
-
-        [JsonIgnore]
-        public DateTime ConfirmationTime { get; set; }
-
-        [JsonIgnore]
-        public TimeSpan RoundTimeOut { get; set; } = TimeSpan.FromSeconds(20);
-
-        [JsonIgnore]
-        public DateTime LastMoveTime { get; set; }
-
-        [JsonPropertyName("creationRoomDate")]
-        public DateTime CreationRoomDate { get; set; }
-
-        [JsonPropertyName("finishRoomDate")]
-        public DateTime FinishRoomDate { get; set; }
+        [JsonPropertyName("times")]
+        public TimeLimit TimeOuts { get; set; }
 
         //Flags 
         [JsonIgnore]
@@ -66,12 +41,15 @@ namespace TicTacToe.Server.Models
 
         public Room(string login, RoomSettingsDto settings)
         {
-            LoginFirstPlayer = login;
-            LoginSecondPlayer = "";
+            FirstPlayer = new Player(login, 0);
+            SecondPlayer = new Player("", 0);
             Settings = settings;
             RoomId = settings.RoomId.Length == 0 ? Guid.NewGuid().ToString() : settings.RoomId;
             IsBot = settings.Type == RoomType.Practice;
-            CreationRoomDate = DateTime.UtcNow;
+            TimeOuts = new TimeLimit
+            {
+                CreationRoomDate = DateTime.UtcNow
+            };
             IsCompleted = false;
             IsFinished = false;
             Rounds = new Stack<Round>();
@@ -81,46 +59,19 @@ namespace TicTacToe.Server.Models
         public Room(string roomId,
             DateTime creationRoomDate,
             DateTime finishRoomDate,
-            string loginFirstPlayer,
-            string loginSecondPlayer,
+            Player firstPlayer,
+            Player secondPlayer,
             Stack<Round> rounds)
         {
             RoomId = roomId;
-            CreationRoomDate = creationRoomDate;
-            FinishRoomDate = finishRoomDate;
-            LoginFirstPlayer = loginFirstPlayer;
-            LoginSecondPlayer = loginSecondPlayer;
+            TimeOuts = new TimeLimit
+            {
+                CreationRoomDate = creationRoomDate,
+                FinishRoomDate = finishRoomDate
+            };
+            FirstPlayer = firstPlayer;
+            SecondPlayer = secondPlayer;
             Rounds = rounds;
-        }
-
-        public TimeSpan GetStartGameWaitingTime()
-        {
-            return DateTime.UtcNow - ConfirmationTime;
-        }
-
-        public TimeSpan GetConnectionTime()
-        {
-            return DateTime.UtcNow - CreationRoomDate;
-        }
-
-        public TimeSpan GetRoundTime()
-        {
-            return DateTime.UtcNow - LastMoveTime;
-        }
-
-        public bool IsStartGameTimeOut()
-        {
-            return GetStartGameWaitingTime() > StartGameTimeOut;
-        }
-
-        public bool IsConnectionTimeOut()
-        {
-            return GetConnectionTime() > ConnectionTimeOut;
-        }
-
-        public bool IsRoundTimeOut()
-        {
-            return GetRoundTime() > RoundTimeOut;
         }
     }
 }

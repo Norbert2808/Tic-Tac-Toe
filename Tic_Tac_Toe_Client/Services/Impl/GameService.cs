@@ -67,9 +67,9 @@ namespace TicTacToe.Client.Services.Impl
             return await _httpClient.GetAsync("api/Game/check_round_state/" + RoomId);
         }
 
-        public Task<HttpResponseMessage> SurrenderAsync()
+        public async Task<HttpResponseMessage> SurrenderAsync()
         {
-            throw new NotImplementedException();
+            return await _httpClient.GetAsync("api/Game/surrender/" + RoomId);
         }
 
         public async Task<HttpResponseMessage> ExitFromRoomAsync()
