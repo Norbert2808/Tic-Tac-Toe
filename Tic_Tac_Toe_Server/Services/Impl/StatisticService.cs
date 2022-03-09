@@ -35,11 +35,14 @@ namespace TicTacToe.Server.Services.Impl
                 var topPosition = GetTopProperty(allPosition);
                 var topNumbers = GetTopProperty(allNumbers);
 
+                var allTime = GetAllTimeInGame();
+
                 return new PrivateStatistic(
                     winLostCount.Item1,
                     winLostCount.Item2,
                     topNumbers,
-                    topPosition);
+                    topPosition,
+                    allTime);
             }
             finally
             {
@@ -85,20 +88,20 @@ namespace TicTacToe.Server.Services.Impl
                 {
                     foreach (var moves in room.Rounds)
                     {
-                        if (moves.FirstWin)
-                            winCount++;
-                        else
-                            lostCount++;
+                        //if (moves.FirstWin)
+                        //    winCount++;
+                        //else
+                        //    lostCount++;
                     }
                 }
                 else if (login.Equals(room.LoginSecondPlayer, StringComparison.Ordinal))
                 {
                     foreach (var moves in room.Rounds)
                     {
-                        if (moves.FirstWin)
-                            lostCount++;
-                        else
-                            winCount++;
+                        //if (moves.FirstWin)
+                        //    lostCount++;
+                        //else
+                        //    winCount++;
                     }
                 }
             });
@@ -122,6 +125,16 @@ namespace TicTacToe.Server.Services.Impl
                 if (x == topCount)
                     result.Add(index + 1);
                 index++;
+            });
+            return result;
+        }
+
+        private TimeSpan GetAllTimeInGame()
+        {
+            var result = TimeSpan.Zero;
+            _roomStorage.ForEach(x =>
+            {
+                result += x.FinishRoomDate - x.CreationRoomDate;
             });
             return result;
         }

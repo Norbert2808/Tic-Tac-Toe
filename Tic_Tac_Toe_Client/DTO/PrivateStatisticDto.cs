@@ -16,13 +16,18 @@ namespace TicTacToe.Client.DTO
         [JsonPropertyName("mostUsedPosition")]
         public List<int> MostUsedPosition { get; set; }
 
+        [JsonPropertyName("allTimeInGame")]
+        public TimeSpan AllTimeInGame { get; set; }
+
         public PrivateStatisticDto(int winnings, int losses,
-            List<int> mostNumbers, List<int> mostPosition)
+            List<int> mostNumbers, List<int> mostPosition,
+            TimeSpan allTimeInGame)
         {
             Winnings = winnings;
             Losses = losses;
             MostUsedNumbers = mostNumbers;
             MostUsedPosition = mostPosition;
+            AllTimeInGame = allTimeInGame;
         }
     }
 }

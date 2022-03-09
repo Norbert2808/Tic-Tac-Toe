@@ -16,13 +16,18 @@ namespace TicTacToe.Server.Models
         [JsonPropertyName("mostUsedPosition")]
         public List<int> MostUsedPosition { get; set; }
 
+        [JsonPropertyName("allTimeInGame")]
+        public TimeSpan AllTimeInGame { get; set; }
+
         public PrivateStatistic(int winnings, int losses,
-            List<int> mostUsedNumbers, List<int> mostUsedPosition)
+            List<int> mostUsedNumbers, List<int> mostUsedPosition,
+            TimeSpan allTimeInGame)
         {
             Winnings = winnings;
             Losses = losses;
             MostUsedNumbers = mostUsedNumbers;
             MostUsedPosition = mostUsedPosition;
+            AllTimeInGame = allTimeInGame;
         }
     }
 }
