@@ -32,8 +32,8 @@ namespace TicTacToe.Server.Services.Impl
                 var allPosition = allMoves.Select(x => x.IndexOfCell + 1).ToList();
                 var allNumbers = allMoves.Select(x => x.Number).ToList();
 
-                var topPosition = GetTopProperty(allPosition);
-                var topNumbers = GetTopProperty(allNumbers);
+                (var topPosition, var countOfPositionUse) = GetTopPropertyWithCount(allPosition);
+                (var topNumbers, var countOfNumbersUse) = GetTopPropertyWithCount(allNumbers);
 
                 var allTime = GetAllTimeInGame();
 
@@ -41,7 +41,9 @@ namespace TicTacToe.Server.Services.Impl
                     winLostCount.Item1,
                     winLostCount.Item2,
                     topNumbers,
+                    countOfNumbersUse,
                     topPosition,
+                    countOfPositionUse,
                     allTime);
             }
             finally
@@ -86,37 +88,27 @@ namespace TicTacToe.Server.Services.Impl
             {
                 if (login.Equals(room.LoginFirstPlayer, StringComparison.Ordinal))
                 {
-                    foreach (var moves in room.Rounds)
-                    {
-                        //if (moves.FirstWin)
-                        //    winCount++;
-                        //else
-                        //    lostCount++;
-                    }
+                    winCount += room.WinsFirstPlayer;
+                    lostCount += room.WinsSecondPlayer;
                 }
                 else if (login.Equals(room.LoginSecondPlayer, StringComparison.Ordinal))
                 {
-                    foreach (var moves in room.Rounds)
-                    {
-                        //if (moves.FirstWin)
-                        //    lostCount++;
-                        //else
-                        //    winCount++;
-                    }
+                    winCount += room.WinsSecondPlayer;
+                    lostCount += room.WinsFirstPlayer;
                 }
             });
 
             return (winCount, lostCount);
         }
 
-        private List<int> GetTopProperty(List<int> prop)
+        private (List<int>, int) GetTopPropertyWithCount(List<int> prop)
         {
             var countOfPosition = Enumerable.Repeat(0, 9).ToList();
             prop.ForEach(x => countOfPosition[x - 1] += 1);
             var topCount = countOfPosition.Max();
 
             if (topCount == 0)
-                return new List<int>();
+                return (new List<int>(), 0);
 
             var result = new List<int>();
             var index = 0;
@@ -126,15 +118,15 @@ namespace TicTacToe.Server.Services.Impl
                     result.Add(index + 1);
                 index++;
             });
-            return result;
+            return (result, topCount);
         }
 
         private TimeSpan GetAllTimeInGame()
         {
             var result = TimeSpan.Zero;
-            _roomStorage.ForEach(x =>
+            _roomStorage.ForEach(room =>
             {
-                result += x.FinishRoomDate - x.CreationRoomDate;
+                result += room.FinishRoomDate - room.CreationRoomDate;
             });
             return result;
         }

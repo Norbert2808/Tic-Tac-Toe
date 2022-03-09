@@ -31,16 +31,16 @@ namespace TicTacToe.Client.States.Impl
                 var mostUsedNumbers = string.Join(" ", statisticDto.MostUsedNumbers!);
 
                 Console.Clear();
-                ConsoleHelper.WriteInConsole("--- Private statistic ---\n", ConsoleColor.Cyan);
+                ConsoleHelper.WriteInConsole("--- Private statistic ---\n\n", ConsoleColor.Cyan);
                 ConsoleHelper.WriteInConsole($"Count of winning games - {statisticDto.Winnings}\n",
                     ConsoleColor.Green);
-                ConsoleHelper.WriteInConsole($"Count of lost games - {statisticDto.Losses}\n",
+                ConsoleHelper.WriteInConsole($"Count of lost games - {statisticDto.Losses}\n\n",
                     ConsoleColor.Red);
                 ConsoleHelper.WriteInConsole(new string[]
                 {
-                    $"Most used position: {mostUsedPosition}",
-                    $"Most used numbers: {mostUsedNumbers}",
-                    $"All time in game: {statisticDto.AllTimeInGame:dd\\:mm\\:ss}"
+                    $"Most used position: {mostUsedPosition}, count of use - {statisticDto.MostPositionCount}",
+                    $"Most used numbers: {mostUsedNumbers}, count of use - {statisticDto.MostNumbersCount}",
+                    $"All time in game: {statisticDto.AllTimeInGame:dd\\:mm\\:ss}\n",
                 }, ConsoleColor.Yellow);
                 _ = Console.ReadLine();
             }
