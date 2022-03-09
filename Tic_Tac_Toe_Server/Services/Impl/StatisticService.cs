@@ -85,20 +85,20 @@ namespace TicTacToe.Server.Services.Impl
                 {
                     foreach (var moves in room.Rounds)
                     {
-                        if (moves.FirstWin)
-                            winCount++;
-                        else
-                            lostCount++;
+                        //if (moves.FirstWin)
+                        //    winCount++;
+                        //else
+                        //    lostCount++;
                     }
                 }
                 else if (login.Equals(room.LoginSecondPlayer, StringComparison.Ordinal))
                 {
                     foreach (var moves in room.Rounds)
                     {
-                        if (moves.FirstWin)
-                            lostCount++;
-                        else
-                            winCount++;
+                        //if (moves.FirstWin)
+                        //    lostCount++;
+                        //else
+                        //    winCount++;
                     }
                 }
             });

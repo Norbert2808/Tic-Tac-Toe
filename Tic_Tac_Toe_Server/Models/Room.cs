@@ -28,10 +28,10 @@ namespace TicTacToe.Server.Models
 
         //Times
         [JsonIgnore]
-        public TimeSpan ConnectionTimeOut { get; set; } = TimeSpan.FromMinutes(1);
+        public TimeSpan ConnectionTimeOut { get; set; } = TimeSpan.FromMinutes(3);
 
         [JsonIgnore]
-        public TimeSpan StartGameTimeOut { get; set; } = TimeSpan.FromMinutes(1);
+        public TimeSpan StartGameTimeOut { get; set; } = TimeSpan.FromMinutes(2);
 
         [JsonIgnore]
         public DateTime ConfirmationTime { get; set; }

@@ -1,4 +1,5 @@
-﻿using TicTacToe.Server.Models;
+﻿using TicTacToe.Server.DTO;
+using TicTacToe.Server.Models;
 
 namespace TicTacToe.Server.Services
 {
@@ -8,15 +9,15 @@ namespace TicTacToe.Server.Services
 
         Task<(bool, string[])> CheckRoomAsync(string id);
 
-        Task<(bool, MoveDto)> CheckMoveAsync(string id, string login);
+        Task<RoundStateDto?> CheckMoveAsync(string id, string login);
 
-        Task<bool> DoMoveAsync(string id, string login, MoveDto move);
+        Task DoMoveAsync(string id, string login, MoveDto move);
 
-        Task<(bool, string)> CheckConfirmationAsync(string id);
+        Task<(bool, string)> CheckConfirmationAsync(string id, string login);
 
         Task AppendConfirmationAsync(bool confirmation, string id);
 
-        Task<bool> CheckPlayerPositionAsync(string id, string login);
+        Task<RoundStateDto> CheckStateRoundAsync(string id, string login);
 
         Task SurrenderAsync(string id, string login);
 
