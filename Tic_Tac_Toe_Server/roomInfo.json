@@ -72,5 +72,192 @@
     "loginSecondPlayer": "qwerty123",
     "creationRoomDate": "2022-03-09T19:53:38.6890742Z",
     "finishRoomDate": "2022-03-09T19:54:17.0546817Z"
+  } ,
+  {
+    "roomId": "01889483-c6e3-466f-963a-b667650341b2",
+    "rounds": [
+      {
+        "firstPlayerMove": [],
+        "secondPlayerMove": []
+      },
+      {
+        "firstPlayerMove": [],
+        "secondPlayerMove": []
+      }
+    ],
+    "firstPlayer": {
+      "login": "qwerty",
+      "wins": 0
+    },
+    "secondPlayer": {
+      "login": "qwerty123",
+      "wins": 2
+    },
+    "times": {
+      "creationRoomDate": "2022-03-10T18:16:25.1362318Z",
+      "finishRoomDate": "2022-03-10T18:17:34.0480664Z"
+    }
+  },
+  {
+    "roomId": "3d47b59a-4f63-42b0-b949-e1dee6c6e297",
+    "rounds": [
+      {
+        "firstPlayerMove": [],
+        "secondPlayerMove": []
+      }
+    ],
+    "firstPlayer": {
+      "login": "qwerty",
+      "wins": 0
+    },
+    "secondPlayer": {
+      "login": "qwerty123",
+      "wins": 1
+    },
+    "times": {
+      "creationRoomDate": "2022-03-10T18:24:25.9291898Z",
+      "finishRoomDate": "2022-03-10T18:24:54.9955358Z"
+    }
+  },
+  {
+    "roomId": "b3277b80-3173-4d79-9c3f-8ff820969c47",
+    "rounds": [
+      {
+        "firstPlayerMove": [],
+        "secondPlayerMove": []
+      }
+    ],
+    "firstPlayer": {
+      "login": "qwerty",
+      "wins": 0
+    },
+    "secondPlayer": {
+      "login": "qwerty123",
+      "wins": 1
+    },
+    "times": {
+      "creationRoomDate": "2022-03-10T18:26:51.5933882Z",
+      "finishRoomDate": "2022-03-10T18:27:28.1301352Z"
+    }
+  },
+  {
+    "roomId": "2df229cd-1fcc-4b39-9f59-4054ac3e15da",
+    "rounds": [
+      {
+        "firstPlayerMove": [
+          {
+            "indexOfCell": 0,
+            "number": 1
+          },
+          {
+            "indexOfCell": 1,
+            "number": 2
+          },
+          {
+            "indexOfCell": 8,
+            "number": 9
+          }
+        ],
+        "secondPlayerMove": [
+          {
+            "indexOfCell": 3,
+            "number": 4
+          },
+          {
+            "indexOfCell": 4,
+            "number": 5
+          },
+          {
+            "indexOfCell": 5,
+            "number": 6
+          }
+        ]
+      },
+      {
+        "firstPlayerMove": [
+          {
+            "indexOfCell": 0,
+            "number": 1
+          },
+          {
+            "indexOfCell": 3,
+            "number": 4
+          },
+          {
+            "indexOfCell": 6,
+            "number": 7
+          }
+        ],
+        "secondPlayerMove": [
+          {
+            "indexOfCell": 1,
+            "number": 2
+          },
+          {
+            "indexOfCell": 2,
+            "number": 3
+          }
+        ]
+      }
+    ],
+    "firstPlayer": {
+      "login": "qwerty",
+      "wins": 1
+    },
+    "secondPlayer": {
+      "login": "qwerty123",
+      "wins": 1
+    },
+    "times": {
+      "creationRoomDate": "2022-03-10T19:07:07.1403466Z",
+      "finishRoomDate": "2022-03-10T19:08:42.5797777Z"
+    }
+  },
+  {
+    "roomId": "13457688-abef-48b4-97fc-2a22808d9be7",
+    "rounds": [
+      {
+        "firstPlayerMove": [],
+        "secondPlayerMove": []
+      },
+      {
+        "firstPlayerMove": [
+          {
+            "indexOfCell": 0,
+            "number": 1
+          },
+          {
+            "indexOfCell": 2,
+            "number": 3
+          },
+          {
+            "indexOfCell": 1,
+            "number": 5
+          }
+        ],
+        "secondPlayerMove": [
+          {
+            "indexOfCell": 1,
+            "number": 2
+          },
+          {
+            "indexOfCell": 4,
+            "number": 5
+          }
+        ]
+      }
+    ],
+    "firstPlayer": {
+      "login": "qwerty",
+      "wins": 1
+    },
+    "secondPlayer": {
+      "login": "qwerty123",
+      "wins": 1
+    },
+    "times": {
+      "creationRoomDate": "2022-03-10T19:40:24.6106467Z",
+      "finishRoomDate": "2022-03-10T19:41:16.2832129Z"
+    }
   } 
 ]

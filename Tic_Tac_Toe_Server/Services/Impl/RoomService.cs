@@ -97,7 +97,7 @@ namespace TicTacToe.Server.Services.Impl
                 throw new RoomException("Room not found");
 
             if (room.IsCompleted)
-                return (true, new[] { room.FirstPlayer.Login, room.SecondPlayer.Login });
+                return (true, Array.Empty<string>());
 
             if (!room.Times.IsConnectionTimeOut())
                 return (false, new[] { room.Times.GetConnectionTime().ToString(@"dd\:mm\:ss") });
@@ -123,7 +123,7 @@ namespace TicTacToe.Server.Services.Impl
             var room = await FindRoomByIdAsync(id);
 
             if (room is null)
-                throw new RoomException("Room not found.");
+                throw new RoomException("2 player leaves the room and room was deleting.");
 
             if (room.Times.IsRoundTimeOut())
                 throw new TimeOutException("Time out.");
@@ -237,6 +237,22 @@ namespace TicTacToe.Server.Services.Impl
 
             DeleteRoom(room);
             return true;
+        }
+
+        public async Task<ResultsDto> GetResultAsync(string id)
+        {
+            var room = await FindRoomByIdAsync(id);
+
+
+            return room is null
+                ? throw new RoomException("Room not found.")
+                : new ResultsDto
+                {
+                    LoginFirstPlayer = room.FirstPlayer.Login,
+                    LoginSecondPlayer = room.SecondPlayer.Login,
+                    WinFirst = room.FirstPlayer.Wins,
+                    WinSecond = room.SecondPlayer.Wins
+                };
         }
 
         private Room? ConnectionToPublicRoom(string login)

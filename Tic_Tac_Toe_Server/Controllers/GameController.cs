@@ -74,7 +74,7 @@ namespace TicTacToe.Server.Controllers
             try
             {
                 var (isCompleted, message) = await _roomService.CheckRoomAsync(id);
-                return isCompleted ? Ok(message) : NotFound(message);
+                return isCompleted ? Ok() : NotFound(message);
             }
             catch (RoomException exception)
             {
@@ -208,6 +208,29 @@ namespace TicTacToe.Server.Controllers
             catch (TimeoutException exception)
             {
                 return Conflict(exception.Message);
+            }
+        }
+
+        [HttpGet("get_results/{id}")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public async Task<IActionResult> GetResultsAsync([FromRoute] string id)
+        {
+            if (string.IsNullOrEmpty(LoginUser))
+            {
+                _logger.LogWarning("Unauthorized users");
+                return Unauthorized("Unauthorized users");
+            }
+
+            try
+            {
+                var results = await _roomService.GetResultAsync(id);
+                return Ok(results);
+            }
+            catch (RoomException exception)
+            {
+                return NotFound(exception.Message);
             }
         }
 

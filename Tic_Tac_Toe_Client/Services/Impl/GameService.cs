@@ -76,5 +76,10 @@ namespace TicTacToe.Client.Services.Impl
         {
             return await _httpClient.GetAsync("api/Game/exit/" + RoomId);
         }
+
+        public async Task<HttpResponseMessage> GetResultsAsync()
+        {
+            return await _httpClient.GetAsync("api/Game/get_results/" + RoomId);
+        }
     }
 }

@@ -17,6 +17,8 @@ namespace TicTacToe.Server.Services
 
         Task AppendConfirmationAsync(bool confirmation, string id);
 
+        Task<ResultsDto> GetResultAsync(string id);
+
         Task<RoundStateDto> CheckStateRoundAsync(string id, string login);
 
         Task SurrenderAsync(string id, string login);

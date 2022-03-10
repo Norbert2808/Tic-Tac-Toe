@@ -17,6 +17,8 @@ namespace TicTacToe.Client.Services
 
         Task<HttpResponseMessage> CheckConfirmationAsync();
 
+        Task<HttpResponseMessage> GetResultsAsync();
+
         Task<HttpResponseMessage> CheckRoundStateAsync();
 
         Task<HttpResponseMessage> SurrenderAsync();
