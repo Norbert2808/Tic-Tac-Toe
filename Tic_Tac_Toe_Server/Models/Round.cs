@@ -15,10 +15,10 @@ namespace TicTacToe.Server.Models
         public List<MoveDto> SecondPlayerMove { get; set; }
 
         [JsonIgnore]
-        private HashSet<int> AvailableValueFirstPlayerNumbers { get; set; }
+        public HashSet<int> AvailableValueFirstPlayerNumbers { get; private set; }
 
         [JsonIgnore]
-        private HashSet<int> AvailableValueSecondPlayerNumbers { get; set; }
+        public HashSet<int> AvailableValueSecondPlayerNumbers { get; private set; }
 
         [JsonIgnore]
         public MoveDto? LastMove { get; set; }

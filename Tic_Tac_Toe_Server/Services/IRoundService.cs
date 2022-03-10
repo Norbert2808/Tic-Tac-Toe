@@ -7,6 +7,8 @@ namespace TicTacToe.Server.Services
     {
         RoundStateDto? CheckMove(Room room, bool isFirst);
 
+        void CreateNewRound(Room room);
+
         void DoMove(Room room, MoveDto move, bool isFirst);
 
         RoundStateDto CheckState(Room room, bool isFirst);

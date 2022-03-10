@@ -133,7 +133,9 @@ namespace TicTacToe.Client.States.Impl
 
                 if (type == RoomType.Practice)
                 {
-
+                    _logger.LogInformation("RoomMenuState::StartConnectionWithRoomAsync::Start practice room");
+                    await _roundState.InvokeMenuAsync();
+                    return;
                 }
 
                 await WaitSecondPlayerAsync(message);

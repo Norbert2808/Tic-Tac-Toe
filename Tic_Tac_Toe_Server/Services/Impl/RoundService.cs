@@ -67,6 +67,12 @@ namespace TicTacToe.Server.Services.Impl
             };
         }
 
+        public void CreateNewRound(Room room)
+        {
+            room.Rounds.Push(new Round());
+            room.Times.LastMoveTime = DateTime.UtcNow;
+        }
+
         public void DoMove(Room room, MoveDto move, bool isFirst)
         {
             var round = room.Rounds.Peek();

@@ -78,7 +78,14 @@ namespace TicTacToe.Server.Services.Impl
 
                 if (settings.Type == RoomType.Practice)
                 {
-                    return null!;
+                    var room = new Room(login, settings)
+                    {
+                        SecondPlayer = new Player("Bot", 0),
+                        ConfirmSecondPlayer = true,
+                        IsCompleted = true
+                    };
+                    _roomStorage.Add(room);
+                    return room.RoomId;
                 }
             }
             finally
@@ -131,6 +138,16 @@ namespace TicTacToe.Server.Services.Impl
 
             var isFirstPlayer = room.FirstPlayer.Login.Equals(login, StringComparison.Ordinal);
 
+            if (room.IsBot)
+            {
+                var round = room.Rounds.Peek();
+                var random = new Random();
+                var index = random.Next(1, 9);
+                var value = round.AvailableValueSecondPlayerNumbers
+                    .ElementAt(random.Next(round.AvailableValueSecondPlayerNumbers.Count));
+                _roundService.DoMove(room, new MoveDto(index, value), false);
+            }
+
             _roundService.DoMove(room, move, isFirstPlayer);
         }
 
@@ -151,16 +168,14 @@ namespace TicTacToe.Server.Services.Impl
                 {
                     if (room.Rounds.Count == 0)
                     {
-                        room.Rounds.Push(new Round());
-                        room.Times.LastMoveTime = DateTime.UtcNow;
+                        _roundService.CreateNewRound(room);
                     }
                     else
                     {
                         var round = room.Rounds.Peek();
                         if (round.IsFinished)
                         {
-                            room.Rounds.Push(new Round());
-                            room.Times.LastMoveTime = DateTime.UtcNow;
+                            _roundService.CreateNewRound(room);
                         }
                     }
                 }
@@ -183,6 +198,13 @@ namespace TicTacToe.Server.Services.Impl
 
             if (room is null)
                 throw new RoomException("Room not found.");
+
+            if (room.IsBot)
+            {
+                room.ConfirmFirstPlayer = confirmation;
+                room.ConfirmSecondPlayer = confirmation;
+                return;
+            }
 
             if (room.ConfirmFirstPlayer == false)
             {

@@ -1,146 +1,5 @@
 [
   {
-    "roomId": "6ab28b1d-a4b4-4a88-ac87-62cca5bdda4b",
-    "rounds": [
-      {
-        "firstPlayerMove": [
-          {
-            "indexOfCell": 0,
-            "number": 1
-          },
-          {
-            "indexOfCell": 3,
-            "number": 4
-          },
-          {
-            "indexOfCell": 6,
-            "number": 7
-          }
-        ],
-        "secondPlayerMove": [
-          {
-            "indexOfCell": 1,
-            "number": 2
-          },
-          {
-            "indexOfCell": 2,
-            "number": 3
-          }
-        ]
-      }
-    ],
-    "winsFirstPlayer": 1,
-    "winsSecondPlayer": 0,
-    "loginFirstPlayer": "qwerty",
-    "loginSecondPlayer": "qwerty123",
-    "creationRoomDate": "2022-03-09T19:48:18.9108035Z",
-    "finishRoomDate": "2022-03-09T19:49:19.5962031Z"
-  },
-  {
-    "roomId": "e9675838-99e4-4846-8d67-263d07e171e3",
-    "rounds": [
-      {
-        "firstPlayerMove": [
-          {
-            "indexOfCell": 0,
-            "number": 1
-          },
-          {
-            "indexOfCell": 3,
-            "number": 4
-          },
-          {
-            "indexOfCell": 6,
-            "number": 7
-          }
-        ],
-        "secondPlayerMove": [
-          {
-            "indexOfCell": 1,
-            "number": 2
-          },
-          {
-            "indexOfCell": 2,
-            "number": 3
-          }
-        ]
-      }
-    ],
-    "winsFirstPlayer": 1,
-    "winsSecondPlayer": 0,
-    "loginFirstPlayer": "qwerty",
-    "loginSecondPlayer": "qwerty123",
-    "creationRoomDate": "2022-03-09T19:53:38.6890742Z",
-    "finishRoomDate": "2022-03-09T19:54:17.0546817Z"
-  } ,
-  {
-    "roomId": "01889483-c6e3-466f-963a-b667650341b2",
-    "rounds": [
-      {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
-      },
-      {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
-      }
-    ],
-    "firstPlayer": {
-      "login": "qwerty",
-      "wins": 0
-    },
-    "secondPlayer": {
-      "login": "qwerty123",
-      "wins": 2
-    },
-    "times": {
-      "creationRoomDate": "2022-03-10T18:16:25.1362318Z",
-      "finishRoomDate": "2022-03-10T18:17:34.0480664Z"
-    }
-  },
-  {
-    "roomId": "3d47b59a-4f63-42b0-b949-e1dee6c6e297",
-    "rounds": [
-      {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
-      }
-    ],
-    "firstPlayer": {
-      "login": "qwerty",
-      "wins": 0
-    },
-    "secondPlayer": {
-      "login": "qwerty123",
-      "wins": 1
-    },
-    "times": {
-      "creationRoomDate": "2022-03-10T18:24:25.9291898Z",
-      "finishRoomDate": "2022-03-10T18:24:54.9955358Z"
-    }
-  },
-  {
-    "roomId": "b3277b80-3173-4d79-9c3f-8ff820969c47",
-    "rounds": [
-      {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
-      }
-    ],
-    "firstPlayer": {
-      "login": "qwerty",
-      "wins": 0
-    },
-    "secondPlayer": {
-      "login": "qwerty123",
-      "wins": 1
-    },
-    "times": {
-      "creationRoomDate": "2022-03-10T18:26:51.5933882Z",
-      "finishRoomDate": "2022-03-10T18:27:28.1301352Z"
-    }
-  },
-  {
     "roomId": "2df229cd-1fcc-4b39-9f59-4054ac3e15da",
     "rounds": [
       {
@@ -258,6 +117,431 @@
     "times": {
       "creationRoomDate": "2022-03-10T19:40:24.6106467Z",
       "finishRoomDate": "2022-03-10T19:41:16.2832129Z"
+    }
+  } ,
+  {
+    "roomId": "0e337f06-6330-4aac-a950-10ef7b941178",
+    "rounds": [
+      {
+        "firstPlayerMove": [
+          {
+            "indexOfCell": 0,
+            "number": 1
+          },
+          {
+            "indexOfCell": 2,
+            "number": 3
+          },
+          {
+            "indexOfCell": 3,
+            "number": 4
+          }
+        ],
+        "secondPlayerMove": [
+          {
+            "indexOfCell": 1,
+            "number": 2
+          },
+          {
+            "indexOfCell": 4,
+            "number": 5
+          },
+          {
+            "indexOfCell": 7,
+            "number": 8
+          }
+        ]
+      }
+    ],
+    "firstPlayer": {
+      "login": "qwerty",
+      "wins": 0
+    },
+    "secondPlayer": {
+      "login": "qwerty123",
+      "wins": 1
+    },
+    "times": {
+      "creationRoomDate": "2022-03-10T19:53:11.1360003Z",
+      "finishRoomDate": "2022-03-10T19:53:39.0898098Z"
+    }
+  } ,
+  {
+    "roomId": "47125c75-7c15-48ff-836a-343e829a2866",
+    "rounds": [
+      {
+        "firstPlayerMove": [
+          {
+            "indexOfCell": 0,
+            "number": 1
+          },
+          {
+            "indexOfCell": 1,
+            "number": 3
+          },
+          {
+            "indexOfCell": 2,
+            "number": 7
+          }
+        ],
+        "secondPlayerMove": [
+          {
+            "indexOfCell": 1,
+            "number": 2
+          },
+          {
+            "indexOfCell": 3,
+            "number": 4
+          }
+        ]
+      }
+    ],
+    "firstPlayer": {
+      "login": "qwerty",
+      "wins": 1
+    },
+    "secondPlayer": {
+      "login": "qwerty123",
+      "wins": 0
+    },
+    "times": {
+      "creationRoomDate": "2022-03-10T20:44:08.298625Z",
+      "finishRoomDate": "2022-03-10T20:44:39.7403676Z"
+    }
+  },
+  {
+    "roomId": "a9e42ea8-c8b5-40c6-98a9-4a7c784ff1fa",
+    "rounds": [
+      {
+        "firstPlayerMove": [
+          {
+            "indexOfCell": 3,
+            "number": 4
+          },
+          {
+            "indexOfCell": 1,
+            "number": 2
+          }
+        ],
+        "secondPlayerMove": [
+          {
+            "indexOfCell": 6,
+            "number": 2
+          },
+          {
+            "indexOfCell": 7,
+            "number": 6
+          }
+        ]
+      },
+      {
+        "firstPlayerMove": [],
+        "secondPlayerMove": []
+      },
+      {
+        "firstPlayerMove": [
+          {
+            "indexOfCell": 2,
+            "number": 3
+          }
+        ],
+        "secondPlayerMove": [
+          {
+            "indexOfCell": 6,
+            "number": 3
+          }
+        ]
+      },
+      {
+        "firstPlayerMove": [
+          {
+            "indexOfCell": 0,
+            "number": 1
+          }
+        ],
+        "secondPlayerMove": [
+          {
+            "indexOfCell": 1,
+            "number": 6
+          }
+        ]
+      },
+      {
+        "firstPlayerMove": [
+          {
+            "indexOfCell": 0,
+            "number": 1
+          },
+          {
+            "indexOfCell": 2,
+            "number": 3
+          },
+          {
+            "indexOfCell": 1,
+            "number": 2
+          }
+        ],
+        "secondPlayerMove": [
+          {
+            "indexOfCell": 4,
+            "number": 1
+          },
+          {
+            "indexOfCell": 8,
+            "number": 7
+          },
+          {
+            "indexOfCell": 6,
+            "number": 8
+          }
+        ]
+      },
+      {
+        "firstPlayerMove": [
+          {
+            "indexOfCell": 0,
+            "number": 1
+          },
+          {
+            "indexOfCell": 2,
+            "number": 3
+          }
+        ],
+        "secondPlayerMove": [
+          {
+            "indexOfCell": 7,
+            "number": 3
+          },
+          {
+            "indexOfCell": 1,
+            "number": 4
+          },
+          {
+            "indexOfCell": 4,
+            "number": 6
+          }
+        ]
+      }
+    ],
+    "firstPlayer": {
+      "login": "qwerty",
+      "wins": 0
+    },
+    "secondPlayer": {
+      "login": "Bot",
+      "wins": 5
+    },
+    "times": {
+      "creationRoomDate": "2022-03-10T20:48:34.5250754Z",
+      "finishRoomDate": "2022-03-10T20:50:03.2145139Z"
+    }
+  },
+  {
+    "roomId": "e86d5ca5-fd37-4bbf-b7f3-ca3cd98e0c70",
+    "rounds": [
+      {
+        "firstPlayerMove": [],
+        "secondPlayerMove": []
+      }
+    ],
+    "firstPlayer": {
+      "login": "qwerty",
+      "wins": 0
+    },
+    "secondPlayer": {
+      "login": "Bot",
+      "wins": 1
+    },
+    "times": {
+      "creationRoomDate": "2022-03-10T20:50:49.9562017Z",
+      "finishRoomDate": "2022-03-10T20:50:54.2957393Z"
+    }
+  },
+  {
+    "roomId": "69a4e800-d364-415f-b2e7-d8220c1d9eaf",
+    "rounds": [
+      {
+        "firstPlayerMove": [
+          {
+            "indexOfCell": 0,
+            "number": 1
+          },
+          {
+            "indexOfCell": 3,
+            "number": 4
+          }
+        ],
+        "secondPlayerMove": [
+          {
+            "indexOfCell": 6,
+            "number": 9
+          },
+          {
+            "indexOfCell": 1,
+            "number": 3
+          },
+          {
+            "indexOfCell": 7,
+            "number": 1
+          }
+        ]
+      }
+    ],
+    "firstPlayer": {
+      "login": "qwerty",
+      "wins": 1
+    },
+    "secondPlayer": {
+      "login": "Bot",
+      "wins": 0
+    },
+    "times": {
+      "creationRoomDate": "2022-03-10T20:56:29.7482465Z",
+      "finishRoomDate": "2022-03-10T20:57:05.0379603Z"
+    }
+  },
+  {
+    "roomId": "ff783800-779a-450e-a6e6-dd5c21def2e5",
+    "rounds": [
+      {
+        "firstPlayerMove": [
+          {
+            "indexOfCell": 0,
+            "number": 1
+          },
+          {
+            "indexOfCell": 4,
+            "number": 5
+          },
+          {
+            "indexOfCell": 2,
+            "number": 3
+          },
+          {
+            "indexOfCell": 5,
+            "number": 6
+          },
+          {
+            "indexOfCell": 8,
+            "number": 9
+          }
+        ],
+        "secondPlayerMove": [
+          {
+            "indexOfCell": 1,
+            "number": 1
+          },
+          {
+            "indexOfCell": 6,
+            "number": 6
+          },
+          {
+            "indexOfCell": 4,
+            "number": 7
+          },
+          {
+            "indexOfCell": 3,
+            "number": 2
+          },
+          {
+            "indexOfCell": 8,
+            "number": 8
+          }
+        ]
+      }
+    ],
+    "firstPlayer": {
+      "login": "qwerty",
+      "wins": 0
+    },
+    "secondPlayer": {
+      "login": "Bot",
+      "wins": 0
+    },
+    "times": {
+      "creationRoomDate": "2022-03-10T20:57:08.7145897Z",
+      "finishRoomDate": "2022-03-10T20:57:54.1390361Z"
+    }
+  },
+  {
+    "roomId": "76d0c6e1-04ce-4395-b757-c146f2456943",
+    "rounds": [
+      {
+        "firstPlayerMove": [
+          {
+            "indexOfCell": 0,
+            "number": 1
+          },
+          {
+            "indexOfCell": 8,
+            "number": 9
+          },
+          {
+            "indexOfCell": 7,
+            "number": 8
+          }
+        ],
+        "secondPlayerMove": [
+          {
+            "indexOfCell": 5,
+            "number": 3
+          },
+          {
+            "indexOfCell": 6,
+            "number": 4
+          },
+          {
+            "indexOfCell": 1,
+            "number": 7
+          }
+        ]
+      },
+      {
+        "firstPlayerMove": [
+          {
+            "indexOfCell": 0,
+            "number": 1
+          }
+        ],
+        "secondPlayerMove": [
+          {
+            "indexOfCell": 5,
+            "number": 3
+          },
+          {
+            "indexOfCell": 1,
+            "number": 8
+          },
+          {
+            "indexOfCell": 4,
+            "number": 9
+          },
+          {
+            "indexOfCell": 6,
+            "number": 2
+          },
+          {
+            "indexOfCell": 2,
+            "number": 1
+          },
+          {
+            "indexOfCell": 7,
+            "number": 7
+          }
+        ]
+      }
+    ],
+    "firstPlayer": {
+      "login": "qwerty",
+      "wins": 0
+    },
+    "secondPlayer": {
+      "login": "Bot",
+      "wins": 2
+    },
+    "times": {
+      "creationRoomDate": "2022-03-10T21:30:18.5608836Z",
+      "finishRoomDate": "2022-03-10T21:31:47.8982096Z"
     }
   } 
 ]
