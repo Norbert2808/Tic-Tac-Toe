@@ -21,7 +21,7 @@ namespace TicTacToe.Server.Models
         public Player SecondPlayer { get; set; }
 
         [JsonPropertyName("times")]
-        public TimeLimit TimeOuts { get; set; }
+        public TimeLimit Times { get; set; }
 
         //Flags 
         [JsonIgnore]
@@ -46,7 +46,7 @@ namespace TicTacToe.Server.Models
             Settings = settings;
             RoomId = settings.RoomId.Length == 0 ? Guid.NewGuid().ToString() : settings.RoomId;
             IsBot = settings.Type == RoomType.Practice;
-            TimeOuts = new TimeLimit
+            Times = new TimeLimit
             {
                 CreationRoomDate = DateTime.UtcNow
             };
@@ -57,18 +57,13 @@ namespace TicTacToe.Server.Models
 
         [JsonConstructor]
         public Room(string roomId,
-            DateTime creationRoomDate,
-            DateTime finishRoomDate,
+            Stack<Round> rounds,
             Player firstPlayer,
             Player secondPlayer,
-            Stack<Round> rounds)
+            TimeLimit times)
         {
             RoomId = roomId;
-            TimeOuts = new TimeLimit
-            {
-                CreationRoomDate = creationRoomDate,
-                FinishRoomDate = finishRoomDate
-            };
+            Times = times;
             FirstPlayer = firstPlayer;
             SecondPlayer = secondPlayer;
             Rounds = rounds;

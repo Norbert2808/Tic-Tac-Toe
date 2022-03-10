@@ -1,4 +1,5 @@
-﻿using TicTacToe.Server.Models;
+﻿using TicTacToe.Server.DTO;
+using TicTacToe.Server.Models;
 using TicTacToe.Server.Tools;
 
 namespace TicTacToe.Server.Services.Impl
@@ -88,13 +89,13 @@ namespace TicTacToe.Server.Services.Impl
             {
                 if (login.Equals(room.FirstPlayer.Login, StringComparison.Ordinal))
                 {
-                    winCount += room.WinsFirstPlayer;
-                    lostCount += room.WinsSecondPlayer;
+                    winCount += room.FirstPlayer.Wins;
+                    lostCount += room.SecondPlayer.Wins;
                 }
                 else if (login.Equals(room.SecondPlayer.Login, StringComparison.Ordinal))
                 {
-                    winCount += room.WinsSecondPlayer;
-                    lostCount += room.WinsFirstPlayer;
+                    winCount += room.SecondPlayer.Wins;
+                    lostCount += room.FirstPlayer.Wins;
                 }
             });
 
@@ -126,7 +127,7 @@ namespace TicTacToe.Server.Services.Impl
             var result = TimeSpan.Zero;
             _roomStorage.ForEach(room =>
             {
-                result += room.FinishRoomDate - room.CreationRoomDate;
+                result += room.Times.FinishRoomDate - room.Times.CreationRoomDate;
             });
             return result;
         }

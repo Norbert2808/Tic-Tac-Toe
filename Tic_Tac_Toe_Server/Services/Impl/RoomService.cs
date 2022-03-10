@@ -99,8 +99,8 @@ namespace TicTacToe.Server.Services.Impl
             if (room.IsCompleted)
                 return (true, new[] { room.FirstPlayer.Login, room.SecondPlayer.Login });
 
-            if (!room.TimeOuts.IsConnectionTimeOut())
-                return (false, new[] { room.TimeOuts.GetConnectionTime().ToString(@"dd\:mm\:ss") });
+            if (!room.Times.IsConnectionTimeOut())
+                return (false, new[] { room.Times.GetConnectionTime().ToString(@"dd\:mm\:ss") });
 
             DeleteRoom(room);
             throw new TimeoutException("Timeout");
@@ -125,7 +125,7 @@ namespace TicTacToe.Server.Services.Impl
             if (room is null)
                 throw new RoomException("Room not found.");
 
-            if (room.TimeOuts.IsRoundTimeOut())
+            if (room.Times.IsRoundTimeOut())
                 throw new TimeOutException("Time out.");
 
 
@@ -152,7 +152,7 @@ namespace TicTacToe.Server.Services.Impl
                     if (room.Rounds.Count == 0)
                     {
                         room.Rounds.Push(new Round());
-                        room.TimeOuts.LastMoveTime = DateTime.UtcNow;
+                        room.Times.LastMoveTime = DateTime.UtcNow;
                     }
                     else
                     {
@@ -160,7 +160,7 @@ namespace TicTacToe.Server.Services.Impl
                         if (round.IsFinished)
                         {
                             room.Rounds.Push(new Round());
-                            room.TimeOuts.LastMoveTime = DateTime.UtcNow;
+                            room.Times.LastMoveTime = DateTime.UtcNow;
                         }
                     }
                 }
@@ -172,9 +172,9 @@ namespace TicTacToe.Server.Services.Impl
                 return (true, null!);
             }
 
-            return room.TimeOuts.IsStartGameTimeOut()
+            return room.Times.IsStartGameTimeOut()
                 ? throw new TimeoutException("Time out")
-                : (false, room.TimeOuts.GetStartGameWaitingTime().ToString(@"dd\:mm\:ss"));
+                : (false, room.Times.GetStartGameWaitingTime().ToString(@"dd\:mm\:ss"));
         }
 
         public async Task AppendConfirmationAsync(bool confirmation, string id)
@@ -187,7 +187,7 @@ namespace TicTacToe.Server.Services.Impl
             if (room.ConfirmFirstPlayer == false)
             {
                 room.ConfirmFirstPlayer = confirmation;
-                room.TimeOuts.ConfirmationTime = DateTime.UtcNow;
+                room.Times.ConfirmationTime = DateTime.UtcNow;
             }
             else
             {
@@ -230,7 +230,7 @@ namespace TicTacToe.Server.Services.Impl
             if (room is null)
                 return false;
 
-            room.TimeOuts.FinishRoomDate = DateTime.UtcNow;
+            room.Times.FinishRoomDate = DateTime.UtcNow;
 
             if (room.Rounds.Count > 0)
                 await _jsonHelper.AddObjectToFileAsync(room);

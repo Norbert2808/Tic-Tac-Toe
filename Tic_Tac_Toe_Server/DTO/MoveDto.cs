@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace TicTacToe.Server.Models
+namespace TicTacToe.Server.DTO
 {
     public class MoveDto
     {
@@ -10,6 +10,7 @@ namespace TicTacToe.Server.Models
         [JsonPropertyName("number")]
         public int Number { get; set; }
 
+        [JsonConstructor]
         public MoveDto(int indexOfCell, int number)
         {
             IndexOfCell = indexOfCell;

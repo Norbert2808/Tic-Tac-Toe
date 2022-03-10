@@ -30,6 +30,14 @@ namespace TicTacToe.Server.Models
 
         }
 
+        [JsonConstructor]
+        public TimeLimit(DateTime creationRoomDate,
+            DateTime finishRoomDate)
+        {
+            CreationRoomDate = creationRoomDate;
+            FinishRoomDate = finishRoomDate;
+        }
+
         public TimeSpan GetStartGameWaitingTime()
         {
             return DateTime.UtcNow - ConfirmationTime;

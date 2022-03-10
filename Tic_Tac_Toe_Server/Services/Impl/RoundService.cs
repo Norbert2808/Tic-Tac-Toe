@@ -11,7 +11,7 @@ namespace TicTacToe.Server.Services.Impl
             var round = room.Rounds.Peek();
             var isOpponentMove = round.CheckOpponentsMove(isFirst);
 
-            if (room.TimeOuts.IsRoundTimeOut())
+            if (room.Times.IsRoundTimeOut())
             {
                 room.ConfirmFirstPlayer = false;
                 room.ConfirmSecondPlayer = false;
@@ -74,7 +74,7 @@ namespace TicTacToe.Server.Services.Impl
             var isValid = round.DoMove(move, isFirst);
             if (isValid)
             {
-                room.TimeOuts.LastMoveTime = DateTime.UtcNow;
+                room.Times.LastMoveTime = DateTime.UtcNow;
                 round.IsActiveFirstPlayer = !round.IsActiveFirstPlayer;
                 if (round.CheckEndOfGame())
                 {

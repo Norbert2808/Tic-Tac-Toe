@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using Microsoft.AspNetCore.Mvc;
+using TicTacToe.Server.DTO;
 using TicTacToe.Server.Exceptions;
 using TicTacToe.Server.Models;
 using TicTacToe.Server.Services;
