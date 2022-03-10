@@ -38,7 +38,9 @@ namespace TicTacToe.Client.States.Impl
                     ConsoleColor.Red);
                 ConsoleHelper.WriteInConsole(new string[]
                 {
+                    statisticDto.MostPositionCount == 0 ? "No the most used position" :
                     $"Most used position: {mostUsedPosition}, count of use - {statisticDto.MostPositionCount}",
+                    statisticDto.MostNumbersCount == 0 ? "No the most used numbers" :
                     $"Most used numbers: {mostUsedNumbers}, count of use - {statisticDto.MostNumbersCount}",
                     $"All time in game: {statisticDto.AllTimeInGame:dd\\:mm\\:ss}\n",
                 }, ConsoleColor.Yellow);
