@@ -9,7 +9,15 @@ namespace TicTacToe.Server.Services.Impl
         public RoundStateDto? CheckMove(Room room, bool isFirst)
         {
             var round = room.Rounds.Peek();
+
+            if (room.IsBot)
+            {
+                round = room.Rounds.Peek();
+                DoMove(room, round.GetValidMoveFromBot(), false);
+            }
+
             var isOpponentMove = round.CheckOpponentsMove(isFirst);
+
 
             if (room.Times.IsRoundTimeOut())
             {
@@ -84,6 +92,9 @@ namespace TicTacToe.Server.Services.Impl
                 round.IsActiveFirstPlayer = !round.IsActiveFirstPlayer;
                 if (round.CheckEndOfGame())
                 {
+                    if (room.IsBot)
+                        room.FirstPlayer.Wins++;
+
                     room.ConfirmFirstPlayer = false;
                     room.ConfirmSecondPlayer = false;
                     round.IsFinished = true;

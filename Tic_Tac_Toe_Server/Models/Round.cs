@@ -181,7 +181,7 @@ namespace TicTacToe.Server.Models
             }
         }
 
-        private MoveDto GetValidMoveFromBot()
+        public MoveDto GetValidMoveFromBot()
         {
             var random = new Random();
             while (true)

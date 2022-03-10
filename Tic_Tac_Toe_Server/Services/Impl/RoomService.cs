@@ -138,16 +138,6 @@ namespace TicTacToe.Server.Services.Impl
 
             var isFirstPlayer = room.FirstPlayer.Login.Equals(login, StringComparison.Ordinal);
 
-            if (room.IsBot)
-            {
-                var round = room.Rounds.Peek();
-                var random = new Random();
-                var index = random.Next(1, 9);
-                var value = round.AvailableValueSecondPlayerNumbers
-                    .ElementAt(random.Next(round.AvailableValueSecondPlayerNumbers.Count));
-                _roundService.DoMove(room, new MoveDto(index, value), false);
-            }
-
             _roundService.DoMove(room, move, isFirstPlayer);
         }
 
