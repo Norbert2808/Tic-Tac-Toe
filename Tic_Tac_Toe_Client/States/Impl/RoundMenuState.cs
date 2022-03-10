@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using Microsoft.Extensions.Logging;
+using TicTacToe.Client.DTO;
 using TicTacToe.Client.Services;
 
 namespace TicTacToe.Client.States.Impl
@@ -33,10 +34,10 @@ namespace TicTacToe.Client.States.Impl
                     await ShowEnemyBarAsync();
                     ConsoleHelper.WriteInConsole(new[]
                     {
-                    "------------------",
-                    "1 -- Start new round",
-                    "0 -- Exit"
-                }, ConsoleColor.Cyan);
+                        "------------------",
+                        "1 -- Start new round",
+                        "0 -- Exit"
+                    }, ConsoleColor.Cyan);
 
                     ConsoleHelper.ReadIntFromConsole(out var choose);
                     switch (choose)
@@ -104,13 +105,17 @@ namespace TicTacToe.Client.States.Impl
 
         public async Task ShowEnemyBarAsync()
         {
-            var responsePlayerMessage = await _gameService.CheckRoomAsync();
+            var responsePlayerMessage = await _gameService.GetResultsAsync();
 
             if (responsePlayerMessage.StatusCode == HttpStatusCode.OK)
             {
                 _logger.LogInformation("RoundMenuState::ShowEnemyBarAsync::Successful response 200");
-                var opponents = await responsePlayerMessage.Content.ReadAsAsync<string[]>();
-                Console.WriteLine($"{opponents[0]} -- VS -- {opponents[1]}");
+                var results = await responsePlayerMessage.Content.ReadAsAsync<ResultsDto>();
+                ConsoleHelper.WriteInConsole(new[] {
+                    $"{results.LoginFirstPlayer} -- VS -- {results.LoginSecondPlayer}",
+                    $"{results.WinFirst} ====== VS ====== {results.WinSecond}"
+                },
+                    ConsoleColor.Yellow, "");
             }
         }
 

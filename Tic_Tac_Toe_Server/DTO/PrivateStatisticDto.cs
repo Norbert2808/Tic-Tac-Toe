@@ -2,7 +2,7 @@
 
 namespace TicTacToe.Server.Models
 {
-    public class PrivateStatistic
+    public class PrivateStatisticDto
     {
         [JsonPropertyName("winnings")]
         public int Winnings { get; set; }
@@ -25,7 +25,7 @@ namespace TicTacToe.Server.Models
         [JsonPropertyName("allTimeInGame")]
         public TimeSpan AllTimeInGame { get; set; }
 
-        public PrivateStatistic(int winnings,
+        public PrivateStatisticDto(int winnings,
             int losses,
             List<int> mostUsedNumbers,
             int mostNumbersCount,

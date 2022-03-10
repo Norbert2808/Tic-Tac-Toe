@@ -149,6 +149,14 @@ namespace TicTacToe.Client.States.Impl
                     return false;
                 }
 
+                if (response.StatusCode == HttpStatusCode.NotFound)
+                {
+                    ConsoleHelper.WriteInConsole(new[] { errorMes }, ConsoleColor.Red);
+                    _isEndOfGame = true;
+                    _ = Console.ReadLine();
+                    return false;
+                }
+
                 if (response.StatusCode == HttpStatusCode.Conflict)
                 {
                     _isEndOfGame = true;

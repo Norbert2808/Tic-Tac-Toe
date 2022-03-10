@@ -51,4 +51,10 @@
 2022-02-23 02:48:12.290 +02:00 [INF] User choose action.
 2022-02-23 02:48:14.306 +02:00 [INF] Invoke login method
 2022-02-23 02:48:18.954 +02:00 [INF] Input data not valid.
-2022-02-23 02:48:20.917 +02:00 [INF] User choose action.
+2022-02-23 02:48:20.917 +02:00 [INF] User choose action.2022-03-10 21:45:22.972 +02:00 [INF] Class AuthorizationMenuState. InvokeAsync method
+2022-03-10 21:45:23.038 +02:00 [INF] User choose action.
+2022-03-10 21:45:26.121 +02:00 [INF] Execute login method
+2022-03-10 21:45:32.434 +02:00 [INF] AuthorizationMenuState::ResponseHandlerAsync::Response: Successful response 200.
+2022-03-10 21:45:32.489 +02:00 [INF] Class MainMenuState. InvokeAsync method
+2022-03-10 21:45:39.063 +02:00 [INF] PrivateStatisticState::Invoke private statistic
+2022-03-10 21:46:25.349 +02:00 [ERR] An error occurred while sending the request.

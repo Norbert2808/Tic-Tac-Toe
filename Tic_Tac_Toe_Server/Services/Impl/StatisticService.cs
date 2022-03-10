@@ -20,7 +20,7 @@ namespace TicTacToe.Server.Services.Impl
             _jsonHelper = new JsonHelper<Room>(Path);
         }
 
-        public async Task<PrivateStatistic> GetPrivateStatistic(string login)
+        public async Task<PrivateStatisticDto> GetPrivateStatistic(string login)
         {
             await _semaphoreSlim.WaitAsync();
             try
@@ -38,7 +38,7 @@ namespace TicTacToe.Server.Services.Impl
 
                 var allTime = GetAllTimeInGame();
 
-                return new PrivateStatistic(
+                return new PrivateStatisticDto(
                     winLostCount.Item1,
                     winLostCount.Item2,
                     topNumbers,

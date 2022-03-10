@@ -4,6 +4,6 @@ namespace TicTacToe.Server.Services
 {
     public interface IStatisticService
     {
-        Task<PrivateStatistic> GetPrivateStatistic(string login);
+        Task<PrivateStatisticDto> GetPrivateStatistic(string login);
     }
 }
