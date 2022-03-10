@@ -180,5 +180,39 @@ namespace TicTacToe.Server.Models
                 _ = AvailableValueSecondPlayerNumbers.Remove(move.Number);
             }
         }
+
+        private MoveDto GetValidMoveFromBot()
+        {
+            var random = new Random();
+            while (true)
+            {
+                var validIndexList = Board
+                    .Where((cell, Index) => cell.Value == 0 || cell.IsFirstPlayer == true)
+                    .Select((cell, index) => index)
+                    .ToList();
+
+                var randomIndex = validIndexList.ElementAt(random.Next(validIndexList.Count));
+
+                if (Board[randomIndex].IsFirstPlayer == true)
+                {
+                    var opponentValue = Board[randomIndex].Value;
+                    var greaterValues = AvailableValueSecondPlayerNumbers
+                        .Where(value => value > opponentValue)
+                        .ToList();
+                    if (greaterValues.Count != 0)
+                    {
+                        var randomValue = greaterValues
+                            .ElementAt(random.Next(greaterValues.Count));
+                        return new MoveDto(randomIndex, randomValue);
+                    }
+                }
+                else
+                {
+                    var randomValue = AvailableValueSecondPlayerNumbers
+                        .ElementAt(random.Next(AvailableValueSecondPlayerNumbers.Count));
+                    return new MoveDto(randomIndex, randomValue);
+                }
+            }
+        }
     }
 }
