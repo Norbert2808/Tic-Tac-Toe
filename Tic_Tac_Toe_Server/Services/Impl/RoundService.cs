@@ -40,14 +40,11 @@ namespace TicTacToe.Server.Services.Impl
                     room.ConfirmFirstPlayer = false;
                     room.ConfirmSecondPlayer = false;
                     round.IsFinished = true;
+
                     if (isFirst)
-                    {
                         room.SecondPlayer.Wins++;
-                    }
                     else
-                    {
                         room.FirstPlayer.Wins++;
-                    }
                 }
 
                 return new RoundStateDto

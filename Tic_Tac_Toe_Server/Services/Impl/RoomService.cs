@@ -133,7 +133,11 @@ namespace TicTacToe.Server.Services.Impl
                 throw new RoomException("2 player leaves the room and room was deleting.");
 
             if (room.Times.IsRoundTimeOut())
+            {
+                if (room.IsBot)
+                    room.SecondPlayer.Wins++;
                 throw new TimeOutException("Time out.");
+            }
 
 
             var isFirstPlayer = room.FirstPlayer.Login.Equals(login, StringComparison.Ordinal);
