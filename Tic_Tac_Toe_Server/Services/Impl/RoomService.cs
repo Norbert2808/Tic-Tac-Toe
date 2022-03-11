@@ -135,7 +135,11 @@ namespace TicTacToe.Server.Services.Impl
             if (room.Times.IsRoundTimeOut())
             {
                 if (room.IsBot)
+                {
                     room.SecondPlayer.Wins++;
+                    room.Rounds.Peek().IsFinished = true;
+                }
+
                 throw new TimeOutException("Time out.");
             }
 

@@ -184,13 +184,14 @@ namespace TicTacToe.Server.Models
         public MoveDto GetValidMoveFromBot()
         {
             var random = new Random();
-            while (true)
-            {
-                var validIndexList = Board
+
+            var validIndexList = Board
                     .Where((cell, Index) => cell.Value == 0 || cell.IsFirstPlayer == true)
                     .Select((cell, index) => index)
                     .ToList();
 
+            while (true)
+            {
                 var randomIndex = validIndexList.ElementAt(random.Next(validIndexList.Count));
 
                 if (Board[randomIndex].IsFirstPlayer == true)

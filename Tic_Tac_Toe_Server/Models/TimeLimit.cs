@@ -11,7 +11,7 @@ namespace TicTacToe.Server.Models
         public TimeSpan ConnectionTimeOut { get; set; } = TimeSpan.FromMinutes(3);
 
         [JsonIgnore]
-        public TimeSpan StartGameTimeOut { get; set; } = TimeSpan.FromMinutes(2);
+        public TimeSpan StartGameTimeOut { get; set; } = TimeSpan.FromSeconds(20);
 
         [JsonIgnore]
         public DateTime ConfirmationTime { get; set; }

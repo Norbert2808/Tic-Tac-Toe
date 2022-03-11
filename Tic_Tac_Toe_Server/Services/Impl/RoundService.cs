@@ -103,15 +103,18 @@ namespace TicTacToe.Server.Services.Impl
         {
             var round = room.Rounds.Peek();
 
-            round.IsFinished = true;
+            if (!round.IsFinished)
+            {
+                round.IsFinished = true;
 
-            room.ConfirmFirstPlayer = false;
-            room.ConfirmSecondPlayer = false;
+                room.ConfirmFirstPlayer = false;
+                room.ConfirmSecondPlayer = false;
 
-            if (isFirst)
-                room.SecondPlayer.Wins++;
-            else
-                room.FirstPlayer.Wins++;
+                if (isFirst)
+                    room.SecondPlayer.Wins++;
+                else
+                    room.FirstPlayer.Wins++;
+            }
         }
     }
 }
