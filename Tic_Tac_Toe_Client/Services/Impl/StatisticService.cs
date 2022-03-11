@@ -4,6 +4,8 @@
     {
         private readonly HttpClient _httpClient;
 
+        private const string ControllerPath = "api/statistic/";
+
         public StatisticService(HttpClient httpClient)
         {
             _httpClient = httpClient;
@@ -11,7 +13,7 @@
 
         public async Task<HttpResponseMessage> GetPrivateStatisticDto()
         {
-            return await _httpClient.GetAsync("api/Statistic/private");
+            return await _httpClient.GetAsync(ControllerPath + "private");
         }
     }
 }

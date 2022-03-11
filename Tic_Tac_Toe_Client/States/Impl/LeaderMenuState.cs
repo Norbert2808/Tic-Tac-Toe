@@ -23,8 +23,13 @@ namespace TicTacToe.Client.States.Impl
                 ConsoleHelper.WriteInConsole(new[]
                 {
                 "LeaderBoard menu",
-                "1 -- By wins",
-                "2 -- By times",
+                "Users who have more than 10 rounds",
+                "Please choose type of sorting or close:",
+                "1 -- By number of wins",
+                "2 -- By number of lose",
+                "3 -- By win rate",
+                "4 -- By number of rooms",
+                "5 -- By times",
                 "0 -- Close"
             }, ConsoleColor.Cyan);
 
@@ -49,12 +54,15 @@ namespace TicTacToe.Client.States.Impl
                 catch (FormatException ex)
                 {
                     _logger.LogError(ex.Message);
+                    ConsoleHelper.WriteInConsole(new[] { "It's not a number!" }, ConsoleColor.DarkRed);
+                    _ = Console.ReadLine();
                 }
                 catch (HttpRequestException ex)
                 {
                     _logger.LogError(ex.Message);
                     ConsoleHelper.WriteInConsole(new[] { "Failed to connect with server!" },
                         ConsoleColor.Red);
+                    _ = Console.ReadLine();
                 }
             }
         }

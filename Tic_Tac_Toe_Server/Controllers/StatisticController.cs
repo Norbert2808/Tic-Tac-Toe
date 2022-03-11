@@ -1,11 +1,10 @@
 ﻿using System.Net;
 using Microsoft.AspNetCore.Mvc;
-using TicTacToe.Server.Models;
 using TicTacToe.Server.Services;
 
 namespace TicTacToe.Server.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/statistic/")]
     [ApiController]
     public class StatisticController : ControllerBase
     {

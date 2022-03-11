@@ -10,6 +10,12 @@ namespace TicTacToe.Client.DTO
         [JsonPropertyName("losses")]
         public int Losses { get; set; }
 
+        [JsonPropertyName("totalNumberOfRooms")]
+        public int TotalNumberOfRooms { get; set; }
+
+        [JsonPropertyName("totalNumberOfMoves")]
+        public int TotalNumberOfMoves { get; set; }
+
         [JsonPropertyName("mostUsedNumbers")]
         public List<int> MostUsedNumbers { get; set; }
 
@@ -28,6 +34,8 @@ namespace TicTacToe.Client.DTO
         [JsonConstructor]
         public PrivateStatisticDto(int winnings,
             int losses,
+            int totalNumberOfGames,
+            int totalNumberOfMoves,
             List<int> mostUsedNumbers,
             int mostNumbersCount,
             List<int> mostUsedPosition,
@@ -36,6 +44,8 @@ namespace TicTacToe.Client.DTO
         {
             Winnings = winnings;
             Losses = losses;
+            TotalNumberOfRooms = totalNumberOfGames;
+            TotalNumberOfMoves = totalNumberOfMoves;
             MostUsedNumbers = mostUsedNumbers;
             MostNumbersCount = mostNumbersCount;
             MostUsedPosition = mostUsedPosition;

@@ -30,17 +30,19 @@ namespace TicTacToe.Server.Services.Impl
                 var winLostCount = GetWinLostCount(login);
 
                 var allMoves = GetAllMovesFromRoomStorage(login);
+                (var allTime, var allRoomsCount) = GetAllTimeAndCountsOfRooms(login);
+                var allMovesCount = allMoves.Count;
                 var allPosition = allMoves.Select(x => x.IndexOfCell + 1).ToList();
                 var allNumbers = allMoves.Select(x => x.Number).ToList();
 
                 (var topPosition, var countOfPositionUse) = GetTopPropertyWithCount(allPosition);
                 (var topNumbers, var countOfNumbersUse) = GetTopPropertyWithCount(allNumbers);
 
-                var allTime = GetAllTimeInGame();
-
                 return new PrivateStatisticDto(
                     winLostCount.Item1,
                     winLostCount.Item2,
+                    allRoomsCount,
+                    allMovesCount,
                     topNumbers,
                     countOfNumbersUse,
                     topPosition,
@@ -122,14 +124,35 @@ namespace TicTacToe.Server.Services.Impl
             return (result, topCount);
         }
 
-        private TimeSpan GetAllTimeInGame()
+        private (TimeSpan, int) GetAllTimeAndCountsOfRooms(string login)
         {
-            var result = TimeSpan.Zero;
+            var allTime = TimeSpan.Zero;
+            var countOfRooms = 0;
             _roomStorage.ForEach(room =>
             {
-                result += room.Times.FinishRoomDate - room.Times.CreationRoomDate;
+                if (login.Equals(room.FirstPlayer.Login, StringComparison.Ordinal)
+                    || login.Equals(room.SecondPlayer.Login, StringComparison.Ordinal))
+                {
+                    allTime += room.Times.FinishRoomDate - room.Times.CreationRoomDate;
+                    countOfRooms++;
+                }
             });
-            return result;
+            return (allTime, countOfRooms);
         }
+
+        //private int GetCountOfRooms(string login)
+        //{
+        //    var result = 0;
+        //    _roomStorage.ForEach(room =>
+        //    {
+        //        if (login.Equals(room.FirstPlayer.Login, StringComparison.Ordinal)
+        //            || login.Equals(room.SecondPlayer.Login, StringComparison.Ordinal))
+        //        {
+        //            result++;
+        //        }
+        //    });
+
+        //    return result;
+        //}
     }
 }
