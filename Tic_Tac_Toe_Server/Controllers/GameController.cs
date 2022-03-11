@@ -7,7 +7,7 @@ using TicTacToe.Server.Services;
 
 namespace TicTacToe.Server.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/game")]
     [ApiController]
     public class GameController : ControllerBase
     {
