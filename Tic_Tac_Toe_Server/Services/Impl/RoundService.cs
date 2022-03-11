@@ -18,7 +18,6 @@ namespace TicTacToe.Server.Services.Impl
 
             var isOpponentMove = round.CheckOpponentsMove(isFirst);
 
-
             if (room.Times.IsRoundTimeOut())
             {
                 room.ConfirmFirstPlayer = false;

@@ -7,6 +7,8 @@ namespace TicTacToe.Client.Services.Impl
     {
         private readonly HttpClient _httpClient;
 
+        private const string ControllerPath = "api/account/";
+
         private string? Login { get; set; }
 
         public UserService(HttpClient httpClient)
@@ -18,7 +20,7 @@ namespace TicTacToe.Client.Services.Impl
         {
             var user = new UserDto { Login = login, Password = password };
 
-            var response = await _httpClient.PostAsync("api/Account/login",
+            var response = await _httpClient.PostAsync(ControllerPath + "login",
                 user,
                 new JsonMediaTypeFormatter());
 
@@ -37,7 +39,7 @@ namespace TicTacToe.Client.Services.Impl
         {
             var user = new UserDto { Login = login, Password = password };
 
-            var response = await _httpClient.PostAsync("api/Account/registration",
+            var response = await _httpClient.PostAsync(ControllerPath + "registration",
                 user,
                 new JsonMediaTypeFormatter());
 
@@ -54,7 +56,7 @@ namespace TicTacToe.Client.Services.Impl
 
         public async Task<HttpResponseMessage> LogoutAsync()
         {
-            var response = await _httpClient.PostAsync("api/Account/logout", Login, new JsonMediaTypeFormatter());
+            var response = await _httpClient.PostAsync(ControllerPath + "logout", Login, new JsonMediaTypeFormatter());
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 _httpClient.DefaultRequestHeaders.Clear();

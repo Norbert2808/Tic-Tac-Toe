@@ -9,6 +9,8 @@ namespace TicTacToe.Client.Services.Impl
     {
         private readonly HttpClient _httpClient;
 
+        private const string ControllerPath = "api/game/";
+
         public string? RoomId { get; private set; }
 
         public GameService(HttpClient httpClient)
@@ -20,7 +22,7 @@ namespace TicTacToe.Client.Services.Impl
         {
             var settings = new RoomSettingsDto(roomType, roomId, isConnect);
 
-            var response = await _httpClient.PostAsync("api/Game/create_room",
+            var response = await _httpClient.PostAsync(ControllerPath + "create_room",
                 settings,
                 new JsonMediaTypeFormatter());
 
@@ -34,12 +36,12 @@ namespace TicTacToe.Client.Services.Impl
 
         public async Task<HttpResponseMessage> CheckRoomAsync()
         {
-            return await _httpClient.GetAsync("api/Game/check_room/" + RoomId);
+            return await _httpClient.GetAsync(ControllerPath + "check_room/" + RoomId);
         }
 
         public async Task<HttpResponseMessage> MakeMoveAsync(MoveDto move)
         {
-            var response = await _httpClient.PostAsync("api/Game/move/" + RoomId,
+            var response = await _httpClient.PostAsync(ControllerPath + "move/" + RoomId,
                 move,
                 new JsonMediaTypeFormatter());
             return response;
@@ -47,39 +49,39 @@ namespace TicTacToe.Client.Services.Impl
 
         public async Task<HttpResponseMessage> CheckMoveAsync()
         {
-            return await _httpClient.GetAsync("api/Game/check_move/" + RoomId);
+            return await _httpClient.GetAsync(ControllerPath + "check_move/" + RoomId);
         }
 
         public async Task<HttpResponseMessage> SendConfirmationAsync()
         {
-            return await _httpClient.PostAsync("api/Game/send_confirmation/" + RoomId,
+            return await _httpClient.PostAsync(ControllerPath + "send_confirmation/" + RoomId,
                 true,
                 new JsonMediaTypeFormatter());
         }
 
         public async Task<HttpResponseMessage> CheckConfirmationAsync()
         {
-            return await _httpClient.GetAsync("api/Game/check_confirmation/" + RoomId);
+            return await _httpClient.GetAsync(ControllerPath + "check_confirmation/" + RoomId);
         }
 
         public async Task<HttpResponseMessage> CheckRoundStateAsync()
         {
-            return await _httpClient.GetAsync("api/Game/check_round_state/" + RoomId);
+            return await _httpClient.GetAsync(ControllerPath + "check_round_state/" + RoomId);
         }
 
         public async Task<HttpResponseMessage> SurrenderAsync()
         {
-            return await _httpClient.GetAsync("api/Game/surrender/" + RoomId);
+            return await _httpClient.GetAsync(ControllerPath + "surrender/" + RoomId);
         }
 
         public async Task<HttpResponseMessage> ExitFromRoomAsync()
         {
-            return await _httpClient.GetAsync("api/Game/exit/" + RoomId);
+            return await _httpClient.GetAsync(ControllerPath + "exit/" + RoomId);
         }
 
         public async Task<HttpResponseMessage> GetResultsAsync()
         {
-            return await _httpClient.GetAsync("api/Game/get_results/" + RoomId);
+            return await _httpClient.GetAsync(ControllerPath + "get_results/" + RoomId);
         }
     }
 }

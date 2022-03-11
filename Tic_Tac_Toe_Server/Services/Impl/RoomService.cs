@@ -78,12 +78,7 @@ namespace TicTacToe.Server.Services.Impl
 
                 if (settings.Type == RoomType.Practice)
                 {
-                    var room = new Room(login, settings)
-                    {
-                        SecondPlayer = new Player("Bot", 0),
-                        ConfirmSecondPlayer = true,
-                        IsCompleted = true
-                    };
+                    var room = ConnectionToPracticeRoom(login, settings);
                     _roomStorage.Add(room);
                     return room.RoomId;
                 }
@@ -186,7 +181,7 @@ namespace TicTacToe.Server.Services.Impl
             }
 
             return room.Times.IsStartGameTimeOut()
-                ? throw new TimeoutException("Time out")
+                ? throw new TimeoutException("Your opponent didn't confirm the game. Room was closed.")
                 : (false, room.Times.GetStartGameWaitingTime().ToString(@"dd\:mm\:ss"));
         }
 
@@ -198,11 +193,7 @@ namespace TicTacToe.Server.Services.Impl
                 throw new RoomException("Room not found.");
 
             if (room.IsBot)
-            {
-                room.ConfirmFirstPlayer = confirmation;
                 room.ConfirmSecondPlayer = confirmation;
-                return;
-            }
 
             if (room.ConfirmFirstPlayer == false)
             {
@@ -263,7 +254,6 @@ namespace TicTacToe.Server.Services.Impl
         {
             var room = await FindRoomByIdAsync(id);
 
-
             return room is null
                 ? throw new RoomException("Room not found.")
                 : new ResultsDto
@@ -302,6 +292,18 @@ namespace TicTacToe.Server.Services.Impl
 
             room.SecondPlayer.Login = login;
             room.IsCompleted = true;
+            return room;
+        }
+
+        private Room ConnectionToPracticeRoom(string login, RoomSettingsDto settings)
+        {
+            var room = new Room(login, settings)
+            {
+                SecondPlayer = new Player("Bot", 0),
+                ConfirmSecondPlayer = true,
+                IsCompleted = true
+            };
+
             return room;
         }
 
