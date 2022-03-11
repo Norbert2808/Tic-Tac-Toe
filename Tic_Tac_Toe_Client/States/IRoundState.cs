@@ -1,6 +1,6 @@
 ﻿namespace TicTacToe.Client.States
 {
-    public interface IRoundState : IGame, IState
+    public interface IRoundState : IExit, IState
     {
         Task<bool> WaitingStartGame();
 

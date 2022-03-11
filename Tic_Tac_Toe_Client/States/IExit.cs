@@ -1,6 +1,6 @@
 ﻿namespace TicTacToe.Client.States
 {
-    public interface IGame
+    public interface IExit
     {
         Task ExitAsync();
     }

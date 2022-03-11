@@ -13,15 +13,15 @@ var host = builder.Host;
 
 host.ConfigureAppConfiguration(app =>
 {
-    app.AddJsonFile("appsettings.json", true, true)
+    _ = app.AddJsonFile("appsettings.json", true, true)
         .AddEnvironmentVariables();
 })
 .ConfigureLogging(loggerBuilder =>
 {
-    loggerBuilder.ClearProviders();
-    loggerBuilder.AddSerilog(new LoggerConfiguration()
-       .WriteTo.File("app.log")
-       .CreateLogger());
+    _ = loggerBuilder.ClearProviders();
+    _ = loggerBuilder.AddSerilog(new LoggerConfiguration()
+        .WriteTo.File("app.log")
+        .CreateLogger());
 })
 .ConfigureServices(service =>
 {
@@ -38,7 +38,7 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseDeveloperExceptionPage();
+    _ = app.UseDeveloperExceptionPage();
 }
 
 app.UseSwagger();
@@ -48,7 +48,7 @@ app.UseRouting();
 
 app.UseEndpoints(endpoints =>
 {
-    endpoints.MapControllers();
+    _ = endpoints.MapControllers();
 });
 
 

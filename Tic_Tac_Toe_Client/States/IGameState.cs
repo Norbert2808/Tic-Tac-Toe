@@ -1,6 +1,6 @@
 ﻿namespace TicTacToe.Client.States
 {
-    public interface IGameState : IGame, IState
+    public interface IGameState : IExit, IState
     {
         Task<bool> MakeMoveAsync();
 
