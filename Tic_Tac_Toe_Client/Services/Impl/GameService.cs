@@ -36,12 +36,12 @@ namespace TicTacToe.Client.Services.Impl
 
         public async Task<HttpResponseMessage> CheckRoomAsync()
         {
-            return await _httpClient.GetAsync(ControllerPath + "check_room/" + RoomId);
+            return await _httpClient.GetAsync(ControllerPath + $"check_room/{RoomId}");
         }
 
         public async Task<HttpResponseMessage> MakeMoveAsync(MoveDto move)
         {
-            var response = await _httpClient.PostAsync(ControllerPath + "move/" + RoomId,
+            var response = await _httpClient.PostAsync(ControllerPath + $"move/{RoomId}",
                 move,
                 new JsonMediaTypeFormatter());
             return response;
@@ -49,39 +49,39 @@ namespace TicTacToe.Client.Services.Impl
 
         public async Task<HttpResponseMessage> CheckMoveAsync()
         {
-            return await _httpClient.GetAsync(ControllerPath + "check_move/" + RoomId);
+            return await _httpClient.GetAsync(ControllerPath + $"check_move/{RoomId}");
         }
 
         public async Task<HttpResponseMessage> SendConfirmationAsync()
         {
-            return await _httpClient.PostAsync(ControllerPath + "send_confirmation/" + RoomId,
+            return await _httpClient.PostAsync(ControllerPath + $"send_confirmation/{RoomId}",
                 true,
                 new JsonMediaTypeFormatter());
         }
 
         public async Task<HttpResponseMessage> CheckConfirmationAsync()
         {
-            return await _httpClient.GetAsync(ControllerPath + "check_confirmation/" + RoomId);
+            return await _httpClient.GetAsync(ControllerPath + $"check_confirmation/{RoomId}");
         }
 
         public async Task<HttpResponseMessage> CheckRoundStateAsync()
         {
-            return await _httpClient.GetAsync(ControllerPath + "check_round_state/" + RoomId);
+            return await _httpClient.GetAsync(ControllerPath + $"check_round_state/{RoomId}");
         }
 
         public async Task<HttpResponseMessage> SurrenderAsync()
         {
-            return await _httpClient.GetAsync(ControllerPath + "surrender/" + RoomId);
+            return await _httpClient.GetAsync(ControllerPath + $"surrender/{RoomId}");
         }
 
         public async Task<HttpResponseMessage> ExitFromRoomAsync()
         {
-            return await _httpClient.GetAsync(ControllerPath + "exit/" + RoomId);
+            return await _httpClient.GetAsync(ControllerPath + $"exit/{RoomId}");
         }
 
         public async Task<HttpResponseMessage> GetResultsAsync()
         {
-            return await _httpClient.GetAsync(ControllerPath + "get_results/" + RoomId);
+            return await _httpClient.GetAsync(ControllerPath + $"get_results/{RoomId}");
         }
     }
 }

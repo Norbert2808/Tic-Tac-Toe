@@ -7,7 +7,7 @@ namespace TicTacToe.Server.Services
     {
         Task<string> StartRoomAsync(string id, string login, RoomSettingsDto settings);
 
-        Task<(bool, string[])> CheckRoomAsync(string id);
+        Task<(bool, string)> CheckRoomAsync(string id);
 
         Task<RoundStateDto?> CheckMoveAsync(string id, string login);
 

@@ -106,80 +106,83 @@ namespace TicTacToe.Client.States.Impl
 
             var startRoomResponse = await _gameService.StartRoomAsync(type, roomId, isConnecting);
 
-            var message = Array.Empty<string>();
-
-            if (startRoomResponse.StatusCode == HttpStatusCode.OK)
+            switch (startRoomResponse.StatusCode)
             {
-                _logger.LogInformation("RoomMenuState::StartConnectionWithRoomAsync::Successful response 200");
+                case HttpStatusCode.OK:
+                    _logger.LogInformation("RoomMenuState::StartConnectionWithRoomAsync::Successful response 200");
+                    await GetMessageForRoomAsync(type, startRoomResponse);
+                    break;
 
-                if (type == RoomType.Public)
-                {
-                    message = new[]
-                    {
-                        "Room was found! Please, be wait when your" +
-                        " opponent will entering."
-                    };
-                }
 
-                if (type == RoomType.Private)
-                {
-                    message = new[]
-                    {
-                        "Your private token:" +
-                        $"{await startRoomResponse.Content.ReadAsStringAsync()}",
-                        "Please, be wait when your opponent will entering."
-                    };
-                }
+                case HttpStatusCode.BadRequest:
+                    _logger.LogInformation("RoomMenuState::StartConnectionWithRoomAsync::Bad request 400");
+                    var errorMessage = await startRoomResponse.Content.ReadAsStringAsync();
+                    ConsoleHelper.WriteInConsole(new[] { errorMessage }, ConsoleColor.Red);
+                    _ = Console.ReadLine();
+                    break;
 
-                if (type == RoomType.Practice)
-                {
-                    _logger.LogInformation("RoomMenuState::StartConnectionWithRoomAsync::Start practice room");
-                    await _roundState.InvokeMenuAsync();
-                    return;
-                }
-
-                await WaitSecondPlayerAsync(message);
-            }
-            if (startRoomResponse.StatusCode == HttpStatusCode.BadRequest)
-            {
-                _logger.LogInformation("RoomMenuState::StartConnectionWithRoomAsync::Bad request 400");
-                var errorMessage = await startRoomResponse.Content.ReadAsStringAsync();
-                ;
-                ConsoleHelper.WriteInConsole(new[] { errorMessage }, ConsoleColor.Red);
-                _ = Console.ReadLine();
+                default:
+                    break;
             }
         }
 
-        public async Task WaitSecondPlayerAsync(string[] message)
+        private async Task GetMessageForRoomAsync(RoomType type, HttpResponseMessage startRoomResponse)
+        {
+            var message = string.Empty;
+            if (type == RoomType.Public)
+            {
+                message = "Room was found! Please, be wait when your" +
+                    " opponent will entering.\n";
+            }
+
+            if (type == RoomType.Private)
+            {
+                message = "Your private token:" +
+                    $"{await startRoomResponse.Content.ReadAsStringAsync()}\n" +
+                    "Please, be wait when your opponent will entering.\n";
+            }
+
+            if (type == RoomType.Practice)
+            {
+                _logger.LogInformation("RoomMenuState::StartConnectionWithRoomAsync::Start practice room");
+                await _roundState.InvokeMenuAsync();
+                return;
+            }
+
+            await WaitSecondPlayerAsync(message);
+        }
+
+        public async Task WaitSecondPlayerAsync(string message)
         {
             _logger.LogInformation("Waiting second player.");
             while (true)
             {
                 Console.Clear();
                 ConsoleHelper.WriteInConsole(message,
-                    ConsoleColor.Green, "");
+                    ConsoleColor.Green);
                 var checkRoomResponse = await _gameService.CheckRoomAsync();
 
-                if (checkRoomResponse.StatusCode == HttpStatusCode.OK)
+                switch (checkRoomResponse.StatusCode)
                 {
-                    _logger.LogInformation("RoomMenuState::WaitSecondPlayerAsync::Successful response 200");
-                    await _roundState.InvokeMenuAsync();
-                    return;
-                }
+                    case HttpStatusCode.OK:
+                        _logger.LogInformation("RoomMenuState::WaitSecondPlayerAsync::Successful response 200");
+                        await _roundState.InvokeMenuAsync();
+                        return;
 
-                if (checkRoomResponse.StatusCode == HttpStatusCode.NotFound)
-                {
-                    _logger.LogInformation("RoomMenuState::WaitSecondPlayerAsync::Response: NotFound 404");
-                    var time = await checkRoomResponse.Content.ReadAsAsync<string[]>();
-                    ConsoleHelper.WriteInConsole(new[] { $"Time: {time[0]}" }, ConsoleColor.Red, "");
-                    Thread.Sleep(3000);
-                }
+                    case HttpStatusCode.NotFound:
+                        _logger.LogInformation("RoomMenuState::WaitSecondPlayerAsync::Response: NotFound 404");
+                        var time = await checkRoomResponse.Content.ReadAsStringAsync();
+                        ConsoleHelper.WriteInConsole($"Time: {time}\n", ConsoleColor.Red);
+                        Thread.Sleep(3000);
+                        break;
 
-                if (checkRoomResponse.StatusCode == HttpStatusCode.Conflict)
-                {
-                    _logger.LogInformation("RoomMenuState::WaitSecondPlayerAsync::Response: Conflict 409");
-                    _ = await _gameService.ExitFromRoomAsync();
-                    return;
+                    case HttpStatusCode.Conflict:
+                        _logger.LogInformation("RoomMenuState::WaitSecondPlayerAsync::Response: Conflict 409");
+                        _ = await _gameService.ExitFromRoomAsync();
+                        return;
+
+                    default:
+                        break;
                 }
             }
         }

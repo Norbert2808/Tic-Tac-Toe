@@ -91,7 +91,7 @@ namespace TicTacToe.Server.Services.Impl
             return null!;
         }
 
-        public async Task<(bool, string[])> CheckRoomAsync(string id)
+        public async Task<(bool, string)> CheckRoomAsync(string id)
         {
             var room = await FindRoomByIdAsync(id);
 
@@ -99,10 +99,10 @@ namespace TicTacToe.Server.Services.Impl
                 throw new RoomException("Room not found");
 
             if (room.IsCompleted)
-                return (true, Array.Empty<string>());
+                return (true, string.Empty);
 
             if (!room.Times.IsConnectionTimeOut())
-                return (false, new[] { room.Times.GetConnectionTime().ToString(@"dd\:mm\:ss") });
+                return (false, room.Times.GetConnectionTime().ToString(@"dd\:mm\:ss"));
 
             DeleteRoom(room);
             throw new TimeoutException("Timeout");

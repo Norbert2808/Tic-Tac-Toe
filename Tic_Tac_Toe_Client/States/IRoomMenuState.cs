@@ -28,7 +28,7 @@ namespace TicTacToe.Client.States
         /// <returns>
         /// Returns <see cref="Task"/>
         /// </returns>
-        Task WaitSecondPlayerAsync(string[] message);
+        Task WaitSecondPlayerAsync(string message);
 
     }
 }
