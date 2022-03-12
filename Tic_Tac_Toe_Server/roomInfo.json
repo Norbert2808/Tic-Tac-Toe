@@ -944,5 +944,64 @@
       "creationRoomDate": "2022-03-10T22:21:05.7196891Z",
       "finishRoomDate": "2022-03-10T22:21:43.1344446Z"
     }
+  } ,
+  {
+    "roomId": "ed54fdac-1d96-4335-a4de-97ec202f0729",
+    "rounds": [
+      {
+        "firstPlayerMove": [
+          {
+            "indexOfCell": 0,
+            "number": 1
+          },
+          {
+            "indexOfCell": 2,
+            "number": 3
+          },
+          {
+            "indexOfCell": 1,
+            "number": 5
+          },
+          {
+            "indexOfCell": 8,
+            "number": 9
+          },
+          {
+            "indexOfCell": 0,
+            "number": 8
+          }
+        ],
+        "secondPlayerMove": [
+          {
+            "indexOfCell": 1,
+            "number": 2
+          },
+          {
+            "indexOfCell": 0,
+            "number": 4
+          },
+          {
+            "indexOfCell": 4,
+            "number": 5
+          },
+          {
+            "indexOfCell": 5,
+            "number": 6
+          }
+        ]
+      }
+    ],
+    "firstPlayer": {
+      "login": "qwerty",
+      "wins": 1
+    },
+    "secondPlayer": {
+      "login": "qwerty123",
+      "wins": 0
+    },
+    "times": {
+      "creationRoomDate": "2022-03-12T21:07:28.1213319Z",
+      "finishRoomDate": "2022-03-12T21:08:18.0020456Z"
+    }
   } 
 ]

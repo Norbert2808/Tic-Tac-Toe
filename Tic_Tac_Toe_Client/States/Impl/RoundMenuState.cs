@@ -5,7 +5,7 @@ using TicTacToe.Client.Services;
 
 namespace TicTacToe.Client.States.Impl
 {
-    public class RoundMenuState : IRoundState
+    public class RoundMenuState : IRoundMenuState
     {
         private readonly IGameState _gameState;
 
@@ -119,7 +119,7 @@ namespace TicTacToe.Client.States.Impl
             }
         }
 
-        private async Task<bool> WaitConfirmationSecondPlayer()
+        public async Task<bool> WaitConfirmationSecondPlayer()
         {
             while (true)
             {

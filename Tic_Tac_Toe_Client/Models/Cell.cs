@@ -3,6 +3,9 @@ using System.Text.Json.Serialization;
 
 namespace TicTacToe.Client.Models
 {
+    /// <summary>
+    /// The class that stores cell data
+    /// </summary>
     public sealed class Cell
     {
         [JsonPropertyName("value")]

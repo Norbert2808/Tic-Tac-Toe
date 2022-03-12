@@ -9,11 +9,11 @@ namespace TicTacToe.Client.States.Impl
     {
         private readonly IGameService _gameService;
 
-        private readonly IRoundState _roundState;
+        private readonly IRoundMenuState _roundState;
 
         private readonly ILogger<RoomMenuState> _logger;
 
-        public RoomMenuState(IRoundState roundState,
+        public RoomMenuState(IRoundMenuState roundState,
             IGameService gameService,
             ILogger<RoomMenuState> logger)
         {

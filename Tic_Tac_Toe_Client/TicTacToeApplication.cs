@@ -38,7 +38,7 @@ namespace TicTacToe.Client
                 .AddTransient<IMainMenuState, MainMenuState>()
                 .AddTransient<ILeaderMenuState, LeaderMenuState>()
                 .AddTransient<IRoomMenuState, RoomMenuState>()
-                .AddTransient<IRoundState, RoundMenuState>()
+                .AddTransient<IRoundMenuState, RoundMenuState>()
                 .AddTransient<IGameState, GameState>()
                 .AddTransient<IPrivateStatisticState, PrivateStatisticState>();
 

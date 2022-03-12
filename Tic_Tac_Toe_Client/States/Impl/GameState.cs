@@ -71,7 +71,7 @@ namespace TicTacToe.Client.States.Impl
                                 break;
 
                             case 2:
-                                await ExitAsync();
+                                await SurrenderAsync();
                                 break;
 
                             default:
@@ -252,7 +252,7 @@ namespace TicTacToe.Client.States.Impl
             }, ConsoleColor.Red);
         }
 
-        public async Task ExitAsync()
+        public async Task SurrenderAsync()
         {
             var responseSurrender = await _gameService.SurrenderAsync();
             if (responseSurrender.StatusCode == HttpStatusCode.OK)
