@@ -1,4 +1,7 @@
-﻿namespace TicTacToe.Client.Services.Impl
+﻿using System.Globalization;
+using TicTacToe.Client.Enums;
+
+namespace TicTacToe.Client.Services.Impl
 {
     public class StatisticService : IStatisticService
     {
@@ -11,9 +14,14 @@
             _httpClient = httpClient;
         }
 
-        public async Task<HttpResponseMessage> GetPrivateStatisticDto()
+        public async Task<HttpResponseMessage> GetPrivateStatistic()
         {
             return await _httpClient.GetAsync(ControllerPath + "private");
+        }
+
+        public async Task<HttpResponseMessage> GetLeadersStatistic(SortingType type)
+        {
+            return await _httpClient.GetAsync(ControllerPath + $"leaders/{type}");
         }
     }
 }

@@ -1,7 +1,11 @@
-﻿namespace TicTacToe.Client.Services
+﻿using TicTacToe.Client.Enums;
+
+namespace TicTacToe.Client.Services
 {
     public interface IStatisticService
     {
-        Task<HttpResponseMessage> GetPrivateStatisticDto();
+        Task<HttpResponseMessage> GetPrivateStatistic();
+
+        Task<HttpResponseMessage> GetLeadersStatistic(SortingType type);
     }
 }
