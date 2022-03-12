@@ -1,5 +1,9 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using System.Net;
+using Microsoft.Extensions.Logging;
+using TicTacToe.Client.DTO;
+using TicTacToe.Client.Enums;
 using TicTacToe.Client.Services;
+using TicTacToe.Client.Tools;
 
 namespace TicTacToe.Client.States.Impl
 {
@@ -22,26 +26,46 @@ namespace TicTacToe.Client.States.Impl
                 Console.Clear();
                 ConsoleHelper.WriteInConsole(new[]
                 {
-                "LeaderBoard menu",
-                "Users who have more than 10 rounds",
-                "Please choose type of sorting or close:",
-                "1 -- By number of wins",
-                "2 -- By number of lose",
-                "3 -- By win rate",
-                "4 -- By number of rooms",
-                "5 -- By times",
-                "0 -- Close"
-            }, ConsoleColor.Cyan);
+                    "LeaderBoard menu",
+                    "There are users who have more than 10 rounds",
+                    "Please choose type of sorting or close:",
+                    "1 -- By number of wins",
+                    "2 -- By number of lose",
+                    "3 -- By win rate",
+                    "4 -- By number of rooms",
+                    "5 -- By times",
+                    "0 -- Close"
+                }, ConsoleColor.Cyan, "");
 
                 try
                 {
                     ConsoleHelper.ReadIntFromConsole(out var choose);
+                    SortingType type;
                     switch (choose)
                     {
                         case 1:
+                            type = SortingType.Winnings;
+                            await ShowLeadersStatistic(type);
                             break;
 
                         case 2:
+                            type = SortingType.Losses;
+                            await ShowLeadersStatistic(type);
+                            break;
+
+                        case 3:
+                            type = SortingType.WinRate;
+                            await ShowLeadersStatistic(type);
+                            break;
+
+                        case 4:
+                            type = SortingType.Rooms;
+                            await ShowLeadersStatistic(type);
+                            break;
+
+                        case 5:
+                            type = SortingType.Time;
+                            await ShowLeadersStatistic(type);
                             break;
 
                         case 0:
@@ -67,9 +91,30 @@ namespace TicTacToe.Client.States.Impl
             }
         }
 
-        public Task<string> GetMessageFromResponseAsync(HttpResponseMessage response)
+        public async Task ShowLeadersStatistic(SortingType type)
         {
-            throw new NotImplementedException();
+            var responce = await _statisticService.GetLeadersStatistic(type);
+            if (responce.StatusCode == HttpStatusCode.OK)
+            {
+                var leaders = await responce.Content.ReadAsAsync<List<LeaderStatisticDto>>();
+                var count = 1;
+
+                Console.Clear();
+                var consoleTable = leaders.ToStringTable(
+                    new[] { "№", "LOGIN", "WINNINGS", "LOSSES", "WINRATE", "ROOMS", "TIME" },
+                    leader => count++,
+                    leader => leader.Login,
+                    leader => leader.Winnings,
+                    leader => leader.Losses,
+                    leader => $"{leader.WinRate}%",
+                    leader => leader.RoomsNumber,
+                    leader => $"{leader.Time:dd\\:mm\\:ss}");
+
+                ConsoleHelper.WriteInConsole(consoleTable, ConsoleColor.DarkYellow);
+
+                Console.WriteLine("\nPlease press to continue");
+                _ = Console.ReadLine();
+            }
         }
     }
 }

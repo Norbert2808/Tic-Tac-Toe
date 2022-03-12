@@ -1,7 +1,9 @@
-﻿namespace TicTacToe.Client.States
+﻿using TicTacToe.Client.Enums;
+
+namespace TicTacToe.Client.States
 {
     public interface ILeaderMenuState : IState
     {
-        Task<string> GetMessageFromResponseAsync(HttpResponseMessage response);
+        Task ShowLeadersStatistic(SortingType type);
     }
 }

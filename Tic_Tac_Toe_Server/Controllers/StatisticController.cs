@@ -1,10 +1,12 @@
 ﻿using System.Net;
 using Microsoft.AspNetCore.Mvc;
+using TicTacToe.Server.DTO;
+using TicTacToe.Server.Enums;
 using TicTacToe.Server.Services;
 
 namespace TicTacToe.Server.Controllers
 {
-    [Route("api/statistic/")]
+    [Route("api/statistic")]
     [ApiController]
     public class StatisticController : ControllerBase
     {
@@ -36,5 +38,14 @@ namespace TicTacToe.Server.Controllers
             var statistic = await _statisticService.GetPrivateStatistic(LoginUser);
             return Ok(statistic);
         }
+
+        [HttpGet("leaders/{type}")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetLeadersStatistic([FromRoute] SortingType type)
+        {
+            var result = await _statisticService.GetLeaders(type);
+            return Ok(result);
+        }
+
     }
 }

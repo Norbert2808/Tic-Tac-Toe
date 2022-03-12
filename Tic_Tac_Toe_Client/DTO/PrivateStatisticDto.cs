@@ -2,7 +2,7 @@
 
 namespace TicTacToe.Client.DTO
 {
-    internal class PrivateStatisticDto
+    public sealed class PrivateStatisticDto
     {
         [JsonPropertyName("winnings")]
         public int Winnings { get; set; }

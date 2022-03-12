@@ -1,25 +1,5 @@
 [
   {
-    "login": "xxxxxx",
-    "password": "888888"
-  },
-  {
-    "login": "yyyyyy",
-    "password": "666666"
-  },
-  {
-    "login": "iiiiii",
-    "password": "666666"
-  },
-  {
-    "login": "oooooo",
-    "password": "777777"
-  },
-  {
-    "login": "nnnnnnn",
-    "password": "8888888"
-  },
-  {
     "login": "qwerty",
     "password": "111111"
   },
@@ -28,7 +8,71 @@
     "password": "string"
   },
   {
-    "login": "mmmmmm",
-    "password": "666666"
+    "login": "alex1998",
+    "password": "password"
+  },
+  {
+    "login": "dima548",
+    "password": "password"
+  },
+  {
+    "login": "serhiyPP",
+    "password": "password"
+  },
+  {
+    "login": "JuliaDJ",
+    "password": "password"
+  },
+  {
+    "login": "NazikHayk",
+    "password": "password"
+  },
+  {
+    "login": "MarinaVdovychenko",
+    "password": "password"
+  },
+  {
+    "login": "Marija2002",
+    "password": "password"
+  },
+  {
+    "login": "Jaryna1208",
+    "password": "password"
+  },
+  {
+    "login": "BohdabB",
+    "password": "password"
+  },
+  {
+    "login": "Norbert2808",
+    "password": "password"
+  },
+  {
+    "login": "Melnyk1996",
+    "password": "password"
+  },
+  {
+    "login": "Olia_Kotlobai",
+    "password": "password"
+  },
+  {
+    "login": "Dania38",
+    "password": "password"
+  },
+  {
+    "login": "Mukola",
+    "password": "password"
+  },
+  {
+    "login": "Taras558",
+    "password": "password"
+  },
+  {
+    "login": "Sasha_ivanov",
+    "password": "password"
+  },
+  {
+    "login": "Andrij1993",
+    "password": "password"
   } 
 ]

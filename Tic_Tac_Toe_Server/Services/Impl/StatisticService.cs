@@ -1,4 +1,5 @@
 ﻿using TicTacToe.Server.DTO;
+using TicTacToe.Server.Enums;
 using TicTacToe.Server.Models;
 using TicTacToe.Server.Tools;
 
@@ -6,18 +7,28 @@ namespace TicTacToe.Server.Services.Impl
 {
     public class StatisticService : IStatisticService
     {
-        private const string Path = "roomInfo.json";
+        private const string RoomsPath = "roomInfo.json";
+
+        private const string UsersPath = "usersStorage.json";
+
+        private const int MinRoundsForLeader = 10;
+
+        private readonly HashSet<string> _leaderPlayers;
 
         private List<Room> _roomStorage;
 
-        private readonly JsonHelper<Room> _jsonHelper;
+        private readonly JsonHelper<Room> _roomsJsonHelper;
+
+        private readonly JsonHelper<UserAccountDto> _usersJsonHelper;
 
         private readonly SemaphoreSlim _semaphoreSlim = new(1, 1);
 
         public StatisticService()
         {
+            _leaderPlayers = new HashSet<string>();
             _roomStorage = new List<Room>();
-            _jsonHelper = new JsonHelper<Room>(Path);
+            _roomsJsonHelper = new JsonHelper<Room>(RoomsPath);
+            _usersJsonHelper = new JsonHelper<UserAccountDto>(UsersPath);
         }
 
         public async Task<PrivateStatisticDto> GetPrivateStatistic(string login)
@@ -27,7 +38,7 @@ namespace TicTacToe.Server.Services.Impl
             {
                 await UpdateRoomStorageFromFileAsync();
 
-                var winLostCount = GetWinLostCount(login);
+                (var winCount, var lostCount) = GetWinLostCount(login);
 
                 var allMoves = GetAllMovesFromRoomStorage(login);
                 (var allTime, var allRoomsCount) = GetAllTimeAndCountsOfRooms(login);
@@ -39,8 +50,8 @@ namespace TicTacToe.Server.Services.Impl
                 (var topNumbers, var countOfNumbersUse) = GetTopPropertyWithCount(allNumbers);
 
                 return new PrivateStatisticDto(
-                    winLostCount.Item1,
-                    winLostCount.Item2,
+                    winCount,
+                    lostCount,
                     allRoomsCount,
                     allMovesCount,
                     topNumbers,
@@ -54,9 +65,67 @@ namespace TicTacToe.Server.Services.Impl
                 _ = _semaphoreSlim.Release();
             }
         }
+
+        public async Task<List<LeaderStatisticDto>> GetLeaders(SortingType type)
+        {
+            await _semaphoreSlim.WaitAsync();
+            try
+            {
+                await UpdateRoomStorageFromFileAsync();
+                await UpdateLeaderPlayers();
+
+                var resultLeaders = GetResultLeaders();
+
+                switch (type)
+                {
+                    case SortingType.Winnings:
+                        resultLeaders = resultLeaders.OrderByDescending(leader => leader.Winnings).ToList();
+                        break;
+
+                    case SortingType.Losses:
+                        resultLeaders = resultLeaders.OrderByDescending(leader => leader.Losses).ToList();
+                        break;
+
+                    case SortingType.WinRate:
+                        resultLeaders = resultLeaders.OrderByDescending(leader => leader.WinRate).ToList();
+                        break;
+
+                    case SortingType.Rooms:
+                        resultLeaders = resultLeaders.OrderByDescending(leader => leader.RoomsNumber).ToList();
+                        break;
+
+                    case SortingType.Time:
+                        resultLeaders = resultLeaders.OrderByDescending(leader => leader.Time).ToList();
+                        break;
+
+                    default:
+                        break;
+                }
+
+                return resultLeaders;
+            }
+            finally
+            {
+                _ = _semaphoreSlim.Release();
+            }
+        }
         private async Task UpdateRoomStorageFromFileAsync()
         {
-            _roomStorage = await _jsonHelper.DeserializeAsync();
+            _roomStorage = await _roomsJsonHelper.DeserializeAsync();
+        }
+
+        private async Task UpdateLeaderPlayers()
+        {
+            var usersStorage = await _usersJsonHelper.DeserializeAsync();
+
+            usersStorage.ForEach(user =>
+            {
+                (var winCount, var lostCount) = GetWinLostCount(user.Login);
+                var roundsCount = winCount + lostCount;
+
+                if (roundsCount > MinRoundsForLeader)
+                    _ = _leaderPlayers.Add(user.Login);
+            });
         }
 
         private List<MoveDto> GetAllMovesFromRoomStorage(string login)
@@ -81,6 +150,23 @@ namespace TicTacToe.Server.Services.Impl
             });
 
             return result;
+        }
+
+        private List<LeaderStatisticDto> GetResultLeaders()
+        {
+            var resultLeaders = new List<LeaderStatisticDto>();
+
+            foreach (var player in _leaderPlayers)
+            {
+                (var winCount, var lostCount) = GetWinLostCount(player);
+                (var time, var roomsCount) = GetAllTimeAndCountsOfRooms(player);
+
+                var leaderStatistic = new LeaderStatisticDto(
+                    player, winCount, lostCount, roomsCount, time);
+                resultLeaders.Add(leaderStatistic);
+            }
+
+            return resultLeaders;
         }
 
         private (int, int) GetWinLostCount(string login)
@@ -139,20 +225,5 @@ namespace TicTacToe.Server.Services.Impl
             });
             return (allTime, countOfRooms);
         }
-
-        //private int GetCountOfRooms(string login)
-        //{
-        //    var result = 0;
-        //    _roomStorage.ForEach(room =>
-        //    {
-        //        if (login.Equals(room.FirstPlayer.Login, StringComparison.Ordinal)
-        //            || login.Equals(room.SecondPlayer.Login, StringComparison.Ordinal))
-        //        {
-        //            result++;
-        //        }
-        //    });
-
-        //    return result;
-        //}
     }
 }

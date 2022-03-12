@@ -32,7 +32,7 @@ namespace TicTacToe.Client.States.Impl
                     "1 -- All private statistic",
                     "2 -- Wins and losses in a given time interval",
                     "0 -- Close"
-                }, ConsoleColor.Cyan);
+                }, ConsoleColor.Cyan, "");
 
                 try
                 {
@@ -72,7 +72,7 @@ namespace TicTacToe.Client.States.Impl
 
         private async Task GetPrivateStatistic()
         {
-            var response = await _statisticService.GetPrivateStatisticDto();
+            var response = await _statisticService.GetPrivateStatistic();
 
             if (response.StatusCode == HttpStatusCode.OK)
             {

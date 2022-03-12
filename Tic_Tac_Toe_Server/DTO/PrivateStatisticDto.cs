@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace TicTacToe.Server.Models
+namespace TicTacToe.Server.DTO
 {
     public class PrivateStatisticDto
     {
