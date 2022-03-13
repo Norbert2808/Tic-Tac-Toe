@@ -186,7 +186,7 @@ namespace TicTacToe.Server.Models
             var random = new Random();
 
             var validIndexList = Board
-                    .Where((cell, Index) => cell.Value == 0 || cell.IsFirstPlayer == true)
+                    .Where((cell, index) => cell.Value == 0 || cell.IsFirstPlayer == true)
                     .Select((cell, index) => index)
                     .ToList();
 
