@@ -154,7 +154,7 @@ namespace TicTacToe.Server.Controllers
         [HttpPost("send_confirmation/{id}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.Conflict)]
         public async Task<IActionResult> AppendConfirmationAsync([FromRoute] string id, [FromBody] bool confirmation)
         {
             if (string.IsNullOrEmpty(LoginUser))
@@ -169,9 +169,9 @@ namespace TicTacToe.Server.Controllers
             }
             catch (RoomException exception)
             {
-                return NotFound(exception.Message);
+                return Conflict(exception.Message);
             }
-            catch (TimeoutException exception)
+            catch (TimeOutException exception)
             {
                 return Conflict(exception.Message);
             }
@@ -198,10 +198,6 @@ namespace TicTacToe.Server.Controllers
                 return isConfirm ? Ok() : NotFound(message);
             }
             catch (RoomException exception)
-            {
-                return NotFound(exception.Message);
-            }
-            catch (AccountException exception)
             {
                 return Conflict(exception.Message);
             }
@@ -256,10 +252,6 @@ namespace TicTacToe.Server.Controllers
             {
                 return NotFound(exception.Message);
             }
-            catch (AccountException)
-            {
-                return Conflict();
-            }
         }
 
         [HttpGet("exit/{id}")]
@@ -274,9 +266,15 @@ namespace TicTacToe.Server.Controllers
                 return Unauthorized("Unauthorized users");
             }
 
-            var isExit = await _roomService.ExitFromRoomAsync(LoginUser, id);
-
-            return !isExit ? NotFound("Room is not found.") : Ok();
+            try
+            {
+                await _roomService.ExitFromRoomAsync(id);
+                return Ok();
+            }
+            catch (RoomException exception)
+            {
+                return NotFound(exception.Message);
+            }
         }
 
         [HttpGet("surrender/{id}")]

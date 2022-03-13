@@ -19,7 +19,11 @@ namespace TicTacToe.Client.States
 
 
         /// <summary>
-        /// 
+        /// Invoke <see cref="Services.IGameService.CheckRoomAsync"/> and processes response.
+        /// <br>
+        /// If <see cref="System.Net.HttpStatusCode.OK"/> will be invoked <see cref="Impl.RoundMenuState.InvokeMenuAsync"/>,
+        /// if <see cref="System.Net.HttpStatusCode.Conflict"/> will be invoked <see cref="Services.IGameService.ExitFromRoomAsync"/>
+        /// </br>
         /// </summary>
         /// <param name="message">Message from response 
         /// <see cref="Services.IGameService.StartRoomAsync(RoomType, string, bool)"/></param>.

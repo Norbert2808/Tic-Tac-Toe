@@ -23,6 +23,6 @@ namespace TicTacToe.Server.Services
 
         Task SurrenderAsync(string id, string login);
 
-        Task<bool> ExitFromRoomAsync(string login, string id);
+        Task ExitFromRoomAsync(string id);
     }
 }

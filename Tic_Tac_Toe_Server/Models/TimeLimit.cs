@@ -11,10 +11,16 @@ namespace TicTacToe.Server.Models
         public TimeSpan ConnectionTimeOut { get; set; } = TimeSpan.FromMinutes(3);
 
         [JsonIgnore]
-        public TimeSpan StartGameTimeOut { get; set; } = TimeSpan.FromSeconds(20);
+        public TimeSpan StartGameTimeOut { get; set; } = TimeSpan.FromMinutes(1);
+
+        [JsonIgnore]
+        public TimeSpan RoomActionTimeOut { get; set; } = TimeSpan.FromMinutes(2);
 
         [JsonIgnore]
         public DateTime ConfirmationTime { get; set; }
+
+        [JsonIgnore]
+        public DateTime ActionTimeInRoom { get; set; }
 
         [JsonIgnore]
         public DateTime LastMoveTime { get; set; }
@@ -53,6 +59,11 @@ namespace TicTacToe.Server.Models
             return DateTime.UtcNow - LastMoveTime;
         }
 
+        public TimeSpan GetActionTime()
+        {
+            return DateTime.UtcNow - ActionTimeInRoom;
+        }
+
         public bool IsStartGameTimeOut()
         {
             return GetStartGameWaitingTime() > StartGameTimeOut;
@@ -66,6 +77,11 @@ namespace TicTacToe.Server.Models
         public bool IsRoundTimeOut()
         {
             return GetRoundTime() > RoundTimeOut;
+        }
+
+        public bool IsRoomActionTimeOut()
+        {
+            return GetActionTime() > RoomActionTimeOut;
         }
     }
 }

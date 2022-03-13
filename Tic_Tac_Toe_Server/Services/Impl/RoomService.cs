@@ -54,9 +54,10 @@ namespace TicTacToe.Server.Services.Impl
                     if (room is null)
                     {
                         room = new Room(login, settings);
+                        room.Times.ActionTimeInRoom = DateTime.UtcNow;
                         _roomStorage.Add(room);
                     }
-
+                    room.Times.ActionTimeInRoom = DateTime.UtcNow;
                     return room.RoomId;
                 }
 
@@ -65,11 +66,13 @@ namespace TicTacToe.Server.Services.Impl
                     if (settings.IsConnection)
                     {
                         var room = await ConnectionToPrivateRoomAsync(login, settings.RoomId);
+                        room.Times.ActionTimeInRoom = DateTime.UtcNow;
                         return room is null ? null! : room.RoomId;
                     }
                     else
                     {
                         var room = new Room(login, settings);
+                        room.Times.ActionTimeInRoom = DateTime.UtcNow;
                         _roomStorage.Add(room);
                         return room.RoomId;
                     }
@@ -79,6 +82,7 @@ namespace TicTacToe.Server.Services.Impl
                 if (settings.Type == RoomType.Practice)
                 {
                     var room = ConnectionToPracticeRoom(login, settings);
+                    room.Times.ActionTimeInRoom = DateTime.UtcNow;
                     _roomStorage.Add(room);
                     return room.RoomId;
                 }
@@ -96,7 +100,7 @@ namespace TicTacToe.Server.Services.Impl
             var room = await FindRoomByIdAsync(id);
 
             if (room is null)
-                throw new RoomException("Room not found");
+                throw new RoomException("Second player leaves the room and room was deleting.");
 
             if (room.IsCompleted)
                 return (true, string.Empty);
@@ -125,7 +129,7 @@ namespace TicTacToe.Server.Services.Impl
             var room = await FindRoomByIdAsync(id);
 
             if (room is null)
-                throw new RoomException("2 player leaves the room and room was deleting.");
+                throw new RoomException("Second player leaves the room and room was deleting.");
 
             if (room.Times.IsRoundTimeOut())
             {
@@ -134,6 +138,7 @@ namespace TicTacToe.Server.Services.Impl
                     room.SecondPlayer.Wins++;
                     room.Rounds.Peek().IsFinished = true;
                 }
+                room.Times.ActionTimeInRoom = DateTime.UtcNow;
 
                 throw new TimeOutException("Time out.");
             }
@@ -149,10 +154,7 @@ namespace TicTacToe.Server.Services.Impl
             var room = await FindRoomByIdAsync(id);
 
             if (room is null)
-                throw new RoomException("Room not found.");
-
-            if (!room.IsCompleted)
-                throw new AccountException("Player left the room.");
+                throw new RoomException("Player left the room.");
 
             if (room.ConfirmFirstPlayer && room.ConfirmSecondPlayer)
             {
@@ -190,7 +192,15 @@ namespace TicTacToe.Server.Services.Impl
             var room = await FindRoomByIdAsync(id);
 
             if (room is null)
-                throw new RoomException("Room not found.");
+            {
+                throw new RoomException("You didn't confirm the game or your opponent left the room." +
+                        "Room was closed.");
+            }
+
+            if (room.Times.IsRoomActionTimeOut())
+                throw new TimeOutException("Time out. You were inactive inside the room for two minutes");
+
+            room.Times.ActionTimeInRoom = DateTime.UtcNow;
 
             if (room.IsBot)
                 room.ConfirmSecondPlayer = confirmation;
@@ -213,9 +223,6 @@ namespace TicTacToe.Server.Services.Impl
             if (room is null)
                 throw new RoomException("Room not found.");
 
-            if (!room.IsCompleted)
-                throw new AccountException();
-
             var isFirst = room.FirstPlayer.Login.Equals(login, StringComparison.Ordinal);
 
             return _roundService.CheckState(room, isFirst);
@@ -234,12 +241,12 @@ namespace TicTacToe.Server.Services.Impl
             _roundService.ExitFormRound(room, isFirst);
         }
 
-        public async Task<bool> ExitFromRoomAsync(string login, string id)
+        public async Task ExitFromRoomAsync(string id)
         {
             var room = await FindRoomByIdAsync(id);
 
             if (room is null)
-                return false;
+                throw new RoomException("Room was completed.");
 
             room.Times.FinishRoomDate = DateTime.UtcNow;
 
@@ -247,7 +254,6 @@ namespace TicTacToe.Server.Services.Impl
                 await _jsonHelper.AddObjectToFileAsync(room);
 
             DeleteRoom(room);
-            return true;
         }
 
         public async Task<ResultsDto> GetResultAsync(string id)

@@ -20,15 +20,13 @@ namespace TicTacToe.Server.Services.Impl
 
             if (room.Times.IsRoundTimeOut())
             {
-                room.ConfirmFirstPlayer = false;
-                room.ConfirmSecondPlayer = false;
+                SetDefaultsSettingForRoom(room);
 
                 if (isFirst)
                     room.FirstPlayer.Wins++;
                 else
                     room.SecondPlayer.Wins++;
 
-                round.IsFinished = true;
                 throw new TimeOutException("Time out,  your opponent didn't moved.");
             }
 
@@ -36,9 +34,7 @@ namespace TicTacToe.Server.Services.Impl
             {
                 if (round.CheckEndOfGame())
                 {
-                    room.ConfirmFirstPlayer = false;
-                    room.ConfirmSecondPlayer = false;
-                    round.IsFinished = true;
+                    SetDefaultsSettingForRoom(room);
 
                     if (isFirst)
                         room.SecondPlayer.Wins++;
@@ -91,9 +87,7 @@ namespace TicTacToe.Server.Services.Impl
                     if (room.IsBot)
                         room.FirstPlayer.Wins++;
 
-                    room.ConfirmFirstPlayer = false;
-                    room.ConfirmSecondPlayer = false;
-                    round.IsFinished = true;
+                    SetDefaultsSettingForRoom(room);
                 }
             }
         }
@@ -104,16 +98,23 @@ namespace TicTacToe.Server.Services.Impl
 
             if (!round.IsFinished)
             {
-                round.IsFinished = true;
-
-                room.ConfirmFirstPlayer = false;
-                room.ConfirmSecondPlayer = false;
+                SetDefaultsSettingForRoom(room);
 
                 if (isFirst)
                     room.SecondPlayer.Wins++;
                 else
                     room.FirstPlayer.Wins++;
             }
+        }
+
+        private void SetDefaultsSettingForRoom(Room room)
+        {
+            var round = room.Rounds.Peek();
+
+            room.Times.ActionTimeInRoom = DateTime.UtcNow;
+            room.ConfirmFirstPlayer = false;
+            room.ConfirmSecondPlayer = false;
+            round.IsFinished = true;
         }
     }
 }

@@ -179,6 +179,14 @@ namespace TicTacToe.Client.States.Impl
                         Thread.Sleep(3000);
                         break;
 
+                    case HttpStatusCode.BadRequest:
+                        _logger.LogInformation("RoomMenuState::WaitSecondPlayerAsync::Response: BadRequest 400");
+                        Console.Clear();
+                        var errorMsg = await checkRoomResponse.Content.ReadAsStringAsync();
+                        ConsoleHelper.WriteInConsole(errorMsg, ConsoleColor.Red);
+                        _ = Console.ReadLine();
+                        return;
+
                     case HttpStatusCode.Conflict:
                         _logger.LogInformation("RoomMenuState::WaitSecondPlayerAsync::Response: Conflict 409");
                         _ = await _gameService.ExitFromRoomAsync();
