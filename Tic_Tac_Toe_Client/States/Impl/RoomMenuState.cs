@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using TicTacToe.Client.Enums;
 using TicTacToe.Client.Services;
+using TicTacToe.Client.Tools;
 
 namespace TicTacToe.Client.States.Impl
 {

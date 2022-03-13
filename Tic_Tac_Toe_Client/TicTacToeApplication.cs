@@ -57,6 +57,9 @@ namespace TicTacToe.Client
         private static HttpClient ConfigureHttpClient()
         {
             var client = new HttpClient();
+            if (!File.Exists("userConfig.json"))
+                return client;
+
             var json = File.ReadAllText("userConfig.json");
             var option = JsonSerializer.Deserialize<ClientOption>(json);
 

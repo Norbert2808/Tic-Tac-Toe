@@ -1,5 +1,5 @@
 ﻿using System.Globalization;
-
+using TicTacToe.Client.Tools;
 
 namespace TicTacToe.Client.Models
 {
