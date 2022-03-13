@@ -78,7 +78,7 @@ namespace TicTacToe.Client.States.Impl
                 catch (FormatException ex)
                 {
                     _logger.LogError(ex.Message);
-                    ConsoleHelper.WriteInConsole(new[] { "It's not a number!" }, ConsoleColor.DarkRed);
+                    ConsoleHelper.WriteInConsole(new[] { "It's not a number!" }, ConsoleColor.Red);
                     _ = Console.ReadLine();
                 }
                 catch (HttpRequestException ex)

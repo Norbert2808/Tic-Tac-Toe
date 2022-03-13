@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using TicTacToe.Client.DTO;
 using TicTacToe.Client.Services;
+using TicTacToe.Client.Tools;
 
 namespace TicTacToe.Client.States.Impl
 {
@@ -34,10 +35,9 @@ namespace TicTacToe.Client.States.Impl
                     await ShowEnemyBarAsync();
                     ConsoleHelper.WriteInConsole(new[]
                     {
-                        "------------------",
                         "1 -- Start new round",
                         "0 -- Exit"
-                    }, ConsoleColor.Cyan);
+                    }, ConsoleColor.Yellow);
 
                     ConsoleHelper.ReadIntFromConsole(out var choose);
                     switch (choose)
@@ -58,6 +58,9 @@ namespace TicTacToe.Client.States.Impl
                 catch (FormatException ex)
                 {
                     _logger.LogError(ex.Message);
+                    ConsoleHelper.WriteInConsole(new[] { "It's not a number!" },
+                        ConsoleColor.Red);
+                    _ = Console.ReadLine();
                 }
                 catch (HttpRequestException ex)
                 {
@@ -103,11 +106,12 @@ namespace TicTacToe.Client.States.Impl
             {
                 _logger.LogInformation("RoundMenuState::ShowEnemyBarAsync::Successful response 200");
                 var results = await responsePlayerMessage.Content.ReadAsAsync<ResultsDto>();
-                ConsoleHelper.WriteInConsole(new[] {
-                    $"{results.LoginFirstPlayer} -- VS -- {results.LoginSecondPlayer}",
-                    $"{results.WinFirst} ====== VS ====== {results.WinSecond}"
-                },
-                    ConsoleColor.Yellow, "");
+                var enemyBarTable = new List<int>() { default }.ToStringTable(new[] {
+                $"{results.LoginFirstPlayer}", " VS ", $"{results.LoginSecondPlayer}" },
+                x => results.WinFirst,
+                x => " VS ",
+                x => results.WinSecond);
+                ConsoleHelper.WriteInConsole(enemyBarTable + "\n", ConsoleColor.Blue);
             }
         }
 

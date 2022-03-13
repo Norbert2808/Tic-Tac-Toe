@@ -83,6 +83,7 @@ namespace TicTacToe.Client.States.Impl
                     ConsoleHelper.WriteInConsole(new[] { "It's not a number!" },
                         ConsoleColor.Red);
                     _ = Console.ReadLine();
+                    continue;
                 }
                 catch (HttpRequestException ex)
                 {
@@ -90,6 +91,7 @@ namespace TicTacToe.Client.States.Impl
                     ConsoleHelper.WriteInConsole(new[] { "Failed to connect with server!" },
                         ConsoleColor.Red);
                     _ = Console.ReadLine();
+                    continue;
                 }
 
                 await StartConnectionWithRoomAsync(type, roomId!, isConnecting);

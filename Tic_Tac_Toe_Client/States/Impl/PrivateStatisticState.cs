@@ -32,7 +32,7 @@ namespace TicTacToe.Client.States.Impl
                     "1 -- All private statistic",
                     "2 -- Wins and losses in a given time interval",
                     "0 -- Close"
-                }, ConsoleColor.Cyan, "");
+                }, ConsoleColor.Cyan);
 
                 try
                 {
@@ -57,7 +57,7 @@ namespace TicTacToe.Client.States.Impl
                 catch (FormatException ex)
                 {
                     _logger.LogError(ex.Message);
-                    ConsoleHelper.WriteInConsole(new[] { "It's not a number!" }, ConsoleColor.DarkRed);
+                    ConsoleHelper.WriteInConsole(new[] { "It's not a number!" }, ConsoleColor.Red);
                     _ = Console.ReadLine();
                 }
                 catch (HttpRequestException ex)

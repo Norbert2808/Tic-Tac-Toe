@@ -65,6 +65,9 @@ namespace TicTacToe.Client.States.Impl
                 catch (FormatException ex)
                 {
                     _logger.LogError(ex.Message);
+                    ConsoleHelper.WriteInConsole(new[] { "It's not a number!" },
+                        ConsoleColor.Red);
+                    _ = Console.ReadLine();
                 }
                 catch (HttpRequestException ex)
                 {
@@ -72,7 +75,6 @@ namespace TicTacToe.Client.States.Impl
                     ConsoleHelper.WriteInConsole(new[] { "Failed to connect with server!" },
                         ConsoleColor.Red);
                     _ = Console.ReadLine();
-                    return;
                 }
             }
         }
