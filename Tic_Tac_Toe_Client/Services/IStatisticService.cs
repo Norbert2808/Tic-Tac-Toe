@@ -19,6 +19,6 @@ namespace TicTacToe.Client.Services
         /// <returns>
         /// The task result contains <see cref="HttpResponseMessage"/>
         /// </returns>
-        Task<HttpResponseMessage> GetLeadersStatisticAsync(SortingType type);.
+        Task<HttpResponseMessage> GetLeadersStatisticAsync(SortingType type);
     }
 }
