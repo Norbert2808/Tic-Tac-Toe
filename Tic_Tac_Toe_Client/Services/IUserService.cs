@@ -8,7 +8,7 @@
         /// <param name="login">User's login.</param>
         /// <param name="password">User's password.</param>
         /// <returns>
-        /// Returns <see cref="HttpResponseMessage"/>
+        /// The task result contains <see cref="HttpResponseMessage"/>.
         /// </returns>
         Task<HttpResponseMessage> LoginAsync(string login, string password);
 
@@ -18,7 +18,7 @@
         /// <param name="login">User's login.</param>
         /// <param name="password">User's password.</param>
         /// <returns>
-        /// Returns <see cref="HttpResponseMessage"/>
+        /// The task result contains <see cref="HttpResponseMessage"/>.
         /// </returns>
         Task<HttpResponseMessage> RegistrationAsync(string login, string password);
 
@@ -26,7 +26,7 @@
         /// Sends the request for logout from game;
         /// </summary>
         /// <returns>
-        /// Returns <see cref="HttpResponseMessage"/>
+        /// The task result contains <see cref="HttpResponseMessage"/>.
         /// </returns>
         Task<HttpResponseMessage> LogoutAsync();
     }

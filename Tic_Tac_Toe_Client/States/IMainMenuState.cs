@@ -6,7 +6,7 @@
         /// Invoke main room menu. <see cref="Impl.RoomMenuState.InvokeMenuAsync"/>
         /// </summary>
         /// <returns>
-        /// Returns <see cref="Task"/>
+        /// A task that represents the asynchronous operation. <see cref="Task"/>
         /// </returns>
         Task ExecuteRoomMenuAsync();
 
@@ -14,7 +14,7 @@
         /// Invoke method <see cref="Services.IUserService.LogoutAsync"/>
         /// </summary>
         /// <returns>
-        /// Returns <see cref="Task"/>
+        /// A task that represents the asynchronous operation. <see cref="Task"/>
         /// </returns>
         Task LogoutAsync();
     }

@@ -38,7 +38,7 @@ namespace TicTacToe.Client.Models
         /// If this is second player -- red color.
         /// </summary>
         /// <param name="isFirst">Variable that shows which player by number</param>
-        /// <returns>ConsoleColor</returns>
+        /// <returns><see cref="ConsoleColor"/></returns>
         private ConsoleColor ChooseColor(bool? isFirst)
         {
             return isFirst is null

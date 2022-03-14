@@ -93,7 +93,7 @@ namespace TicTacToe.Client.States.Impl
 
         public async Task ShowLeadersStatistic(SortingType type)
         {
-            var responce = await _statisticService.GetLeadersStatistic(type);
+            var responce = await _statisticService.GetLeadersStatisticAsync(type);
             if (responce.StatusCode == HttpStatusCode.OK)
             {
                 var leaders = await responce.Content.ReadAsAsync<List<LeaderStatisticDto>>();

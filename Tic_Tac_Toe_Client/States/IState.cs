@@ -7,7 +7,7 @@ namespace TicTacToe.Client.States
         /// Invoke main menu.
         /// </summary>
         /// <returns>
-        /// Return <see cref="Task"/>
+        /// A task that represents the asynchronous operation. <see cref="Task"/>
         /// </returns>
         Task InvokeMenuAsync();
     }

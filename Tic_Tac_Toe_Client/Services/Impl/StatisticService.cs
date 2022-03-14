@@ -14,12 +14,12 @@ namespace TicTacToe.Client.Services.Impl
             _httpClient = httpClient;
         }
 
-        public async Task<HttpResponseMessage> GetPrivateStatistic()
+        public async Task<HttpResponseMessage> GetPrivateStatisticAsync()
         {
             return await _httpClient.GetAsync(ControllerPath + "private");
         }
 
-        public async Task<HttpResponseMessage> GetLeadersStatistic(SortingType type)
+        public async Task<HttpResponseMessage> GetLeadersStatisticAsync(SortingType type)
         {
             return await _httpClient.GetAsync(ControllerPath + $"leaders/{type}");
         }

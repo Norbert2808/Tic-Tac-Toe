@@ -8,7 +8,7 @@
         /// also processes the response.
         /// </summary>
         /// <returns>
-        /// Returns <see cref="Task"/>
+        /// A task that represents the asynchronous operation. <see cref="Task"/>
         /// </returns>
         Task ExecuteLoginAsync();
 
@@ -18,7 +18,7 @@
         /// also processes the response.
         /// </summary>
         /// <returns>
-        /// Returns <see cref="Task"/>
+        /// A task that represents the asynchronous operation. <see cref="Task"/>
         /// </returns>
         Task ExecuteRegistrationAsync();
     }

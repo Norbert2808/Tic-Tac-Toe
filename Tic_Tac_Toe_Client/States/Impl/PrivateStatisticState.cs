@@ -73,7 +73,7 @@ namespace TicTacToe.Client.States.Impl
 
         private async Task GetPrivateStatistic()
         {
-            var response = await _statisticService.GetPrivateStatistic();
+            var response = await _statisticService.GetPrivateStatisticAsync();
 
             if (response.StatusCode == HttpStatusCode.OK)
             {

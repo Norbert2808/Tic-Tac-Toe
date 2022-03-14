@@ -7,7 +7,7 @@
         /// and invoke method <see cref="WaitConfirmationSecondPlayer"/>
         /// </summary>
         /// <returns>
-        /// Returns <see cref="bool"/>
+        /// The task result contains <see cref="bool"/>
         /// </returns>
         Task<bool> WaitingStartGame();
 
@@ -16,7 +16,7 @@
         /// and processes the response also draw opponents and play count to display.
         /// </summary>
         /// <returns>
-        /// Returns <see cref="Task"/>
+        /// A task that represents the asynchronous operation. <see cref="Task"/>
         /// </returns>
         Task ShowEnemyBarAsync();
 
@@ -25,7 +25,7 @@
         /// and processes the response.
         /// </summary>
         /// <returns>
-        /// Returns <see cref="bool"/>
+        /// The task result contains <see cref="bool"/>
         /// </returns>
         Task<bool> WaitConfirmationSecondPlayer();
 
@@ -33,7 +33,7 @@
         /// Invoke method <see cref="Services.IGameService.ExitFromRoomAsync"/>
         /// </summary>
         /// <returns>
-        /// Return <see cref="Task"/>
+        /// A task that represents the asynchronous operation. <see cref="Task"/>
         /// </returns>
         Task ExitAsync();
     }

@@ -13,16 +13,16 @@ namespace TicTacToe.Client.Services
         /// <param name="isConnect">Indicates that the user wants to join
         /// an already existing room.</param>
         /// <returns>
-        /// Returns <see cref="HttpResponseMessage"/>
+        /// The task result contains <see cref="HttpResponseMessage"/>.
         /// </returns>
         Task<HttpResponseMessage> StartRoomAsync(RoomType roomType, string roomId, bool isConnect);
 
         /// <summary>
         /// Sends the request for checks if the second player has logged in room. 
-        /// or not called time out.
+        /// or not called time out./
         /// </summary>
         /// <returns>
-        /// Returns <see cref="HttpResponseMessage"/>
+        /// The task result contains <see cref="HttpResponseMessage"/>.
         /// </returns>
         Task<HttpResponseMessage> CheckRoomAsync();
 
@@ -31,7 +31,7 @@ namespace TicTacToe.Client.Services
         /// </summary>
         /// <param name="move">Player movement data.</param>
         /// <returns>
-        /// Returns <see cref="HttpResponseMessage"/>
+        /// The task result contains <see cref="HttpResponseMessage"/>.
         /// </returns>
         Task<HttpResponseMessage> MakeMoveAsync(MoveDto move);
 
@@ -39,7 +39,7 @@ namespace TicTacToe.Client.Services
         /// Sends the request for check if the second player made a move or time out.
         /// </summary>
         /// <returns>
-        /// Returns <see cref="HttpResponseMessage"/>
+        /// The task result contains <see cref="HttpResponseMessage"/>.
         /// </returns>
         Task<HttpResponseMessage> CheckMoveAsync();
 
@@ -47,7 +47,7 @@ namespace TicTacToe.Client.Services
         /// Sends the data that player confirm new round.
         /// </summary>
         /// <returns>
-        /// Returns <see cref="HttpResponseMessage"/>
+        /// The task result contains <see cref="HttpResponseMessage"/>.
         /// </returns>
         Task<HttpResponseMessage> SendConfirmationAsync();
 
@@ -55,7 +55,7 @@ namespace TicTacToe.Client.Services
         /// Sends the request for check if the second player made a confirm or time out.
         /// </summary>
         /// <returns>
-        /// Returns <see cref="HttpResponseMessage"/>
+        /// The task result contains <see cref="HttpResponseMessage"/>.
         /// </returns>
         Task<HttpResponseMessage> CheckConfirmationAsync();
 
@@ -63,7 +63,7 @@ namespace TicTacToe.Client.Services
         /// Asks the server for game results.
         /// </summary>
         /// <returns>
-        /// Returns <see cref="HttpResponseMessage"/>
+        /// The task result contains <see cref="HttpResponseMessage"/>.
         /// </returns>
         Task<HttpResponseMessage> GetResultsAsync();
 
@@ -71,7 +71,7 @@ namespace TicTacToe.Client.Services
         /// Gets round state from server.
         /// </summary>
         /// <returns>
-        /// Returns <see cref="HttpResponseMessage"/>
+        /// The task result contains <see cref="HttpResponseMessage"/>.
         /// </returns>
         Task<HttpResponseMessage> CheckRoundStateAsync();
 
@@ -79,7 +79,7 @@ namespace TicTacToe.Client.Services
         /// Sends the request that the player wants to surrender.
         /// </summary>
         /// <returns>
-        /// Returns <see cref="HttpResponseMessage"/>
+        /// The task result contains <see cref="HttpResponseMessage"/>.
         /// </returns>
         Task<HttpResponseMessage> SurrenderAsync();
 
@@ -87,7 +87,7 @@ namespace TicTacToe.Client.Services
         /// Sends the request that the player exit from room.
         /// </summary>
         /// <returns>
-        /// Returns <see cref="HttpResponseMessage"/>
+        /// The task result contains <see cref="HttpResponseMessage"/>.
         /// </returns>
         Task<HttpResponseMessage> ExitFromRoomAsync();
     }
