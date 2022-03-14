@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Globalization;
+using System.Net;
 using Microsoft.Extensions.Logging;
 using TicTacToe.Client.DTO;
 using TicTacToe.Client.Services;
@@ -31,7 +32,7 @@ namespace TicTacToe.Client.States.Impl
                     "Private statistic",
                     "Please choose action:",
                     "1 -- All private statistic",
-                    "2 -- Wins and losses in a given time interval",
+                    "2 -- Private statistic in a given time interval",
                     "0 -- Close"
                 }, ConsoleColor.Cyan);
 
@@ -45,7 +46,7 @@ namespace TicTacToe.Client.States.Impl
                             break;
 
                         case 2:
-
+                            await GetPrivateStatisticInTimeInterval();
                             break;
 
                         case 0:
@@ -71,7 +72,7 @@ namespace TicTacToe.Client.States.Impl
             }
         }
 
-        private async Task GetPrivateStatistic()
+        public async Task GetPrivateStatistic()
         {
             var response = await _statisticService.GetPrivateStatisticAsync();
 
@@ -79,30 +80,110 @@ namespace TicTacToe.Client.States.Impl
             {
                 var statisticDto = await response.Content.ReadAsAsync<PrivateStatisticDto>();
 
-                var mostUsedPosition = string.Join(" ", statisticDto.MostUsedPosition!);
-                var mostUsedNumbers = string.Join(" ", statisticDto.MostUsedNumbers!);
+                Console.Clear();
+                DrawPrivateStatistic(statisticDto);
+            }
+        }
+
+        public async Task GetPrivateStatisticInTimeInterval()
+        {
+            var timeInterval = GetTimeIntervalFromUser();
+
+            var response = await _statisticService.GetPrivateStatisticInTimeInterval(timeInterval);
+
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                var statisticDto = await response.Content.ReadAsAsync<PrivateStatisticDto>();
 
                 Console.Clear();
-                ConsoleHelper.WriteInConsole("--- Private statistic ---\n\n", ConsoleColor.Cyan);
+                ConsoleHelper.WriteInConsole(
+                    $"Time interval: [{timeInterval.StartTime} - {timeInterval.EndTime}]\n",
+                    ConsoleColor.Cyan);
+                DrawPrivateStatistic(statisticDto);
+            }
+        }
 
-                ConsoleHelper.WriteInConsole($"Number of winning games - {statisticDto.Winnings}\n",
-                    ConsoleColor.Green);
-                ConsoleHelper.WriteInConsole($"Number of lost games - {statisticDto.Losses}\n",
-                    ConsoleColor.Red);
-                ConsoleHelper.WriteInConsole($"Total number of rooms - {statisticDto.TotalNumberOfRooms}\n",
-                    ConsoleColor.Blue);
-                ConsoleHelper.WriteInConsole($"Total number of moves - {statisticDto.TotalNumberOfMoves}\n\n",
-                    ConsoleColor.Blue);
+        private void DrawPrivateStatistic(PrivateStatisticDto statisticDto)
+        {
+            var mostUsedPosition = string.Join(" ", statisticDto.MostUsedPosition!);
+            var mostUsedNumbers = string.Join(" ", statisticDto.MostUsedNumbers!);
 
-                ConsoleHelper.WriteInConsole(new string[]
-                {
+            ConsoleHelper.WriteInConsole("--- Private statistic ---\n\n", ConsoleColor.Cyan);
+
+            ConsoleHelper.WriteInConsole($"Number of winning games - {statisticDto.Winnings}\n",
+                ConsoleColor.Green);
+            ConsoleHelper.WriteInConsole($"Number of lost games - {statisticDto.Losses}\n",
+                ConsoleColor.Red);
+            ConsoleHelper.WriteInConsole($"Total number of rooms - {statisticDto.TotalNumberOfRooms}\n",
+                ConsoleColor.Blue);
+            ConsoleHelper.WriteInConsole($"Total number of moves - {statisticDto.TotalNumberOfMoves}\n\n",
+                ConsoleColor.Blue);
+
+            ConsoleHelper.WriteInConsole(new string[]
+            {
                     statisticDto.MostPositionCount == 0 ? "No the most used position" :
                     $"Most used position: {mostUsedPosition}, count of use - {statisticDto.MostPositionCount}",
                     statisticDto.MostNumbersCount == 0 ? "No the most used numbers" :
                     $"Most used numbers: {mostUsedNumbers}, count of use - {statisticDto.MostNumbersCount}",
                     $"All time in game: {statisticDto.AllTimeInGame:dd\\:mm\\:ss}\n",
-                }, ConsoleColor.Yellow);
-                _ = Console.ReadLine();
+            }, ConsoleColor.Yellow);
+            _ = Console.ReadLine();
+        }
+
+        private TimeIntervalDto GetTimeIntervalFromUser()
+        {
+            DateTime start;
+            DateTime end;
+
+            while (true)
+            {
+                try
+                {
+                    var parseFormat = "dd.MM.yyyy HH:mm";
+
+                    Console.Clear();
+                    ConsoleHelper.WriteInConsole($"Enter start time in format \"{parseFormat}\": ",
+                        ConsoleColor.DarkGreen);
+                    var startTime = Console.ReadLine();
+                    ConsoleHelper.WriteInConsole($"Enter end time in format \"{parseFormat}\": ",
+                        ConsoleColor.DarkGreen);
+                    var endTime = Console.ReadLine();
+
+                    if (!DateTime.TryParseExact(
+                        startTime!, parseFormat, CultureInfo.InvariantCulture,
+                        DateTimeStyles.None, out start))
+                    {
+                        throw new FormatException(startTime);
+                    }
+
+                    if (!DateTime.TryParseExact(
+                        endTime!, parseFormat, CultureInfo.InvariantCulture,
+                        DateTimeStyles.None, out end))
+                    {
+                        throw new FormatException(endTime);
+                    }
+                }
+                catch (FormatException ex)
+                {
+                    _logger.LogError($"String '{ex.Message}' was not recognized as a valid DateTime.");
+                    ConsoleHelper.WriteInConsole(
+                        new[] { $"String '{ex.Message}' was not recognized as a valid DateTime." },
+                        ConsoleColor.Red);
+                    _ = Console.ReadLine();
+                    continue;
+                }
+
+                if (end <= start)
+                {
+                    _logger.LogInformation("Start time cannot be longer or equal than end time");
+                    ConsoleHelper.WriteInConsole(
+                        new[] { "Start time cannot be longer or equal than end time" },
+                        ConsoleColor.Red);
+                    _ = Console.ReadLine();
+                    continue;
+                }
+
+                return new(start, end);
             }
         }
     }

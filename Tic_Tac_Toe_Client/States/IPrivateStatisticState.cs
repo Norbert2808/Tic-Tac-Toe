@@ -2,6 +2,8 @@
 {
     internal interface IPrivateStatisticState : IState
     {
+        Task GetPrivateStatistic();
 
+        Task GetPrivateStatisticInTimeInterval();
     }
 }

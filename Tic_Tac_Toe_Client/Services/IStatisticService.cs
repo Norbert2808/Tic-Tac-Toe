@@ -1,4 +1,5 @@
-﻿using TicTacToe.Client.Enums;
+﻿using TicTacToe.Client.DTO;
+using TicTacToe.Client.Enums;
 
 namespace TicTacToe.Client.Services
 {
@@ -11,6 +12,8 @@ namespace TicTacToe.Client.Services
         /// The task result contains <see cref="HttpResponseMessage"/>.
         /// </returns>
         Task<HttpResponseMessage> GetPrivateStatisticAsync();
+
+        Task<HttpResponseMessage> GetPrivateStatisticInTimeInterval(TimeIntervalDto timeDto);
 
         /// <summary>
         /// Sends the request to get leaders statistic.
