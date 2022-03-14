@@ -1,74 +1,80 @@
 ﻿using System.Net;
 using Microsoft.AspNetCore.Mvc;
-using Tic_Tac_Toe.Server.Models;
-using Tic_Tac_Toe.Server.Service;
-using Tic_Tac_Toe.Server.Tools;
+using TicTacToe.Server.Exceptions;
+using TicTacToe.Server.Models;
+using TicTacToe.Server.Services;
 
-namespace Tic_Tac_Toe.Server.Controllers
+namespace TicTacToe.Server.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/account")]
     [ApiController]
     public class AccountController : ControllerBase
     {
-        private ILogger<AccountController> _logger;
+        private readonly ILogger<AccountController> _logger;
 
         private readonly IAccountService _accService;
 
-        private readonly IBlocker _blocker;
-
         public AccountController(ILogger<AccountController> logger,
-            IAccountService accountService,
-            IBlocker blocker)
+            IAccountService accountService)
         {
             _logger = logger;
             _accService = accountService;
-            _blocker = blocker;
         }
 
-        [HttpPost("/login")]
+        [HttpPost("login")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
-        public async Task<IActionResult> LoginAsync([FromBody] UserAccount account)
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.Conflict)]
+        public async Task<IActionResult> LoginAsync([FromBody] UserAccountDto account)
         {
-            var acc = await _accService.FindAccountByLogin(account.Login);
-
-            if (acc is null)
+            try
             {
-                _blocker.WrongTryEntry();
-
-                if (_blocker.IsBlocked())
-                {
-                    _logger.LogInformation("User is blocked");
-                    return Unauthorized();
-                }
-                else
-                {
-                    _logger.LogInformation("Wrong account");
-                    return BadRequest("Wrong account");
-                }
+                _logger.LogInformation("AccountController::LoginAsync::Invoke log-in");
+                await _accService.InvokeLoginAsync(account);
+            }
+            catch (AccountException exception)
+            {
+                _logger.LogInformation(exception.Message);
+                return NotFound(exception.Message);
+            }
+            catch (TimeoutException exception)
+            {
+                _logger.LogInformation(exception.Message);
+                return Conflict(exception.Message);
             }
 
-            _blocker.UnBlock();
-            return Ok(acc);
+            return Ok(account.Login);
         }
 
-        [HttpPost("/registration")]
+        [HttpPost("registration")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
-        public async Task<IActionResult> RegistrationAsync([FromBody] UserAccount account)
+        [ProducesResponseType((int)HttpStatusCode.Conflict)]
+        public async Task<IActionResult> RegistrationAsync([FromBody] UserAccountDto account)
         {
-            if (await _accService.CheckForExistLogin(account.Login))
+            try
             {
-                _logger.LogInformation("This login already exists");
-                return BadRequest("Input login already exists");
+                _logger.LogInformation("AccountController::RegistrationAsync::Invoke registration");
+                await _accService.InvokeRegistrationAsync(account);
+            }
+            catch (AccountException exception)
+            {
+                _logger.LogInformation(exception.Message);
+                return Conflict(exception.Message);
             }
 
-            await _accService.AddAccountToStorage(account);
-            return Ok(account);
+            return Ok(account.Login);
         }
 
+        [HttpPost("logout")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        public async Task<IActionResult> LogoutAsync([FromBody] string login)
+        {
+            _logger.LogInformation("AccountController::LogoutAsync::Invoke logout form app");
+            _accService.RemoveActiveAccountByLogin(login);
 
+            return await Task.FromResult(Ok("User successfully left."));
+        }
     }
 }

@@ -1,7 +1,7 @@
-﻿using Tic_Tac_Toe.Server.CustomLogger;
-using Tic_Tac_Toe.Server.Models;
-using Tic_Tac_Toe.Server.Service;
-using Tic_Tac_Toe.Server.Tools;
+﻿using Serilog;
+using TicTacToe.Server.Services;
+using TicTacToe.Server.Services.Impl;
+using TicTacToe.Server.Tools;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,28 +13,32 @@ var host = builder.Host;
 
 host.ConfigureAppConfiguration(app =>
 {
-    app.AddJsonFile("appsettings.json", true, true)
+    _ = app.AddJsonFile("appsettings.json", true, true)
         .AddEnvironmentVariables();
 })
 .ConfigureLogging(loggerBuilder =>
 {
-    loggerBuilder.ClearProviders();
-    var filepath = Path.Combine(Directory.GetCurrentDirectory(), "app.log");
-    loggerBuilder.AddFile(filepath);
+    _ = loggerBuilder.ClearProviders();
+    _ = loggerBuilder.AddSerilog(new LoggerConfiguration()
+        .WriteTo.File("app.log")
+        .CreateLogger());
 })
-.ConfigureServices(services =>
+.ConfigureServices(service =>
 {
-    services.AddOptions();
-    services.AddControllers();
-    services.AddSingleton<IAccountService, AccountService>();
-    services.AddSingleton<IBlocker, UserBlocker>();
+    _ = service.AddOptions()
+        .AddSingleton<IAccountService, AccountService>()
+        .AddSingleton<IRoomService, RoomService>()
+        .AddSingleton<IRoundService, RoundService>()
+        .AddSingleton<IStatisticService, StatisticService>()
+        .AddSingleton<IBlocker, UserBlocker>()
+        .AddControllers();
 });
 
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseDeveloperExceptionPage();
+    _ = app.UseDeveloperExceptionPage();
 }
 
 app.UseSwagger();
@@ -44,7 +48,7 @@ app.UseRouting();
 
 app.UseEndpoints(endpoints =>
 {
-    endpoints.MapControllers();
+    _ = endpoints.MapControllers();
 });
 
 

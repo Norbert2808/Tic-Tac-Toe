@@ -203,3 +203,9 @@ dotnet_naming_style.camel_case.required_prefix =
 dotnet_naming_style.camel_case.required_suffix = 
 dotnet_naming_style.camel_case.word_separator = 
 dotnet_naming_style.camel_case.capitalization = camel_case
+# CA1848
+dotnet_diagnostic.CA1848.severity = none
+# CA2254
+dotnet_diagnostic.CA2254.severity = none
+# CA1305
+dotnet_diagnostic.CA1305.severity = none

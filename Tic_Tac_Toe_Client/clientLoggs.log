@@ -1,0 +1,540 @@
+2022-02-22 22:28:57.263 +02:00 [INF] Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение. (localhost:7097)
+2022-02-23 01:46:02.249 +02:00 [INF] Class AuthorizationMenuState. InvokeAsync method
+2022-02-23 01:46:02.260 +02:00 [INF] User choose action.
+2022-02-23 01:46:04.785 +02:00 [INF] Invoke login method
+2022-02-23 01:46:11.099 +02:00 [INF] Class MainMenuState. InvokeAsync method
+2022-02-23 01:46:13.974 +02:00 [INF] Class MainMenuState. InvokeAsync method
+2022-02-23 01:46:20.097 +02:00 [INF] User choose action.
+2022-02-23 01:46:22.436 +02:00 [INF] Invoke login method
+2022-02-23 01:46:28.110 +02:00 [INF] Class MainMenuState. InvokeAsync method
+2022-02-23 01:46:39.348 +02:00 [INF] Class MainMenuState. InvokeAsync method
+2022-02-23 01:51:05.311 +02:00 [INF] Class AuthorizationMenuState. InvokeAsync method
+2022-02-23 01:51:05.324 +02:00 [INF] User choose action.
+2022-02-23 01:51:11.966 +02:00 [INF] Invoke login method
+2022-02-23 01:51:16.776 +02:00 [INF] Class MainMenuState. InvokeAsync method
+2022-02-23 01:51:18.626 +02:00 [INF] Class MainMenuState. InvokeAsync method
+2022-02-23 01:51:24.061 +02:00 [INF] User choose action.
+2022-02-23 01:52:23.963 +02:00 [INF] Class AuthorizationMenuState. InvokeAsync method
+2022-02-23 01:52:24.015 +02:00 [INF] User choose action.
+2022-02-23 01:52:27.732 +02:00 [INF] Invoke login method
+2022-02-23 01:52:39.507 +02:00 [INF] Input invalid data.
+2022-02-23 01:52:40.476 +02:00 [INF] User choose action.
+2022-02-23 01:52:42.326 +02:00 [INF] User choose action.
+2022-02-23 01:52:44.096 +02:00 [INF] User choose action.
+2022-02-23 01:52:45.680 +02:00 [INF] User choose action.
+2022-02-23 01:53:47.526 +02:00 [INF] Class AuthorizationMenuState. InvokeAsync method
+2022-02-23 01:53:47.581 +02:00 [INF] User choose action.
+2022-02-23 01:53:49.654 +02:00 [INF] Invoke login method
+2022-02-23 01:53:53.251 +02:00 [INF] Input data not valid.
+2022-02-23 01:53:54.728 +02:00 [INF] User choose action.
+2022-02-23 01:53:58.078 +02:00 [INF] User choose action.
+2022-02-23 01:54:32.062 +02:00 [ERR] Input string was not in a correct format.
+2022-02-23 01:54:33.200 +02:00 [INF] User choose action.
+2022-02-23 01:54:35.109 +02:00 [ERR] Input string was not in a correct format.
+2022-02-23 01:54:36.124 +02:00 [INF] User choose action.
+2022-02-23 01:54:37.203 +02:00 [INF] User choose action.
+2022-02-23 02:19:28.160 +02:00 [INF] Class AuthorizationMenuState. InvokeAsync method
+2022-02-23 02:19:28.213 +02:00 [INF] User choose action.
+2022-02-23 02:19:30.036 +02:00 [INF] Invoke login method
+2022-02-23 02:19:35.062 +02:00 [INF] Class MainMenuState. InvokeAsync method
+2022-02-23 02:19:36.691 +02:00 [INF] Class MainMenuState. InvokeAsync method
+2022-02-23 02:19:42.350 +02:00 [INF] User choose action.
+2022-02-23 02:40:34.430 +02:00 [INF] Class AuthorizationMenuState. InvokeAsync method
+2022-02-23 02:40:34.481 +02:00 [INF] User choose action.
+2022-02-23 02:40:36.811 +02:00 [INF] Invoke login method
+2022-02-23 02:40:42.947 +02:00 [INF] Class MainMenuState. InvokeAsync method
+2022-02-23 02:40:45.463 +02:00 [INF] User choose action.
+2022-02-23 02:40:48.560 +02:00 [INF] Invoke login method
+2022-02-23 02:40:51.832 +02:00 [INF] Input invalid data.
+2022-02-23 02:40:52.866 +02:00 [INF] User choose action.
+2022-02-23 02:48:12.237 +02:00 [INF] Class AuthorizationMenuState. InvokeAsync method
+2022-02-23 02:48:12.290 +02:00 [INF] User choose action.
+2022-02-23 02:48:14.306 +02:00 [INF] Invoke login method
+2022-02-23 02:48:18.954 +02:00 [INF] Input data not valid.
+2022-02-23 02:48:20.917 +02:00 [INF] User choose action.2022-03-10 21:45:22.972 +02:00 [INF] Class AuthorizationMenuState. InvokeAsync method
+2022-03-10 21:45:23.038 +02:00 [INF] User choose action.
+2022-03-10 21:45:26.121 +02:00 [INF] Execute login method
+2022-03-10 21:45:32.434 +02:00 [INF] AuthorizationMenuState::ResponseHandlerAsync::Response: Successful response 200.
+2022-03-10 21:45:32.489 +02:00 [INF] Class MainMenuState. InvokeAsync method
+2022-03-10 21:45:39.063 +02:00 [INF] PrivateStatisticState::Invoke private statistic
+2022-03-10 21:46:25.349 +02:00 [ERR] An error occurred while sending the request.
+2022-03-10 22:00:59.022 +02:00 [INF] Class AuthorizationMenuState. InvokeAsync method
+2022-03-10 22:00:59.088 +02:00 [INF] User choose action.
+2022-03-10 22:01:01.589 +02:00 [INF] Execute login method
+2022-03-10 22:01:04.944 +02:00 [INF] Input invalid data.AuthorizationMenuState::ResponseHandlerAsync::Response: BadRequest 400.
+2022-03-10 22:01:06.308 +02:00 [INF] User choose action.
+2022-03-10 22:01:06.831 +02:00 [INF] Execute login method
+2022-03-10 22:01:09.766 +02:00 [INF] AuthorizationMenuState::ResponseHandlerAsync::Response: Successful response 200.
+2022-03-10 22:01:09.820 +02:00 [INF] Class MainMenuState. InvokeAsync method
+2022-03-10 22:01:10.766 +02:00 [INF] Execute round menu state.
+2022-03-10 22:01:10.767 +02:00 [INF] Class MainMenuState. InvokeAsync method
+2022-03-10 22:01:12.393 +02:00 [INF] Creating practice room.
+2022-03-10 22:01:12.394 +02:00 [INF] Creating room.
+2022-03-10 22:01:12.423 +02:00 [INF] RoomMenuState::StartConnectionWithRoomAsync::Successful response 200
+2022-03-10 22:01:12.423 +02:00 [INF] RoomMenuState::StartConnectionWithRoomAsync::Start practice room
+2022-03-10 22:01:12.424 +02:00 [INF] Invoke Round state class 
+2022-03-10 22:01:12.493 +02:00 [INF] RoundMenuState::ShowEnemyBarAsync::Successful response 200
+2022-03-10 22:01:17.922 +02:00 [INF] RoundMenuState::WaitingStartGame::Successful response 200
+2022-03-10 22:01:18.067 +02:00 [INF] RoundMenuState::WaitConfirmationSecondPlayer::Response: Conflict 409
+2022-03-10 22:01:21.882 +02:00 [INF] Waiting second player.
+2022-03-10 22:06:40.261 +02:00 [INF] Class AuthorizationMenuState. InvokeAsync method
+2022-03-10 22:06:40.326 +02:00 [INF] User choose action.
+2022-03-10 22:06:41.367 +02:00 [INF] Execute login method
+2022-03-10 22:06:45.018 +02:00 [INF] AuthorizationMenuState::ResponseHandlerAsync::Response: Successful response 200.
+2022-03-10 22:06:45.071 +02:00 [INF] Class MainMenuState. InvokeAsync method
+2022-03-10 22:06:46.111 +02:00 [INF] Execute round menu state.
+2022-03-10 22:06:46.111 +02:00 [INF] Class MainMenuState. InvokeAsync method
+2022-03-10 22:06:47.913 +02:00 [INF] Creating practice room.
+2022-03-10 22:06:47.914 +02:00 [INF] Creating room.
+2022-03-10 22:06:47.949 +02:00 [INF] RoomMenuState::StartConnectionWithRoomAsync::Successful response 200
+2022-03-10 22:06:47.949 +02:00 [INF] RoomMenuState::StartConnectionWithRoomAsync::Start practice room
+2022-03-10 22:06:47.950 +02:00 [INF] Invoke Round state class 
+2022-03-10 22:06:48.015 +02:00 [INF] RoundMenuState::ShowEnemyBarAsync::Successful response 200
+2022-03-10 22:06:51.441 +02:00 [INF] RoundMenuState::WaitingStartGame::Successful response 200
+2022-03-10 22:06:51.581 +02:00 [INF] RoundMenuState::WaitConfirmationSecondPlayer::Response: Conflict 409
+2022-03-10 22:07:54.894 +02:00 [INF] Class AuthorizationMenuState. InvokeAsync method
+2022-03-10 22:07:54.959 +02:00 [INF] User choose action.
+2022-03-10 22:07:56.015 +02:00 [INF] Execute login method
+2022-03-10 22:07:57.665 +02:00 [INF] Input invalid data.AuthorizationMenuState::ResponseHandlerAsync::Response: BadRequest 400.
+2022-03-10 22:07:57.836 +02:00 [INF] User choose action.
+2022-03-10 22:07:58.441 +02:00 [INF] Execute login method
+2022-03-10 22:08:01.570 +02:00 [INF] AuthorizationMenuState::ResponseHandlerAsync::Response: Successful response 200.
+2022-03-10 22:08:01.623 +02:00 [INF] Class MainMenuState. InvokeAsync method
+2022-03-10 22:08:04.010 +02:00 [INF] Execute round menu state.
+2022-03-10 22:08:04.011 +02:00 [INF] Class MainMenuState. InvokeAsync method
+2022-03-10 22:08:04.981 +02:00 [INF] Creating practice room.
+2022-03-10 22:08:04.982 +02:00 [INF] Creating room.
+2022-03-10 22:08:05.009 +02:00 [INF] RoomMenuState::StartConnectionWithRoomAsync::Successful response 200
+2022-03-10 22:08:05.009 +02:00 [INF] RoomMenuState::StartConnectionWithRoomAsync::Start practice room
+2022-03-10 22:08:05.010 +02:00 [INF] Invoke Round state class 
+2022-03-10 22:08:05.080 +02:00 [INF] RoundMenuState::ShowEnemyBarAsync::Successful response 200
+2022-03-10 22:08:08.760 +02:00 [INF] RoundMenuState::WaitingStartGame::Successful response 200
+2022-03-10 22:08:08.825 +02:00 [INF] RoundMenuState::WaitConfirmationSecondPlayer::Successful response 200
+2022-03-10 22:08:08.834 +02:00 [INF] Invoke Game state class
+2022-03-10 22:08:08.908 +02:00 [INF] Invoke game menu.
+2022-03-10 22:08:12.265 +02:00 [INF] Making move...
+2022-03-10 22:08:12.265 +02:00 [INF] Get player's move.
+2022-03-10 22:08:12.909 +02:00 [INF] Invoke game menu.
+2022-03-10 22:08:12.910 +02:00 [INF] Waiting opponent's move.
+2022-03-10 22:16:01.984 +02:00 [INF] Class AuthorizationMenuState. InvokeAsync method
+2022-03-10 22:16:02.051 +02:00 [INF] User choose action.
+2022-03-10 22:16:02.781 +02:00 [INF] Execute login method
+2022-03-10 22:16:06.860 +02:00 [INF] AuthorizationMenuState::ResponseHandlerAsync::Response: Successful response 200.
+2022-03-10 22:16:06.913 +02:00 [INF] Class MainMenuState. InvokeAsync method
+2022-03-10 22:16:08.109 +02:00 [INF] Execute round menu state.
+2022-03-10 22:16:08.110 +02:00 [INF] Class MainMenuState. InvokeAsync method
+2022-03-10 22:16:10.187 +02:00 [INF] Creating practice room.
+2022-03-10 22:16:10.189 +02:00 [INF] Creating room.
+2022-03-10 22:16:10.221 +02:00 [INF] RoomMenuState::StartConnectionWithRoomAsync::Successful response 200
+2022-03-10 22:16:10.221 +02:00 [INF] RoomMenuState::StartConnectionWithRoomAsync::Start practice room
+2022-03-10 22:16:10.221 +02:00 [INF] Invoke Round state class 
+2022-03-10 22:16:10.293 +02:00 [INF] RoundMenuState::ShowEnemyBarAsync::Successful response 200
+2022-03-10 22:16:10.822 +02:00 [INF] RoundMenuState::WaitingStartGame::Successful response 200
+2022-03-10 22:16:10.884 +02:00 [INF] RoundMenuState::WaitConfirmationSecondPlayer::Successful response 200
+2022-03-10 22:16:10.894 +02:00 [INF] Invoke Game state class
+2022-03-10 22:16:10.971 +02:00 [INF] Invoke game menu.
+2022-03-10 22:16:11.999 +02:00 [INF] Making move...
+2022-03-10 22:16:11.999 +02:00 [INF] Get player's move.
+2022-03-10 22:16:16.764 +02:00 [INF] Invoke game menu.
+2022-03-10 22:16:17.500 +02:00 [INF] Making move...
+2022-03-10 22:16:17.500 +02:00 [INF] Get player's move.
+2022-03-10 22:16:18.482 +02:00 [INF] Invoke game menu.
+2022-03-10 22:16:22.737 +02:00 [INF] Making move...
+2022-03-10 22:16:22.737 +02:00 [INF] Get player's move.
+2022-03-10 22:16:25.095 +02:00 [INF] Invoke game menu.
+2022-03-10 22:16:27.832 +02:00 [INF] Making move...
+2022-03-10 22:16:27.832 +02:00 [INF] Get player's move.
+2022-03-10 22:16:30.339 +02:00 [INF] Invoke game menu.
+2022-03-10 22:16:31.059 +02:00 [INF] Making move...
+2022-03-10 22:16:31.059 +02:00 [INF] Get player's move.
+2022-03-10 22:16:42.405 +02:00 [INF] Invoke game menu.
+2022-03-10 22:16:43.214 +02:00 [INF] Making move...
+2022-03-10 22:16:43.214 +02:00 [INF] Get player's move.
+2022-03-10 22:16:49.025 +02:00 [INF] RoundMenuState::ShowEnemyBarAsync::Successful response 200
+2022-03-10 22:16:59.347 +02:00 [INF] RoundMenuState::WaitingStartGame::Successful response 200
+2022-03-10 22:16:59.398 +02:00 [INF] RoundMenuState::WaitConfirmationSecondPlayer::Successful response 200
+2022-03-10 22:16:59.432 +02:00 [INF] Invoke Game state class
+2022-03-10 22:16:59.486 +02:00 [INF] Invoke game menu.
+2022-03-10 22:17:01.080 +02:00 [INF] Making move...
+2022-03-10 22:17:01.081 +02:00 [INF] Get player's move.
+2022-03-10 22:17:05.407 +02:00 [INF] RoundMenuState::ShowEnemyBarAsync::Successful response 200
+2022-03-10 22:17:46.845 +02:00 [INF] Class AuthorizationMenuState. InvokeAsync method
+2022-03-10 22:17:46.910 +02:00 [INF] User choose action.
+2022-03-10 22:17:47.875 +02:00 [INF] Execute login method
+2022-03-10 22:17:51.167 +02:00 [INF] AuthorizationMenuState::ResponseHandlerAsync::Response: Successful response 200.
+2022-03-10 22:17:51.221 +02:00 [INF] Class MainMenuState. InvokeAsync method
+2022-03-10 22:17:51.862 +02:00 [INF] Execute round menu state.
+2022-03-10 22:17:51.863 +02:00 [INF] Class MainMenuState. InvokeAsync method
+2022-03-10 22:17:53.137 +02:00 [INF] Creating practice room.
+2022-03-10 22:17:53.138 +02:00 [INF] Creating room.
+2022-03-10 22:17:53.170 +02:00 [INF] RoomMenuState::StartConnectionWithRoomAsync::Successful response 200
+2022-03-10 22:17:53.170 +02:00 [INF] RoomMenuState::StartConnectionWithRoomAsync::Start practice room
+2022-03-10 22:17:53.171 +02:00 [INF] Invoke Round state class 
+2022-03-10 22:17:53.236 +02:00 [INF] RoundMenuState::ShowEnemyBarAsync::Successful response 200
+2022-03-10 22:17:54.478 +02:00 [INF] RoundMenuState::WaitingStartGame::Successful response 200
+2022-03-10 22:17:54.539 +02:00 [INF] RoundMenuState::WaitConfirmationSecondPlayer::Successful response 200
+2022-03-10 22:17:54.548 +02:00 [INF] Invoke Game state class
+2022-03-10 22:17:54.624 +02:00 [INF] Invoke game menu.
+2022-03-10 22:17:55.390 +02:00 [INF] Making move...
+2022-03-10 22:17:55.390 +02:00 [INF] Get player's move.
+2022-03-10 22:17:56.488 +02:00 [INF] Invoke game menu.
+2022-03-10 22:17:58.792 +02:00 [INF] Making move...
+2022-03-10 22:17:58.792 +02:00 [INF] Get player's move.
+2022-03-10 22:18:03.517 +02:00 [INF] Invoke game menu.
+2022-03-10 22:18:04.511 +02:00 [INF] Making move...
+2022-03-10 22:18:04.511 +02:00 [INF] Get player's move.
+2022-03-10 22:18:06.102 +02:00 [INF] Invoke game menu.
+2022-03-10 22:18:08.599 +02:00 [INF] Making move...
+2022-03-10 22:18:08.599 +02:00 [INF] Get player's move.
+2022-03-10 22:18:13.415 +02:00 [INF] Invoke game menu.
+2022-03-10 22:18:16.173 +02:00 [INF] Making move...
+2022-03-10 22:18:16.173 +02:00 [INF] Get player's move.
+2022-03-10 22:18:18.029 +02:00 [INF] Invoke game menu.
+2022-03-10 22:18:18.813 +02:00 [INF] Making move...
+2022-03-10 22:18:18.813 +02:00 [INF] Get player's move.
+2022-03-10 22:18:20.001 +02:00 [INF] Invoke game menu.
+2022-03-10 22:18:21.823 +02:00 [INF] Making move...
+2022-03-10 22:18:21.823 +02:00 [INF] Get player's move.
+2022-03-10 22:18:25.241 +02:00 [INF] Invoke game menu.
+2022-03-10 22:18:26.416 +02:00 [INF] Making move...
+2022-03-10 22:18:26.416 +02:00 [INF] Get player's move.
+2022-03-10 22:18:28.252 +02:00 [INF] Invoke game menu.
+2022-03-10 22:18:29.262 +02:00 [INF] Making move...
+2022-03-10 22:18:29.262 +02:00 [INF] Get player's move.
+2022-03-10 22:18:32.018 +02:00 [INF] Invoke game menu.
+2022-03-10 22:18:32.819 +02:00 [INF] Making move...
+2022-03-10 22:18:32.819 +02:00 [INF] Get player's move.
+2022-03-10 22:18:35.337 +02:00 [INF] Invoke game menu.
+2022-03-10 22:32:08.998 +02:00 [INF] Class AuthorizationMenuState. InvokeAsync method
+2022-03-10 22:32:09.069 +02:00 [INF] User choose action.
+2022-03-10 22:32:12.939 +02:00 [INF] Execute login method
+2022-03-10 22:32:16.231 +02:00 [INF] AuthorizationMenuState::ResponseHandlerAsync::Response: Successful response 200.
+2022-03-10 22:32:16.287 +02:00 [INF] Class MainMenuState. InvokeAsync method
+2022-03-10 22:32:23.723 +02:00 [INF] Execute round menu state.
+2022-03-10 22:32:23.724 +02:00 [INF] Class MainMenuState. InvokeAsync method
+2022-03-10 22:32:24.202 +02:00 [INF] Creating practice room.
+2022-03-10 22:32:24.203 +02:00 [INF] Creating room.
+2022-03-10 22:32:24.235 +02:00 [INF] RoomMenuState::StartConnectionWithRoomAsync::Successful response 200
+2022-03-10 22:32:24.235 +02:00 [INF] RoomMenuState::StartConnectionWithRoomAsync::Start practice room
+2022-03-10 22:32:24.236 +02:00 [INF] Invoke Round state class 
+2022-03-10 22:32:24.301 +02:00 [INF] RoundMenuState::ShowEnemyBarAsync::Successful response 200
+2022-03-10 22:32:25.260 +02:00 [INF] RoundMenuState::WaitingStartGame::Successful response 200
+2022-03-10 22:32:25.324 +02:00 [INF] RoundMenuState::WaitConfirmationSecondPlayer::Successful response 200
+2022-03-10 22:32:25.335 +02:00 [INF] Invoke Game state class
+2022-03-10 22:32:25.409 +02:00 [INF] Invoke game menu.
+2022-03-10 22:32:26.560 +02:00 [INF] Making move...
+2022-03-10 22:32:26.560 +02:00 [INF] Get player's move.
+2022-03-10 22:32:27.508 +02:00 [INF] Invoke game menu.
+2022-03-10 22:32:29.347 +02:00 [INF] Making move...
+2022-03-10 22:32:29.347 +02:00 [INF] Get player's move.
+2022-03-10 22:32:44.466 +02:00 [INF] Invoke game menu.
+2022-03-10 22:32:44.783 +02:00 [INF] Making move...
+2022-03-10 22:32:44.783 +02:00 [INF] Get player's move.
+2022-03-10 22:32:46.341 +02:00 [INF] Invoke game menu.
+2022-03-10 22:32:49.208 +02:00 [INF] Making move...
+2022-03-10 22:32:49.208 +02:00 [INF] Get player's move.
+2022-03-10 22:32:51.993 +02:00 [INF] Invoke game menu.
+2022-03-10 22:32:54.159 +02:00 [INF] Making move...
+2022-03-10 22:32:54.159 +02:00 [INF] Get player's move.
+2022-03-10 22:32:55.877 +02:00 [INF] Invoke game menu.
+2022-03-10 22:32:56.266 +02:00 [INF] Making move...
+2022-03-10 22:32:56.266 +02:00 [INF] Get player's move.
+2022-03-10 22:33:07.045 +02:00 [INF] RoundMenuState::ShowEnemyBarAsync::Successful response 200
+2022-03-10 22:43:54.729 +02:00 [INF] Class AuthorizationMenuState. InvokeAsync method
+2022-03-10 22:43:54.792 +02:00 [INF] User choose action.
+2022-03-10 22:43:58.075 +02:00 [INF] Execute login method
+2022-03-10 22:44:01.629 +02:00 [INF] AuthorizationMenuState::ResponseHandlerAsync::Response: Successful response 200.
+2022-03-10 22:44:01.682 +02:00 [INF] Class MainMenuState. InvokeAsync method
+2022-03-10 22:44:07.426 +02:00 [INF] Execute round menu state.
+2022-03-10 22:44:07.427 +02:00 [INF] Class MainMenuState. InvokeAsync method
+2022-03-10 22:44:08.269 +02:00 [INF] Creating public room.
+2022-03-10 22:44:08.271 +02:00 [INF] Creating room.
+2022-03-10 22:44:08.299 +02:00 [INF] RoomMenuState::StartConnectionWithRoomAsync::Successful response 200
+2022-03-10 22:44:08.300 +02:00 [INF] Waiting second player.
+2022-03-10 22:44:08.372 +02:00 [INF] RoomMenuState::WaitSecondPlayerAsync::Response: NotFound 404
+2022-03-10 22:44:11.459 +02:00 [INF] RoomMenuState::WaitSecondPlayerAsync::Successful response 200
+2022-03-10 22:44:11.460 +02:00 [INF] Invoke Round state class 
+2022-03-10 22:44:11.517 +02:00 [INF] RoundMenuState::ShowEnemyBarAsync::Successful response 200
+2022-03-10 22:44:14.059 +02:00 [INF] RoundMenuState::WaitingStartGame::Successful response 200
+2022-03-10 22:44:14.118 +02:00 [INF] RoundMenuState::WaitConfirmationSecondPlayer::Response: NotFound 404
+2022-03-10 22:44:15.291 +02:00 [INF] RoundMenuState::WaitConfirmationSecondPlayer::Response: NotFound 404
+2022-03-10 22:44:16.401 +02:00 [INF] RoundMenuState::WaitConfirmationSecondPlayer::Response: NotFound 404
+2022-03-10 22:44:17.521 +02:00 [INF] RoundMenuState::WaitConfirmationSecondPlayer::Successful response 200
+2022-03-10 22:44:17.523 +02:00 [INF] Invoke Game state class
+2022-03-10 22:44:17.596 +02:00 [INF] Invoke game menu.
+2022-03-10 22:44:19.124 +02:00 [INF] Making move...
+2022-03-10 22:44:19.124 +02:00 [INF] Get player's move.
+2022-03-10 22:44:19.951 +02:00 [INF] Invoke game menu.
+2022-03-10 22:44:19.952 +02:00 [INF] Waiting opponent's move.
+2022-03-10 22:44:22.406 +02:00 [INF] Invoke game menu.
+2022-03-10 22:44:24.216 +02:00 [INF] Making move...
+2022-03-10 22:44:24.216 +02:00 [INF] Get player's move.
+2022-03-10 22:44:25.457 +02:00 [INF] Invoke game menu.
+2022-03-10 22:44:25.458 +02:00 [INF] Waiting opponent's move.
+2022-03-10 22:44:27.915 +02:00 [INF] Invoke game menu.
+2022-03-10 22:44:29.504 +02:00 [INF] Making move...
+2022-03-10 22:44:29.504 +02:00 [INF] Get player's move.
+2022-03-10 22:44:31.671 +02:00 [INF] Invoke game menu.
+2022-03-10 22:44:32.282 +02:00 [INF] Making move...
+2022-03-10 22:44:32.283 +02:00 [INF] Get player's move.
+2022-03-10 22:44:37.323 +02:00 [INF] RoundMenuState::ShowEnemyBarAsync::Successful response 200
+2022-03-10 22:44:40.328 +02:00 [INF] MainMenuState::LogoutAsync::Response: Successful response 200
+2022-03-10 22:44:40.954 +02:00 [INF] User choose action.
+2022-03-10 22:45:00.308 +02:00 [INF] Class AuthorizationMenuState. InvokeAsync method
+2022-03-10 22:45:00.372 +02:00 [INF] User choose action.
+2022-03-10 22:45:01.575 +02:00 [INF] Execute login method
+2022-03-10 22:45:04.929 +02:00 [INF] AuthorizationMenuState::ResponseHandlerAsync::Response: Successful response 200.
+2022-03-10 22:45:04.981 +02:00 [INF] Class MainMenuState. InvokeAsync method
+2022-03-10 22:45:05.964 +02:00 [INF] Execute round menu state.
+2022-03-10 22:45:05.965 +02:00 [INF] Class MainMenuState. InvokeAsync method
+2022-03-10 22:45:06.420 +02:00 [INF] Creating practice room.
+2022-03-10 22:45:06.421 +02:00 [INF] Creating room.
+2022-03-10 22:45:06.453 +02:00 [INF] RoomMenuState::StartConnectionWithRoomAsync::Successful response 200
+2022-03-10 22:45:06.453 +02:00 [INF] RoomMenuState::StartConnectionWithRoomAsync::Start practice room
+2022-03-10 22:45:06.454 +02:00 [INF] Invoke Round state class 
+2022-03-10 22:45:06.524 +02:00 [INF] RoundMenuState::ShowEnemyBarAsync::Successful response 200
+2022-03-10 22:45:07.689 +02:00 [INF] RoundMenuState::WaitingStartGame::Successful response 200
+2022-03-10 22:45:07.756 +02:00 [INF] RoundMenuState::WaitConfirmationSecondPlayer::Successful response 200
+2022-03-10 22:45:07.766 +02:00 [INF] Invoke Game state class
+2022-03-10 22:45:07.842 +02:00 [INF] Invoke game menu.
+2022-03-10 22:45:10.279 +02:00 [INF] RoundMenuState::ShowEnemyBarAsync::Successful response 200
+2022-03-10 22:45:17.329 +02:00 [INF] RoundMenuState::WaitingStartGame::Successful response 200
+2022-03-10 22:45:17.387 +02:00 [INF] RoundMenuState::WaitConfirmationSecondPlayer::Response: NotFound 404
+2022-03-10 22:45:18.446 +02:00 [INF] RoundMenuState::WaitConfirmationSecondPlayer::Response: NotFound 404
+2022-03-10 22:45:19.504 +02:00 [INF] RoundMenuState::WaitConfirmationSecondPlayer::Response: NotFound 404
+2022-03-10 22:45:20.569 +02:00 [INF] RoundMenuState::WaitConfirmationSecondPlayer::Response: NotFound 404
+2022-03-10 22:45:21.634 +02:00 [INF] RoundMenuState::WaitConfirmationSecondPlayer::Response: NotFound 404
+2022-03-10 22:45:22.697 +02:00 [INF] RoundMenuState::WaitConfirmationSecondPlayer::Response: NotFound 404
+2022-03-10 22:45:23.765 +02:00 [INF] RoundMenuState::WaitConfirmationSecondPlayer::Response: NotFound 404
+2022-03-10 22:45:24.830 +02:00 [INF] RoundMenuState::WaitConfirmationSecondPlayer::Response: NotFound 404
+2022-03-10 22:45:27.516 +02:00 [INF] RoundMenuState::WaitConfirmationSecondPlayer::Response: NotFound 404
+2022-03-10 22:45:28.586 +02:00 [INF] RoundMenuState::WaitConfirmationSecondPlayer::Response: NotFound 404
+2022-03-10 22:46:25.874 +02:00 [INF] Class AuthorizationMenuState. InvokeAsync method
+2022-03-10 22:46:25.940 +02:00 [INF] User choose action.
+2022-03-10 22:46:27.493 +02:00 [INF] Execute login method
+2022-03-10 22:46:30.618 +02:00 [INF] AuthorizationMenuState::ResponseHandlerAsync::Response: Successful response 200.
+2022-03-10 22:46:30.671 +02:00 [INF] Class MainMenuState. InvokeAsync method
+2022-03-10 22:46:31.666 +02:00 [INF] Execute round menu state.
+2022-03-10 22:46:31.667 +02:00 [INF] Class MainMenuState. InvokeAsync method
+2022-03-10 22:46:32.096 +02:00 [INF] Creating practice room.
+2022-03-10 22:46:32.098 +02:00 [INF] Creating room.
+2022-03-10 22:46:32.130 +02:00 [INF] RoomMenuState::StartConnectionWithRoomAsync::Successful response 200
+2022-03-10 22:46:32.130 +02:00 [INF] RoomMenuState::StartConnectionWithRoomAsync::Start practice room
+2022-03-10 22:46:32.131 +02:00 [INF] Invoke Round state class 
+2022-03-10 22:46:32.195 +02:00 [INF] RoundMenuState::ShowEnemyBarAsync::Successful response 200
+2022-03-10 22:46:33.385 +02:00 [INF] RoundMenuState::WaitingStartGame::Successful response 200
+2022-03-10 22:46:42.473 +02:00 [INF] RoundMenuState::WaitConfirmationSecondPlayer::Successful response 200
+2022-03-10 22:46:42.482 +02:00 [INF] Invoke Game state class
+2022-03-10 22:46:42.553 +02:00 [INF] Invoke game menu.
+2022-03-10 22:46:47.594 +02:00 [INF] RoundMenuState::ShowEnemyBarAsync::Successful response 200
+2022-03-10 22:46:48.426 +02:00 [INF] RoundMenuState::WaitingStartGame::Successful response 200
+2022-03-10 22:46:48.484 +02:00 [INF] RoundMenuState::WaitConfirmationSecondPlayer::Response: NotFound 404
+2022-03-10 22:46:49.549 +02:00 [INF] RoundMenuState::WaitConfirmationSecondPlayer::Response: NotFound 404
+2022-03-10 22:46:50.612 +02:00 [INF] RoundMenuState::WaitConfirmationSecondPlayer::Response: NotFound 404
+2022-03-10 22:46:51.680 +02:00 [INF] RoundMenuState::WaitConfirmationSecondPlayer::Response: NotFound 404
+2022-03-10 22:46:52.747 +02:00 [INF] RoundMenuState::WaitConfirmationSecondPlayer::Response: NotFound 404
+2022-03-10 22:46:53.802 +02:00 [INF] RoundMenuState::WaitConfirmationSecondPlayer::Response: NotFound 404
+2022-03-10 22:46:54.864 +02:00 [INF] RoundMenuState::WaitConfirmationSecondPlayer::Response: NotFound 404
+2022-03-10 22:46:55.934 +02:00 [INF] RoundMenuState::WaitConfirmationSecondPlayer::Response: NotFound 404
+2022-03-10 22:46:56.994 +02:00 [INF] RoundMenuState::WaitConfirmationSecondPlayer::Response: NotFound 404
+2022-03-10 22:47:02.141 +02:00 [ERR] Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение. (localhost:7097)
+2022-03-10 22:53:58.059 +02:00 [INF] Class AuthorizationMenuState. InvokeAsync method
+2022-03-10 22:53:58.124 +02:00 [INF] User choose action.
+2022-03-10 22:54:02.187 +02:00 [INF] Execute login method
+2022-03-10 22:54:05.579 +02:00 [INF] User with such login already registered or input invalid data. HttpStatus::NotFound 404 or HttpStatus::Conflict 409
+2022-03-10 22:54:07.099 +02:00 [INF] User choose action.
+2022-03-10 22:54:07.407 +02:00 [INF] Execute login method
+2022-03-10 22:54:10.328 +02:00 [INF] AuthorizationMenuState::ResponseHandlerAsync::Response: Successful response 200.
+2022-03-10 22:54:10.381 +02:00 [INF] Class MainMenuState. InvokeAsync method
+2022-03-10 22:54:15.895 +02:00 [INF] Execute round menu state.
+2022-03-10 22:54:15.895 +02:00 [INF] Class MainMenuState. InvokeAsync method
+2022-03-10 22:54:16.109 +02:00 [INF] Creating public room.
+2022-03-10 22:54:16.110 +02:00 [INF] Creating room.
+2022-03-10 22:54:16.138 +02:00 [INF] RoomMenuState::StartConnectionWithRoomAsync::Successful response 200
+2022-03-10 22:54:16.139 +02:00 [INF] Waiting second player.
+2022-03-10 22:54:16.208 +02:00 [INF] RoomMenuState::WaitSecondPlayerAsync::Response: NotFound 404
+2022-03-10 22:54:19.287 +02:00 [INF] RoomMenuState::WaitSecondPlayerAsync::Successful response 200
+2022-03-10 22:54:19.287 +02:00 [INF] Invoke Round state class 
+2022-03-10 22:54:19.342 +02:00 [INF] RoundMenuState::ShowEnemyBarAsync::Successful response 200
+2022-03-10 22:54:22.779 +02:00 [INF] MainMenuState::LogoutAsync::Response: Successful response 200
+2022-03-10 22:54:23.124 +02:00 [INF] User choose action.
+2022-03-10 22:55:27.102 +02:00 [INF] Class AuthorizationMenuState. InvokeAsync method
+2022-03-10 22:55:27.170 +02:00 [INF] User choose action.
+2022-03-10 22:55:27.967 +02:00 [INF] Execute login method
+2022-03-10 22:55:31.969 +02:00 [INF] AuthorizationMenuState::ResponseHandlerAsync::Response: Successful response 200.
+2022-03-10 22:55:32.021 +02:00 [INF] Class MainMenuState. InvokeAsync method
+2022-03-10 22:55:32.903 +02:00 [INF] Execute round menu state.
+2022-03-10 22:55:32.904 +02:00 [INF] Class MainMenuState. InvokeAsync method
+2022-03-10 22:55:33.287 +02:00 [INF] Creating practice room.
+2022-03-10 22:55:33.288 +02:00 [INF] Creating room.
+2022-03-10 22:55:33.321 +02:00 [INF] RoomMenuState::StartConnectionWithRoomAsync::Successful response 200
+2022-03-10 22:55:33.321 +02:00 [INF] RoomMenuState::StartConnectionWithRoomAsync::Start practice room
+2022-03-10 22:55:33.322 +02:00 [INF] Invoke Round state class 
+2022-03-10 22:55:33.387 +02:00 [INF] RoundMenuState::ShowEnemyBarAsync::Successful response 200
+2022-03-10 22:55:35.231 +02:00 [INF] Waiting second player.
+2022-03-10 22:56:23.326 +02:00 [INF] Class AuthorizationMenuState. InvokeAsync method
+2022-03-10 22:56:23.395 +02:00 [INF] User choose action.
+2022-03-10 22:56:25.434 +02:00 [INF] Execute login method
+2022-03-10 22:56:28.573 +02:00 [INF] AuthorizationMenuState::ResponseHandlerAsync::Response: Successful response 200.
+2022-03-10 22:56:28.627 +02:00 [INF] Class MainMenuState. InvokeAsync method
+2022-03-10 22:56:29.336 +02:00 [INF] Execute round menu state.
+2022-03-10 22:56:29.337 +02:00 [INF] Class MainMenuState. InvokeAsync method
+2022-03-10 22:56:29.713 +02:00 [INF] Creating practice room.
+2022-03-10 22:56:29.714 +02:00 [INF] Creating room.
+2022-03-10 22:56:29.749 +02:00 [INF] RoomMenuState::StartConnectionWithRoomAsync::Successful response 200
+2022-03-10 22:56:29.749 +02:00 [INF] RoomMenuState::StartConnectionWithRoomAsync::Start practice room
+2022-03-10 22:56:29.750 +02:00 [INF] Invoke Round state class 
+2022-03-10 22:56:29.816 +02:00 [INF] RoundMenuState::ShowEnemyBarAsync::Successful response 200
+2022-03-10 22:56:31.324 +02:00 [INF] RoundMenuState::WaitingStartGame::Successful response 200
+2022-03-10 22:56:31.385 +02:00 [INF] RoundMenuState::WaitConfirmationSecondPlayer::Successful response 200
+2022-03-10 22:56:31.395 +02:00 [INF] Invoke Game state class
+2022-03-10 22:56:31.466 +02:00 [INF] Invoke game menu.
+2022-03-10 22:56:32.322 +02:00 [INF] Making move...
+2022-03-10 22:56:32.323 +02:00 [INF] Get player's move.
+2022-03-10 22:56:33.188 +02:00 [INF] Invoke game menu.
+2022-03-10 22:56:34.307 +02:00 [INF] Making move...
+2022-03-10 22:56:34.307 +02:00 [INF] Get player's move.
+2022-03-10 22:56:35.878 +02:00 [INF] Invoke game menu.
+2022-03-10 22:56:36.256 +02:00 [INF] Making move...
+2022-03-10 22:56:36.256 +02:00 [INF] Get player's move.
+2022-03-10 22:56:37.794 +02:00 [INF] Invoke game menu.
+2022-03-10 22:56:38.219 +02:00 [INF] Making move...
+2022-03-10 22:56:38.219 +02:00 [INF] Get player's move.
+2022-03-10 22:56:38.947 +02:00 [INF] Invoke game menu.
+2022-03-10 22:56:38.948 +02:00 [INF] Waiting opponent's move.
+2022-03-10 22:57:00.949 +02:00 [INF] RoundMenuState::ShowEnemyBarAsync::Successful response 200
+2022-03-10 22:57:08.711 +02:00 [INF] Creating practice room.
+2022-03-10 22:57:08.711 +02:00 [INF] Creating room.
+2022-03-10 22:57:08.714 +02:00 [INF] RoomMenuState::StartConnectionWithRoomAsync::Successful response 200
+2022-03-10 22:57:08.714 +02:00 [INF] RoomMenuState::StartConnectionWithRoomAsync::Start practice room
+2022-03-10 22:57:08.714 +02:00 [INF] Invoke Round state class 
+2022-03-10 22:57:08.768 +02:00 [INF] RoundMenuState::ShowEnemyBarAsync::Successful response 200
+2022-03-10 22:57:10.286 +02:00 [INF] RoundMenuState::WaitingStartGame::Successful response 200
+2022-03-10 22:57:10.340 +02:00 [INF] RoundMenuState::WaitConfirmationSecondPlayer::Successful response 200
+2022-03-10 22:57:10.341 +02:00 [INF] Invoke Game state class
+2022-03-10 22:57:10.394 +02:00 [INF] Invoke game menu.
+2022-03-10 22:57:11.072 +02:00 [INF] Making move...
+2022-03-10 22:57:11.072 +02:00 [INF] Get player's move.
+2022-03-10 22:57:11.819 +02:00 [INF] Invoke game menu.
+2022-03-10 22:57:12.552 +02:00 [INF] Making move...
+2022-03-10 22:57:12.552 +02:00 [INF] Get player's move.
+2022-03-10 22:57:13.897 +02:00 [INF] Invoke game menu.
+2022-03-10 22:57:15.105 +02:00 [INF] Making move...
+2022-03-10 22:57:15.105 +02:00 [INF] Get player's move.
+2022-03-10 22:57:18.001 +02:00 [INF] Invoke game menu.
+2022-03-10 22:57:18.642 +02:00 [INF] Making move...
+2022-03-10 22:57:18.643 +02:00 [INF] Get player's move.
+2022-03-10 22:57:20.004 +02:00 [INF] Invoke game menu.
+2022-03-10 22:57:20.501 +02:00 [INF] Making move...
+2022-03-10 22:57:20.501 +02:00 [INF] Get player's move.
+2022-03-10 22:57:21.267 +02:00 [INF] Invoke game menu.
+2022-03-10 22:57:22.624 +02:00 [INF] Making move...
+2022-03-10 22:57:22.624 +02:00 [INF] Get player's move.
+2022-03-10 22:57:24.955 +02:00 [INF] Invoke game menu.
+2022-03-10 22:57:25.799 +02:00 [INF] Making move...
+2022-03-10 22:57:25.799 +02:00 [INF] Get player's move.
+2022-03-10 22:57:26.595 +02:00 [INF] Invoke game menu.
+2022-03-10 22:57:29.564 +02:00 [INF] Invoke game menu.
+2022-03-10 22:57:31.120 +02:00 [INF] Making move...
+2022-03-10 22:57:31.120 +02:00 [INF] Get player's move.
+2022-03-10 22:57:33.423 +02:00 [INF] Invoke game menu.
+2022-03-10 22:57:34.146 +02:00 [INF] Making move...
+2022-03-10 22:57:34.146 +02:00 [INF] Get player's move.
+2022-03-10 22:57:36.164 +02:00 [INF] Invoke game menu.
+2022-03-10 22:57:37.239 +02:00 [INF] Making move...
+2022-03-10 22:57:37.239 +02:00 [INF] Get player's move.
+2022-03-10 22:57:38.881 +02:00 [INF] Invoke game menu.
+2022-03-10 22:57:39.464 +02:00 [INF] Making move...
+2022-03-10 22:57:39.464 +02:00 [INF] Get player's move.
+2022-03-10 22:57:50.233 +02:00 [INF] RoundMenuState::ShowEnemyBarAsync::Successful response 200
+2022-03-10 22:57:54.937 +02:00 [INF] MainMenuState::LogoutAsync::Response: Successful response 200
+2022-03-10 22:57:55.328 +02:00 [INF] User choose action.
+2022-03-10 23:30:09.577 +02:00 [INF] Class AuthorizationMenuState. InvokeAsync method
+2022-03-10 23:30:09.640 +02:00 [INF] User choose action.
+2022-03-10 23:30:10.947 +02:00 [INF] Execute login method
+2022-03-10 23:30:14.774 +02:00 [INF] AuthorizationMenuState::ResponseHandlerAsync::Response: Successful response 200.
+2022-03-10 23:30:14.831 +02:00 [INF] Class MainMenuState. InvokeAsync method
+2022-03-10 23:30:17.343 +02:00 [INF] Execute round menu state.
+2022-03-10 23:30:17.344 +02:00 [INF] Class MainMenuState. InvokeAsync method
+2022-03-10 23:30:18.530 +02:00 [INF] Creating practice room.
+2022-03-10 23:30:18.531 +02:00 [INF] Creating room.
+2022-03-10 23:30:18.562 +02:00 [INF] RoomMenuState::StartConnectionWithRoomAsync::Successful response 200
+2022-03-10 23:30:18.562 +02:00 [INF] RoomMenuState::StartConnectionWithRoomAsync::Start practice room
+2022-03-10 23:30:18.562 +02:00 [INF] Invoke Round state class 
+2022-03-10 23:30:18.631 +02:00 [INF] RoundMenuState::ShowEnemyBarAsync::Successful response 200
+2022-03-10 23:30:19.762 +02:00 [INF] RoundMenuState::WaitingStartGame::Successful response 200
+2022-03-10 23:30:19.830 +02:00 [INF] RoundMenuState::WaitConfirmationSecondPlayer::Successful response 200
+2022-03-10 23:30:19.841 +02:00 [INF] Invoke Game state class
+2022-03-10 23:30:19.912 +02:00 [INF] Invoke game menu.
+2022-03-10 23:30:20.734 +02:00 [INF] Making move...
+2022-03-10 23:30:20.734 +02:00 [INF] Get player's move.
+2022-03-10 23:30:22.140 +02:00 [INF] Invoke game menu.
+2022-03-10 23:30:23.296 +02:00 [INF] Making move...
+2022-03-10 23:30:23.297 +02:00 [INF] Get player's move.
+2022-03-10 23:30:25.148 +02:00 [INF] Invoke game menu.
+2022-03-10 23:30:25.917 +02:00 [INF] Making move...
+2022-03-10 23:30:25.917 +02:00 [INF] Get player's move.
+2022-03-10 23:30:28.782 +02:00 [INF] Invoke game menu.
+2022-03-10 23:30:29.422 +02:00 [INF] Making move...
+2022-03-10 23:30:29.422 +02:00 [INF] Get player's move.
+2022-03-10 23:30:31.175 +02:00 [INF] Invoke game menu.
+2022-03-10 23:30:31.638 +02:00 [INF] Making move...
+2022-03-10 23:30:31.638 +02:00 [INF] Get player's move.
+2022-03-10 23:30:33.189 +02:00 [INF] Invoke game menu.
+2022-03-10 23:30:33.519 +02:00 [INF] Making move...
+2022-03-10 23:30:33.519 +02:00 [INF] Get player's move.
+2022-03-10 23:30:35.141 +02:00 [INF] Invoke game menu.
+2022-03-10 23:30:35.554 +02:00 [INF] Making move...
+2022-03-10 23:30:35.554 +02:00 [INF] Get player's move.
+2022-03-10 23:30:37.776 +02:00 [INF] Invoke game menu.
+2022-03-10 23:30:38.263 +02:00 [INF] Making move...
+2022-03-10 23:30:38.263 +02:00 [INF] Get player's move.
+2022-03-10 23:30:39.844 +02:00 [INF] Invoke game menu.
+2022-03-10 23:30:40.245 +02:00 [INF] Making move...
+2022-03-10 23:30:40.245 +02:00 [INF] Get player's move.
+2022-03-10 23:30:48.809 +02:00 [INF] Invoke game menu.
+2022-03-10 23:30:49.468 +02:00 [INF] Making move...
+2022-03-10 23:30:49.468 +02:00 [INF] Get player's move.
+2022-03-10 23:30:50.932 +02:00 [INF] Invoke game menu.
+2022-03-10 23:30:51.506 +02:00 [INF] Invoke game menu.
+2022-03-10 23:30:52.174 +02:00 [INF] Making move...
+2022-03-10 23:30:52.174 +02:00 [INF] Get player's move.
+2022-03-10 23:30:54.281 +02:00 [INF] Invoke game menu.
+2022-03-10 23:30:54.703 +02:00 [INF] Making move...
+2022-03-10 23:30:54.703 +02:00 [INF] Get player's move.
+2022-03-10 23:30:56.328 +02:00 [INF] Invoke game menu.
+2022-03-10 23:30:56.928 +02:00 [INF] Making move...
+2022-03-10 23:30:56.928 +02:00 [INF] Get player's move.
+2022-03-10 23:30:58.226 +02:00 [INF] Invoke game menu.
+2022-03-10 23:30:58.593 +02:00 [INF] Making move...
+2022-03-10 23:30:58.593 +02:00 [INF] Get player's move.
+2022-03-10 23:31:00.449 +02:00 [INF] Invoke game menu.
+2022-03-10 23:31:03.781 +02:00 [INF] RoundMenuState::ShowEnemyBarAsync::Successful response 200
+2022-03-10 23:31:09.910 +02:00 [INF] RoundMenuState::WaitingStartGame::Successful response 200
+2022-03-10 23:31:09.967 +02:00 [INF] RoundMenuState::WaitConfirmationSecondPlayer::Successful response 200
+2022-03-10 23:31:09.968 +02:00 [INF] Invoke Game state class
+2022-03-10 23:31:10.027 +02:00 [INF] Invoke game menu.
+2022-03-10 23:31:14.222 +02:00 [INF] Making move...
+2022-03-10 23:31:14.222 +02:00 [INF] Get player's move.
+2022-03-10 23:31:15.501 +02:00 [INF] Invoke game menu.
+2022-03-10 23:31:16.857 +02:00 [INF] Making move...
+2022-03-10 23:31:16.857 +02:00 [INF] Get player's move.
+2022-03-10 23:31:19.631 +02:00 [INF] Invoke game menu.
+2022-03-10 23:31:20.472 +02:00 [INF] Making move...
+2022-03-10 23:31:20.472 +02:00 [INF] Get player's move.
+2022-03-10 23:31:22.411 +02:00 [INF] Invoke game menu.
+2022-03-10 23:31:22.900 +02:00 [INF] Making move...
+2022-03-10 23:31:22.900 +02:00 [INF] Get player's move.
+2022-03-10 23:31:24.244 +02:00 [INF] Invoke game menu.
+2022-03-10 23:31:26.536 +02:00 [INF] Making move...
+2022-03-10 23:31:26.536 +02:00 [INF] Get player's move.
+2022-03-10 23:31:28.631 +02:00 [INF] Invoke game menu.
+2022-03-10 23:31:29.163 +02:00 [INF] Making move...
+2022-03-10 23:31:29.163 +02:00 [INF] Get player's move.
+2022-03-10 23:31:31.205 +02:00 [INF] Invoke game menu.
+2022-03-10 23:31:31.967 +02:00 [INF] Making move...
+2022-03-10 23:31:31.967 +02:00 [INF] Get player's move.
+2022-03-10 23:31:33.249 +02:00 [INF] Invoke game menu.
+2022-03-10 23:31:45.990 +02:00 [INF] RoundMenuState::ShowEnemyBarAsync::Successful response 200
+2022-03-10 23:31:49.099 +02:00 [INF] MainMenuState::LogoutAsync::Response: Successful response 200
+2022-03-10 23:31:49.752 +02:00 [INF] User choose action.

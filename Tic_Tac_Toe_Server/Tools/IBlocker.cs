@@ -1,11 +1,11 @@
-﻿namespace Tic_Tac_Toe.Server.Tools
+﻿namespace TicTacToe.Server.Tools
 {
     public interface IBlocker
     {
-        bool IsBlocked();
+        void UnBlock(string login);
 
-        void UnBlock();
+        bool IsBlocked(string login);
 
-        void WrongTryEntry();
+        void ErrorTryLogin(string login);
     }
 }

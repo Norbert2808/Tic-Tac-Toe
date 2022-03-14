@@ -1,6 +1,7 @@
-﻿using System.Text.Json;
+﻿using System.Text;
+using System.Text.Json;
 
-namespace Tic_Tac_Toe.Server.Tools
+namespace TicTacToe.Server.Tools
 {
     public sealed class JsonHelper<T>
     {
@@ -8,9 +9,16 @@ namespace Tic_Tac_Toe.Server.Tools
 
         private readonly SemaphoreSlim _semaphore = new(1, 1);
 
+        private readonly JsonSerializerOptions _options;
+
         public JsonHelper(string path)
         {
             _path = path;
+            _options = new JsonSerializerOptions
+            {
+                WriteIndented = true,
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            };
         }
 
         public async Task<List<T>> DeserializeAsync()
@@ -23,8 +31,12 @@ namespace Tic_Tac_Toe.Server.Tools
                     File.Create(_path).Close();
                 }
 
-                using var fs = File.OpenRead(_path);
+                await using var fs = File.OpenRead(_path);
                 return await JsonSerializer.DeserializeAsync<List<T>>(fs) ?? new List<T>();
+            }
+            catch
+            {
+                return await Task.FromResult(new List<T>());
             }
             finally
             {
@@ -32,7 +44,7 @@ namespace Tic_Tac_Toe.Server.Tools
             }
         }
 
-        public async Task SerializeAsync(List<T> accounts)
+        public async Task AddObjectToFileAsync(T data)
         {
             await _semaphore.WaitAsync();
             try
@@ -41,20 +53,42 @@ namespace Tic_Tac_Toe.Server.Tools
                 {
                     File.Create(_path).Close();
                 }
-
-                var options = new JsonSerializerOptions
+                if (string.IsNullOrWhiteSpace(File.ReadAllText(_path)))
                 {
-                    WriteIndented = true,
-                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-                };
+                    await SerializeAsync(new List<T>() { data });
+                }
+                else
+                {
+                    await AddObjectToEndFileAsync(data);
+                }
 
-                var jsonString = JsonSerializer.Serialize(accounts, options);
-                await File.WriteAllTextAsync(_path, jsonString);
             }
             finally
             {
                 _ = _semaphore.Release();
             }
+        }
+
+        private async Task AddObjectToEndFileAsync(T data)
+        {
+            using var fs = new FileStream(_path, FileMode.Open);
+            _ = fs.Seek(-3, SeekOrigin.End);
+
+            var jsonObj = Serialize(data);
+            var insertStr = $",\n  {jsonObj.Replace("\r\n", "\n  ")} \n]";
+            var insertStrBytes = Encoding.UTF8.GetBytes(insertStr);
+
+            await fs.WriteAsync(insertStrBytes);
+        }
+        private async Task SerializeAsync(List<T> data)
+        {
+            var jsonString = JsonSerializer.Serialize(data, _options);
+            await File.WriteAllTextAsync(_path, jsonString);
+        }
+
+        private string Serialize(T data)
+        {
+            return JsonSerializer.Serialize(data, _options);
         }
     }
 }
