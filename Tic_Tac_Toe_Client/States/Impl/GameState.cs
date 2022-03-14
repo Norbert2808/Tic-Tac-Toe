@@ -43,6 +43,7 @@ namespace TicTacToe.Client.States.Impl
 
                 if (_isActivePlayer == _isFirst)
                 {
+                    _logger.LogInformation("Player waiting opponent's move.");
                     ConsoleHelper.WriteInConsole(new[] { "Please, Wait till the other player moves" },
                         ConsoleColor.Green, "");
                     await WaitMoveOpponentAsync();
@@ -50,7 +51,6 @@ namespace TicTacToe.Client.States.Impl
                 }
                 else
                 {
-
                     var color = _isFirst ? ConsoleColor.Green : ConsoleColor.Red;
                     ConsoleHelper.WriteInConsole($"Your color is {color}\n", color);
                     ConsoleHelper.WriteInConsole(new[]
@@ -129,7 +129,7 @@ namespace TicTacToe.Client.States.Impl
 
         public async Task<bool> MakeMoveAsync()
         {
-            _logger.LogInformation("Making move...");
+            _logger.LogInformation("Player make a move");
 
             while (true)
             {
@@ -142,18 +142,18 @@ namespace TicTacToe.Client.States.Impl
                     return true;
                 }
 
-                var errorMes = await response.Content.ReadAsStringAsync();
+                var errorMsg = await response.Content.ReadAsStringAsync();
 
                 if (response.StatusCode == HttpStatusCode.BadRequest)
                 {
-                    ConsoleHelper.WriteInConsole(new[] { errorMes }, ConsoleColor.DarkRed);
+                    ConsoleHelper.WriteInConsole(new[] { errorMsg }, ConsoleColor.DarkRed);
                     _ = Console.ReadLine();
                     return false;
                 }
 
                 if (response.StatusCode == HttpStatusCode.NotFound)
                 {
-                    ConsoleHelper.WriteInConsole(new[] { errorMes }, ConsoleColor.Red);
+                    ConsoleHelper.WriteInConsole(new[] { errorMsg }, ConsoleColor.Red);
                     _isEndOfGame = true;
                     _ = Console.ReadLine();
                     return false;
@@ -162,7 +162,7 @@ namespace TicTacToe.Client.States.Impl
                 if (response.StatusCode == HttpStatusCode.Conflict)
                 {
                     _isEndOfGame = true;
-                    ConsoleHelper.WriteInConsole("Time out, you didn't make a move in 20 seconds.\n", ConsoleColor.DarkRed);
+                    ConsoleHelper.WriteInConsole(new[] { errorMsg + "\n" }, ConsoleColor.DarkRed);
                     _ = Console.ReadLine();
                     return false;
                 }

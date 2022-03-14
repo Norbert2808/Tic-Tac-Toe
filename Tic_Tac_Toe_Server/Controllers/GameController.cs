@@ -47,10 +47,12 @@ namespace TicTacToe.Server.Controllers
 
             try
             {
+                _logger.LogInformation("GameController:: Invoke method :: StartRoomAsync");
                 response = await _roomService.StartRoomAsync(settings.RoomId, LoginUser, settings);
             }
             catch (RoomException exception)
             {
+                _logger.LogWarning(exception.Message);
                 return BadRequest(exception.Message);
             }
 
@@ -78,10 +80,12 @@ namespace TicTacToe.Server.Controllers
             }
             catch (RoomException exception)
             {
+                _logger.LogWarning(exception.Message);
                 return BadRequest(exception.Message);
             }
             catch (TimeoutException exception)
             {
+                _logger.LogWarning(exception.Message);
                 return Conflict(exception.Message);
             }
         }
@@ -107,10 +111,12 @@ namespace TicTacToe.Server.Controllers
             }
             catch (RoomException exception)
             {
+                _logger.LogWarning(exception.Message);
                 return NotFound(exception.Message);
             }
             catch (TimeOutException exception)
             {
+                _logger.LogWarning(exception.Message);
                 return Conflict(exception.Message);
             }
             catch (GameException exception)
@@ -139,14 +145,17 @@ namespace TicTacToe.Server.Controllers
             }
             catch (RoomException exception)
             {
+                _logger.LogWarning(exception.Message);
                 return NotFound(exception.Message);
             }
-            catch (ArgumentException ex)
+            catch (ArgumentException exception)
             {
-                return BadRequest(ex.Message);
+                _logger.LogWarning(exception.Message);
+                return BadRequest(exception.Message);
             }
             catch (TimeOutException exception)
             {
+                _logger.LogWarning(exception.Message);
                 return Conflict(exception.Message);
             }
         }
@@ -169,10 +178,12 @@ namespace TicTacToe.Server.Controllers
             }
             catch (RoomException exception)
             {
+                _logger.LogWarning(exception.Message);
                 return Conflict(exception.Message);
             }
             catch (TimeOutException exception)
             {
+                _logger.LogWarning(exception.Message);
                 return Conflict(exception.Message);
             }
 
@@ -199,10 +210,12 @@ namespace TicTacToe.Server.Controllers
             }
             catch (RoomException exception)
             {
+                _logger.LogWarning(exception.Message);
                 return Conflict(exception.Message);
             }
             catch (TimeoutException exception)
             {
+                _logger.LogWarning(exception.Message);
                 return Conflict(exception.Message);
             }
         }
@@ -226,6 +239,7 @@ namespace TicTacToe.Server.Controllers
             }
             catch (RoomException exception)
             {
+                _logger.LogWarning(exception.Message);
                 return NotFound(exception.Message);
             }
         }
@@ -250,6 +264,7 @@ namespace TicTacToe.Server.Controllers
             }
             catch (RoomException exception)
             {
+                _logger.LogWarning(exception.Message);
                 return NotFound(exception.Message);
             }
         }
@@ -273,6 +288,7 @@ namespace TicTacToe.Server.Controllers
             }
             catch (RoomException exception)
             {
+                _logger.LogWarning(exception.Message);
                 return NotFound(exception.Message);
             }
         }
@@ -293,9 +309,10 @@ namespace TicTacToe.Server.Controllers
             {
                 await _roomService.SurrenderAsync(id, LoginUser);
             }
-            catch (RoomException ex)
+            catch (RoomException exception)
             {
-                return BadRequest(ex.Message);
+                _logger.LogWarning(exception.Message);
+                return BadRequest(exception.Message);
             }
 
             return Ok();

@@ -31,7 +31,7 @@ namespace TicTacToe.Server.Services.Impl
             _usersJsonHelper = new JsonHelper<UserAccountDto>(UsersPath);
         }
 
-        public async Task<PrivateStatisticDto> GetPrivateStatistic(string login)
+        public async Task<PrivateStatisticDto> GetPrivateStatisticAsync(string login)
         {
             await _semaphoreSlim.WaitAsync();
             try
@@ -66,7 +66,7 @@ namespace TicTacToe.Server.Services.Impl
             }
         }
 
-        public async Task<List<LeaderStatisticDto>> GetLeaders(SortingType type)
+        public async Task<List<LeaderStatisticDto>> GetLeadersAsync(SortingType type)
         {
             await _semaphoreSlim.WaitAsync();
             try

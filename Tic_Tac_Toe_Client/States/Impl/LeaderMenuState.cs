@@ -21,8 +21,11 @@ namespace TicTacToe.Client.States.Impl
 
         public async Task InvokeMenuAsync()
         {
+            _logger.LogInformation("LeaderMenuState::InvokeMenuAsync");
+
             while (true)
             {
+                _logger.LogInformation("LeaderMenuState::InvokeMenuAsync::User choose action.");
                 Console.Clear();
                 ConsoleHelper.WriteInConsole(new[]
                 {
@@ -44,26 +47,31 @@ namespace TicTacToe.Client.States.Impl
                     switch (choose)
                     {
                         case 1:
+                            _logger.LogInformation("User chose: Type::Winnings");
                             type = SortingType.Winnings;
                             await ShowLeadersStatistic(type);
                             break;
 
                         case 2:
+                            _logger.LogInformation("User chose: Type::Losses");
                             type = SortingType.Losses;
                             await ShowLeadersStatistic(type);
                             break;
 
                         case 3:
+                            _logger.LogInformation("User chose: Type::WinRate");
                             type = SortingType.WinRate;
                             await ShowLeadersStatistic(type);
                             break;
 
                         case 4:
+                            _logger.LogInformation("User chose: Type::Room");
                             type = SortingType.Rooms;
                             await ShowLeadersStatistic(type);
                             break;
 
                         case 5:
+                            _logger.LogInformation("User chose: Type::Time");
                             type = SortingType.Time;
                             await ShowLeadersStatistic(type);
                             break;

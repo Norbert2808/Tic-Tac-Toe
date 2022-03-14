@@ -135,24 +135,27 @@ namespace TicTacToe.Client.States.Impl
         private async Task GetMessageForRoomAsync(RoomType type, HttpResponseMessage startRoomResponse)
         {
             var message = string.Empty;
-            if (type == RoomType.Public)
-            {
-                message = "Room was found! Please, be wait when your" +
-                    " opponent will entering.\n";
-            }
 
-            if (type == RoomType.Private)
+            switch (type)
             {
-                message = "Your private token:" +
+                case RoomType.Public:
+                    message = "Room was found! Please, be wait when your" +
+                    " opponent will entering.\n";
+                    break;
+
+                case RoomType.Private:
+                    message = "Your private token:" +
                     $"{await startRoomResponse.Content.ReadAsStringAsync()}\n" +
                     "Please, be wait when your opponent will entering.\n";
-            }
+                    break;
 
-            if (type == RoomType.Practice)
-            {
-                _logger.LogInformation("RoomMenuState::StartConnectionWithRoomAsync::Start practice room");
-                await _roundState.InvokeMenuAsync();
-                return;
+                case RoomType.Practice:
+                    _logger.LogInformation("RoomMenuState::StartConnectionWithRoomAsync::Start practice room");
+                    await _roundState.InvokeMenuAsync();
+                    return;
+
+                default:
+                    break;
             }
 
             await WaitSecondPlayerAsync(message);
