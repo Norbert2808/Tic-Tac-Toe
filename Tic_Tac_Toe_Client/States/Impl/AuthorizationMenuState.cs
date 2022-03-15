@@ -84,6 +84,13 @@ namespace TicTacToe.Client.States.Impl
                         ConsoleColor.Red);
                     _ = Console.ReadLine();
                 }
+                catch (OverflowException ex)
+                {
+                    _logger.LogError(ex.Message);
+                    ConsoleHelper.WriteInConsole(new[] { "Number is very large!" },
+                        ConsoleColor.Red);
+                    _ = Console.ReadLine();
+                }
             }
         }
 
@@ -142,7 +149,7 @@ namespace TicTacToe.Client.States.Impl
                 _logger.LogInformation("Input invalid data.AuthorizationMenuState::" +
                     "ResponseHandlerAsync::Response: BadRequest 400.");
                 ConsoleHelper.WriteInConsole(
-                       new[] { "Login and password must be at least 6 symbol long" },
+                       new[] { "Login and password must be at least 6 and no more than 25 characters long" },
                        ConsoleColor.Red);
                 _ = Console.ReadLine();
             }

@@ -69,6 +69,13 @@ namespace TicTacToe.Client.States.Impl
                         ConsoleColor.Red);
                     _ = Console.ReadLine();
                 }
+                catch (OverflowException ex)
+                {
+                    _logger.LogError(ex.Message);
+                    ConsoleHelper.WriteInConsole(new[] { "Number is very large!" },
+                        ConsoleColor.Red);
+                    _ = Console.ReadLine();
+                }
             }
         }
 
@@ -106,11 +113,11 @@ namespace TicTacToe.Client.States.Impl
             {
                 _logger.LogInformation("RoundMenuState::ShowEnemyBarAsync::Successful response 200");
                 var results = await responsePlayerMessage.Content.ReadAsAsync<ResultsDto>();
-                var enemyBarTable = new List<int>() { default }.ToStringTable(new[] {
+                var enemyBarTable = new List<ResultsDto>() { results }.ToStringTable(new[] {
                 $"{results.LoginFirstPlayer}", " VS ", $"{results.LoginSecondPlayer}" },
-                x => results.WinFirst,
-                x => " VS ",
-                x => results.WinSecond);
+                res => res.WinFirst,
+                res => " VS ",
+                res => res.WinSecond);
                 ConsoleHelper.WriteInConsole(enemyBarTable + "\n", ConsoleColor.Blue);
             }
         }
