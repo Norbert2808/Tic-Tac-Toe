@@ -1,0 +1,16 @@
+[
+  {
+    "loginSettingsOwner": "qwerty123",
+    "roundTimeOut": "00:00:20",
+    "connectionTimeOut": "00:03:00",
+    "startGameTimeOut": "00:01:00",
+    "roomActionTimeOut": "00:02:00"
+  },
+  {
+    "loginSettingsOwner": "qwerty",
+    "roundTimeOut": "00:00:20",
+    "connectionTimeOut": "00:03:00",
+    "startGameTimeOut": "00:01:00",
+    "roomActionTimeOut": "00:02:00"
+  }
+]

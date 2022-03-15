@@ -3,13 +3,13 @@ using TicTacToe.Client.DTO;
 
 namespace TicTacToe.Client.Services.Impl
 {
-    internal class UserService : IUserService
+    public class UserService : IUserService
     {
         private readonly HttpClient _httpClient;
 
         private const string ControllerPath = "api/account/";
 
-        private string? Login { get; set; }
+        public string? Login { get; set; }
 
         public UserService(HttpClient httpClient)
         {

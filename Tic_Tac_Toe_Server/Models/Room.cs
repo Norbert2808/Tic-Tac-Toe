@@ -48,7 +48,11 @@ namespace TicTacToe.Server.Models
             IsBot = settings.Type == RoomType.Practice;
             Times = new TimeLimit
             {
-                CreationRoomDate = DateTime.UtcNow
+                CreationRoomDate = DateTime.UtcNow,
+                RoundTimeOut = settings.TimeOut.RoundTimeOut,
+                ConnectionTimeOut = settings.TimeOut.ConnectionTimeOut,
+                StartGameTimeOut = settings.TimeOut.StartGameTimeOut,
+                RoomActionTimeOut = settings.TimeOut.RoomActionTimeOut
             };
             IsCompleted = false;
             IsFinished = false;

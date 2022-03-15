@@ -9,6 +9,8 @@ namespace TicTacToe.Client.States.Impl
     {
         private readonly IRoomMenuState _roomMenuState;
 
+        private readonly ISettingsState _settingsState;
+
         private readonly IUserService _userService;
 
         private readonly IPrivateStatisticState _privateUserStatistic;
@@ -16,11 +18,13 @@ namespace TicTacToe.Client.States.Impl
         private readonly ILogger<MainMenuState> _logger;
 
         public MainMenuState(IRoomMenuState roomMenuState,
+            ISettingsState settingsState,
             IUserService userService,
             IPrivateStatisticState privateUserStatistic,
             ILogger<MainMenuState> logger)
         {
             _roomMenuState = roomMenuState;
+            _settingsState = settingsState;
             _userService = userService;
             _privateUserStatistic = privateUserStatistic;
             _logger = logger;
@@ -39,6 +43,7 @@ namespace TicTacToe.Client.States.Impl
                     "Please choose action:",
                     "1 -- Start room",
                     "2 -- Private statistic",
+                    "3 -- Time settings",
                     "0 -- Logout"
                 }, ConsoleColor.Cyan);
 
@@ -52,7 +57,13 @@ namespace TicTacToe.Client.States.Impl
                             break;
 
                         case 2:
+                            _logger.LogInformation("MainMenuState::InvokeMenuAsync:: Execute private statistic");
                             await _privateUserStatistic.InvokeMenuAsync();
+                            break;
+
+                        case 3:
+                            _logger.LogInformation("MainMenuState::InvokeMenuAsync:: Execute settings state");
+                            await _settingsState.InvokeMenuAsync();
                             break;
 
                         case 0:

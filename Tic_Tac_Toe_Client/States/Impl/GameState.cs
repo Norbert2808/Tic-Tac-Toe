@@ -55,7 +55,7 @@ namespace TicTacToe.Client.States.Impl
                     ConsoleHelper.WriteInConsole($"Your color is {color}\n", color);
                     ConsoleHelper.WriteInConsole(new[]
                     {
-                        "You have 20 seconds to move",
+                        "You have limit time to move",
                         "1 -- Do move",
                         "2 -- Surrender",
                     },

@@ -1,5 +1,4 @@
 ﻿using TicTacToe.Client.DTO;
-using TicTacToe.Client.Enums;
 
 namespace TicTacToe.Client.Services
 {
@@ -8,14 +7,11 @@ namespace TicTacToe.Client.Services
         /// <summary>
         /// Sends the request to create a room or log into an existing one.
         /// </summary>
-        /// <param name="roomType">Room type. <see cref="RoomType"/></param>
-        /// <param name="roomId">Room id.</param>
-        /// <param name="isConnect">Indicates that the user wants to join
-        /// an already existing room.</param>
+        /// <param name="roomType">Settings for room <see cref="DTO.RoomSettingsDto"/></param>
         /// <returns>
         /// The task result contains <see cref="HttpResponseMessage"/>.
         /// </returns>
-        Task<HttpResponseMessage> StartRoomAsync(RoomType roomType, string roomId, bool isConnect);
+        Task<HttpResponseMessage> StartRoomAsync(RoomSettingsDto settingsDto);
 
         /// <summary>
         /// Sends the request for checks if the second player has logged in room. 

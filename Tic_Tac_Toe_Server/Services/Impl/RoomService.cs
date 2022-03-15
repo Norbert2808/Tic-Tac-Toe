@@ -140,7 +140,7 @@ namespace TicTacToe.Server.Services.Impl
                 }
                 room.Times.ActionTimeInRoom = DateTime.UtcNow;
 
-                throw new TimeOutException("Time out, you didn't make a move in 20 seconds.");
+                throw new TimeOutException($"Time out, you didn't make a move in {room.Times.RoundTimeOut:dd\\:mm\\:ss}.");
             }
 
 
