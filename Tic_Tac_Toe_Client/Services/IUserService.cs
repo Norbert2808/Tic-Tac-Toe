@@ -1,7 +1,9 @@
 ﻿namespace TicTacToe.Client.Services
 {
-    internal interface IUserService
+    public interface IUserService
     {
+        public string? Login { get; set; }
+
         /// <summary>
         /// Sends the request for log-in the game.
         /// </summary>

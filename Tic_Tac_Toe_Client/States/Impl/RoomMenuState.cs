@@ -10,15 +10,23 @@ namespace TicTacToe.Client.States.Impl
     {
         private readonly IGameService _gameService;
 
+        private readonly IUserService _userService;
+
+        private readonly ISettingsService _settingsService;
+
         private readonly IRoundMenuState _roundState;
 
         private readonly ILogger<RoomMenuState> _logger;
 
         public RoomMenuState(IRoundMenuState roundState,
             IGameService gameService,
+            IUserService userService,
+            ISettingsService settingsService,
             ILogger<RoomMenuState> logger)
         {
             _gameService = gameService;
+            _userService = userService;
+            _settingsService = settingsService;
             _roundState = roundState;
             _logger = logger;
         }
@@ -41,9 +49,10 @@ namespace TicTacToe.Client.States.Impl
                     "0 -- Close"
                 }, ConsoleColor.Cyan);
 
-                RoomType type = default;
                 var roomId = "";
                 var isConnecting = false;
+                RoomType type;
+
                 try
                 {
                     ConsoleHelper.ReadIntFromConsole(out var choose);
@@ -110,7 +119,10 @@ namespace TicTacToe.Client.States.Impl
         {
             _logger.LogInformation("Creating room.");
 
-            var startRoomResponse = await _gameService.StartRoomAsync(type, roomId, isConnecting);
+            var settings = await _settingsService.ConfigureSettingsAsync(_userService.Login!, type,
+                roomId, isConnecting);
+
+            var startRoomResponse = await _gameService.StartRoomAsync(settings);
 
             switch (startRoomResponse.StatusCode)
             {

@@ -1,7 +1,6 @@
 ﻿using System.Net;
 using System.Net.Http.Formatting;
 using TicTacToe.Client.DTO;
-using TicTacToe.Client.Enums;
 
 namespace TicTacToe.Client.Services.Impl
 {
@@ -18,12 +17,10 @@ namespace TicTacToe.Client.Services.Impl
             _httpClient = httpClient;
         }
 
-        public async Task<HttpResponseMessage> StartRoomAsync(RoomType roomType, string roomId, bool isConnect)
+        public async Task<HttpResponseMessage> StartRoomAsync(RoomSettingsDto settingsDto)
         {
-            var settings = new RoomSettingsDto(roomType, roomId, isConnect);
-
             var response = await _httpClient.PostAsync(ControllerPath + "create_room",
-                settings,
+                settingsDto,
                 new JsonMediaTypeFormatter());
 
             if (response.StatusCode == HttpStatusCode.OK)
