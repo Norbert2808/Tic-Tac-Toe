@@ -38,7 +38,7 @@ namespace TicTacToe.Client.States.Impl
                     "4 -- By number of rooms",
                     "5 -- By times",
                     "0 -- Close"
-                }, ConsoleColor.Cyan, "");
+                }, ConsoleColor.Cyan);
 
                 try
                 {
@@ -93,6 +93,13 @@ namespace TicTacToe.Client.States.Impl
                 {
                     _logger.LogError(ex.Message);
                     ConsoleHelper.WriteInConsole(new[] { "Failed to connect with server!" },
+                        ConsoleColor.Red);
+                    _ = Console.ReadLine();
+                }
+                catch (OverflowException ex)
+                {
+                    _logger.LogError(ex.Message);
+                    ConsoleHelper.WriteInConsole(new[] { "Number is very large!" },
                         ConsoleColor.Red);
                     _ = Console.ReadLine();
                 }

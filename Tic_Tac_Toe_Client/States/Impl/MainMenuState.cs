@@ -88,6 +88,13 @@ namespace TicTacToe.Client.States.Impl
                         ConsoleColor.Red);
                     _ = Console.ReadLine();
                 }
+                catch (OverflowException ex)
+                {
+                    _logger.LogError(ex.Message);
+                    ConsoleHelper.WriteInConsole(new[] { "Number is very large!" },
+                        ConsoleColor.Red);
+                    _ = Console.ReadLine();
+                }
             }
         }
 
