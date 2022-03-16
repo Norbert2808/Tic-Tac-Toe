@@ -10,9 +10,9 @@ using TicTacToe.Client.States.Impl;
 
 namespace TicTacToe.Client
 {
-    internal class TicTacToeApplication
+    public static class TicTacToeApplication
     {
-        public static async Task Main()
+        public static async Task Run()
         {
             var provider = GetServiceProvider();
 

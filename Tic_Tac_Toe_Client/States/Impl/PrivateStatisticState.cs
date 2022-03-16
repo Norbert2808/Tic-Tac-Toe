@@ -11,10 +11,10 @@ namespace TicTacToe.Client.States.Impl
     {
         private readonly IStatisticService _statisticService;
 
-        private readonly ILogger<IPrivateStatisticState> _logger;
+        private readonly ILogger<PrivateStatisticState> _logger;
 
         public PrivateStatisticState(IStatisticService statisticService,
-            ILogger<IPrivateStatisticState> logger)
+            ILogger<PrivateStatisticState> logger)
         {
             _statisticService = statisticService;
             _logger = logger;
@@ -22,7 +22,7 @@ namespace TicTacToe.Client.States.Impl
 
         public async Task InvokeMenuAsync()
         {
-            _logger.LogInformation("PrivateStatisticState::Invoke private statistic");
+            LogInformationAboutClass(nameof(InvokeMenuAsync), "Execute method");
 
             while (true)
             {
@@ -42,11 +42,11 @@ namespace TicTacToe.Client.States.Impl
                     switch (choose)
                     {
                         case 1:
-                            await GetPrivateStatistic();
+                            await GetPrivateStatisticAsync();
                             break;
 
                         case 2:
-                            await GetPrivateStatisticInTimeInterval();
+                            await GetPrivateStatisticInTimeIntervalAsync();
                             break;
 
                         case 0:
@@ -58,20 +58,21 @@ namespace TicTacToe.Client.States.Impl
                 }
                 catch (FormatException ex)
                 {
-                    _logger.LogError(ex.Message);
-                    ConsoleHelper.WriteInConsole(new[] { "It's not a number!" }, ConsoleColor.Red);
+                    _logger.LogError("Exception invalid format::{Message}", ex.Message);
+                    ConsoleHelper.WriteInConsole(new[] { "It's not a number!" },
+                        ConsoleColor.Red);
                     _ = Console.ReadLine();
                 }
                 catch (HttpRequestException ex)
                 {
-                    _logger.LogError(ex.Message);
+                    _logger.LogError("The connection to the server is gone: {Message}", ex.Message);
                     ConsoleHelper.WriteInConsole(new[] { "Failed to connect with server!" },
                         ConsoleColor.Red);
                     _ = Console.ReadLine();
                 }
                 catch (OverflowException ex)
                 {
-                    _logger.LogError(ex.Message);
+                    _logger.LogError("Number is very large: {Message}", ex.Message);
                     ConsoleHelper.WriteInConsole(new[] { "Number is very large!" },
                         ConsoleColor.Red);
                     _ = Console.ReadLine();
@@ -79,9 +80,17 @@ namespace TicTacToe.Client.States.Impl
             }
         }
 
-        public async Task GetPrivateStatistic()
+        public void LogInformationAboutClass(string methodName, string message)
+        {
+            _logger.LogInformation("{ClassName}::{MethodName}::{Message}",
+                nameof(PrivateStatisticState), methodName, message);
+        }
+
+        public async Task GetPrivateStatisticAsync()
         {
             var response = await _statisticService.GetPrivateStatisticAsync();
+
+            LogInformationAboutClass(nameof(GetPrivateStatisticAsync), $"Response:{response.StatusCode}");
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
@@ -92,11 +101,14 @@ namespace TicTacToe.Client.States.Impl
             }
         }
 
-        public async Task GetPrivateStatisticInTimeInterval()
+        public async Task GetPrivateStatisticInTimeIntervalAsync()
         {
             var timeInterval = GetTimeIntervalFromUser();
 
-            var response = await _statisticService.GetPrivateStatisticInTimeInterval(timeInterval);
+            var response = await _statisticService.GetPrivateStatisticInTimeIntervalAsync(timeInterval);
+
+            LogInformationAboutClass(nameof(GetPrivateStatisticInTimeIntervalAsync),
+                $"Response:{response.StatusCode}");
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
@@ -112,8 +124,8 @@ namespace TicTacToe.Client.States.Impl
 
         private void DrawPrivateStatistic(PrivateStatisticDto statisticDto)
         {
-            var mostUsedPosition = string.Join(" ", statisticDto.MostUsedPosition!);
-            var mostUsedNumbers = string.Join(" ", statisticDto.MostUsedNumbers!);
+            var mostUsedPosition = string.Join(" ", statisticDto.MostUsedPosition);
+            var mostUsedNumbers = string.Join(" ", statisticDto.MostUsedNumbers);
 
             ConsoleHelper.WriteInConsole("--- Private statistic ---\n\n", ConsoleColor.Cyan);
 
@@ -126,7 +138,7 @@ namespace TicTacToe.Client.States.Impl
             ConsoleHelper.WriteInConsole($"Total number of moves - {statisticDto.TotalNumberOfMoves}\n\n",
                 ConsoleColor.Blue);
 
-            ConsoleHelper.WriteInConsole(new string[]
+            ConsoleHelper.WriteInConsole(new[]
             {
                     statisticDto.MostPositionCount == 0 ? "No the most used position" :
                     $"Most used position: {mostUsedPosition}, count of use - {statisticDto.MostPositionCount}",
@@ -139,14 +151,13 @@ namespace TicTacToe.Client.States.Impl
 
         private TimeIntervalDto GetTimeIntervalFromUser()
         {
-            DateTime start;
-            DateTime end;
-
             while (true)
             {
+                DateTime start;
+                DateTime end;
                 try
                 {
-                    var parseFormat = "dd.MM.yyyy HH:mm";
+                    const string parseFormat = "dd.MM.yyyy HH:mm";
 
                     Console.Clear();
                     ConsoleHelper.WriteInConsole($"Enter start time in format \"{parseFormat}\": ",
@@ -172,7 +183,7 @@ namespace TicTacToe.Client.States.Impl
                 }
                 catch (FormatException ex)
                 {
-                    _logger.LogError($"String '{ex.Message}' was not recognized as a valid DateTime.");
+                    _logger.LogError("String '{Message}' was not recognized as a valid DateTime", ex.Message);
                     ConsoleHelper.WriteInConsole(
                         new[] { $"String '{ex.Message}' was not recognized as a valid DateTime." },
                         ConsoleColor.Red);
@@ -182,7 +193,8 @@ namespace TicTacToe.Client.States.Impl
 
                 if (end <= start)
                 {
-                    _logger.LogInformation("Start time cannot be longer or equal than end time");
+                    LogInformationAboutClass(nameof(GetPrivateStatisticAsync),
+                        "Start time cannot be longer or equal than end time");
                     ConsoleHelper.WriteInConsole(
                         new[] { "Start time cannot be longer or equal than end time" },
                         ConsoleColor.Red);
@@ -190,7 +202,7 @@ namespace TicTacToe.Client.States.Impl
                     continue;
                 }
 
-                return new(start, end);
+                return new TimeIntervalDto(start, end);
             }
         }
     }

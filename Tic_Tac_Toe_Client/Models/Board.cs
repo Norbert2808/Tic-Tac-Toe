@@ -72,7 +72,7 @@ namespace TicTacToe.Client.Models
         }
 
         /// <summary>
-        /// Set a new board instance 
+        /// Set a new board instance
         /// </summary>
         /// <param name="board">New board</param>
         public void SetBoard(List<Cell> board)

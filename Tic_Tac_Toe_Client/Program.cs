@@ -1,3 +1,3 @@
 ﻿using TicTacToe.Client;
 
-await TicTacToeApplication.Main();
+await TicTacToeApplication.Run();

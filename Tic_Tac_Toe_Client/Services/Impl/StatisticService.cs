@@ -20,7 +20,7 @@ namespace TicTacToe.Client.Services.Impl
             return await _httpClient.GetAsync(ControllerPath + "private");
         }
 
-        public async Task<HttpResponseMessage> GetPrivateStatisticInTimeInterval(TimeIntervalDto timeDto)
+        public async Task<HttpResponseMessage> GetPrivateStatisticInTimeIntervalAsync(TimeIntervalDto timeDto)
         {
             return await _httpClient.PostAsync(ControllerPath + "private_time_interval",
                 timeDto,

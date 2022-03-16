@@ -15,6 +15,5 @@ namespace TicTacToe.Client.DTO
             StartTime = startTime;
             EndTime = endTime;
         }
-
     }
 }

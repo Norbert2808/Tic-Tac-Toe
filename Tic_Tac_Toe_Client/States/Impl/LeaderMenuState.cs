@@ -21,11 +21,10 @@ namespace TicTacToe.Client.States.Impl
 
         public async Task InvokeMenuAsync()
         {
-            _logger.LogInformation("LeaderMenuState::InvokeMenuAsync");
+            LogInformationAboutClass(nameof(InvokeMenuAsync), "Execute method");
 
             while (true)
             {
-                _logger.LogInformation("LeaderMenuState::InvokeMenuAsync::User choose action.");
                 Console.Clear();
                 ConsoleHelper.WriteInConsole(new[]
                 {
@@ -43,62 +42,62 @@ namespace TicTacToe.Client.States.Impl
                 try
                 {
                     ConsoleHelper.ReadIntFromConsole(out var choose);
+
+                    LogInformationAboutClass(nameof(InvokeMenuAsync), $"{nameof(SortingType)} :" +
+                        ((SortingType)Enum.Parse(typeof(SortingType),
+                            choose.ToString())));
+
                     SortingType type;
                     switch (choose)
                     {
                         case 1:
-                            _logger.LogInformation("User chose: Type::Winnings");
                             type = SortingType.Winnings;
-                            await ShowLeadersStatistic(type);
+                            await ShowLeadersStatisticAsync(type);
                             break;
 
                         case 2:
-                            _logger.LogInformation("User chose: Type::Losses");
                             type = SortingType.Losses;
-                            await ShowLeadersStatistic(type);
+                            await ShowLeadersStatisticAsync(type);
                             break;
 
                         case 3:
-                            _logger.LogInformation("User chose: Type::WinRate");
                             type = SortingType.WinRate;
-                            await ShowLeadersStatistic(type);
+                            await ShowLeadersStatisticAsync(type);
                             break;
 
                         case 4:
-                            _logger.LogInformation("User chose: Type::Room");
                             type = SortingType.Rooms;
-                            await ShowLeadersStatistic(type);
+                            await ShowLeadersStatisticAsync(type);
                             break;
 
                         case 5:
-                            _logger.LogInformation("User chose: Type::Time");
                             type = SortingType.Time;
-                            await ShowLeadersStatistic(type);
+                            await ShowLeadersStatisticAsync(type);
                             break;
 
                         case 0:
                             return;
 
                         default:
-                            break;
+                            continue;
                     }
                 }
                 catch (FormatException ex)
                 {
-                    _logger.LogError(ex.Message);
+                    _logger.LogError("It's not a number: {Message}", ex.Message);
                     ConsoleHelper.WriteInConsole(new[] { "It's not a number!" }, ConsoleColor.Red);
                     _ = Console.ReadLine();
                 }
                 catch (HttpRequestException ex)
                 {
-                    _logger.LogError(ex.Message);
+                    _logger.LogError("Failed to connect with server: {Message}", ex.Message);
                     ConsoleHelper.WriteInConsole(new[] { "Failed to connect with server!" },
                         ConsoleColor.Red);
                     _ = Console.ReadLine();
                 }
                 catch (OverflowException ex)
                 {
-                    _logger.LogError(ex.Message);
+                    _logger.LogError("Number is very large: {Message}", ex.Message);
                     ConsoleHelper.WriteInConsole(new[] { "Number is very large!" },
                         ConsoleColor.Red);
                     _ = Console.ReadLine();
@@ -106,12 +105,21 @@ namespace TicTacToe.Client.States.Impl
             }
         }
 
-        public async Task ShowLeadersStatistic(SortingType type)
+        public void LogInformationAboutClass(string methodName, string message)
         {
-            var responce = await _statisticService.GetLeadersStatisticAsync(type);
-            if (responce.StatusCode == HttpStatusCode.OK)
+            _logger.LogInformation("{ClassName}::{MethodName}::{Message}",
+                nameof(LeaderMenuState), methodName, message);
+        }
+
+        public async Task ShowLeadersStatisticAsync(SortingType type)
+        {
+            var response = await _statisticService.GetLeadersStatisticAsync(type);
+
+            LogInformationAboutClass(nameof(ShowLeadersStatisticAsync), $"Response: {response.StatusCode}");
+
+            if (response.StatusCode == HttpStatusCode.OK)
             {
-                var leaders = await responce.Content.ReadAsAsync<List<LeaderStatisticDto>>();
+                var leaders = await response.Content.ReadAsAsync<List<LeaderStatisticDto>>();
                 var count = 1;
 
                 Console.Clear();

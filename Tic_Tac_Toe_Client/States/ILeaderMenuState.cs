@@ -12,6 +12,6 @@ namespace TicTacToe.Client.States
         /// <returns>
         /// A task that represents the asynchronous operation. <see cref="Task"/>
         /// </returns>
-        Task ShowLeadersStatistic(SortingType type);
+        Task ShowLeadersStatisticAsync(SortingType type);
     }
 }

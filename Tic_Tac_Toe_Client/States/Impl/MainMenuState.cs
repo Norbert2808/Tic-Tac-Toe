@@ -32,7 +32,7 @@ namespace TicTacToe.Client.States.Impl
 
         public async Task InvokeMenuAsync()
         {
-            _logger.LogInformation("Class MainMenuState. InvokeAsync method");
+            LogInformationAboutClass(nameof(InvokeMenuAsync), "Execute method");
 
             while (true)
             {
@@ -57,13 +57,11 @@ namespace TicTacToe.Client.States.Impl
                             break;
 
                         case 2:
-                            _logger.LogInformation("MainMenuState::InvokeMenuAsync:: Execute private statistic");
-                            await _privateUserStatistic.InvokeMenuAsync();
+                            await ExecutePrivateUserStatisticAsync();
                             break;
 
                         case 3:
-                            _logger.LogInformation("MainMenuState::InvokeMenuAsync:: Execute settings state");
-                            await _settingsState.InvokeMenuAsync();
+                            await ExecuteSettingsStateAsync();
                             break;
 
                         case 0:
@@ -76,21 +74,21 @@ namespace TicTacToe.Client.States.Impl
                 }
                 catch (FormatException ex)
                 {
-                    _logger.LogError(ex.Message);
+                    _logger.LogError("Exception invalid format::{Message}", ex.Message);
                     ConsoleHelper.WriteInConsole(new[] { "It's not a number!" },
                         ConsoleColor.Red);
                     _ = Console.ReadLine();
                 }
                 catch (HttpRequestException ex)
                 {
-                    _logger.LogError(ex.Message);
+                    _logger.LogError("The connection to the server is gone: {Message}", ex.Message);
                     ConsoleHelper.WriteInConsole(new[] { "Failed to connect with server!" },
                         ConsoleColor.Red);
                     _ = Console.ReadLine();
                 }
                 catch (OverflowException ex)
                 {
-                    _logger.LogError(ex.Message);
+                    _logger.LogError("Number is very large: {Message}", ex.Message);
                     ConsoleHelper.WriteInConsole(new[] { "Number is very large!" },
                         ConsoleColor.Red);
                     _ = Console.ReadLine();
@@ -100,23 +98,44 @@ namespace TicTacToe.Client.States.Impl
 
         public async Task ExecuteRoomMenuAsync()
         {
-            _logger.LogInformation("Execute round menu state.");
+            LogInformationAboutClass(nameof(ExecuteRoomMenuAsync),
+                $"Execute {nameof(RoomMenuState)}.");
             await _roomMenuState.InvokeMenuAsync();
+        }
+
+        public async Task ExecutePrivateUserStatisticAsync()
+        {
+            LogInformationAboutClass(nameof(ExecutePrivateUserStatisticAsync),
+                $"Execute {nameof(PrivateStatisticState)}");
+            await _privateUserStatistic.InvokeMenuAsync();
+        }
+
+        public async Task ExecuteSettingsStateAsync()
+        {
+            LogInformationAboutClass(nameof(ExecuteSettingsStateAsync),
+                $"Execute {nameof(SettingsState)}.");
+            await _settingsState.InvokeMenuAsync();
         }
 
         public async Task LogoutAsync()
         {
             var response = await _userService.LogoutAsync();
 
+            LogInformationAboutClass(nameof(LogoutAsync),$"Response: {response.StatusCode}");
+
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                _logger.LogInformation("MainMenuState::LogoutAsync::Response: Successful response 200");
-
                 var message = await response.Content.ReadAsStringAsync();
                 ConsoleHelper.WriteInConsole(
                     new[] { message }, ConsoleColor.Yellow);
                 _ = Console.ReadLine();
             }
+        }
+
+        public void LogInformationAboutClass(string methodName, string message)
+        {
+            _logger.LogInformation("{ClassName}::{MethodName}::{Message}",
+                nameof(MainMenuState), methodName, message);
         }
     }
 }
