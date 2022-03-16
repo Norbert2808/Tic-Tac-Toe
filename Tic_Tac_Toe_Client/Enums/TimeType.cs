@@ -4,7 +4,7 @@ namespace TicTacToe.Client.Enums
 {
     public enum TimeType
     {
-        Minutes,
-        Seconds
+        Minutes = 1,
+        Seconds = 2
     }
 }

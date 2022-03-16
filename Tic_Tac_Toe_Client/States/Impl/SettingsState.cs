@@ -29,7 +29,8 @@ namespace TicTacToe.Client.States.Impl
 
         public async Task InvokeMenuAsync()
         {
-            _logger.LogInformation("Invoke Settings State class");
+            LogInformationAboutClass(nameof(InvokeMenuAsync), "Execute method");
+
             _timeOut.LoginSettingsOwner = _userService.Login;
             while (true)
             {
@@ -49,24 +50,27 @@ namespace TicTacToe.Client.States.Impl
                 try
                 {
                     ConsoleHelper.ReadIntFromConsole(out var choose);
+
+                    LogInformationAboutClass(nameof(InvokeMenuAsync), "Player choose " +
+                                                                      (TimeOutType)Enum.Parse(typeof(TimeOutType),
+                                                                          choose.ToString()));
+
                     switch (choose)
                     {
                         case 1:
-                            PopMenu(TimeOutType.StartGameTimeOut);
+                            PopTimeMenu(TimeOutType.StartGameTimeOut);
                             break;
 
                         case 2:
-                            _logger.LogInformation("SettingsState::InvokeMenuAsync::Execute setting time for connection");
-                            PopMenu(TimeOutType.ConnectionTimeOut);
+                            PopTimeMenu(TimeOutType.ConnectionTimeOut);
                             break;
 
                         case 3:
-                            _logger.LogInformation("MainMenuState::InvokeMenuAsync::Execute setting time for action in room");
-                            PopMenu(TimeOutType.ActionTimeOut);
+                            PopTimeMenu(TimeOutType.ActionTimeOut);
                             break;
 
                         case 4:
-                            PopMenu(TimeOutType.RoundTimeOut);
+                            PopTimeMenu(TimeOutType.RoundTimeOut);
                             break;
 
                         case 0:
@@ -79,14 +83,14 @@ namespace TicTacToe.Client.States.Impl
                 }
                 catch (FormatException ex)
                 {
-                    _logger.LogError(ex.Message);
+                    _logger.LogError("Exception invalid format::{Message}", ex.Message);
                     ConsoleHelper.WriteInConsole(new[] { "It's not a number!" },
                         ConsoleColor.Red);
                     _ = Console.ReadLine();
                 }
                 catch (OverflowException ex)
                 {
-                    _logger.LogError(ex.Message);
+                    _logger.LogError("Number is very large: {Message}", ex.Message);
                     ConsoleHelper.WriteInConsole(new[] { "Number is very large!" },
                         ConsoleColor.Red);
                     _ = Console.ReadLine();
@@ -94,7 +98,13 @@ namespace TicTacToe.Client.States.Impl
             }
         }
 
-        public void PopMenu(TimeOutType timeOutType)
+        public void LogInformationAboutClass(string methodName, string message)
+        {
+            _logger.LogInformation("{ClassName}::{MethodName}::{Message}",
+                nameof(SettingsState), methodName, message);
+        }
+
+        public void PopTimeMenu(TimeOutType timeOutType)
         {
             while (true)
             {
@@ -109,36 +119,39 @@ namespace TicTacToe.Client.States.Impl
                 try
                 {
                     ConsoleHelper.ReadIntFromConsole(out var choose);
+                    LogInformationAboutClass(nameof(InvokeMenuAsync), "Player choose " +
+                                                                      (TimeType)Enum.Parse(typeof(TimeType),
+                                                                          choose.ToString()));
                     switch (choose)
                     {
                         case 1:
-                            GetValues(timeOutType, TimeType.Minutes);
+                            SetValueToTimeOut(timeOutType, TimeType.Minutes);
                             return;
 
                         case 2:
-                            GetValues(timeOutType, TimeType.Seconds);
+                            SetValueToTimeOut(timeOutType, TimeType.Seconds);
                             return;
                     }
                 }
-                catch (FormatException exception)
+                catch (FormatException ex)
                 {
-                    _logger.LogError(exception.Message);
-                    ConsoleHelper.WriteInConsole(new[] { "It's not a number!" },
+                    _logger.LogError("Exception invalid format::{Message}", ex.Message);
+                    ConsoleHelper.WriteInConsole(new[] {"It's not a number!"},
                         ConsoleColor.Red);
                     _ = Console.ReadLine();
                 }
                 catch (OverflowException ex)
                 {
-                    _logger.LogError(ex.Message);
-                    ConsoleHelper.WriteInConsole(new[] { "The number is very large!" },
+                    _logger.LogError("Number is very large: {Message}", ex.Message);
+                    ConsoleHelper.WriteInConsole(new[] {"Number is very large!"},
                         ConsoleColor.Red);
                     _ = Console.ReadLine();
                 }
                 catch (ArgumentOutOfRangeException ex)
                 {
-                    _logger.LogError(ex.Message);
-                    ConsoleHelper.WriteInConsole(new[] { "The number cannot be less than zero" },
-                      ConsoleColor.Red);
+                    _logger.LogError("The number cannot be less than zero: {Message}", ex.Message);
+                    ConsoleHelper.WriteInConsole(new[] {"The number cannot be less than zero!"},
+                        ConsoleColor.Red);
                     _ = Console.ReadLine();
                 }
             }
@@ -146,16 +159,16 @@ namespace TicTacToe.Client.States.Impl
 
         public async Task CloseMenuAsync()
         {
+            LogInformationAboutClass(nameof(CloseMenuAsync), "Player closed settings state.");
             ConsoleHelper.WriteInConsole("Go out and confirm the changes? y[yes] n[no]\n",
                 ConsoleColor.DarkYellow);
             var str = Console.ReadLine();
             str ??= "";
             if (str.Equals("y", StringComparison.OrdinalIgnoreCase))
                 await SaveInFileAsync();
-            return;
         }
 
-        public void GetValues(TimeOutType timeOutType, TimeType timeType)
+        public void SetValueToTimeOut(TimeOutType timeOutType, TimeType timeType)
         {
             while (true)
             {
@@ -212,7 +225,7 @@ namespace TicTacToe.Client.States.Impl
             }
         }
 
-        private void ValidateTime(int time)
+        private static void ValidateTime(int time)
         {
             if (time < 0)
                 throw new ArgumentOutOfRangeException(nameof(time));
@@ -226,13 +239,13 @@ namespace TicTacToe.Client.States.Impl
             }
             catch (ArgumentNullException ex)
             {
-                _logger.LogError(ex.Message);
+                _logger.LogError("Occured unexpected error: {Message}", ex.Message);
                 ConsoleHelper.WriteInConsole(new[] { "Occured unexpected error." },
                     ConsoleColor.Red);
             }
             catch (ArgumentException ex)
             {
-                _logger.LogError(ex.Message);
+                _logger.LogError("Occured unexpected error: {Message}", ex.Message);
                 ConsoleHelper.WriteInConsole(new[] { "Occured unexpected error." },
                     ConsoleColor.Red);
             }

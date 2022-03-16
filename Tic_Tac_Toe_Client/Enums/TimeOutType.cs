@@ -4,9 +4,9 @@ namespace TicTacToe.Client.Enums
 {
     public enum TimeOutType
     {
-        StartGameTimeOut,
-        ConnectionTimeOut,
-        ActionTimeOut,
-        RoundTimeOut
+        StartGameTimeOut = 1,
+        ConnectionTimeOut = 2,
+        ActionTimeOut = 3,
+        RoundTimeOut = 4
     }
 }

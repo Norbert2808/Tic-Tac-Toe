@@ -11,6 +11,22 @@
         Task ExecuteRoomMenuAsync();
 
         /// <summary>
+        /// Invoke <see cref="IState.InvokeMenuAsync"/> in the <see cref="States.Impl.PrivateStatisticState"/>
+        /// </summary>
+        /// <returns>
+        /// A task that represents the asynchronous operation. <see cref="Task"/>
+        /// </returns>
+        Task ExecutePrivateUserStatisticAsync();
+
+        /// <summary>
+        /// Invoke <see cref="IState.InvokeMenuAsync"/> in the <see cref="States.Impl.SettingsState"/>
+        /// </summary>
+        /// <returns>
+        /// A task that represents the asynchronous operation. <see cref="Task"/>
+        /// </returns>
+        Task ExecuteSettingsStateAsync();
+
+        /// <summary>
         /// Invoke method <see cref="Services.IUserService.LogoutAsync"/>
         /// </summary>
         /// <returns>

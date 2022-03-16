@@ -33,7 +33,7 @@ namespace TicTacToe.Client.States.Impl
 
         public async Task InvokeMenuAsync()
         {
-            _logger.LogInformation("Class MainMenuState. InvokeAsync method");
+            LogInformationAboutClass(nameof(InvokeMenuAsync), "Execute method");
 
             while (true)
             {
@@ -56,27 +56,29 @@ namespace TicTacToe.Client.States.Impl
                 try
                 {
                     ConsoleHelper.ReadIntFromConsole(out var choose);
+
                     switch (choose)
                     {
                         case 1:
-                            _logger.LogInformation("Creating private room.");
+                            LogInformationAboutClass(nameof(InvokeMenuAsync), "Creating private room.");
                             type = RoomType.Private;
                             break;
 
                         case 2:
-                            _logger.LogInformation("Connect to private room executed");
+                            LogInformationAboutClass(nameof(InvokeMenuAsync),
+                                "Connect to private room executed");
                             type = RoomType.Private;
                             TokenHandler(out roomId);
                             isConnecting = true;
                             break;
 
                         case 3:
-                            _logger.LogInformation("Creating public room.");
+                            LogInformationAboutClass(nameof(InvokeMenuAsync), "Creating public room.");
                             type = RoomType.Public;
                             break;
 
                         case 4:
-                            _logger.LogInformation("Creating practice room.");
+                            LogInformationAboutClass(nameof(InvokeMenuAsync), "Creating practice room.");
                             type = RoomType.Practice;
                             break;
 
@@ -89,7 +91,7 @@ namespace TicTacToe.Client.States.Impl
                 }
                 catch (FormatException ex)
                 {
-                    _logger.LogError(ex.Message);
+                    _logger.LogError("Invalid input data: {Message}", ex.Message);
                     ConsoleHelper.WriteInConsole(new[] { "It's not a number!" },
                         ConsoleColor.Red);
                     _ = Console.ReadLine();
@@ -97,7 +99,7 @@ namespace TicTacToe.Client.States.Impl
                 }
                 catch (HttpRequestException ex)
                 {
-                    _logger.LogError(ex.Message);
+                    _logger.LogError("Failed to connect with server: {Message}", ex.Message);
                     ConsoleHelper.WriteInConsole(new[] { "Failed to connect with server!" },
                         ConsoleColor.Red);
                     _ = Console.ReadLine();
@@ -105,7 +107,7 @@ namespace TicTacToe.Client.States.Impl
                 }
                 catch (OverflowException ex)
                 {
-                    _logger.LogError(ex.Message);
+                    _logger.LogError("Number is very large: {Message}", ex.Message);
                     ConsoleHelper.WriteInConsole(new[] { "Number is very large!" },
                         ConsoleColor.Red);
                     _ = Console.ReadLine();
@@ -125,23 +127,24 @@ namespace TicTacToe.Client.States.Impl
 
         public async Task StartConnectionWithRoomAsync(RoomType type, string roomId, bool isConnecting)
         {
-            _logger.LogInformation("Creating room.");
+            LogInformationAboutClass(nameof(StartConnectionWithRoomAsync), "Creating room...");
 
             var settings = await _settingsService.ConfigureSettingsAsync(_userService.Login!, type,
                 roomId, isConnecting);
 
             var startRoomResponse = await _gameService.StartRoomAsync(settings);
 
+            LogInformationAboutClass(nameof(StartConnectionWithRoomAsync),
+                $"Response {startRoomResponse.StatusCode}");
+
             switch (startRoomResponse.StatusCode)
             {
                 case HttpStatusCode.OK:
-                    _logger.LogInformation("RoomMenuState::StartConnectionWithRoomAsync::Successful response 200");
                     await GetMessageForRoomAsync(type, startRoomResponse);
                     break;
 
 
                 case HttpStatusCode.BadRequest:
-                    _logger.LogInformation("RoomMenuState::StartConnectionWithRoomAsync::Bad request 400");
                     var errorMessage = await startRoomResponse.Content.ReadAsStringAsync();
                     ConsoleHelper.WriteInConsole(new[] { errorMessage }, ConsoleColor.Red);
                     _ = Console.ReadLine();
@@ -170,8 +173,7 @@ namespace TicTacToe.Client.States.Impl
                     break;
 
                 case RoomType.Practice:
-                    _logger.LogInformation("RoomMenuState::StartConnectionWithRoomAsync::Start practice room");
-                    await _roundState.InvokeMenuAsync();
+                    await InvokeRoundStateAsync();
                     return;
 
                 default:
@@ -181,9 +183,22 @@ namespace TicTacToe.Client.States.Impl
             await WaitSecondPlayerAsync(message);
         }
 
+        public async Task InvokeRoundStateAsync()
+        {
+            LogInformationAboutClass(nameof(InvokeRoundStateAsync), "Start practice room");
+            await _roundState.InvokeMenuAsync();
+        }
+
+        public async Task ExitFromRoomAsync()
+        {
+            LogInformationAboutClass(nameof(ExitFromRoomAsync), "Exit from room");
+            _ = await _gameService.ExitFromRoomAsync();
+        }
+
         public async Task WaitSecondPlayerAsync(string message)
         {
-            _logger.LogInformation("Waiting second player.");
+            LogInformationAboutClass(nameof(WaitSecondPlayerAsync), "Wait second players...");
+
             while (true)
             {
                 Console.Clear();
@@ -191,22 +206,22 @@ namespace TicTacToe.Client.States.Impl
                     ConsoleColor.Green);
                 var checkRoomResponse = await _gameService.CheckRoomAsync();
 
+                LogInformationAboutClass(nameof(WaitSecondPlayerAsync),
+                    $"Response {checkRoomResponse.StatusCode}");
+
                 switch (checkRoomResponse.StatusCode)
                 {
                     case HttpStatusCode.OK:
-                        _logger.LogInformation("RoomMenuState::WaitSecondPlayerAsync::Successful response 200");
-                        await _roundState.InvokeMenuAsync();
+                        await InvokeRoundStateAsync();
                         return;
 
                     case HttpStatusCode.NotFound:
-                        _logger.LogInformation("RoomMenuState::WaitSecondPlayerAsync::Response: NotFound 404");
                         var time = await checkRoomResponse.Content.ReadAsStringAsync();
                         ConsoleHelper.WriteInConsole($"Time: {time}\n", ConsoleColor.Red);
                         Thread.Sleep(3000);
                         break;
 
                     case HttpStatusCode.BadRequest:
-                        _logger.LogInformation("RoomMenuState::WaitSecondPlayerAsync::Response: BadRequest 400");
                         Console.Clear();
                         var errorMsg = await checkRoomResponse.Content.ReadAsStringAsync();
                         ConsoleHelper.WriteInConsole(errorMsg, ConsoleColor.Red);
@@ -214,14 +229,19 @@ namespace TicTacToe.Client.States.Impl
                         return;
 
                     case HttpStatusCode.Conflict:
-                        _logger.LogInformation("RoomMenuState::WaitSecondPlayerAsync::Response: Conflict 409");
-                        _ = await _gameService.ExitFromRoomAsync();
+                        await ExitFromRoomAsync();
                         return;
 
                     default:
                         break;
                 }
             }
+        }
+
+        public void LogInformationAboutClass(string methodName, string message)
+        {
+            _logger.LogInformation("{ClassName}::{MethodName}::{Message}",
+                nameof(RoomMenuState), methodName, message);
         }
     }
 }

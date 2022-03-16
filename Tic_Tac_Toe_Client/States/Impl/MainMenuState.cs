@@ -32,7 +32,7 @@ namespace TicTacToe.Client.States.Impl
 
         public async Task InvokeMenuAsync()
         {
-            _logger.LogInformation("Class MainMenuState. InvokeAsync method");
+            LogInformationAboutClass(nameof(InvokeMenuAsync), "Execute method");
 
             while (true)
             {
@@ -57,13 +57,11 @@ namespace TicTacToe.Client.States.Impl
                             break;
 
                         case 2:
-                            _logger.LogInformation("MainMenuState::InvokeMenuAsync:: Execute private statistic");
-                            await _privateUserStatistic.InvokeMenuAsync();
+                            await ExecutePrivateUserStatisticAsync();
                             break;
 
                         case 3:
-                            _logger.LogInformation("MainMenuState::InvokeMenuAsync:: Execute settings state");
-                            await _settingsState.InvokeMenuAsync();
+                            await ExecuteSettingsStateAsync();
                             break;
 
                         case 0:
@@ -90,7 +88,7 @@ namespace TicTacToe.Client.States.Impl
                 }
                 catch (OverflowException ex)
                 {
-                    _logger.LogError(ex.Message);
+                    _logger.LogError("Number is very large: {Message}", ex.Message);
                     ConsoleHelper.WriteInConsole(new[] { "Number is very large!" },
                         ConsoleColor.Red);
                     _ = Console.ReadLine();
@@ -100,17 +98,33 @@ namespace TicTacToe.Client.States.Impl
 
         public async Task ExecuteRoomMenuAsync()
         {
-            LogInformationForMainMenu(nameof(ExecuteRoomMenuAsync), "Execute round menu state.");
+            LogInformationAboutClass(nameof(ExecuteRoomMenuAsync),
+                $"Execute {nameof(RoomMenuState)}.");
             await _roomMenuState.InvokeMenuAsync();
+        }
+
+        public async Task ExecutePrivateUserStatisticAsync()
+        {
+            LogInformationAboutClass(nameof(ExecutePrivateUserStatisticAsync),
+                $"Execute {nameof(PrivateStatisticState)}");
+            await _privateUserStatistic.InvokeMenuAsync();
+        }
+
+        public async Task ExecuteSettingsStateAsync()
+        {
+            LogInformationAboutClass(nameof(ExecuteSettingsStateAsync),
+                $"Execute {nameof(SettingsState)}.");
+            await _settingsState.InvokeMenuAsync();
         }
 
         public async Task LogoutAsync()
         {
             var response = await _userService.LogoutAsync();
 
+            LogInformationAboutClass(nameof(LogoutAsync),$"Response: {response.StatusCode}");
+
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                LogInformationForMainMenu(nameof(LogoutAsync),$"Response: {response.StatusCode}");
                 var message = await response.Content.ReadAsStringAsync();
                 ConsoleHelper.WriteInConsole(
                     new[] { message }, ConsoleColor.Yellow);
@@ -118,7 +132,7 @@ namespace TicTacToe.Client.States.Impl
             }
         }
 
-        private void LogInformationForMainMenu(string methodName, string message)
+        public void LogInformationAboutClass(string methodName, string message)
         {
             _logger.LogInformation("{ClassName}::{MethodName}::{Message}",
                 nameof(MainMenuState), methodName, message);

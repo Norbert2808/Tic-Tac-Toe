@@ -2,8 +2,20 @@
 {
     internal interface IPrivateStatisticState : IState
     {
-        Task GetPrivateStatistic();
+        /// <summary>
+        /// Sends the request to get private statistic.
+        /// </summary>
+        /// <returns>
+        /// A task that represents the asynchronous operation. <see cref="Task"/>
+        /// </returns>
+        Task GetPrivateStatisticAsync();
 
-        Task GetPrivateStatisticInTimeInterval();
+        /// <summary>
+        /// Sends the request to get private statistic in time interval.
+        /// </summary>
+        /// <returns>
+        /// A task that represents the asynchronous operation. <see cref="Task"/>
+        /// </returns>
+        Task GetPrivateStatisticInTimeIntervalAsync();
     }
 }

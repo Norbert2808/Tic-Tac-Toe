@@ -31,8 +31,7 @@ namespace TicTacToe.Client.States.Impl
 
         public async Task InvokeMenuAsync()
         {
-            _logger.LogInformation("Invoke Game state class");
-
+            LogInformationAboutClass(nameof(InvokeMenuAsync), "Execute method");
             await CheckRoundStateAsync();
 
             while (!_isEndOfGame)
@@ -40,11 +39,9 @@ namespace TicTacToe.Client.States.Impl
                 Console.Clear();
                 _board.Draw();
 
-                _logger.LogInformation("Invoke game menu");
-
                 if (_isActivePlayer == _isFirst)
                 {
-                    _logger.LogInformation("Player waiting opponent's move");
+                    LogInformationAboutClass(nameof(InvokeMenuAsync), "Player waiting opponent's move");
                     ConsoleHelper.WriteInConsole(new[] { "Please, Wait till the other player moves" },
                         ConsoleColor.Green, "");
                     await WaitMoveOpponentAsync();
@@ -83,23 +80,22 @@ namespace TicTacToe.Client.States.Impl
                     {
                         _logger.LogError("Exception invalid format::{Message}", ex.Message);
                         ConsoleHelper.WriteInConsole(new[] { "It's not a number!" },
-                               ConsoleColor.Red);
+                            ConsoleColor.Red);
                         _ = Console.ReadLine();
                     }
                     catch (HttpRequestException ex)
                     {
                         _logger.LogError("The connection to the server is gone: {Message}", ex.Message);
                         ConsoleHelper.WriteInConsole(new[] { "Failed to connect with server!" },
-                                ConsoleColor.Red);
+                            ConsoleColor.Red);
                         _ = Console.ReadLine();
                     }
                     catch (OverflowException ex)
                     {
-                        _logger.LogError(ex.Message);
+                        _logger.LogError("Number is very large: {Message}", ex.Message);
                         ConsoleHelper.WriteInConsole(new[] { "Number is very large!" },
                             ConsoleColor.Red);
                         _ = Console.ReadLine();
-                        continue;
                     }
                 }
             }
@@ -107,9 +103,15 @@ namespace TicTacToe.Client.States.Impl
             ResultMenu();
         }
 
+        public void LogInformationAboutClass(string methodName, string message)
+        {
+            _logger.LogInformation("{ClassName}::{MethodName}::{Message}",
+                nameof(GameState), methodName, message);
+        }
+
         private void ResultMenu()
         {
-            _logger.LogInformation("Invoke result menu!");
+            LogInformationAboutClass(nameof(ResultMenu), "Invoke result menu");
 
             Console.Clear();
             _board.Draw();
@@ -124,7 +126,7 @@ namespace TicTacToe.Client.States.Impl
         private async Task CheckRoundStateAsync()
         {
             var response = await _gameService.CheckRoundStateAsync();
-
+            LogInformationAboutClass(nameof(CheckRoundStateAsync), $"Response: {response.StatusCode}");
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 var roundState = await response.Content.ReadAsAsync<RoundStateDto>();
@@ -137,55 +139,57 @@ namespace TicTacToe.Client.States.Impl
 
         public async Task<bool> MakeMoveAsync()
         {
-            _logger.LogInformation("Player make a move");
+            LogInformationAboutClass(nameof(MakeMoveAsync), "Player make a move");
 
             while (true)
             {
                 var move = GetMoveFromPlayer();
                 var response = await _gameService.MakeMoveAsync(move);
-
-                if (response.StatusCode == HttpStatusCode.OK)
-                {
-                    await CheckRoundStateAsync();
-                    return true;
-                }
-
                 var errorMsg = await response.Content.ReadAsStringAsync();
 
-                if (response.StatusCode == HttpStatusCode.BadRequest)
-                {
-                    ConsoleHelper.WriteInConsole(new[] { errorMsg }, ConsoleColor.DarkRed);
-                    _ = Console.ReadLine();
-                    return false;
-                }
+                LogInformationAboutClass(nameof(MakeMoveAsync), $"Response: {response.StatusCode}");
 
-                if (response.StatusCode == HttpStatusCode.NotFound)
+                switch (response.StatusCode)
                 {
-                    ConsoleHelper.WriteInConsole(new[] { errorMsg }, ConsoleColor.Red);
-                    _isEndOfGame = true;
-                    _ = Console.ReadLine();
-                    return false;
-                }
+                    case HttpStatusCode.OK:
+                        await CheckRoundStateAsync();
+                        return true;
 
-                if (response.StatusCode == HttpStatusCode.Conflict)
-                {
-                    _isEndOfGame = true;
-                    ConsoleHelper.WriteInConsole(new[] { errorMsg + "\n" }, ConsoleColor.DarkRed);
-                    _ = Console.ReadLine();
-                    return false;
+                    case HttpStatusCode.BadRequest:
+                        ConsoleHelper.WriteInConsole(new[] { errorMsg }, ConsoleColor.DarkRed);
+                        _ = Console.ReadLine();
+                        return false;
+
+                    case HttpStatusCode.NotFound:
+                        ConsoleHelper.WriteInConsole(new[] { errorMsg }, ConsoleColor.Red);
+                        _isEndOfGame = true;
+                        _ = Console.ReadLine();
+                        return false;
+
+                    case HttpStatusCode.Conflict:
+                        _isEndOfGame = true;
+                        ConsoleHelper.WriteInConsole(new[] { errorMsg + "\n" }, ConsoleColor.DarkRed);
+                        _ = Console.ReadLine();
+                        return false;
+
+                    default:
+                        break;
                 }
             }
         }
 
         public async Task WaitMoveOpponentAsync()
         {
-            _logger.LogInformation("Waiting opponent's move");
-
+            LogInformationAboutClass(nameof(WaitMoveOpponentAsync), "Waiting opponent's move");
             while (true)
             {
                 var responseMessage = await _gameService.CheckMoveAsync();
+
                 if (responseMessage.StatusCode == HttpStatusCode.OK)
                 {
+                    LogInformationAboutClass(nameof(WaitMoveOpponentAsync),
+                        $"Response: {responseMessage.StatusCode}");
+
                     var roundState = await responseMessage.Content.ReadAsAsync<RoundStateDto>();
                     _board.SetBoard(roundState.Board);
                     _isFirst = roundState.IsFirstPlayer;
@@ -196,6 +200,9 @@ namespace TicTacToe.Client.States.Impl
 
                 if (responseMessage.StatusCode == HttpStatusCode.Conflict)
                 {
+                    LogInformationAboutClass(nameof(WaitMoveOpponentAsync),
+                        $"Response: {responseMessage.StatusCode}");
+
                     _isEndOfGame = true;
                     var errorMsg = await responseMessage.Content.ReadAsStringAsync();
                     ConsoleHelper.WriteInConsole(errorMsg + "\n", ConsoleColor.DarkRed);
@@ -207,8 +214,7 @@ namespace TicTacToe.Client.States.Impl
 
         private MoveDto GetMoveFromPlayer()
         {
-            _logger.LogInformation("Get player's move");
-
+            LogInformationAboutClass(nameof(GetMoveFromPlayer), "Get player's move");
             while (true)
             {
                 Console.Clear();
@@ -236,7 +242,7 @@ namespace TicTacToe.Client.States.Impl
             }
         }
 
-        private void DrawWin()
+        private static void DrawWin()
         {
             ConsoleHelper.WriteInConsole(new[]
             {
@@ -249,7 +255,7 @@ namespace TicTacToe.Client.States.Impl
             }, ConsoleColor.Green);
         }
 
-        private void DrawLose()
+        private static void DrawLose()
         {
             ConsoleHelper.WriteInConsole(new[]
             {
@@ -264,7 +270,7 @@ namespace TicTacToe.Client.States.Impl
 
         public async Task SurrenderAsync()
         {
-            _logger.LogInformation("Player surrendered...");
+            LogInformationAboutClass(nameof(SurrenderAsync), "Player surrendered...");
 
             var responseSurrender = await _gameService.SurrenderAsync();
             if (responseSurrender.StatusCode == HttpStatusCode.OK)

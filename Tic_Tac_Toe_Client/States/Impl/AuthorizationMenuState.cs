@@ -28,7 +28,7 @@ namespace TicTacToe.Client.States.Impl
 
         public async Task InvokeMenuAsync()
         {
-            LogInformationForAuthorizationMenu(nameof(InvokeMenuAsync),"Execute method");
+            LogInformationAboutClass(nameof(InvokeMenuAsync), "Execute method");
 
             while (true)
             {
@@ -47,29 +47,23 @@ namespace TicTacToe.Client.States.Impl
                 try
                 {
                     ConsoleHelper.ReadIntFromConsole(out var choose);
-                    LogInformationForAuthorizationMenu(nameof(InvokeMenuAsync),$"User choose action: {choose}");
+                    LogInformationAboutClass(nameof(InvokeMenuAsync), $"User choose action: {choose}");
                     switch (choose)
                     {
                         case 1:
-                            LogInformationForAuthorizationMenu(nameof(InvokeMenuAsync),
-                                $"Execute {nameof(ExecuteLoginAsync)}");
                             await ExecuteLoginAsync();
                             break;
 
                         case 2:
-                            LogInformationForAuthorizationMenu(nameof(InvokeMenuAsync),
-                                $"Execute {nameof(ExecuteRegistrationAsync)}");
                             await ExecuteRegistrationAsync();
                             break;
 
                         case 3:
-                            LogInformationForAuthorizationMenu(nameof(InvokeMenuAsync),
-                                $"Invoke {nameof(LeaderMenuState)} class and execute {nameof(InvokeMenuAsync)}");
-                            await _leaderMenu.InvokeMenuAsync();
+                            await ExecuteLeaderMenuAsync();
                             break;
 
                         case 0:
-                            LogInformationForAuthorizationMenu(nameof(InvokeMenuAsync),
+                            LogInformationAboutClass(nameof(InvokeMenuAsync),
                                 "User left the program");
                             return;
 
@@ -115,6 +109,9 @@ namespace TicTacToe.Client.States.Impl
 
         public async Task ExecuteLoginAsync()
         {
+            LogInformationAboutClass(nameof(ExecuteLoginAsync),
+                "Login.");
+
             ConsoleHelper.WriteInConsole(new[] { "Enter login:" }, ConsoleColor.Cyan, "");
             var login = Console.ReadLine();
             ConsoleHelper.WriteInConsole(new[] { "Enter password:" }, ConsoleColor.Cyan, "");
@@ -126,6 +123,9 @@ namespace TicTacToe.Client.States.Impl
 
         public async Task ExecuteRegistrationAsync()
         {
+            LogInformationAboutClass(nameof(ExecuteRegistrationAsync),
+                "Registration.");
+
             ConsoleHelper.WriteInConsole(new[] { "Enter login for registration:" },
                 ConsoleColor.Cyan,
                 "");
@@ -140,22 +140,28 @@ namespace TicTacToe.Client.States.Impl
             await ResponseHandlerAsync(response);
         }
 
+        public async Task ExecuteLeaderMenuAsync()
+        {
+            LogInformationAboutClass(nameof(ExecuteLeaderMenuAsync),
+                $"Invoke {nameof(LeaderMenuState)} class and execute {nameof(InvokeMenuAsync)}");
+            await _leaderMenu.InvokeMenuAsync();
+        }
+
         private async Task ResponseHandlerAsync(HttpResponseMessage response)
         {
             var errorMessage = await response.Content.ReadAsStringAsync();
 
+            LogInformationAboutClass(nameof(ResponseHandlerAsync),
+                $"Response: {response.StatusCode}");
+
             switch (response.StatusCode)
             {
                 case HttpStatusCode.OK:
-                    LogInformationForAuthorizationMenu(nameof(ResponseHandlerAsync),
-                        $"Response: {response.StatusCode}");
                     Console.Clear();
                     await _mainMenuState.InvokeMenuAsync();
                     break;
 
                 case HttpStatusCode.BadRequest:
-                    LogInformationForAuthorizationMenu(nameof(ResponseHandlerAsync),
-                        $"Input invalid data. Response: {response.StatusCode}");
                     ConsoleHelper.WriteInConsole(
                         new[] { "Login and password must be at least 6 and no more than 25 characters long." },
                         ConsoleColor.Red);
@@ -163,22 +169,18 @@ namespace TicTacToe.Client.States.Impl
                     break;
 
                 case HttpStatusCode.NotFound:
-                    LogInformationForAuthorizationMenu(nameof(ResponseHandlerAsync),
-                        $"Input invalid data. Response: {response.StatusCode}");
                     ConsoleHelper.WriteInConsole(new[] { errorMessage }, ConsoleColor.Red);
                     _ = Console.ReadLine();
                     break;
 
                 case HttpStatusCode.Conflict:
-                    LogInformationForAuthorizationMenu(nameof(ResponseHandlerAsync),
-                        $"User with such login already registered. Response: {response.StatusCode}");
                     ConsoleHelper.WriteInConsole(new[] { errorMessage }, ConsoleColor.Red);
                     _ = Console.ReadLine();
                     break;
             }
         }
 
-        private void LogInformationForAuthorizationMenu(string methodName, string message)
+        public void LogInformationAboutClass(string methodName, string message)
         {
             _logger.LogInformation("{ClassName}::{MethodName}::{Message}",
                 nameof(AuthorizationMenuState), methodName, message);
