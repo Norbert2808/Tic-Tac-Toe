@@ -103,6 +103,14 @@ namespace TicTacToe.Client.States.Impl
                     _ = Console.ReadLine();
                     continue;
                 }
+                catch (OverflowException ex)
+                {
+                    _logger.LogError(ex.Message);
+                    ConsoleHelper.WriteInConsole(new[] { "Number is very large!" },
+                        ConsoleColor.Red);
+                    _ = Console.ReadLine();
+                    continue;
+                }
 
                 await StartConnectionWithRoomAsync(type, roomId!, isConnecting);
             }
