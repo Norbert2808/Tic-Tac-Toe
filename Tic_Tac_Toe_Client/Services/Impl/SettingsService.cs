@@ -26,25 +26,30 @@ namespace TicTacToe.Client.Services.Impl
             CheckFile();
         }
 
-        public async Task<RoomSettingsDto> ConfigureSettingsAsync(string login, RoomType type, string roomId,
-           bool isConnecting)
+        public async Task<RoomSettingsDto> ConfigureSettingsAsync(string login, RoomType type,
+            string roomId, bool isConnecting)
         {
             _ = _semaphore.WaitAsync();
+            TimeOut? userSettings;
             try
             {
-                var userSettings = await FindSettingsByLogin(login);
-
-                return userSettings is null
-                    ? new RoomSettingsDto(type, roomId, isConnecting, new TimeOut())
-                    : new RoomSettingsDto(type, roomId, isConnecting, userSettings);
+                userSettings = await FindSettingsByLogin(login);
+            }
+            catch (ArgumentException)
+            {
+                userSettings = null;
             }
             finally
             {
                 _ = _semaphore.Release();
             }
+
+            return userSettings is null
+                   ? new RoomSettingsDto(type, roomId, isConnecting, new TimeOut())
+                   : new RoomSettingsDto(type, roomId, isConnecting, userSettings);
         }
 
-        private async Task<List<TimeOut?>> DeserizalizeAsync()
+        private async Task<List<TimeOut?>> DeserializeAsync()
         {
             await using var fs = File.OpenRead(SettingsFileName);
 
@@ -59,16 +64,26 @@ namespace TicTacToe.Client.Services.Impl
 
         private async Task<TimeOut?> FindSettingsByLogin(string login)
         {
-            _timeOutStorage = await DeserizalizeAsync();
+            _timeOutStorage = await DeserializeAsync();
+
+            if (_timeOutStorage.Count == 0)
+                return null;
 
             var userSettings = _timeOutStorage
-                .LastOrDefault(x => x!.LoginSettingsOwner.Equals(login, StringComparison.Ordinal));
+                .LastOrDefault(x =>
+                {
+                    _ = x!.LoginSettingsOwner ?? throw new ArgumentException(nameof(x.LoginSettingsOwner));
+                    return x.LoginSettingsOwner.Equals(login, StringComparison.Ordinal);
+                });
 
             return userSettings;
         }
 
         public async Task SerializeAsync(TimeOut timeOut)
         {
+            _ = timeOut ?? throw new ArgumentNullException(nameof(timeOut));
+            _ = timeOut.LoginSettingsOwner ?? throw new ArgumentException(nameof(timeOut.LoginSettingsOwner));
+
             _ = _semaphore.WaitAsync();
             try
             {

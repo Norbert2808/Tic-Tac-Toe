@@ -34,20 +34,20 @@ namespace TicTacToe.Client.States.Impl
             _logger.LogInformation("Invoke Game state class");
 
             await CheckRoundStateAsync();
+
             while (!_isEndOfGame)
             {
                 Console.Clear();
                 _board.Draw();
 
-                _logger.LogInformation("Invoke game menu.");
+                _logger.LogInformation("Invoke game menu");
 
                 if (_isActivePlayer == _isFirst)
                 {
-                    _logger.LogInformation("Player waiting opponent's move.");
+                    _logger.LogInformation("Player waiting opponent's move");
                     ConsoleHelper.WriteInConsole(new[] { "Please, Wait till the other player moves" },
                         ConsoleColor.Green, "");
                     await WaitMoveOpponentAsync();
-                    continue;
                 }
                 else
                 {
@@ -81,19 +81,17 @@ namespace TicTacToe.Client.States.Impl
                     }
                     catch (FormatException ex)
                     {
-                        _logger.LogError(ex.Message);
+                        _logger.LogError("Exception invalid format::{Message}", ex.Message);
                         ConsoleHelper.WriteInConsole(new[] { "It's not a number!" },
                                ConsoleColor.Red);
                         _ = Console.ReadLine();
-                        continue;
                     }
                     catch (HttpRequestException ex)
                     {
-                        _logger.LogError(ex.Message);
+                        _logger.LogError("The connection to the server is gone: {Message}", ex.Message);
                         ConsoleHelper.WriteInConsole(new[] { "Failed to connect with server!" },
                                 ConsoleColor.Red);
                         _ = Console.ReadLine();
-                        continue;
                     }
                 }
             }
@@ -103,6 +101,8 @@ namespace TicTacToe.Client.States.Impl
 
         private void ResultMenu()
         {
+            _logger.LogInformation("Invoke result menu!");
+
             Console.Clear();
             _board.Draw();
             if (_isFirst == _isActivePlayer)
@@ -171,7 +171,7 @@ namespace TicTacToe.Client.States.Impl
 
         public async Task WaitMoveOpponentAsync()
         {
-            _logger.LogInformation("Waiting opponent's move.");
+            _logger.LogInformation("Waiting opponent's move");
 
             while (true)
             {
@@ -199,7 +199,7 @@ namespace TicTacToe.Client.States.Impl
 
         private MoveDto GetMoveFromPlayer()
         {
-            _logger.LogInformation("Get player's move.");
+            _logger.LogInformation("Get player's move");
 
             while (true)
             {
@@ -218,7 +218,7 @@ namespace TicTacToe.Client.States.Impl
                 }
                 catch (FormatException ex)
                 {
-                    _logger.LogError(ex.Message);
+                    _logger.LogError("Exception invalid format::{Message}", ex.Message);
                     ConsoleHelper.WriteInConsole(new[] { "It's not a number!" }, ConsoleColor.DarkRed);
                     _ = Console.ReadLine();
                     continue;
@@ -244,7 +244,7 @@ namespace TicTacToe.Client.States.Impl
         private void DrawLose()
         {
             ConsoleHelper.WriteInConsole(new[]
-                        {
+            {
                 "╔╗╔╗╔══╗╔╗╔╗───╔╗──╔══╗╔══╗╔═══╗",
                 "║║║║║╔╗║║║║║───║║──║╔╗║║╔═╝║╔══╝",
                 "║╚╝║║║║║║║║║───║║──║║║║║╚═╗║╚══╗",
@@ -256,6 +256,8 @@ namespace TicTacToe.Client.States.Impl
 
         public async Task SurrenderAsync()
         {
+            _logger.LogInformation("Player surrendered...");
+
             var responseSurrender = await _gameService.SurrenderAsync();
             if (responseSurrender.StatusCode == HttpStatusCode.OK)
             {

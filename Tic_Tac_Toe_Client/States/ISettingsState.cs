@@ -10,6 +10,12 @@ namespace TicTacToe.Client.States
 
         void GetValues(TimeOutType timeOutType, TimeType timeType);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>
+        /// A task that represents the asynchronous operation. <see cref="Task"/>
+        /// </returns>
         Task CloseMenuAsync();
     }
 }

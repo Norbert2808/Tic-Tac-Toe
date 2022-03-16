@@ -1,6 +1,4 @@
-﻿
-
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 using TicTacToe.Client.Models;
 
 namespace TicTacToe.Client.DTO

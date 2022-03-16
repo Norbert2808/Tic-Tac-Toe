@@ -13,7 +13,14 @@ namespace TicTacToe.Client.Services
         /// </returns>
         Task<HttpResponseMessage> GetPrivateStatisticAsync();
 
-        Task<HttpResponseMessage> GetPrivateStatisticInTimeInterval(TimeIntervalDto timeDto);
+        /// <summary>
+        /// Sends the request to get private statistic in time interval.
+        /// </summary>
+        /// <param name="timeDto">Time intervals <see cref="TimeIntervalDto"/></param>
+        /// <returns>
+        /// The task result contains <see cref="HttpResponseMessage"/>
+        /// </returns>
+        Task<HttpResponseMessage> GetPrivateStatisticInTimeIntervalAsync(TimeIntervalDto timeDto);
 
         /// <summary>
         /// Sends the request to get leaders statistic.

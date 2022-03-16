@@ -89,7 +89,7 @@ namespace TicTacToe.Client.States.Impl
         {
             var timeInterval = GetTimeIntervalFromUser();
 
-            var response = await _statisticService.GetPrivateStatisticInTimeInterval(timeInterval);
+            var response = await _statisticService.GetPrivateStatisticInTimeIntervalAsync(timeInterval);
 
             if (response.StatusCode == HttpStatusCode.OK)
             {

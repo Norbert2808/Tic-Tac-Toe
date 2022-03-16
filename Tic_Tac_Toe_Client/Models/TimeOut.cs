@@ -6,7 +6,7 @@ namespace TicTacToe.Client.Models
     public class TimeOut
     {
         [JsonPropertyName("loginSettingsOwner")]
-        public string LoginSettingsOwner { get; set; }
+        public string? LoginSettingsOwner { get; set; }
 
         [JsonPropertyName("roundTimeOut")]
         public TimeSpan RoundTimeOut { get; set; } = TimeSpan.FromSeconds(20);

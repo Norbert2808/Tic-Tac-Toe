@@ -76,14 +76,14 @@ namespace TicTacToe.Client.States.Impl
                 }
                 catch (FormatException ex)
                 {
-                    _logger.LogError(ex.Message);
+                    _logger.LogError("Exception invalid format::{Message}", ex.Message);
                     ConsoleHelper.WriteInConsole(new[] { "It's not a number!" },
                         ConsoleColor.Red);
                     _ = Console.ReadLine();
                 }
                 catch (HttpRequestException ex)
                 {
-                    _logger.LogError(ex.Message);
+                    _logger.LogError("The connection to the server is gone: {Message}", ex.Message);
                     ConsoleHelper.WriteInConsole(new[] { "Failed to connect with server!" },
                         ConsoleColor.Red);
                     _ = Console.ReadLine();
@@ -93,7 +93,7 @@ namespace TicTacToe.Client.States.Impl
 
         public async Task ExecuteRoomMenuAsync()
         {
-            _logger.LogInformation("Execute round menu state.");
+            LogInformationForMainMenu(nameof(ExecuteRoomMenuAsync), "Execute round menu state.");
             await _roomMenuState.InvokeMenuAsync();
         }
 
@@ -103,13 +103,18 @@ namespace TicTacToe.Client.States.Impl
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                _logger.LogInformation("MainMenuState::LogoutAsync::Response: Successful response 200");
-
+                LogInformationForMainMenu(nameof(LogoutAsync),$"Response: {response.StatusCode}");
                 var message = await response.Content.ReadAsStringAsync();
                 ConsoleHelper.WriteInConsole(
                     new[] { message }, ConsoleColor.Yellow);
                 _ = Console.ReadLine();
             }
+        }
+
+        private void LogInformationForMainMenu(string methodName, string message)
+        {
+            _logger.LogInformation("{ClassName}::{MethodName}::{Message}",
+                nameof(MainMenuState), methodName, message);
         }
     }
 }

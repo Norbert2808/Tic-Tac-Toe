@@ -89,7 +89,7 @@ namespace TicTacToe.Client.States.Impl
                     _logger.LogError(ex.Message);
                     ConsoleHelper.WriteInConsole(new[] { "Number is very large!" },
                         ConsoleColor.Red);
-                     _ = Console.ReadLine();
+                    _ = Console.ReadLine();
                 }
             }
         }
@@ -220,7 +220,22 @@ namespace TicTacToe.Client.States.Impl
 
         private async Task SaveInFileAsync()
         {
-            await _settingService.SerializeAsync(_timeOut);
+            try
+            {
+                await _settingService.SerializeAsync(_timeOut);
+            }
+            catch (ArgumentNullException ex)
+            {
+                _logger.LogError(ex.Message);
+                ConsoleHelper.WriteInConsole(new[] { "Occured unexpected error." },
+                    ConsoleColor.Red);
+            }
+            catch (ArgumentException ex)
+            {
+                _logger.LogError(ex.Message);
+                ConsoleHelper.WriteInConsole(new[] { "Occured unexpected error." },
+                    ConsoleColor.Red);
+            }
         }
     }
 }
