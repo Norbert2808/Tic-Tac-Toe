@@ -2,10 +2,10 @@
 {
     public enum SortingType
     {
-        Winnings,
-        Losses,
-        WinRate,
-        Rooms,
-        Time
+        Winnings = 1,
+        Losses = 2,
+        WinRate = 3,
+        Rooms = 4,
+        Time = 5
     }
 }

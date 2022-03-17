@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using TicTacToe.Server.DTO;
 using TicTacToe.Server.Exceptions;
-using TicTacToe.Server.Models;
 using TicTacToe.Server.Services;
 
 namespace TicTacToe.Server.Controllers
@@ -45,14 +44,16 @@ namespace TicTacToe.Server.Controllers
             }
             string response;
 
+            LogInformationAboutClass(nameof(StartRoomAsync),
+                $"Invoke method::{nameof(_roomService.StartRoomAsync)}");
+
             try
             {
-                _logger.LogInformation("GameController:: Invoke method :: StartRoomAsync");
                 response = await _roomService.StartRoomAsync(settings.RoomId, LoginUser, settings);
             }
             catch (RoomException exception)
             {
-                _logger.LogWarning(exception.Message);
+                _logger.LogWarning("Message: {Message}:", exception.Message);
                 return BadRequest(exception.Message);
             }
 
@@ -73,6 +74,9 @@ namespace TicTacToe.Server.Controllers
                 return Unauthorized("Unauthorized users");
             }
 
+            LogInformationAboutClass(nameof(CheckRoomAsync),
+                $"Invoke method::{nameof(_roomService.CheckRoomAsync)}");
+
             try
             {
                 var (isCompleted, message) = await _roomService.CheckRoomAsync(id);
@@ -80,12 +84,12 @@ namespace TicTacToe.Server.Controllers
             }
             catch (RoomException exception)
             {
-                _logger.LogWarning(exception.Message);
+                _logger.LogWarning("Message: {Message}", exception.Message);
                 return BadRequest(exception.Message);
             }
             catch (TimeoutException exception)
             {
-                _logger.LogWarning(exception.Message);
+                _logger.LogWarning("Message: {Message}", exception.Message);
                 return Conflict(exception.Message);
             }
         }
@@ -103,20 +107,22 @@ namespace TicTacToe.Server.Controllers
                 return Unauthorized("Unauthorized users");
             }
 
+            LogInformationAboutClass(nameof(CheckMoveAsync),
+                $"Invoke method::{nameof(_roomService.CheckMoveAsync)}");
+
             try
             {
                 var roundState = await _roomService.CheckMoveAsync(id, LoginUser);
-
                 return roundState is null ? NotFound() : Ok(roundState);
             }
             catch (RoomException exception)
             {
-                _logger.LogWarning(exception.Message);
+                _logger.LogWarning("Message: {Message}", exception.Message);
                 return NotFound(exception.Message);
             }
             catch (TimeOutException exception)
             {
-                _logger.LogWarning(exception.Message);
+                _logger.LogWarning("Message: {Message}", exception.Message);
                 return Conflict(exception.Message);
             }
             catch (GameException exception)
@@ -138,6 +144,9 @@ namespace TicTacToe.Server.Controllers
                 return Unauthorized("Unauthorized users");
             }
 
+            LogInformationAboutClass(nameof(MoveAsync),
+                $"Invoke method::{nameof(_roomService.DoMoveAsync)}");
+
             try
             {
                 await _roomService.DoMoveAsync(id, LoginUser, move);
@@ -145,17 +154,17 @@ namespace TicTacToe.Server.Controllers
             }
             catch (RoomException exception)
             {
-                _logger.LogWarning(exception.Message);
+                _logger.LogWarning("Message: {Message}", exception.Message);
                 return NotFound(exception.Message);
             }
             catch (ArgumentException exception)
             {
-                _logger.LogWarning(exception.Message);
+                _logger.LogWarning("Message: {Message}", exception.Message);
                 return BadRequest(exception.Message);
             }
             catch (TimeOutException exception)
             {
-                _logger.LogWarning(exception.Message);
+                _logger.LogWarning("Message: {Message}", exception.Message);
                 return Conflict(exception.Message);
             }
         }
@@ -172,18 +181,21 @@ namespace TicTacToe.Server.Controllers
                 return Unauthorized("Unauthorized users");
             }
 
+            LogInformationAboutClass(nameof(AppendConfirmationAsync),
+                $"Invoke method {nameof(_roomService.AppendConfirmationAsync)}");
+
             try
             {
                 await _roomService.AppendConfirmationAsync(confirmation, id);
             }
             catch (RoomException exception)
             {
-                _logger.LogWarning(exception.Message);
+                _logger.LogWarning("Message: {Message}", exception.Message);
                 return Conflict(exception.Message);
             }
             catch (TimeOutException exception)
             {
-                _logger.LogWarning(exception.Message);
+                _logger.LogWarning("Message: {Message}", exception.Message);
                 return Conflict(exception.Message);
             }
 
@@ -203,6 +215,9 @@ namespace TicTacToe.Server.Controllers
                 return Unauthorized("Unauthorized users");
             }
 
+            LogInformationAboutClass(nameof(CheckConfirmationAsync),
+                $"Invoke method {nameof(_roomService.CheckConfirmationAsync)}");
+
             try
             {
                 var (isConfirm, message) = await _roomService.CheckConfirmationAsync(id, LoginUser);
@@ -210,12 +225,12 @@ namespace TicTacToe.Server.Controllers
             }
             catch (RoomException exception)
             {
-                _logger.LogWarning(exception.Message);
+                _logger.LogWarning("Message: {Message}", exception.Message);
                 return Conflict(exception.Message);
             }
             catch (TimeoutException exception)
             {
-                _logger.LogWarning(exception.Message);
+                _logger.LogWarning("Message: {Message}", exception.Message);
                 return Conflict(exception.Message);
             }
         }
@@ -232,6 +247,9 @@ namespace TicTacToe.Server.Controllers
                 return Unauthorized("Unauthorized users");
             }
 
+            LogInformationAboutClass(nameof(GetResultsAsync),
+                $"Invoke method {nameof(_roomService.GetResultAsync)}");
+
             try
             {
                 var results = await _roomService.GetResultAsync(id);
@@ -239,7 +257,7 @@ namespace TicTacToe.Server.Controllers
             }
             catch (RoomException exception)
             {
-                _logger.LogWarning(exception.Message);
+                _logger.LogWarning("Message: {Message}", exception.Message);
                 return NotFound(exception.Message);
             }
         }
@@ -257,6 +275,9 @@ namespace TicTacToe.Server.Controllers
                 return Unauthorized("Unauthorized users");
             }
 
+            LogInformationAboutClass(nameof(CheckStateRoundAsync),
+                $"Invoke method {nameof(_roomService.CheckStateRoundAsync)}");
+
             try
             {
                 var roundState = await _roomService.CheckStateRoundAsync(id, LoginUser);
@@ -264,7 +285,7 @@ namespace TicTacToe.Server.Controllers
             }
             catch (RoomException exception)
             {
-                _logger.LogWarning(exception.Message);
+                _logger.LogWarning("Message: {Message}", exception.Message);
                 return NotFound(exception.Message);
             }
         }
@@ -281,6 +302,9 @@ namespace TicTacToe.Server.Controllers
                 return Unauthorized("Unauthorized users");
             }
 
+            LogInformationAboutClass(nameof(ExitFromRoomAsync),
+                $"Invoke method {nameof(_roomService.ExitFromRoomAsync)}");
+
             try
             {
                 await _roomService.ExitFromRoomAsync(id);
@@ -288,7 +312,7 @@ namespace TicTacToe.Server.Controllers
             }
             catch (RoomException exception)
             {
-                _logger.LogWarning(exception.Message);
+                _logger.LogWarning("Message: {Message}", exception.Message);
                 return NotFound(exception.Message);
             }
         }
@@ -305,17 +329,27 @@ namespace TicTacToe.Server.Controllers
                 return Unauthorized("Unauthorized users");
             }
 
+            LogInformationAboutClass(nameof(SurrenderAsync),
+                $"Invoke method {nameof(_roomService.SurrenderAsync)}");
+
             try
             {
                 await _roomService.SurrenderAsync(id, LoginUser);
             }
             catch (RoomException exception)
             {
-                _logger.LogWarning(exception.Message);
+                _logger.LogWarning("Message: {Message}", exception.Message);
                 return BadRequest(exception.Message);
             }
 
             return Ok();
+        }
+
+        [NonAction]
+        private void LogInformationAboutClass(string methodName, string message)
+        {
+            _logger.LogInformation("{ClassName}::{MethodName}::{Message}",
+                nameof(GameController), methodName, message);
         }
 
     }

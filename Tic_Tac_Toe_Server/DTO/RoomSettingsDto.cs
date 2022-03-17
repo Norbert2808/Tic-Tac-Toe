@@ -1,11 +1,10 @@
 ﻿using System.Text.Json.Serialization;
-using TicTacToe.Server.DTO;
 using TicTacToe.Server.Enums;
 
-namespace TicTacToe.Server.Models
+namespace TicTacToe.Server.DTO
 {
     public class RoomSettingsDto
-    { 
+    {
         [JsonPropertyName("type")]
         public RoomType Type { get; set; }
 

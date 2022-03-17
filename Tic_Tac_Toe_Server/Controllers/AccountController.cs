@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using Microsoft.AspNetCore.Mvc;
+using TicTacToe.Server.DTO;
 using TicTacToe.Server.Exceptions;
-using TicTacToe.Server.Models;
 using TicTacToe.Server.Services;
 
 namespace TicTacToe.Server.Controllers
@@ -30,17 +30,17 @@ namespace TicTacToe.Server.Controllers
         {
             try
             {
-                _logger.LogInformation("AccountController::LoginAsync::Invoke log-in");
+                LogInformationAboutClass(nameof(LoginAsync),"Invoke log-in");
                 await _accService.InvokeLoginAsync(account);
             }
             catch (AccountException exception)
             {
-                _logger.LogInformation(exception.Message);
+                _logger.LogWarning("Message: {Message}", exception.Message);
                 return NotFound(exception.Message);
             }
             catch (TimeoutException exception)
             {
-                _logger.LogInformation(exception.Message);
+                _logger.LogWarning("Message: {Message}", exception.Message);
                 return Conflict(exception.Message);
             }
 
@@ -55,12 +55,12 @@ namespace TicTacToe.Server.Controllers
         {
             try
             {
-                _logger.LogInformation("AccountController::RegistrationAsync::Invoke registration");
+                LogInformationAboutClass(nameof(RegistrationAsync), "Invoke registration");
                 await _accService.InvokeRegistrationAsync(account);
             }
             catch (AccountException exception)
             {
-                _logger.LogInformation(exception.Message);
+                _logger.LogWarning("Message: {Message}:", exception.Message);
                 return Conflict(exception.Message);
             }
 
@@ -71,10 +71,17 @@ namespace TicTacToe.Server.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<IActionResult> LogoutAsync([FromBody] string login)
         {
-            _logger.LogInformation("AccountController::LogoutAsync::Invoke logout form app");
+            LogInformationAboutClass(nameof(LogoutAsync), "Invoke logout form app");
             _accService.RemoveActiveAccountByLogin(login);
 
             return await Task.FromResult(Ok("User successfully left."));
+        }
+
+        [NonAction]
+        private void LogInformationAboutClass(string methodName, string message)
+        {
+            _logger.LogInformation("{ClassName}::{MethodName}::{Message}",
+                nameof(AccountController), methodName, message);
         }
     }
 }

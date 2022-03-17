@@ -71,8 +71,7 @@ namespace TicTacToe.Server.Services.Impl
                     }
                     else
                     {
-                        var room = new Room(login, settings);
-                        room.Times.ActionTimeInRoom = DateTime.UtcNow;
+                        var room = new Room(login, settings) { Times = { ActionTimeInRoom = DateTime.UtcNow }};
                         _roomStorage.Add(room);
                         return room.RoomId;
                     }
@@ -140,7 +139,8 @@ namespace TicTacToe.Server.Services.Impl
                 }
                 room.Times.ActionTimeInRoom = DateTime.UtcNow;
 
-                throw new TimeOutException($"Time out, you didn't make a move in {room.Times.RoundTimeOut:dd\\:mm\\:ss}.");
+                throw new TimeOutException($"Time out, you didn't make a move in " +
+                                           $"{room.Times.RoundTimeOut:dd\\:mm\\:ss}.");
             }
 
 

@@ -34,7 +34,9 @@ namespace TicTacToe.Server.Controllers
                 _logger.LogWarning("Unauthorized users");
                 return Unauthorized("Unauthorized users");
             }
-            _logger.LogInformation("StatisticController::Invoke method :: GetPrivateStatisticAsync");
+
+            LogInformationAboutClass(nameof(GetPrivateStatisticAsync),
+                $"Invoke method {nameof(_statisticService.GetPrivateStatisticAsync)}");
 
             var statistic = await _statisticService.GetPrivateStatisticAsync(LoginUser,
                 DateTime.MinValue, DateTime.MaxValue);
@@ -52,8 +54,9 @@ namespace TicTacToe.Server.Controllers
                 _logger.LogWarning("Unauthorized users");
                 return Unauthorized("Unauthorized users");
             }
-            _logger.LogInformation(
-                "StatisticController::Invoke method :: GetPrivateStatisticInTimeIntervalAsync");
+
+            LogInformationAboutClass(nameof(GetPrivateStatisticInTimeIntervalAsync),
+                $"Invoke method {nameof(_statisticService.GetPrivateStatisticAsync)}");
 
             var statistic = await _statisticService.GetPrivateStatisticAsync(
                 LoginUser, statisticTime.StartTime, statisticTime.EndTime);
@@ -64,10 +67,18 @@ namespace TicTacToe.Server.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetLeadersStatisticAsync([FromRoute] SortingType type)
         {
-            _logger.LogInformation("StatisticController::Invoke method :: GetLeadersStatisticAsync");
+            LogInformationAboutClass(nameof(GetLeadersStatisticAsync),
+                $"Invoke method {nameof(_statisticService.GetLeadersAsync)}");
 
             var result = await _statisticService.GetLeadersAsync(type);
             return Ok(result);
+        }
+
+        [NonAction]
+        private void LogInformationAboutClass(string methodName, string message)
+        {
+            _logger.LogInformation("{ClassName}::{MethodName}::{Message}",
+                nameof(AccountController), methodName, message);
         }
     }
 }
