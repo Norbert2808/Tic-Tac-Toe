@@ -17,6 +17,9 @@ namespace TicTacToe.Client.Tools
           string[] columnHeaders,
           params Func<T, object>[] valueSelectors)
         {
+            if (columnHeaders.Length != valueSelectors.Length)
+                return string.Empty;
+
             var arrValues = new string[values.Length + 1, valueSelectors.Length];
 
             // Fill headers
@@ -30,9 +33,8 @@ namespace TicTacToe.Client.Tools
             {
                 for (var colIndex = 0; colIndex < arrValues.GetLength(1); colIndex++)
                 {
-                    arrValues[rowIndex, colIndex] = valueSelectors[colIndex]
-                      .Invoke(values[rowIndex - 1])
-                      .ToString();
+                    var value = valueSelectors[colIndex].Invoke(values[rowIndex - 1]);
+                    arrValues[rowIndex, colIndex] = $"{value}";
                 }
             }
 

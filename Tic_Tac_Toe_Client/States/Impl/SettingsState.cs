@@ -131,26 +131,29 @@ namespace TicTacToe.Client.States.Impl
                         case 2:
                             SetValueToTimeOut(timeOutType, TimeType.Seconds);
                             return;
+
+                        default:
+                            break;
                     }
                 }
                 catch (FormatException ex)
                 {
                     _logger.LogError("Exception invalid format::{Message}", ex.Message);
-                    ConsoleHelper.WriteInConsole(new[] {"It's not a number!"},
+                    ConsoleHelper.WriteInConsole(new[] { "It's not a number!" },
                         ConsoleColor.Red);
                     _ = Console.ReadLine();
                 }
                 catch (OverflowException ex)
                 {
                     _logger.LogError("Number is very large: {Message}", ex.Message);
-                    ConsoleHelper.WriteInConsole(new[] {"Number is very large!"},
+                    ConsoleHelper.WriteInConsole(new[] { "Number is very large!" },
                         ConsoleColor.Red);
                     _ = Console.ReadLine();
                 }
                 catch (ArgumentOutOfRangeException ex)
                 {
                     _logger.LogError("The number cannot be less than zero: {Message}", ex.Message);
-                    ConsoleHelper.WriteInConsole(new[] {"The number cannot be less than zero!"},
+                    ConsoleHelper.WriteInConsole(new[] { "The number cannot be less than zero!" },
                         ConsoleColor.Red);
                     _ = Console.ReadLine();
                 }

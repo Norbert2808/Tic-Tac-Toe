@@ -1,5 +1,4 @@
 ﻿using TicTacToe.Server.DTO;
-using TicTacToe.Server.Models;
 
 namespace TicTacToe.Server.Services
 {

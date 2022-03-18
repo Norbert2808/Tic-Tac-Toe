@@ -75,7 +75,7 @@ namespace TicTacToe.Server.Services.Impl
                     }
                     else
                     {
-                        var room = new Room(login, settings) { Times = { ActionTimeInRoom = DateTime.UtcNow }};
+                        var room = new Room(login, settings) { Times = { ActionTimeInRoom = DateTime.UtcNow } };
                         _roomStorage.Add(room);
                         return room.RoomId;
                     }
@@ -196,8 +196,10 @@ namespace TicTacToe.Server.Services.Impl
             var room = await FindRoomByIdAsync(id);
 
             if (room is null)
+            {
                 throw new RoomException("You didn't confirm the game or your opponent left the room." +
                                         "Room was closed.");
+            }
 
             if (room.Times.IsRoomActionTimeOut())
                 throw new TimeOutException("Time out. You were inactive inside the room for two minutes");

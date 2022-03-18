@@ -16,12 +16,8 @@ namespace TicTacToe.Client
         {
             var provider = GetServiceProvider();
 
-            while (true)
-            {
-                var authorizationMenu = provider.GetRequiredService<AuthorizationMenuState>();
-                await authorizationMenu.InvokeMenuAsync();
-                return;
-            }
+            var authorizationMenu = provider.GetRequiredService<AuthorizationMenuState>();
+            await authorizationMenu.InvokeMenuAsync();
         }
 
         private static IServiceProvider GetServiceProvider()

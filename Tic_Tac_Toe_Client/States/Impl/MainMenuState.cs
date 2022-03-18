@@ -121,7 +121,7 @@ namespace TicTacToe.Client.States.Impl
         {
             var response = await _userService.LogoutAsync();
 
-            LogInformationAboutClass(nameof(LogoutAsync),$"Response: {response.StatusCode}");
+            LogInformationAboutClass(nameof(LogoutAsync), $"Response: {response.StatusCode}");
 
             if (response.StatusCode == HttpStatusCode.OK)
             {

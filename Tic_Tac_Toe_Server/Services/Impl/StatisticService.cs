@@ -141,14 +141,14 @@ namespace TicTacToe.Server.Services.Impl
                     {
                         foreach (var moves in room.Rounds)
                         {
-                            result.AddRange(moves.FirstPlayerMove);
+                            result.AddRange(moves.FirstPlayerMoves);
                         }
                     }
                     else if (login.Equals(room.SecondPlayer.Login, StringComparison.Ordinal))
                     {
                         foreach (var moves in room.Rounds)
                         {
-                            result.AddRange(moves.SecondPlayerMove);
+                            result.AddRange(moves.SecondPlayerMoves);
                         }
                     }
                 }

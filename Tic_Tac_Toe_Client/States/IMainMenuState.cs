@@ -11,7 +11,7 @@
         Task ExecuteRoomMenuAsync();
 
         /// <summary>
-        /// Invoke <see cref="IState.InvokeMenuAsync"/> in the <see cref="States.Impl.PrivateStatisticState"/>
+        /// Invoke <see cref="IState.InvokeMenuAsync"/> in the <see cref="Impl.PrivateStatisticState"/>
         /// </summary>
         /// <returns>
         /// A task that represents the asynchronous operation. <see cref="Task"/>
@@ -19,7 +19,7 @@
         Task ExecutePrivateUserStatisticAsync();
 
         /// <summary>
-        /// Invoke <see cref="IState.InvokeMenuAsync"/> in the <see cref="States.Impl.SettingsState"/>
+        /// Invoke <see cref="IState.InvokeMenuAsync"/> in the <see cref="Impl.SettingsState"/>
         /// </summary>
         /// <returns>
         /// A task that represents the asynchronous operation. <see cref="Task"/>

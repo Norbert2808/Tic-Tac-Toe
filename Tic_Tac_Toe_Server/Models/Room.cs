@@ -72,6 +72,7 @@ namespace TicTacToe.Server.Models
             FirstPlayer = firstPlayer;
             SecondPlayer = secondPlayer;
             Rounds = rounds;
+            Settings = new RoomSettingsDto();
         }
     }
 }

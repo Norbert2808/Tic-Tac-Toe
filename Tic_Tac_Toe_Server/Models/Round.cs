@@ -9,10 +9,10 @@ namespace TicTacToe.Server.Models
         public List<Cell> Board { get; private set; }
 
         [JsonPropertyName("firstPlayerMove")]
-        public List<MoveDto> FirstPlayerMove { get; set; }
+        public List<MoveDto> FirstPlayerMoves { get; set; }
 
         [JsonPropertyName("secondPlayerMove")]
-        public List<MoveDto> SecondPlayerMove { get; set; }
+        public List<MoveDto> SecondPlayerMoves { get; set; }
 
         [JsonIgnore]
         public HashSet<int> AvailableValueFirstPlayerNumbers { get; private set; }
@@ -34,8 +34,8 @@ namespace TicTacToe.Server.Models
 
         public Round()
         {
-            FirstPlayerMove = new List<MoveDto>();
-            SecondPlayerMove = new List<MoveDto>();
+            FirstPlayerMoves = new List<MoveDto>();
+            SecondPlayerMoves = new List<MoveDto>();
             bool? player = null;
             Board = Enumerable.Repeat(new Cell(0, player), 9).ToList();
             AvailableValueFirstPlayerNumbers = Enumerable.Range(1, 9).ToHashSet();
@@ -47,8 +47,8 @@ namespace TicTacToe.Server.Models
         public Round(List<MoveDto> firstPlayerMove,
             List<MoveDto> secondPlayerMove)
         {
-            FirstPlayerMove = firstPlayerMove;
-            SecondPlayerMove = secondPlayerMove;
+            FirstPlayerMoves = firstPlayerMove;
+            SecondPlayerMoves = secondPlayerMove;
             bool? player = null;
             Board = Enumerable.Repeat(new Cell(0, player), 9).ToList();
             AvailableValueFirstPlayerNumbers = Enumerable.Range(1, 9).ToHashSet();
@@ -67,11 +67,11 @@ namespace TicTacToe.Server.Models
 
                 if (isFirst)
                 {
-                    FirstPlayerMove.Add(move);
+                    FirstPlayerMoves.Add(move);
                 }
                 else
                 {
-                    SecondPlayerMove.Add(move);
+                    SecondPlayerMoves.Add(move);
                 }
             }
 
@@ -81,8 +81,8 @@ namespace TicTacToe.Server.Models
         public bool CheckOpponentsMove(bool isFirst)
         {
             return isFirst
-                ? FirstPlayerMove.Count == SecondPlayerMove.Count
-                : FirstPlayerMove.Count - 1 == SecondPlayerMove.Count;
+                ? FirstPlayerMoves.Count == SecondPlayerMoves.Count
+                : FirstPlayerMoves.Count - 1 == SecondPlayerMoves.Count;
         }
 
         public bool CheckEndOfGame()

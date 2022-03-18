@@ -12,7 +12,7 @@ namespace TicTacToe.Server.Services
         /// <param name="login">User login.</param>
         /// <param name="settings">Room settings.</param>
         /// <returns>
-        /// The task result contains <see cref="String"/>.
+        /// The task result contains <see cref="string"/>.
         /// </returns>
         /// <exception cref="Exceptions.RoomException"> Throws if room already taken or
         /// token for private room does not exist.</exception>
@@ -37,7 +37,7 @@ namespace TicTacToe.Server.Services
 
         /// <summary>
         /// Checks if the second player made a move.
-        /// Invoke method <see cref="Services.IRoundService.CheckMove"/>
+        /// Invoke method <see cref="IRoundService.CheckMove"/>
         /// </summary>
         /// <param name="id">Room id.</param>
         /// <param name="login">User login.</param>
@@ -52,7 +52,7 @@ namespace TicTacToe.Server.Services
 
         /// <summary>
         /// Checks for time out and makes a move.
-        /// Next step invoke <see cref="Services.IRoundService.DoMove"/>
+        /// Next step invoke <see cref="IRoundService.DoMove"/>
         /// </summary>
         /// <param name="id">Room id.</param>
         /// <param name="login">User login.</param>
@@ -118,7 +118,7 @@ namespace TicTacToe.Server.Services
         Task<RoundStateDto> CheckStateRoundAsync(string id, string login);
 
         /// <summary>
-        /// Invoke <see cref="Services.IRoundService.ExitFormRound"/>.
+        /// Invoke <see cref="IRoundService.ExitFormRound"/>.
         /// </summary>
         /// <param name="id">Room id.</param>
         /// <param name="login">User login.</param>

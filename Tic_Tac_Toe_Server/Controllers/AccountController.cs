@@ -30,7 +30,7 @@ namespace TicTacToe.Server.Controllers
         {
             try
             {
-                LogInformationAboutClass(nameof(LoginAsync),$"Processing request: {Request.Path}");
+                LogInformationAboutClass(nameof(LoginAsync), $"Processing request: {Request.Path}");
                 await _accService.InvokeLoginAsync(account);
             }
             catch (AccountException exception)
