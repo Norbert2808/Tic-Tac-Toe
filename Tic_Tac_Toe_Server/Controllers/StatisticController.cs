@@ -29,6 +29,7 @@ namespace TicTacToe.Server.Controllers
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         public async Task<IActionResult> GetPrivateStatisticAsync()
         {
+            LogInformationAboutClass(nameof(GetPrivateStatisticAsync), $"Processing request: {Request.Path}");
             if (LoginUser is null or "")
             {
                 _logger.LogWarning("Unauthorized users");
@@ -49,6 +50,8 @@ namespace TicTacToe.Server.Controllers
         public async Task<IActionResult> GetPrivateStatisticInTimeIntervalAsync(
             [FromBody] TimeIntervalDto statisticTime)
         {
+            LogInformationAboutClass(nameof(GetPrivateStatisticInTimeIntervalAsync),
+                $"Processing request: {Request.Path}");
             if (LoginUser is null or "")
             {
                 _logger.LogWarning("Unauthorized users");
@@ -68,7 +71,8 @@ namespace TicTacToe.Server.Controllers
         public async Task<IActionResult> GetLeadersStatisticAsync([FromRoute] SortingType type)
         {
             LogInformationAboutClass(nameof(GetLeadersStatisticAsync),
-                $"Invoke method {nameof(_statisticService.GetLeadersAsync)}");
+                $"Processing request: {Request.Path}." +
+                $" Invoke method {nameof(_statisticService.GetLeadersAsync)}");
 
             var result = await _statisticService.GetLeadersAsync(type);
             return Ok(result);

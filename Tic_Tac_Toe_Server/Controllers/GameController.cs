@@ -31,6 +31,7 @@ namespace TicTacToe.Server.Controllers
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         public async Task<IActionResult> StartRoomAsync([FromBody] RoomSettingsDto? settings)
         {
+            LogInformationAboutClass(nameof(StartRoomAsync), $"Processing request: {Request.Path}");
             if (string.IsNullOrEmpty(LoginUser))
             {
                 _logger.LogWarning("Unauthorized users");
@@ -68,6 +69,7 @@ namespace TicTacToe.Server.Controllers
         [ProducesResponseType((int)HttpStatusCode.Conflict)]
         public async Task<IActionResult> CheckRoomAsync([FromRoute] string id)
         {
+            LogInformationAboutClass(nameof(CheckRoomAsync), $"Processing request: {Request.Path}");
             if (string.IsNullOrEmpty(LoginUser))
             {
                 _logger.LogWarning("Unauthorized users");
@@ -101,6 +103,7 @@ namespace TicTacToe.Server.Controllers
         [ProducesResponseType((int)HttpStatusCode.Conflict)]
         public async Task<IActionResult> CheckMoveAsync([FromRoute] string id)
         {
+            LogInformationAboutClass(nameof(CheckMoveAsync), $"Processing request: {Request.Path}");
             if (string.IsNullOrEmpty(LoginUser))
             {
                 _logger.LogWarning("Unauthorized users");
@@ -138,6 +141,7 @@ namespace TicTacToe.Server.Controllers
         [ProducesResponseType((int)HttpStatusCode.Conflict)]
         public async Task<IActionResult> MoveAsync([FromRoute] string id, [FromBody] MoveDto move)
         {
+            LogInformationAboutClass(nameof(MoveAsync), $"Processing request: {Request.Path}");
             if (string.IsNullOrEmpty(LoginUser))
             {
                 _logger.LogWarning("Unauthorized users");
@@ -175,6 +179,7 @@ namespace TicTacToe.Server.Controllers
         [ProducesResponseType((int)HttpStatusCode.Conflict)]
         public async Task<IActionResult> AppendConfirmationAsync([FromRoute] string id, [FromBody] bool confirmation)
         {
+            LogInformationAboutClass(nameof(AppendConfirmationAsync), $"Processing request: {Request.Path}");
             if (string.IsNullOrEmpty(LoginUser))
             {
                 _logger.LogWarning("Unauthorized users");
@@ -209,6 +214,7 @@ namespace TicTacToe.Server.Controllers
         [ProducesResponseType((int)HttpStatusCode.Conflict)]
         public async Task<IActionResult> CheckConfirmationAsync([FromRoute] string id)
         {
+            LogInformationAboutClass(nameof(CheckConfirmationAsync), $"Processing request: {Request.Path}");
             if (string.IsNullOrEmpty(LoginUser))
             {
                 _logger.LogWarning("Unauthorized users");
@@ -241,6 +247,7 @@ namespace TicTacToe.Server.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetResultsAsync([FromRoute] string id)
         {
+            LogInformationAboutClass(nameof(GetResultsAsync), $"Processing request: {Request.Path}");
             if (string.IsNullOrEmpty(LoginUser))
             {
                 _logger.LogWarning("Unauthorized users");
@@ -269,6 +276,7 @@ namespace TicTacToe.Server.Controllers
         [ProducesResponseType((int)HttpStatusCode.Conflict)]
         public async Task<IActionResult> CheckStateRoundAsync([FromRoute] string id)
         {
+            LogInformationAboutClass(nameof(CheckStateRoundAsync), $"Processing request: {Request.Path}");
             if (string.IsNullOrEmpty(LoginUser))
             {
                 _logger.LogWarning("Unauthorized users");
@@ -296,6 +304,7 @@ namespace TicTacToe.Server.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> ExitFromRoomAsync([FromRoute] string id)
         {
+            LogInformationAboutClass(nameof(ExitFromRoomAsync), $"Processing request: {Request.Path}");
             if (string.IsNullOrEmpty(LoginUser))
             {
                 _logger.LogWarning("Unauthorized users");
@@ -323,6 +332,7 @@ namespace TicTacToe.Server.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> SurrenderAsync([FromRoute] string id)
         {
+            LogInformationAboutClass(nameof(SurrenderAsync), $"Processing request: {Request.Path}");
             if (string.IsNullOrEmpty(LoginUser))
             {
                 _logger.LogWarning("Unauthorized users");

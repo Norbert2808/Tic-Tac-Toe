@@ -83,7 +83,6 @@ namespace TicTacToe.Server.Services.Impl
                 .Any(x => x.Password.Equals(password, StringComparison.Ordinal)));
         }
 
-
         private async Task AddAccountToStorageAsync(UserAccountDto account)
         {
             await _semaphoreSlim.WaitAsync();
