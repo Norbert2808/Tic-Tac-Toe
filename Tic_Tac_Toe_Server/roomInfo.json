@@ -3,7 +3,7 @@
     "roomId": "2df229cd-1fcc-4b39-9f59-4054ac3e15da",
     "rounds": [
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 0,
             "number": 1
@@ -17,7 +17,7 @@
             "number": 9
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 3,
             "number": 4
@@ -33,7 +33,7 @@
         ]
       },
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 0,
             "number": 1
@@ -47,7 +47,7 @@
             "number": 7
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 1,
             "number": 2
@@ -76,11 +76,11 @@
     "roomId": "13457688-abef-48b4-97fc-2a22808d9be7",
     "rounds": [
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 0,
             "number": 1
@@ -94,7 +94,7 @@
             "number": 5
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 1,
             "number": 2
@@ -123,7 +123,7 @@
     "roomId": "0e337f06-6330-4aac-a950-10ef7b941178",
     "rounds": [
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 0,
             "number": 1
@@ -137,7 +137,7 @@
             "number": 4
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 1,
             "number": 2
@@ -170,7 +170,7 @@
     "roomId": "47125c75-7c15-48ff-836a-343e829a2866",
     "rounds": [
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 0,
             "number": 1
@@ -184,7 +184,7 @@
             "number": 7
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 1,
             "number": 2
@@ -213,7 +213,7 @@
     "roomId": "a9e42ea8-c8b5-40c6-98a9-4a7c784ff1fa",
     "rounds": [
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 3,
             "number": 4
@@ -223,7 +223,7 @@
             "number": 2
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 6,
             "number": 2
@@ -235,17 +235,17 @@
         ]
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 2,
             "number": 3
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 6,
             "number": 3
@@ -253,13 +253,13 @@
         ]
       },
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 0,
             "number": 1
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 1,
             "number": 6
@@ -267,7 +267,7 @@
         ]
       },
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 0,
             "number": 1
@@ -281,7 +281,7 @@
             "number": 2
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 4,
             "number": 1
@@ -297,7 +297,7 @@
         ]
       },
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 0,
             "number": 1
@@ -307,7 +307,7 @@
             "number": 3
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 7,
             "number": 3
@@ -340,8 +340,8 @@
     "roomId": "e86d5ca5-fd37-4bbf-b7f3-ca3cd98e0c70",
     "rounds": [
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       }
     ],
     "firstPlayer": {
@@ -361,7 +361,7 @@
     "roomId": "69a4e800-d364-415f-b2e7-d8220c1d9eaf",
     "rounds": [
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 0,
             "number": 1
@@ -371,7 +371,7 @@
             "number": 4
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 6,
             "number": 9
@@ -404,7 +404,7 @@
     "roomId": "ff783800-779a-450e-a6e6-dd5c21def2e5",
     "rounds": [
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 0,
             "number": 1
@@ -426,7 +426,7 @@
             "number": 9
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 1,
             "number": 1
@@ -467,7 +467,7 @@
     "roomId": "76d0c6e1-04ce-4395-b757-c146f2456943",
     "rounds": [
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 0,
             "number": 1
@@ -481,7 +481,7 @@
             "number": 8
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 5,
             "number": 3
@@ -497,13 +497,13 @@
         ]
       },
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 0,
             "number": 1
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 5,
             "number": 3
@@ -548,7 +548,7 @@
     "roomId": "3fb77fdc-3f38-4cfb-ac74-c180e7bf961f",
     "rounds": [
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 0,
             "number": 1
@@ -562,7 +562,7 @@
             "number": 3
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 6,
             "number": 8
@@ -574,7 +574,7 @@
         ]
       },
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 0,
             "number": 1
@@ -604,7 +604,7 @@
             "number": 7
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 0,
             "number": 3
@@ -649,7 +649,7 @@
     "roomId": "74af2c76-cbf1-485f-90aa-f59e57687abc",
     "rounds": [
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 0,
             "number": 1
@@ -667,7 +667,7 @@
             "number": 3
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 0,
             "number": 3
@@ -704,7 +704,7 @@
     "roomId": "a2b4eea9-c92d-4cb9-8074-38e5773d932f",
     "rounds": [
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 0,
             "number": 1
@@ -722,7 +722,7 @@
             "number": 3
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 3,
             "number": 5
@@ -738,7 +738,7 @@
         ]
       },
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 0,
             "number": 1
@@ -752,7 +752,7 @@
             "number": 3
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 3,
             "number": 5
@@ -781,7 +781,7 @@
     "roomId": "ff64921b-8b1d-4255-b915-b43fc2facbcf",
     "rounds": [
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 0,
             "number": 1
@@ -795,7 +795,7 @@
             "number": 3
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 1,
             "number": 2
@@ -811,7 +811,7 @@
         ]
       },
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 0,
             "number": 1
@@ -825,7 +825,7 @@
             "number": 3
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 3,
             "number": 4
@@ -854,7 +854,7 @@
     "roomId": "a45a85ff-12f5-4799-8143-b23cf7a6c747",
     "rounds": [
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 0,
             "number": 1
@@ -864,7 +864,7 @@
             "number": 2
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 5,
             "number": 2
@@ -876,13 +876,13 @@
         ]
       },
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 0,
             "number": 1
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 0,
             "number": 7
@@ -907,8 +907,8 @@
     "roomId": "4c3ec046-f84f-4edf-a880-48ffc18a62d4",
     "rounds": [
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       }
     ],
     "firstPlayer": {
@@ -928,8 +928,8 @@
     "roomId": "2333bc3e-f4f0-46d7-86f7-58c8d5ceb83e",
     "rounds": [
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       }
     ],
     "firstPlayer": {
@@ -949,7 +949,7 @@
     "roomId": "ed54fdac-1d96-4335-a4de-97ec202f0729",
     "rounds": [
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 0,
             "number": 1
@@ -971,7 +971,7 @@
             "number": 8
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 1,
             "number": 2
@@ -1008,62 +1008,62 @@
     "roomId": "5ce58ea0-d2e1-43f5-9c80-fc19b1849794",
     "rounds": [
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 8,
             "number": 9
           }
         ],
-        "secondPlayerMove": []
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 8,
             "number": 5
           }
         ],
-        "secondPlayerMove": []
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 0,
             "number": 1
           }
         ],
-        "secondPlayerMove": []
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 4,
             "number": 4
@@ -1077,7 +1077,7 @@
             "number": 9
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 6,
             "number": 7
@@ -1089,13 +1089,13 @@
         ]
       },
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 4,
             "number": 5
           }
         ],
-        "secondPlayerMove": []
+        "secondPlayerMoves": []
       }
     ],
     "firstPlayer": {
@@ -1115,38 +1115,38 @@
     "roomId": "20f8feb8-c0f2-4a6d-877c-6cbdf1150cb9",
     "rounds": [
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 4,
             "number": 8
           }
         ],
-        "secondPlayerMove": []
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 4,
             "number": 5
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 8,
             "number": 9
@@ -1154,13 +1154,13 @@
         ]
       },
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 0,
             "number": 1
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 4,
             "number": 5
@@ -1168,19 +1168,19 @@
         ]
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 4,
             "number": 5
@@ -1194,7 +1194,7 @@
             "number": 8
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 0,
             "number": 1
@@ -1206,16 +1206,16 @@
         ]
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       }
     ],
     "firstPlayer": {
@@ -1235,20 +1235,20 @@
     "roomId": "0ae86e5c-b984-47f0-93da-fe2fdf6f2084",
     "rounds": [
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       }
     ],
     "firstPlayer": {
@@ -1268,11 +1268,11 @@
     "roomId": "642b81f1-6b93-4cbd-b48f-f9f49d6054d0",
     "rounds": [
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 0,
             "number": 1
@@ -1286,7 +1286,7 @@
             "number": 9
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 3,
             "number": 9
@@ -1298,19 +1298,19 @@
         ]
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 4,
             "number": 5
@@ -1324,7 +1324,7 @@
             "number": 1
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 3,
             "number": 4
@@ -1336,13 +1336,13 @@
         ]
       },
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 6,
             "number": 7
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 2,
             "number": 1
@@ -1367,11 +1367,11 @@
     "roomId": "674b8d78-6eee-403d-abc0-4468d10047a3",
     "rounds": [
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 0,
             "number": 1
@@ -1385,7 +1385,7 @@
             "number": 9
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 3,
             "number": 2
@@ -1397,15 +1397,15 @@
         ]
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 4,
             "number": 9
@@ -1427,7 +1427,7 @@
             "number": 6
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 7,
             "number": 7
@@ -1447,7 +1447,7 @@
         ]
       },
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 4,
             "number": 5
@@ -1461,7 +1461,7 @@
             "number": 9
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 1,
             "number": 5
@@ -1473,13 +1473,13 @@
         ]
       },
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 4,
             "number": 5
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 3,
             "number": 3
@@ -1487,7 +1487,7 @@
         ]
       },
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 4,
             "number": 5
@@ -1505,7 +1505,7 @@
             "number": 7
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 5,
             "number": 1
@@ -1542,20 +1542,20 @@
     "roomId": "74cc6033-ff51-4d88-a2b6-d0c0d1d3f677",
     "rounds": [
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       }
     ],
     "firstPlayer": {
@@ -1575,19 +1575,19 @@
     "roomId": "f5a2e1aa-4100-4c33-add0-5085c9915e27",
     "rounds": [
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 4,
             "number": 5
@@ -1601,7 +1601,7 @@
             "number": 3
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 0,
             "number": 1
@@ -1634,7 +1634,7 @@
     "roomId": "15ca8211-aab8-486a-96ec-79038331372e",
     "rounds": [
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 0,
             "number": 1
@@ -1648,7 +1648,7 @@
             "number": 9
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 6,
             "number": 1
@@ -1660,48 +1660,48 @@
         ]
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       }
     ],
     "firstPlayer": {
@@ -1721,8 +1721,8 @@
     "roomId": "8e535fcf-e7d5-4b31-9d93-38cf92e38b49",
     "rounds": [
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       }
     ],
     "firstPlayer": {
@@ -1742,8 +1742,8 @@
     "roomId": "8643fb7c-358f-4f4d-a639-e3d86d65aeff",
     "rounds": [
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       }
     ],
     "firstPlayer": {
@@ -1763,8 +1763,8 @@
     "roomId": "88ac9056-bcd3-4f69-8444-b819c9679d34",
     "rounds": [
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       }
     ],
     "firstPlayer": {
@@ -1784,22 +1784,22 @@
     "roomId": "fb626633-5b36-442b-9aba-064f2261a65b",
     "rounds": [
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 4,
             "number": 5
           }
         ],
-        "secondPlayerMove": []
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 4,
             "number": 5
           }
         ],
-        "secondPlayerMove": []
+        "secondPlayerMoves": []
       }
     ],
     "firstPlayer": {
@@ -1819,22 +1819,22 @@
     "roomId": "c9caabc4-9d79-4ab7-a008-bbe95afaccf7",
     "rounds": [
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 4,
             "number": 5
           }
         ],
-        "secondPlayerMove": []
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 2,
             "number": 3
           }
         ],
-        "secondPlayerMove": []
+        "secondPlayerMoves": []
       }
     ],
     "firstPlayer": {
@@ -1854,7 +1854,7 @@
     "roomId": "c5bae332-dcd6-47eb-8225-4320d1ae2e27",
     "rounds": [
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 0,
             "number": 1
@@ -1872,7 +1872,7 @@
             "number": 5
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 0,
             "number": 7
@@ -1888,7 +1888,7 @@
         ]
       },
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 1,
             "number": 2
@@ -1902,7 +1902,7 @@
             "number": 8
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 0,
             "number": 5
@@ -1914,7 +1914,7 @@
         ]
       },
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 2,
             "number": 3
@@ -1928,7 +1928,7 @@
             "number": 9
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 0,
             "number": 5
@@ -1940,7 +1940,7 @@
         ]
       },
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 0,
             "number": 1
@@ -1954,7 +1954,7 @@
             "number": 9
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 3,
             "number": 7
@@ -1983,7 +1983,7 @@
     "roomId": "c3710398-30aa-49d4-87f7-1ce86dcd318f",
     "rounds": [
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 0,
             "number": 1
@@ -1997,7 +1997,7 @@
             "number": 9
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 7,
             "number": 1
@@ -2009,23 +2009,23 @@
         ]
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 0,
             "number": 1
@@ -2047,7 +2047,7 @@
             "number": 8
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 8,
             "number": 9
@@ -2084,7 +2084,7 @@
     "roomId": "270dfc51-94b3-4962-859a-d36a1484b8fa",
     "rounds": [
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 0,
             "number": 1
@@ -2098,7 +2098,7 @@
             "number": 9
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 8,
             "number": 6
@@ -2110,7 +2110,7 @@
         ]
       },
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 0,
             "number": 1
@@ -2128,7 +2128,7 @@
             "number": 9
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 7,
             "number": 2
@@ -2148,7 +2148,7 @@
         ]
       },
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 3,
             "number": 4
@@ -2166,7 +2166,7 @@
             "number": 2
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 6,
             "number": 1
@@ -2186,7 +2186,7 @@
         ]
       },
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 0,
             "number": 1
@@ -2200,7 +2200,7 @@
             "number": 9
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 1,
             "number": 7
@@ -2229,40 +2229,40 @@
     "roomId": "b439b379-a528-494d-84f0-63435a4b066e",
     "rounds": [
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       }
     ],
     "firstPlayer": {
@@ -2282,12 +2282,12 @@
     "roomId": "94937ac6-80b0-4b04-91f0-7d37f86492b2",
     "rounds": [
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       }
     ],
     "firstPlayer": {
@@ -2307,20 +2307,20 @@
     "roomId": "bad4f748-6481-44a1-80f6-7129aad6438c",
     "rounds": [
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       }
     ],
     "firstPlayer": {
@@ -2340,36 +2340,36 @@
     "roomId": "93d5defb-2a7e-47f8-a5f4-d4ac031f3205",
     "rounds": [
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       }
     ],
     "firstPlayer": {
@@ -2389,12 +2389,12 @@
     "roomId": "9176f077-5b80-4812-a7f5-7baf7b8fd00b",
     "rounds": [
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       }
     ],
     "firstPlayer": {
@@ -2414,11 +2414,11 @@
     "roomId": "6faecf18-ce99-40e1-8237-7ad17106ba07",
     "rounds": [
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 2,
             "number": 3
@@ -2432,7 +2432,7 @@
             "number": 7
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 1,
             "number": 2
@@ -2444,7 +2444,7 @@
         ]
       },
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 0,
             "number": 1
@@ -2458,7 +2458,7 @@
             "number": 9
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 1,
             "number": 6
@@ -2470,12 +2470,12 @@
         ]
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       }
     ],
     "firstPlayer": {
@@ -2495,7 +2495,7 @@
     "roomId": "f933a0e4-0f9d-4a53-a8e8-60dfc9cd74cf",
     "rounds": [
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 0,
             "number": 1
@@ -2509,7 +2509,7 @@
             "number": 9
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 3,
             "number": 8
@@ -2521,15 +2521,15 @@
         ]
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 0,
             "number": 1
@@ -2547,7 +2547,7 @@
             "number": 8
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 6,
             "number": 1
@@ -2563,7 +2563,7 @@
         ]
       },
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 0,
             "number": 1
@@ -2577,7 +2577,7 @@
             "number": 9
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 3,
             "number": 8
@@ -2589,7 +2589,7 @@
         ]
       },
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 0,
             "number": 1
@@ -2603,7 +2603,7 @@
             "number": 9
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 2,
             "number": 5
@@ -2615,7 +2615,7 @@
         ]
       },
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 0,
             "number": 1
@@ -2633,7 +2633,7 @@
             "number": 4
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 0,
             "number": 7
@@ -2653,7 +2653,7 @@
         ]
       },
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 0,
             "number": 1
@@ -2667,7 +2667,7 @@
             "number": 9
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 3,
             "number": 2
@@ -2679,7 +2679,7 @@
         ]
       },
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 8,
             "number": 1
@@ -2693,7 +2693,7 @@
             "number": 5
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 0,
             "number": 8
@@ -2705,7 +2705,7 @@
         ]
       },
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 0,
             "number": 1
@@ -2719,7 +2719,7 @@
             "number": 7
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 4,
             "number": 6
@@ -2748,26 +2748,26 @@
     "roomId": "985a535e-0248-456a-bd19-589f471708fc",
     "rounds": [
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 7,
             "number": 8
           }
         ],
-        "secondPlayerMove": []
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 4,
             "number": 5
           }
         ],
-        "secondPlayerMove": []
+        "secondPlayerMoves": []
       }
     ],
     "firstPlayer": {
@@ -2787,7 +2787,7 @@
     "roomId": "4a8bf549-5527-4711-ae59-f37e6ba56857",
     "rounds": [
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 6,
             "number": 7
@@ -2801,7 +2801,7 @@
             "number": 9
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 5,
             "number": 4
@@ -2813,7 +2813,7 @@
         ]
       },
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 1,
             "number": 2
@@ -2827,7 +2827,7 @@
             "number": 8
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 7,
             "number": 3
@@ -2839,11 +2839,11 @@
         ]
       },
       {
-        "firstPlayerMove": [],
-        "secondPlayerMove": []
+        "firstPlayerMoves": [],
+        "secondPlayerMoves": []
       },
       {
-        "firstPlayerMove": [
+        "firstPlayerMoves": [
           {
             "indexOfCell": 0,
             "number": 1
@@ -2857,7 +2857,7 @@
             "number": 9
           }
         ],
-        "secondPlayerMove": [
+        "secondPlayerMoves": [
           {
             "indexOfCell": 1,
             "number": 1

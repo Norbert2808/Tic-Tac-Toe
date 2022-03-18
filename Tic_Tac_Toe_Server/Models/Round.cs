@@ -8,10 +8,10 @@ namespace TicTacToe.Server.Models
         [JsonIgnore]
         public List<Cell> Board { get; private set; }
 
-        [JsonPropertyName("firstPlayerMove")]
+        [JsonPropertyName("firstPlayerMoves")]
         public List<MoveDto> FirstPlayerMoves { get; set; }
 
-        [JsonPropertyName("secondPlayerMove")]
+        [JsonPropertyName("secondPlayerMoves")]
         public List<MoveDto> SecondPlayerMoves { get; set; }
 
         [JsonIgnore]
@@ -44,11 +44,11 @@ namespace TicTacToe.Server.Models
         }
 
         [JsonConstructor]
-        public Round(List<MoveDto> firstPlayerMove,
-            List<MoveDto> secondPlayerMove)
+        public Round(List<MoveDto> firstPlayerMoves,
+            List<MoveDto> secondPlayerMoves)
         {
-            FirstPlayerMoves = firstPlayerMove;
-            SecondPlayerMoves = secondPlayerMove;
+            FirstPlayerMoves = firstPlayerMoves;
+            SecondPlayerMoves = secondPlayerMoves;
             bool? player = null;
             Board = Enumerable.Repeat(new Cell(0, player), 9).ToList();
             AvailableValueFirstPlayerNumbers = Enumerable.Range(1, 9).ToHashSet();
