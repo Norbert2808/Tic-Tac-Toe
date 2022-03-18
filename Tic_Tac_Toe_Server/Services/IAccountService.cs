@@ -13,9 +13,9 @@ namespace TicTacToe.Server.Services
         /// <returns>
         /// A task that represents the asynchronous operation. <see cref="Task"/>
         /// </returns>
-        /// <exception cref="Exceptions.AccountException"> throw if input login, password incorrect or
+        /// <exception cref="Exceptions.AccountException">Throws if input login, password incorrect or
         /// user has already entered into account.</exception>
-        /// <exception cref="Exceptions.TimeOutException"> throw if user try log-in account three times .</exception>
+        /// <exception cref="Exceptions.TimeOutException">Throws if user try log-in account three times .</exception>
         Task InvokeLoginAsync(UserAccountDto account);
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace TicTacToe.Server.Services
         /// <returns>
         /// A task that represents the asynchronous operation. <see cref="Task"/>
         /// </returns>
-        /// <exception cref="Exceptions.AccountException"> throw if input login,
+        /// <exception cref="Exceptions.AccountException">Throws if input login,
         /// password are already taken</exception>
         Task InvokeRegistrationAsync(UserAccountDto account);
 

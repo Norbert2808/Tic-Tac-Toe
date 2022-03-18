@@ -173,9 +173,7 @@ namespace TicTacToe.Server.Services.Impl
                     {
                         var round = room.Rounds.Peek();
                         if (round.IsFinished)
-                        {
                             _roundService.CreateNewRound(room);
-                        }
                     }
                 }
                 finally
@@ -200,7 +198,7 @@ namespace TicTacToe.Server.Services.Impl
                                         "Room was closed.");
 
             if (room.Times.IsRoomActionTimeOut())
-                throw new TimeOutException("Time out. You were inactive inside the room for two minutes");
+                throw new TimeOutException("Time out. You were inactive inside the room long time");
 
             room.Times.ActionTimeInRoom = DateTime.UtcNow;
 
