@@ -290,7 +290,7 @@ namespace TicTacToe.Server.Controllers
             }
         }
 
-        [HttpGet("exit/{id}")]
+        [HttpDelete("exit/{id}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
