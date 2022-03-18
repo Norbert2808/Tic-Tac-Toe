@@ -8,9 +8,9 @@ namespace TicTacToe.Server.Services
         /// Find room by id and registers user there. If room not found,
         /// user create new room and sends the response.
         /// </summary>
-        /// <param name="id">Room id</param>
-        /// <param name="login">User login</param>
-        /// <param name="settings">Room settings</param>
+        /// <param name="id">Room id.</param>
+        /// <param name="login">User login.</param>
+        /// <param name="settings">Room settings.</param>
         /// <returns>
         /// The task result contains <see cref="String"/>.
         /// </returns>
@@ -19,7 +19,7 @@ namespace TicTacToe.Server.Services
         Task<string> StartRoomAsync(string id, string login, RoomSettingsDto settings);
 
         /// <summary>
-        /// Checks the room for a second player.If the player has not logged in,
+        /// Checks the room for a second player. If the player has not logged in,
         /// the timeout is transmitted and sends the response.
         /// </summary>
         /// <param name="id">Room id.</param>
@@ -60,18 +60,82 @@ namespace TicTacToe.Server.Services
         /// <returns>
         /// A task that represents the asynchronous operation. <see cref="Task"/>
         /// </returns>
+        /// <exception cref="Exceptions.RoomException"> - Throws if room not found or
+        /// when opponent left from room.</exception>
+        /// <exception cref="Exceptions.TimeOutException"> - Throws if move time expired.</exception>
         Task DoMoveAsync(string id, string login, MoveDto move);
 
+        /// <summary>
+        /// Checks if the second player has accepted the game. If two players
+        /// confirmed the game, creates new round.
+        /// </summary>
+        /// <param name="id">Room id.</param>
+        /// <param name="login">User login.</param>
+        /// <returns>
+        /// The task result contains <see cref="Tuple"/>.
+        /// <list type="bullet">
+        /// <item><see cref="bool"/> - Confirm game or no.</item>
+        /// <item><see cref="string"/> - Message.</item>
+        /// </list>
+        /// </returns>
+        /// <exception cref="Exceptions.RoomException"> - Throws if room not found or opponent
+        /// left from room.</exception>
+        /// <exception cref="Exceptions.TimeOutException"> - Throws if confirmation time expired.</exception>
         Task<(bool, string)> CheckConfirmationAsync(string id, string login);
 
+        /// <summary>
+        /// Confirms the player’s readiness for the round.
+        /// </summary>
+        /// <param name="confirmation">Player's confirmation.</param>
+        /// <param name="id">Room id.</param>
+        /// <returns>
+        /// A task that represents the asynchronous operation. <see cref="Task"/>
+        /// </returns>
+        /// <exception cref="Exceptions.RoomException"> - Throws if player didn't confirm the game or
+        /// opponent left from room.</exception>
+        /// <exception cref="Exceptions.TimeOutException"> - Throws if </exception>
         Task AppendConfirmationAsync(bool confirmation, string id);
 
+        /// <summary>
+        /// Sends the response about game result.
+        /// </summary>
+        /// <param name="id">Room id.</param>
+        /// <returns>
+        /// The task result contains <see cref="ResultsDto"/>
+        /// </returns>
+        /// <exception cref="Exceptions.RoomException"> - Throws if room not found.</exception>
         Task<ResultsDto> GetResultAsync(string id);
 
+        /// <summary>
+        /// Sends the response about round state.
+        /// </summary>
+        /// <param name="id">Room id.</param>
+        /// <param name="login">User login.</param>
+        /// <returns>
+        /// The task result contains <see cref="RoundStateDto"/>
+        /// </returns>
+        /// <exception cref="Exceptions.RoomException"> - Throws if room not found.</exception>
         Task<RoundStateDto> CheckStateRoundAsync(string id, string login);
 
+        /// <summary>
+        /// Invoke <see cref="Services.IRoundService.ExitFormRound"/>.
+        /// </summary>
+        /// <param name="id">Room id.</param>
+        /// <param name="login">User login.</param>
+        /// <returns>
+        /// A task that represents the asynchronous operation. <see cref="Task"/>
+        /// </returns>
+        /// <exception cref="Exceptions.RoomException">- Throws if room not found.</exception>
         Task SurrenderAsync(string id, string login);
 
+        /// <summary>
+        /// Exit from room and save information about room state.
+        /// </summary>
+        /// <param name="id">Room id.</param>
+        /// <returns>
+        /// A task that represents the asynchronous operation. <see cref="Task"/>
+        /// </returns>
+        /// <exception cref="Exceptions.RoomException"> - Throws if room completed.</exception>
         Task ExitFromRoomAsync(string id);
     }
 }

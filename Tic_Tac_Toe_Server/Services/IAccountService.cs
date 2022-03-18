@@ -26,7 +26,7 @@ namespace TicTacToe.Server.Services
         /// <returns>
         /// A task that represents the asynchronous operation. <see cref="Task"/>
         /// </returns>
-        /// /// <exception cref="Exceptions.AccountException"> throw if input login,
+        /// <exception cref="Exceptions.AccountException"> throw if input login,
         /// password are already taken</exception>
         Task InvokeRegistrationAsync(UserAccountDto account);
 
