@@ -67,11 +67,15 @@ namespace TicTacToe.Server.Controllers
             return Ok(account.Login);
         }
 
-        [HttpPost("logout")]
+        [HttpDelete("logout")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
-        public async Task<IActionResult> LogoutAsync([FromBody] string login)
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        public async Task<IActionResult> LogoutAsync()
         {
             LogInformationAboutClass(nameof(LogoutAsync), $"Processing request: {Request.Path}");
+            var login = Request.Headers["Login"].ToString();
+            if (string.IsNullOrEmpty(login))
+                return Unauthorized();
             _accService.RemoveActiveAccountByLogin(login);
 
             return await Task.FromResult(Ok("User successfully left."));

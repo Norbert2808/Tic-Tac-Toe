@@ -91,9 +91,10 @@ namespace TicTacToe.Server.Services
         /// <returns>
         /// A task that represents the asynchronous operation. <see cref="Task"/>
         /// </returns>
-        /// <exception cref="Exceptions.RoomException"> - Throws if player didn't confirm the game or
+        /// <exception cref="Exceptions.RoomException">Throws if player didn't confirm the game or
         /// opponent left from room.</exception>
-        /// <exception cref="Exceptions.TimeOutException"> - Throws if </exception>
+        /// <exception cref="Exceptions.TimeOutException">Throws if you were inactive inside
+        /// the room long time. </exception>
         Task AppendConfirmationAsync(bool confirmation, string id);
 
         /// <summary>
@@ -103,7 +104,7 @@ namespace TicTacToe.Server.Services
         /// <returns>
         /// The task result contains <see cref="ResultsDto"/>
         /// </returns>
-        /// <exception cref="Exceptions.RoomException"> - Throws if room not found.</exception>
+        /// <exception cref="Exceptions.RoomException">Throws if room not found.</exception>
         Task<ResultsDto> GetResultAsync(string id);
 
         /// <summary>
@@ -114,7 +115,7 @@ namespace TicTacToe.Server.Services
         /// <returns>
         /// The task result contains <see cref="RoundStateDto"/>
         /// </returns>
-        /// <exception cref="Exceptions.RoomException"> - Throws if room not found.</exception>
+        /// <exception cref="Exceptions.RoomException">Throws if room not found.</exception>
         Task<RoundStateDto> CheckStateRoundAsync(string id, string login);
 
         /// <summary>
@@ -125,7 +126,7 @@ namespace TicTacToe.Server.Services
         /// <returns>
         /// A task that represents the asynchronous operation. <see cref="Task"/>
         /// </returns>
-        /// <exception cref="Exceptions.RoomException">- Throws if room not found.</exception>
+        /// <exception cref="Exceptions.RoomException">Throws if room not found.</exception>
         Task SurrenderAsync(string id, string login);
 
         /// <summary>
@@ -135,7 +136,7 @@ namespace TicTacToe.Server.Services
         /// <returns>
         /// A task that represents the asynchronous operation. <see cref="Task"/>
         /// </returns>
-        /// <exception cref="Exceptions.RoomException"> - Throws if room completed.</exception>
+        /// <exception cref="Exceptions.RoomException">Throws if room completed.</exception>
         Task ExitFromRoomAsync(string id);
     }
 }
