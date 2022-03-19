@@ -30,7 +30,7 @@ namespace TicTacToe.Server.Controllers
         public async Task<IActionResult> GetPrivateStatisticAsync()
         {
             LogInformationAboutClass(nameof(GetPrivateStatisticAsync), $"Processing request: {Request.Path}");
-            if (LoginUser is null or "")
+            if (string.IsNullOrEmpty(LoginUser))
             {
                 _logger.LogWarning("Unauthorized users");
                 return Unauthorized("Unauthorized users");
@@ -52,7 +52,7 @@ namespace TicTacToe.Server.Controllers
         {
             LogInformationAboutClass(nameof(GetPrivateStatisticInTimeIntervalAsync),
                 $"Processing request: {Request.Path}");
-            if (LoginUser is null or "")
+            if (string.IsNullOrEmpty(LoginUser))
             {
                 _logger.LogWarning("Unauthorized users");
                 return Unauthorized("Unauthorized users");
@@ -82,7 +82,7 @@ namespace TicTacToe.Server.Controllers
         private void LogInformationAboutClass(string methodName, string message)
         {
             _logger.LogInformation("{ClassName}::{MethodName}::{Message}",
-                nameof(AccountController), methodName, message);
+                nameof(StatisticController), methodName, message);
         }
     }
 }
