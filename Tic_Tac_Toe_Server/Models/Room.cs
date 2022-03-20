@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using TicTacToe.Server.DTO;
 using TicTacToe.Server.Enums;
 
 namespace TicTacToe.Server.Models
@@ -23,7 +24,7 @@ namespace TicTacToe.Server.Models
         [JsonPropertyName("times")]
         public TimeLimit Times { get; set; }
 
-        //Flags 
+        //Flags
         [JsonIgnore]
         public bool IsFinished { get; set; }
 
@@ -71,6 +72,7 @@ namespace TicTacToe.Server.Models
             FirstPlayer = firstPlayer;
             SecondPlayer = secondPlayer;
             Rounds = rounds;
+            Settings = new RoomSettingsDto();
         }
     }
 }

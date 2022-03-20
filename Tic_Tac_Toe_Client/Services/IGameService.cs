@@ -7,7 +7,7 @@ namespace TicTacToe.Client.Services
         /// <summary>
         /// Sends the request to create a room or log into an existing one.
         /// </summary>
-        /// <param name="settingsDto">Settings for room <see cref="DTO.RoomSettingsDto"/></param>
+        /// <param name="settingsDto">Settings for room <see cref="RoomSettingsDto"/></param>
         /// <returns>
         /// The task result contains <see cref="HttpResponseMessage"/>.
         /// </returns>

@@ -6,7 +6,7 @@ namespace TicTacToe.Server.DTO
     public class RoundStateDto
     {
         [JsonPropertyName("board")]
-        public List<Cell> Board { get; set; }
+        public List<Cell>? Board { get; set; }
 
         [JsonPropertyName("isFirstPlayer")]
         public bool IsFirstPlayer { get; set; }

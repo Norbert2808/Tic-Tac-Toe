@@ -1,8 +1,9 @@
-﻿namespace TicTacToe.Server.Enums;
-
-public enum RoomType
+﻿namespace TicTacToe.Server.Enums
 {
-    Private,
-    Public,
-    Practice
+    public enum RoomType
+    {
+        Private,
+        Public,
+        Practice
+    }
 }

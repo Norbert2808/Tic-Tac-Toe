@@ -1,5 +1,5 @@
-﻿using TicTacToe.Server.Exceptions;
-using TicTacToe.Server.Models;
+﻿using TicTacToe.Server.DTO;
+using TicTacToe.Server.Exceptions;
 using TicTacToe.Server.Tools;
 
 namespace TicTacToe.Server.Services.Impl
@@ -36,9 +36,7 @@ namespace TicTacToe.Server.Services.Impl
                 throw new AccountException("Input login does not exist");
 
             if (_blocker.IsBlocked(account.Login))
-            {
                 throw new TimeoutException("You’re blocked for 1 minute. You try log-in three times.");
-            }
 
             var passwordIsExist = await IsAccountExistByPasswordAsync(account.Password);
 
@@ -61,9 +59,7 @@ namespace TicTacToe.Server.Services.Impl
             await UpdateAllUsersAccountAsync();
 
             if (await IsAccountExistByLoginAsync(account.Login))
-            {
                 throw new AccountException("User with such login already registered");
-            }
 
             AddActiveAccount(account);
 
@@ -73,11 +69,6 @@ namespace TicTacToe.Server.Services.Impl
         private async Task UpdateAllUsersAccountAsync()
         {
             _accountsStorage = await _jsonHelper.DeserializeAsync();
-        }
-
-        public List<UserAccountDto> GetStorage()
-        {
-            return _accountsStorage;
         }
 
         private async Task<bool> IsAccountExistByLoginAsync(string login)
@@ -91,7 +82,6 @@ namespace TicTacToe.Server.Services.Impl
             return await Task.FromResult(_accountsStorage
                 .Any(x => x.Password.Equals(password, StringComparison.Ordinal)));
         }
-
 
         private async Task AddAccountToStorageAsync(UserAccountDto account)
         {

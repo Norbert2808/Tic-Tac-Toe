@@ -1,4 +1,5 @@
-﻿using System.Net.Http.Formatting;
+﻿using System.Net;
+using System.Net.Http.Formatting;
 using TicTacToe.Client.DTO;
 
 namespace TicTacToe.Client.Services.Impl
@@ -24,7 +25,7 @@ namespace TicTacToe.Client.Services.Impl
                 user,
                 new JsonMediaTypeFormatter());
 
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            if (response.StatusCode == HttpStatusCode.OK)
             {
                 var registerLogin = await response.Content.ReadAsStringAsync();
                 Login = registerLogin;
@@ -43,7 +44,7 @@ namespace TicTacToe.Client.Services.Impl
                 user,
                 new JsonMediaTypeFormatter());
 
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            if (response.StatusCode == HttpStatusCode.OK)
             {
                 var registerLogin = await response.Content.ReadAsStringAsync();
                 Login = registerLogin;
@@ -56,9 +57,9 @@ namespace TicTacToe.Client.Services.Impl
 
         public async Task<HttpResponseMessage> LogoutAsync()
         {
-            var response = await _httpClient.PostAsync(ControllerPath + "logout", Login, new JsonMediaTypeFormatter());
+            var response = await _httpClient.DeleteAsync(ControllerPath + "logout");
 
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            if (response.StatusCode == HttpStatusCode.OK)
                 _httpClient.DefaultRequestHeaders.Clear();
 
             return response;

@@ -1,10 +1,11 @@
-﻿namespace TicTacToe.Server.Exceptions;
-
-class TimeOutException : Exception
+﻿namespace TicTacToe.Server.Exceptions
 {
-    public TimeOutException(string message)
-        : base(message)
+    public class TimeOutException : Exception
     {
-        
+        public TimeOutException(string message)
+            : base(message)
+        {
+
+        }
     }
 }

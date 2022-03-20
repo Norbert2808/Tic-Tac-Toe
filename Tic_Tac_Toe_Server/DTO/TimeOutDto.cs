@@ -5,7 +5,7 @@ namespace TicTacToe.Server.DTO
     public class TimeOutDto
     {
         [JsonPropertyName("loginSettingsOwner")]
-        public string LoginSettingsOwner { get; set; }
+        public string? LoginSettingsOwner { get; set; }
 
         [JsonPropertyName("roundTimeOut")]
         public TimeSpan RoundTimeOut { get; set; }

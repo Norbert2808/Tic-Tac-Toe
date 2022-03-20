@@ -23,7 +23,7 @@
         Task ExecuteRegistrationAsync();
 
         /// <summary>
-        /// Invoke <see cref="IState.InvokeMenuAsync"/> in the <see cref="States.Impl.LeaderMenuState"/>
+        /// Invoke <see cref="IState.InvokeMenuAsync"/> in the <see cref="Impl.LeaderMenuState"/>
         /// </summary>
         /// <returns>
         /// A task that represents the asynchronous operation. <see cref="Task"/>

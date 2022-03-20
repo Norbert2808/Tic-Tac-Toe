@@ -73,7 +73,7 @@ namespace TicTacToe.Client.Services.Impl
 
         public async Task<HttpResponseMessage> ExitFromRoomAsync()
         {
-            return await _httpClient.GetAsync(ControllerPath + $"exit/{RoomId}");
+            return await _httpClient.DeleteAsync(ControllerPath + $"exit/{RoomId}");
         }
 
         public async Task<HttpResponseMessage> GetResultsAsync()

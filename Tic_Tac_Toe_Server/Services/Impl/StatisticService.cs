@@ -39,16 +39,16 @@ namespace TicTacToe.Server.Services.Impl
             {
                 await UpdateRoomStorageFromFileAsync();
 
-                (var winCount, var lostCount) = GetWinLostCount(login, startDate, endDate);
+                var (winCount, lostCount) = GetWinLostCount(login, startDate, endDate);
 
                 var allMoves = GetAllMovesFromRoomStorage(login, startDate, endDate);
-                (var allTime, var allRoomsCount) = GetAllTimeAndCountsOfRooms(login, startDate, endDate);
+                var (allTime, allRoomsCount) = GetAllTimeAndCountsOfRooms(login, startDate, endDate);
                 var allMovesCount = allMoves.Count;
                 var allPosition = allMoves.Select(x => x.IndexOfCell + 1).ToList();
                 var allNumbers = allMoves.Select(x => x.Number).ToList();
 
-                (var topPosition, var countOfPositionUse) = GetTopPropertyWithCount(allPosition);
-                (var topNumbers, var countOfNumbersUse) = GetTopPropertyWithCount(allNumbers);
+                var (topPosition, countOfPositionUse) = GetTopPropertyWithCount(allPosition);
+                var (topNumbers, countOfNumbersUse) = GetTopPropertyWithCount(allNumbers);
 
                 return new PrivateStatisticDto(
                     winCount,
@@ -121,7 +121,7 @@ namespace TicTacToe.Server.Services.Impl
 
             usersStorage.ForEach(user =>
             {
-                (var winCount, var lostCount) = GetWinLostCount(user.Login,
+                var (winCount, lostCount) = GetWinLostCount(user.Login,
                     DateTime.MinValue, DateTime.MaxValue);
                 var roundsCount = winCount + lostCount;
 
@@ -130,25 +130,25 @@ namespace TicTacToe.Server.Services.Impl
             });
         }
 
-        private List<MoveDto> GetAllMovesFromRoomStorage(string login, DateTime startdate, DateTime endDate)
+        private List<MoveDto> GetAllMovesFromRoomStorage(string login, DateTime startDate, DateTime endDate)
         {
             var result = new List<MoveDto>();
             _roomStorage.ForEach(room =>
             {
-                if (room.Times.CreationRoomDate >= startdate && room.Times.FinishRoomDate <= endDate)
+                if (room.Times.CreationRoomDate >= startDate && room.Times.FinishRoomDate <= endDate)
                 {
                     if (login.Equals(room.FirstPlayer.Login, StringComparison.Ordinal))
                     {
                         foreach (var moves in room.Rounds)
                         {
-                            result.AddRange(moves.FirstPlayerMove);
+                            result.AddRange(moves.FirstPlayerMoves);
                         }
                     }
                     else if (login.Equals(room.SecondPlayer.Login, StringComparison.Ordinal))
                     {
                         foreach (var moves in room.Rounds)
                         {
-                            result.AddRange(moves.SecondPlayerMove);
+                            result.AddRange(moves.SecondPlayerMoves);
                         }
                     }
                 }
@@ -163,9 +163,9 @@ namespace TicTacToe.Server.Services.Impl
 
             foreach (var player in _leaderPlayers)
             {
-                (var winCount, var lostCount) = GetWinLostCount(player,
+                var (winCount, lostCount) = GetWinLostCount(player,
                     DateTime.MinValue, DateTime.MaxValue);
-                (var time, var roomsCount) = GetAllTimeAndCountsOfRooms(player,
+                var (time, roomsCount) = GetAllTimeAndCountsOfRooms(player,
                     DateTime.MinValue, DateTime.MaxValue);
 
                 var leaderStatistic = new LeaderStatisticDto(
@@ -176,13 +176,13 @@ namespace TicTacToe.Server.Services.Impl
             return resultLeaders;
         }
 
-        private (int, int) GetWinLostCount(string login, DateTime startdate, DateTime endDate)
+        private (int, int) GetWinLostCount(string login, DateTime startDate, DateTime endDate)
         {
             var winCount = 0;
             var lostCount = 0;
             _roomStorage.ForEach(room =>
             {
-                if (room.Times.CreationRoomDate >= startdate && room.Times.FinishRoomDate <= endDate)
+                if (room.Times.CreationRoomDate >= startDate && room.Times.FinishRoomDate <= endDate)
                 {
                     if (login.Equals(room.FirstPlayer.Login, StringComparison.Ordinal))
                     {
@@ -220,13 +220,13 @@ namespace TicTacToe.Server.Services.Impl
             return (result, topCount);
         }
 
-        private (TimeSpan, int) GetAllTimeAndCountsOfRooms(string login, DateTime startdate, DateTime endDate)
+        private (TimeSpan, int) GetAllTimeAndCountsOfRooms(string login, DateTime startDate, DateTime endDate)
         {
             var allTime = TimeSpan.Zero;
             var countOfRooms = 0;
             _roomStorage.ForEach(room =>
             {
-                if (room.Times.CreationRoomDate >= startdate && room.Times.FinishRoomDate <= endDate)
+                if (room.Times.CreationRoomDate >= startDate && room.Times.FinishRoomDate <= endDate)
                 {
                     if (login.Equals(room.FirstPlayer.Login, StringComparison.Ordinal)
                         || login.Equals(room.SecondPlayer.Login, StringComparison.Ordinal))

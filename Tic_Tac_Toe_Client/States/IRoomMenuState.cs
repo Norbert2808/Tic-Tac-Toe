@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using TicTacToe.Client.DTO;
+﻿using TicTacToe.Client.DTO;
 using TicTacToe.Client.Enums;
 
 namespace TicTacToe.Client.States
@@ -41,7 +40,7 @@ namespace TicTacToe.Client.States
 
         /// <summary>
         /// Invoke main method <see cref="IState.InvokeMenuAsync"/> in the class
-        /// <see cref="States.Impl.RoundMenuState"/>.
+        /// <see cref="Impl.RoundMenuState"/>.
         /// </summary>
         /// <returns>
         /// A task that represents the asynchronous operation. <see cref="Task"/>

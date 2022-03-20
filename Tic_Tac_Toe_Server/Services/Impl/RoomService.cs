@@ -66,13 +66,16 @@ namespace TicTacToe.Server.Services.Impl
                     if (settings.IsConnection)
                     {
                         var room = await ConnectionToPrivateRoomAsync(login, settings.RoomId);
+
+                        if (room is null)
+                            return null!;
+
                         room.Times.ActionTimeInRoom = DateTime.UtcNow;
-                        return room is null ? null! : room.RoomId;
+                        return room.RoomId;
                     }
                     else
                     {
-                        var room = new Room(login, settings);
-                        room.Times.ActionTimeInRoom = DateTime.UtcNow;
+                        var room = new Room(login, settings) { Times = { ActionTimeInRoom = DateTime.UtcNow } };
                         _roomStorage.Add(room);
                         return room.RoomId;
                     }
@@ -140,7 +143,8 @@ namespace TicTacToe.Server.Services.Impl
                 }
                 room.Times.ActionTimeInRoom = DateTime.UtcNow;
 
-                throw new TimeOutException($"Time out, you didn't make a move in {room.Times.RoundTimeOut:dd\\:mm\\:ss}.");
+                throw new TimeOutException($"Time out, you didn't make a move in " +
+                                           $"{room.Times.RoundTimeOut:dd\\:mm\\:ss}.");
             }
 
 
@@ -169,9 +173,7 @@ namespace TicTacToe.Server.Services.Impl
                     {
                         var round = room.Rounds.Peek();
                         if (round.IsFinished)
-                        {
                             _roundService.CreateNewRound(room);
-                        }
                     }
                 }
                 finally
@@ -194,11 +196,11 @@ namespace TicTacToe.Server.Services.Impl
             if (room is null)
             {
                 throw new RoomException("You didn't confirm the game or your opponent left the room." +
-                        "Room was closed.");
+                                        "Room was closed.");
             }
 
             if (room.Times.IsRoomActionTimeOut())
-                throw new TimeOutException("Time out. You were inactive inside the room for two minutes");
+                throw new TimeOutException("Time out. You were inactive inside the room long time");
 
             room.Times.ActionTimeInRoom = DateTime.UtcNow;
 
