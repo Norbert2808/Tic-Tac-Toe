@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,18 +20,24 @@ public class StatisticControllerTest
 
     private readonly Mock<IStatisticService> _serviceMock = new();
 
+    private const string ParseFormat = "dd.MM.yyyy HH:mm";
+
     public static readonly object[] CorrectUserData =
     {
         new object[] { "qwerty", DateTime.MinValue, DateTime.MaxValue },
-        new object[] { "qwerty123", DateTime.Parse("14.03.2022 12:00:43"), DateTime.Parse("16.03.2022 20:00:23") },
-        new object[] { "alex", DateTime.Parse("9.03.2022 00:00:00"), DateTime.Parse("10.03.2022 20:00:23") },
+        new object[] { "qwerty123", DateTime.ParseExact("14.03.2022 12:00", ParseFormat, CultureInfo.InvariantCulture),
+            DateTime.ParseExact("16.03.2022 20:00", ParseFormat, CultureInfo.InvariantCulture) },
+        new object[] { "alex", DateTime.ParseExact("09.03.2022 00:00", ParseFormat, CultureInfo.InvariantCulture),
+            DateTime.ParseExact("10.03.2022 20:00", ParseFormat, CultureInfo.InvariantCulture) },
     };
 
     public static readonly object[] InvalidUserData =
     {
         new object[] { "", DateTime.MinValue, DateTime.MaxValue },
-        new object[] { null!, DateTime.Parse("14.03.2022 12:00:43"), DateTime.Parse("16.03.2022 20:00:23") },
-        new object[] { null!, DateTime.Parse("9.03.2022 00:00:00"), DateTime.Parse("10.03.2022 20:00:23") },
+        new object[] { null!, DateTime.ParseExact("14.03.2022 12:00", ParseFormat, CultureInfo.InvariantCulture),
+            DateTime.ParseExact("16.03.2022 20:00", ParseFormat, CultureInfo.InvariantCulture) },
+        new object[] { null!, DateTime.ParseExact("09.03.2022 00:00", ParseFormat, CultureInfo.InvariantCulture),
+            DateTime.ParseExact("10.03.2022 20:00", ParseFormat, CultureInfo.InvariantCulture) },
     };
 
     private StatisticController ConfigureControllerContext(string name)
