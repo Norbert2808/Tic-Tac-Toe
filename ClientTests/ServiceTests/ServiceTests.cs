@@ -1,13 +1,13 @@
 ﻿using Xunit;
 
-namespace ClientTest
+namespace ClientTests
 {
-    public class UnitTest1
+    public class ServiceTests
     {
         [Fact]
         public void Test1()
         {
-            Assert.True(true);
+
         }
     }
 }
