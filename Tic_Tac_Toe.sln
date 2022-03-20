@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicTacToe.Client", "Tic_Tac
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicTacToe.Server", "Tic_Tac_Toe_Server\TicTacToe.Server.csproj", "{677763BD-5C06-418E-8682-AB09B2EBE0A7}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{4EC28335-6CB7-455D-8DE5-D42BD118F748}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControllersTest", "ControllersTest\ControllersTest.csproj", "{27977224-DA83-4821-963D-67D8CB24A975}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,11 +25,18 @@ Global
 		{677763BD-5C06-418E-8682-AB09B2EBE0A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{677763BD-5C06-418E-8682-AB09B2EBE0A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{677763BD-5C06-418E-8682-AB09B2EBE0A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27977224-DA83-4821-963D-67D8CB24A975}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27977224-DA83-4821-963D-67D8CB24A975}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27977224-DA83-4821-963D-67D8CB24A975}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27977224-DA83-4821-963D-67D8CB24A975}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2F584401-C71D-4154-8304-019106AB1C97}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{27977224-DA83-4821-963D-67D8CB24A975} = {4EC28335-6CB7-455D-8DE5-D42BD118F748}
 	EndGlobalSection
 EndGlobal
