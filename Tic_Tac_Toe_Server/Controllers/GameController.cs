@@ -123,7 +123,7 @@ namespace TicTacToe.Server.Controllers
                 _logger.LogWarning("Message: {Message}", exception.Message);
                 return NotFound(exception.Message);
             }
-            catch (TimeOutException exception)
+            catch (TimeoutException exception)
             {
                 _logger.LogWarning("Message: {Message}", exception.Message);
                 return Conflict(exception.Message);
@@ -166,7 +166,7 @@ namespace TicTacToe.Server.Controllers
                 _logger.LogWarning("Message: {Message}", exception.Message);
                 return BadRequest(exception.Message);
             }
-            catch (TimeOutException exception)
+            catch (TimeoutException exception)
             {
                 _logger.LogWarning("Message: {Message}", exception.Message);
                 return Conflict(exception.Message);
@@ -198,7 +198,7 @@ namespace TicTacToe.Server.Controllers
                 _logger.LogWarning("Message: {Message}", exception.Message);
                 return Conflict(exception.Message);
             }
-            catch (TimeOutException exception)
+            catch (TimeoutException exception)
             {
                 _logger.LogWarning("Message: {Message}", exception.Message);
                 return Conflict(exception.Message);

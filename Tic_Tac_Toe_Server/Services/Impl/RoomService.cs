@@ -143,7 +143,7 @@ namespace TicTacToe.Server.Services.Impl
                 }
                 room.Times.ActionTimeInRoom = DateTime.UtcNow;
 
-                throw new TimeOutException($"Time out, you didn't make a move in " +
+                throw new TimeoutException($"Time out, you didn't make a move in " +
                                            $"{room.Times.RoundTimeOut:dd\\:mm\\:ss}.");
             }
 
@@ -200,7 +200,7 @@ namespace TicTacToe.Server.Services.Impl
             }
 
             if (room.Times.IsRoomActionTimeOut())
-                throw new TimeOutException("Time out. You were inactive inside the room long time");
+                throw new TimeoutException("Time out. You were inactive inside the room long time");
 
             room.Times.ActionTimeInRoom = DateTime.UtcNow;
 
