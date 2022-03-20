@@ -70,12 +70,14 @@ namespace ServerTests.ControllerTests
 
             // Act
             var result = await statisticController.GetPrivateStatisticAsync();
-            var okResult = result as OkObjectResult;
-            var content = okResult?.Value as PrivateStatisticDto;
 
             // Assert
             Assert.NotNull(result);
+
+            var okResult = result as OkObjectResult;
             Assert.NotNull(okResult);
+
+            var content = okResult?.Value as PrivateStatisticDto;
             Assert.NotNull(content);
         }
 
@@ -85,10 +87,6 @@ namespace ServerTests.ControllerTests
         public async Task GetPrivateStatisticShouldReturnUnauthorized(string name)
         {
             // Arrange
-            _ = _serviceMock.Setup(x => x.GetPrivateStatisticAsync(name, DateTime.MinValue,
-                      DateTime.MaxValue))
-                .Returns((Task<PrivateStatisticDto>)null!);
-
             var statisticController = ConfigureControllerContext(name);
 
             //Act
@@ -123,9 +121,6 @@ namespace ServerTests.ControllerTests
             DateTime startTime, DateTime endTime)
         {
             // Arrange
-            _ = _serviceMock.Setup(x => x.GetPrivateStatisticAsync(name, startTime, endTime))
-                .Returns((Task<PrivateStatisticDto>)null!);
-
             var statisticController = ConfigureControllerContext(name);
 
             //Act
@@ -149,11 +144,14 @@ namespace ServerTests.ControllerTests
 
             //Act
             var result = await statisticController.GetLeadersStatisticAsync(type);
-            var okResult = result as OkObjectResult;
-            var content = okResult?.Value as List<LeaderStatisticDto>;
 
             //Assert
             Assert.NotNull(result);
+
+            var okResult = result as OkObjectResult;
+            Assert.NotNull(okResult);
+
+            var content = okResult?.Value as List<LeaderStatisticDto>;
             Assert.NotNull(content);
             Assert.Equal(3, content?.Count);
         }

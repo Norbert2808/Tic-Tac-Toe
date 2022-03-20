@@ -48,13 +48,16 @@ namespace ServerTests.ControllerTests
 
             //Act
             var result = await accountController.LoginAsync(account);
-            var okResult = result as OkObjectResult;
-            var content = okResult?.Value as string;
 
             //Assert
             Assert.NotNull(result);
+
+            var okResult = result as OkObjectResult;
             Assert.NotNull(okResult);
+
+            var content = okResult?.Value as string;
             Assert.NotNull(content);
+
             Assert.Equal(login, content);
         }
 
@@ -103,13 +106,16 @@ namespace ServerTests.ControllerTests
 
             //Act
             var result = await accountController.RegistrationAsync(account);
-            var okResult = result as OkObjectResult;
-            var content = okResult?.Value as string;
 
             //Assert
             Assert.NotNull(result);
+
+            var okResult = result as OkObjectResult;
             Assert.NotNull(okResult);
+
+            var content = okResult?.Value as string;
             Assert.NotNull(content);
+
             Assert.Equal(login, content);
         }
 
