@@ -7,5 +7,10 @@
         {
 
         }
+
+        public GameException()
+        {
+
+        }
     }
 }

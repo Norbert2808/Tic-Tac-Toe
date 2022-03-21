@@ -32,7 +32,7 @@ namespace TicTacToe.Server.Services
         /// </returns>
         /// <exception cref="Exceptions.RoomException"> Throws if room not found or
         /// seconds player left from room.</exception>
-        /// <exception cref="Exceptions.TimeOutException"> Throws if connection time expires.</exception>
+        /// <exception cref="TimeoutException"> Throws if connection time expires.</exception>
         Task<(bool, string)> CheckRoomAsync(string id);
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace TicTacToe.Server.Services
         /// </returns>
         /// <exception cref="Exceptions.RoomException">Throws if room not found or
         /// second player left from room</exception>
-        /// <exception cref="Exceptions.TimeOutException">Throws if round time expires</exception>
+        /// <exception cref="TimeoutException">Throws if round time expires</exception>
         /// <exception cref="Exceptions.GameException">Throws if opponent surrendered.</exception>
         Task<RoundStateDto?> CheckMoveAsync(string id, string login);
 
@@ -62,7 +62,7 @@ namespace TicTacToe.Server.Services
         /// </returns>
         /// <exception cref="Exceptions.RoomException"> - Throws if room not found or
         /// when opponent left from room.</exception>
-        /// <exception cref="Exceptions.TimeOutException"> - Throws if move time expired.</exception>
+        /// <exception cref="TimeoutException"> - Throws if move time expired.</exception>
         Task DoMoveAsync(string id, string login, MoveDto move);
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace TicTacToe.Server.Services
         /// </returns>
         /// <exception cref="Exceptions.RoomException"> - Throws if room not found or opponent
         /// left from room.</exception>
-        /// <exception cref="Exceptions.TimeOutException"> - Throws if confirmation time expired.</exception>
+        /// <exception cref="TimeoutException"> - Throws if confirmation time expired.</exception>
         Task<(bool, string)> CheckConfirmationAsync(string id, string login);
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace TicTacToe.Server.Services
         /// </returns>
         /// <exception cref="Exceptions.RoomException">Throws if player didn't confirm the game or
         /// opponent left from room.</exception>
-        /// <exception cref="Exceptions.TimeOutException">Throws if you were inactive inside
+        /// <exception cref="TimeoutException">Throws if you were inactive inside
         /// the room long time. </exception>
         Task AppendConfirmationAsync(bool confirmation, string id);
 

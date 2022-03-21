@@ -14,14 +14,16 @@ namespace ServerTests.ControllerTests
 {
     public class AccountControllerTest
     {
-        private readonly Mock<ILogger<AccountController>> _loggerMock = new();
+        private static readonly Mock<ILogger<AccountController>> _loggerMock = new();
 
-        private readonly Mock<IAccountService> _serviceMock = new();
+        private static readonly Mock<IAccountService> _serviceMock = new();
 
-        private AccountController ConfigureControllerContext()
+        private readonly AccountController _accountController = ConfigureControllerContext();
+
+        private static AccountController ConfigureControllerContext()
         {
             var httpContext = new DefaultHttpContext();
-            httpContext.Request.Headers["X-Custom-Header"] = "statistic-test-methods";
+            httpContext.Request.Headers["X-Custom-Header"] = "account-test-methods";
 
             return new AccountController(_loggerMock.Object, _serviceMock.Object)
             {
@@ -32,22 +34,21 @@ namespace ServerTests.ControllerTests
             };
         }
 
-        public static readonly object[] ValidUsersData =
+        public static readonly object[] ValidUsersLogin =
         {
-        new object[] {"qwerty", "111111" },
-        new object[] {"qwerty123", "string" },
-    };
+            new object[] {"qwerty", "111111" },
+            new object[] {"qwerty123", "string" },
+        };
 
-        [Theory, MemberData(nameof(ValidUsersData))]
+        [Theory, MemberData(nameof(ValidUsersLogin))]
         public async Task LoginPressValidDataShouldReturnOk(string login, string password)
         {
             //Arrange
             var account = new UserAccountDto(login, password);
             _ = _serviceMock.Setup(x => x.InvokeLoginAsync(account));
-            var accountController = ConfigureControllerContext();
 
             //Act
-            var result = await accountController.LoginAsync(account);
+            var result = await _accountController.LoginAsync(account);
 
             //Assert
             Assert.NotNull(result);
@@ -61,24 +62,23 @@ namespace ServerTests.ControllerTests
             Assert.Equal(login, content);
         }
 
-        [Theory, MemberData(nameof(ValidUsersData))]
+        [Theory, MemberData(nameof(ValidUsersLogin))]
         public async Task LoginAccountShouldReturnNotFoundIfInputLoginNotExist(string login, string password)
         {
             //Arrange
             var account = new UserAccountDto(login, password);
             _ = _serviceMock.Setup(x => x.InvokeLoginAsync(account))
                 .Throws<AccountException>();
-            var accountController = ConfigureControllerContext();
 
             //Act
-            var result = await accountController.LoginAsync(account);
+            var result = await _accountController.LoginAsync(account);
 
             //Assert
             Assert.NotNull(result);
             _ = Assert.IsType<NotFoundObjectResult>(result);
         }
 
-        [Theory, MemberData(nameof(ValidUsersData))]
+        [Theory, MemberData(nameof(ValidUsersLogin))]
         public async Task LoginAccountShouldReturnConflictIfUserTryLoginThreeTimes(string login,
             string password)
         {
@@ -86,26 +86,24 @@ namespace ServerTests.ControllerTests
             var account = new UserAccountDto(login, password);
             _ = _serviceMock.Setup(x => x.InvokeLoginAsync(account))
                 .Throws<TimeoutException>();
-            var accountController = ConfigureControllerContext();
 
             //Act
-            var result = await accountController.LoginAsync(account);
+            var result = await _accountController.LoginAsync(account);
 
             //Assert
             Assert.NotNull(result);
             _ = Assert.IsType<ConflictObjectResult>(result);
         }
 
-        [Theory, MemberData(nameof(ValidUsersData))]
+        [Theory, MemberData(nameof(ValidUsersLogin))]
         public async Task RegistrationAsyncShouldReturnOkIfInputValidData(string login, string password)
         {
             //Arrange
             var account = new UserAccountDto(login, password);
             _ = _serviceMock.Setup(x => x.InvokeRegistrationAsync(account));
-            var accountController = ConfigureControllerContext();
 
             //Act
-            var result = await accountController.RegistrationAsync(account);
+            var result = await _accountController.RegistrationAsync(account);
 
             //Assert
             Assert.NotNull(result);
@@ -119,17 +117,16 @@ namespace ServerTests.ControllerTests
             Assert.Equal(login, content);
         }
 
-        [Theory, MemberData(nameof(ValidUsersData))]
+        [Theory, MemberData(nameof(ValidUsersLogin))]
         public async Task RegistrationAsyncShouldReturnConflictIfUserAlreadyExit(string login, string password)
         {
             //Arrange
             var account = new UserAccountDto(login, password);
             _ = _serviceMock.Setup(x => x.InvokeRegistrationAsync(account))
                 .Throws<AccountException>();
-            var accountController = ConfigureControllerContext();
 
             //Act
-            var result = await accountController.RegistrationAsync(account);
+            var result = await _accountController.RegistrationAsync(account);
 
             //Assert
             Assert.NotNull(result);
@@ -165,7 +162,7 @@ namespace ServerTests.ControllerTests
         [Theory]
         [InlineData(null)]
         [InlineData("")]
-        public async Task LogoutAsyncShouldReturnUnAuthorized(string login)
+        public async Task LogoutAsyncShouldReturnUnAuthorizedIfUserNonAuthorized(string login)
         {
             //Arrange
             _ = _serviceMock.Setup(x => x.RemoveActiveAccountByLogin(login))
@@ -174,7 +171,7 @@ namespace ServerTests.ControllerTests
             httpContext.Request.Headers["Login"] = login;
             var accountController = new AccountController(_loggerMock.Object, _serviceMock.Object)
             {
-                ControllerContext = new ControllerContext()
+                ControllerContext = new ControllerContext
                 {
                     HttpContext = httpContext
                 }
