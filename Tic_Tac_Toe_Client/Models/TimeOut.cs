@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace TicTacToe.Client.Models
 {
-    public class TimeOut
+    public sealed class TimeOut
     {
         [JsonPropertyName("loginSettingsOwner")]
         public string? LoginSettingsOwner { get; set; }

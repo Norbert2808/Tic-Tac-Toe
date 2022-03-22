@@ -25,7 +25,7 @@ namespace TicTacToe.Server.Controllers
 
         public string? LoginUser { get; set; }
 
-        [HttpPost("create_room")]
+        [HttpPost("create-room")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
@@ -61,7 +61,7 @@ namespace TicTacToe.Server.Controllers
             return Ok(response);
         }
 
-        [HttpGet("check_room/{id}")]
+        [HttpGet("check-room/{id}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
@@ -96,7 +96,7 @@ namespace TicTacToe.Server.Controllers
             }
         }
 
-        [HttpGet("check_move/{id}")]
+        [HttpGet("check-move/{id}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
@@ -173,7 +173,7 @@ namespace TicTacToe.Server.Controllers
             }
         }
 
-        [HttpPost("send_confirmation/{id}")]
+        [HttpPost("send-confirmation/{id}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.Conflict)]
@@ -207,7 +207,7 @@ namespace TicTacToe.Server.Controllers
             return Ok();
         }
 
-        [HttpGet("check_confirmation/{id}")]
+        [HttpGet("check-confirmation/{id}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
@@ -241,7 +241,7 @@ namespace TicTacToe.Server.Controllers
             }
         }
 
-        [HttpGet("get_results/{id}")]
+        [HttpGet("get-results/{id}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
@@ -269,7 +269,7 @@ namespace TicTacToe.Server.Controllers
             }
         }
 
-        [HttpGet("check_round_state/{id}")]
+        [HttpGet("check-round-state/{id}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]

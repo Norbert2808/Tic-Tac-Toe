@@ -2,7 +2,7 @@
 
 namespace TicTacToe.Client.DTO
 {
-    public class ResultsDto
+    public sealed class ResultsDto
     {
         public string? LoginFirstPlayer { get; set; }
 

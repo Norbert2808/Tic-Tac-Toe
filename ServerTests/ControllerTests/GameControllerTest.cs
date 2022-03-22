@@ -39,8 +39,8 @@ public class GameControllerTest
         //Arrange
         var roomId = Guid.NewGuid().ToString();
         var settings = new RoomSettingsDto() {RoomId = roomId};
-        _serviceMock.Setup(x => x.StartRoomAsync(settings.RoomId, login, settings))
-            .Returns(Task.FromResult(roomId));
+        _ = _serviceMock.Setup(x => x.StartRoomAsync(settings.RoomId, login, settings))
+            .ReturnsAsync(roomId);
         var gameController = ConfigureControllerContext(login);
 
         //Act
@@ -155,7 +155,7 @@ public class GameControllerTest
     {
         //Arrange
         _serviceMock.Setup(x => x.CheckRoomAsync(string.Empty))
-            .Returns(Task.FromResult((true, string.Empty)));
+            .ReturnsAsync((true, string.Empty));
         var gameController = ConfigureControllerContext(login);
 
         //Act
@@ -174,7 +174,7 @@ public class GameControllerTest
         //Arrange
         var roundState = new RoundStateDto();
         _serviceMock.Setup(x => x.CheckMoveAsync(string.Empty, login))
-            .Returns(Task.FromResult(roundState)!);
+            .ReturnsAsync(roundState);
         var gameController = ConfigureControllerContext(login);
 
         //Act
@@ -391,7 +391,7 @@ public class GameControllerTest
         //Arrange
         var gameController = ConfigureControllerContext(login);
         _serviceMock.Setup(x => x.CheckConfirmationAsync(string.Empty, login))
-            .Returns(Task.FromResult((true, string.Empty)));
+            .ReturnsAsync((true, string.Empty));
         //Act
         var result = await gameController.CheckConfirmationAsync(string.Empty);
 
@@ -443,7 +443,7 @@ public class GameControllerTest
         var gameController = ConfigureControllerContext(login);
         var roundResults = new ResultsDto();
         _serviceMock.Setup(x => x.GetResultAsync(string.Empty))
-            .Returns(Task.FromResult(roundResults));
+            .ReturnsAsync(roundResults);
 
         //Act
         var result = await gameController.GetResultsAsync(string.Empty);
@@ -590,7 +590,7 @@ public class GameControllerTest
         var gameController = ConfigureControllerContext(login);
         var roundState = new RoundStateDto();
         _serviceMock.Setup(x => x.CheckStateRoundAsync(string.Empty, login))
-            .Returns(Task.FromResult(roundState));
+            .ReturnsAsync(roundState);
 
         //Act
         var result = await gameController.CheckStateRoundAsync(string.Empty);

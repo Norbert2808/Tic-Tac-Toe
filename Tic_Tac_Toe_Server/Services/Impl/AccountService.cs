@@ -4,7 +4,7 @@ using TicTacToe.Server.Tools;
 
 namespace TicTacToe.Server.Services.Impl
 {
-    public sealed class AccountService : IAccountService
+    public class AccountService : IAccountService
     {
         private const string Path = "usersStorage.json";
 
@@ -30,20 +30,20 @@ namespace TicTacToe.Server.Services.Impl
         {
             await UpdateAllUsersAccountAsync();
 
-            var loginIsExist = IsAccountExistByLoginAsync(account.Login);
+            var loginIsExist = await IsAccountExistByLoginAsync(account.Login);
 
-            if (!await loginIsExist)
+            if (!loginIsExist)
                 throw new AccountException("Input login does not exist");
 
             if (_blocker.IsBlocked(account.Login))
-                throw new TimeoutException("You’re blocked for 1 minute. You try log-in three times.");
+                throw new TimeoutException("You blocked for 1 minute. You try log-in three times.");
 
             var passwordIsExist = await IsAccountExistByPasswordAsync(account.Password);
 
             if (!passwordIsExist)
             {
                 _blocker.ErrorTryLogin(account.Login);
-                throw new AccountException("Password is wrong!");
+                throw new AccountException("Wrong password!");
             }
 
             _blocker.UnBlock(account.Login);

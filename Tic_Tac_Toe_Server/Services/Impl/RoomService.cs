@@ -103,7 +103,7 @@ namespace TicTacToe.Server.Services.Impl
             var room = await FindRoomByIdAsync(id);
 
             if (room is null)
-                throw new RoomException("Second player leaves the room and room was deleting.");
+                throw new RoomException("Second player left the room and room was deleting.");
 
             if (room.IsCompleted)
                 return (true, string.Empty);
@@ -132,7 +132,7 @@ namespace TicTacToe.Server.Services.Impl
             var room = await FindRoomByIdAsync(id);
 
             if (room is null)
-                throw new RoomException("Second player leaves the room and room was deleting.");
+                throw new RoomException("Second player left the room and room was deleting.");
 
             if (room.Times.IsRoundTimeOut())
             {

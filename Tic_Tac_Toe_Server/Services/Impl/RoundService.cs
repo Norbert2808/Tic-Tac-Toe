@@ -27,7 +27,7 @@ namespace TicTacToe.Server.Services.Impl
                 else
                     room.SecondPlayer.Wins++;
 
-                throw new TimeoutException("Time out,  your opponent didn't moved.");
+                throw new TimeoutException("Time out,  your opponent didn't move.");
             }
 
             if (isOpponentMove)

@@ -27,7 +27,7 @@ namespace ServerTests.ControllerTests
 
             return new AccountController(_loggerMock.Object, _serviceMock.Object)
             {
-                ControllerContext = new ControllerContext()
+                ControllerContext = new ControllerContext
                 {
                     HttpContext = httpContext
                 },
@@ -45,7 +45,6 @@ namespace ServerTests.ControllerTests
         {
             //Arrange
             var account = new UserAccountDto(login, password);
-            _ = _serviceMock.Setup(x => x.InvokeLoginAsync(account));
 
             //Act
             var result = await _accountController.LoginAsync(account);
@@ -100,8 +99,8 @@ namespace ServerTests.ControllerTests
         {
             //Arrange
             var account = new UserAccountDto(login, password);
-            _ = _serviceMock.Setup(x => x.InvokeRegistrationAsync(account));
-
+            _ = _serviceMock.Setup(x => x.InvokeRegistrationAsync(account))
+                .Returns(Task.CompletedTask);
             //Act
             var result = await _accountController.RegistrationAsync(account);
 
@@ -139,8 +138,6 @@ namespace ServerTests.ControllerTests
         public async Task LogoutAsyncShouldReturnOk(string login)
         {
             //Arrange
-            _ = _serviceMock.Setup(x => x.RemoveActiveAccountByLogin(login));
-
             var httpContext = new DefaultHttpContext();
             httpContext.Request.Headers["Login"] = login;
             var accountController = new AccountController(_loggerMock.Object, _serviceMock.Object)

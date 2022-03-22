@@ -22,23 +22,35 @@ namespace ServerTests.ControllerTests
 
         private const string ParseFormat = "dd.MM.yyyy HH:mm";
 
-        public static readonly object[] CorrectUserData =
+        private static IEnumerable<object[]> CorrectUserData()
         {
-            new object[] { "qwerty", DateTime.MinValue, DateTime.MaxValue },
-            new object[] { "qwerty123", DateTime.ParseExact("14.03.2022 12:00", ParseFormat, CultureInfo.InvariantCulture),
-                DateTime.ParseExact("16.03.2022 20:00", ParseFormat, CultureInfo.InvariantCulture) },
-            new object[] { "alex", DateTime.ParseExact("09.03.2022 00:00", ParseFormat, CultureInfo.InvariantCulture),
-                DateTime.ParseExact("10.03.2022 20:00", ParseFormat, CultureInfo.InvariantCulture) },
-        };
+            yield return new object[] {"qwerty", DateTime.MinValue, DateTime.MaxValue};
+            yield return new object[]
+            {
+                "qwerty123", DateTime.ParseExact("14.03.2022 12:00", ParseFormat, CultureInfo.InvariantCulture),
+                DateTime.ParseExact("16.03.2022 20:00", ParseFormat, CultureInfo.InvariantCulture)
+            };
+            yield return new object[]
+            {
+                "alex", DateTime.ParseExact("09.03.2022 00:00", ParseFormat, CultureInfo.InvariantCulture),
+                DateTime.ParseExact("10.03.2022 20:00", ParseFormat, CultureInfo.InvariantCulture)
+            };
+        }
 
-        public static readonly object[] InvalidUserData =
+        private static  IEnumerable<object[]> InvalidUserData()
         {
-            new object[] { "", DateTime.MinValue, DateTime.MaxValue },
-            new object[] { null!, DateTime.ParseExact("14.03.2022 12:00", ParseFormat, CultureInfo.InvariantCulture),
-                DateTime.ParseExact("16.03.2022 20:00", ParseFormat, CultureInfo.InvariantCulture) },
-            new object[] { null!, DateTime.ParseExact("09.03.2022 00:00", ParseFormat, CultureInfo.InvariantCulture),
-                DateTime.ParseExact("10.03.2022 20:00", ParseFormat, CultureInfo.InvariantCulture) },
-        };
+            yield return new object[] {"", DateTime.MinValue, DateTime.MaxValue};
+            yield return new object[]
+            {
+                null!, DateTime.ParseExact("14.03.2022 12:00", ParseFormat, CultureInfo.InvariantCulture),
+                DateTime.ParseExact("16.03.2022 20:00", ParseFormat, CultureInfo.InvariantCulture)
+            };
+            yield return new object[]
+            {
+                null!, DateTime.ParseExact("09.03.2022 00:00", ParseFormat, CultureInfo.InvariantCulture),
+                DateTime.ParseExact("10.03.2022 20:00", ParseFormat, CultureInfo.InvariantCulture)
+            };
+        }
 
         private StatisticController ConfigureControllerContext(string name)
         {
