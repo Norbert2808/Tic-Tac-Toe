@@ -24,7 +24,7 @@ namespace ServerTests.ControllerTests
 
         private static IEnumerable<object[]> CorrectUserData()
         {
-            yield return new object[] {"qwerty", DateTime.MinValue, DateTime.MaxValue};
+            yield return new object[] { "qwerty", DateTime.MinValue, DateTime.MaxValue };
             yield return new object[]
             {
                 "qwerty123", DateTime.ParseExact("14.03.2022 12:00", ParseFormat, CultureInfo.InvariantCulture),
@@ -37,7 +37,7 @@ namespace ServerTests.ControllerTests
             };
         }
 
-        private static  IEnumerable<object[]> InvalidUserData()
+        private static IEnumerable<object[]> InvalidUserData()
         {
             yield return new object[] {"", DateTime.MinValue, DateTime.MaxValue};
             yield return new object[]
