@@ -24,21 +24,21 @@ namespace ServerTests.ControllerTests
 
         public static readonly object[] CorrectUserData =
         {
-        new object[] { "qwerty", DateTime.MinValue, DateTime.MaxValue },
-        new object[] { "qwerty123", DateTime.ParseExact("14.03.2022 12:00", ParseFormat, CultureInfo.InvariantCulture),
-            DateTime.ParseExact("16.03.2022 20:00", ParseFormat, CultureInfo.InvariantCulture) },
-        new object[] { "alex", DateTime.ParseExact("09.03.2022 00:00", ParseFormat, CultureInfo.InvariantCulture),
-            DateTime.ParseExact("10.03.2022 20:00", ParseFormat, CultureInfo.InvariantCulture) },
-    };
+            new object[] { "qwerty", DateTime.MinValue, DateTime.MaxValue },
+            new object[] { "qwerty123", DateTime.ParseExact("14.03.2022 12:00", ParseFormat, CultureInfo.InvariantCulture),
+                DateTime.ParseExact("16.03.2022 20:00", ParseFormat, CultureInfo.InvariantCulture) },
+            new object[] { "alex", DateTime.ParseExact("09.03.2022 00:00", ParseFormat, CultureInfo.InvariantCulture),
+                DateTime.ParseExact("10.03.2022 20:00", ParseFormat, CultureInfo.InvariantCulture) },
+        };
 
         public static readonly object[] InvalidUserData =
         {
-        new object[] { "", DateTime.MinValue, DateTime.MaxValue },
-        new object[] { null!, DateTime.ParseExact("14.03.2022 12:00", ParseFormat, CultureInfo.InvariantCulture),
-            DateTime.ParseExact("16.03.2022 20:00", ParseFormat, CultureInfo.InvariantCulture) },
-        new object[] { null!, DateTime.ParseExact("09.03.2022 00:00", ParseFormat, CultureInfo.InvariantCulture),
-            DateTime.ParseExact("10.03.2022 20:00", ParseFormat, CultureInfo.InvariantCulture) },
-    };
+            new object[] { "", DateTime.MinValue, DateTime.MaxValue },
+            new object[] { null!, DateTime.ParseExact("14.03.2022 12:00", ParseFormat, CultureInfo.InvariantCulture),
+                DateTime.ParseExact("16.03.2022 20:00", ParseFormat, CultureInfo.InvariantCulture) },
+            new object[] { null!, DateTime.ParseExact("09.03.2022 00:00", ParseFormat, CultureInfo.InvariantCulture),
+                DateTime.ParseExact("10.03.2022 20:00", ParseFormat, CultureInfo.InvariantCulture) },
+        };
 
         private StatisticController ConfigureControllerContext(string name)
         {
@@ -58,7 +58,6 @@ namespace ServerTests.ControllerTests
         [Theory]
         [InlineData("qwerty")]
         [InlineData("qwerty123")]
-        [InlineData("alex")]
         public async Task GetPrivateStatisticTestShouldReturnOkAndContent(string name)
         {
             // Arrange

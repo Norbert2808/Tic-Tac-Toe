@@ -34,13 +34,13 @@ namespace ServerTests.ControllerTests
             };
         }
 
-        public static readonly object[] ValidUsersLogin =
+        public static readonly object[] ValidUsersData =
         {
             new object[] {"qwerty", "111111" },
             new object[] {"qwerty123", "string" },
         };
 
-        [Theory, MemberData(nameof(ValidUsersLogin))]
+        [Theory, MemberData(nameof(ValidUsersData))]
         public async Task LoginPressValidDataShouldReturnOk(string login, string password)
         {
             //Arrange
@@ -62,7 +62,7 @@ namespace ServerTests.ControllerTests
             Assert.Equal(login, content);
         }
 
-        [Theory, MemberData(nameof(ValidUsersLogin))]
+        [Theory, MemberData(nameof(ValidUsersData))]
         public async Task LoginAccountShouldReturnNotFoundIfInputLoginNotExist(string login, string password)
         {
             //Arrange
@@ -78,7 +78,7 @@ namespace ServerTests.ControllerTests
             _ = Assert.IsType<NotFoundObjectResult>(result);
         }
 
-        [Theory, MemberData(nameof(ValidUsersLogin))]
+        [Theory, MemberData(nameof(ValidUsersData))]
         public async Task LoginAccountShouldReturnConflictIfUserTryLoginThreeTimes(string login,
             string password)
         {
@@ -95,7 +95,7 @@ namespace ServerTests.ControllerTests
             _ = Assert.IsType<ConflictObjectResult>(result);
         }
 
-        [Theory, MemberData(nameof(ValidUsersLogin))]
+        [Theory, MemberData(nameof(ValidUsersData))]
         public async Task RegistrationAsyncShouldReturnOkIfInputValidData(string login, string password)
         {
             //Arrange
@@ -117,7 +117,7 @@ namespace ServerTests.ControllerTests
             Assert.Equal(login, content);
         }
 
-        [Theory, MemberData(nameof(ValidUsersLogin))]
+        [Theory, MemberData(nameof(ValidUsersData))]
         public async Task RegistrationAsyncShouldReturnConflictIfUserAlreadyExit(string login, string password)
         {
             //Arrange

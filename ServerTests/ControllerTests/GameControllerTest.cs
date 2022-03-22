@@ -18,7 +18,9 @@ public class GameControllerTest
 
     private readonly Mock<IRoomService> _serviceMock = new();
 
-    public static readonly object[] CorrectUserName = {new object[] {"qwerty"}, new object[] {"qwerty123"}};
+    public static readonly object[] CorrectUserName = { new object[] {"qwerty"} };
+
+    public static readonly object[] InvalidUserName = { new object[] {""}, new object[] {null!} };
 
     private GameController ConfigureControllerContext(string userLogin)
     {
@@ -56,9 +58,7 @@ public class GameControllerTest
         Assert.Equal(roomId, content);
     }
 
-    [Theory]
-    [InlineData(null)]
-    [InlineData("")]
+    [Theory, MemberData(nameof(InvalidUserName))]
     public async Task CreateRoomAsyncShouldReturnUnauthorizedIfUserNonAuthorized(string login)
     {
         //Arrange
@@ -69,7 +69,7 @@ public class GameControllerTest
 
         //Assert
         Assert.NotNull(result);
-        _ = Assert.IsType<UnauthorizedObjectResult>(result);
+        Assert.IsType<UnauthorizedObjectResult>(result);
     }
 
     [Theory, MemberData(nameof(CorrectUserName))]
@@ -83,7 +83,7 @@ public class GameControllerTest
 
         //Assert
         Assert.NotNull(result);
-        _ = Assert.IsType<BadRequestObjectResult>(result);
+        Assert.IsType<BadRequestObjectResult>(result);
     }
 
     [Theory, MemberData(nameof(CorrectUserName))]
@@ -101,12 +101,10 @@ public class GameControllerTest
 
         //Assert
         Assert.NotNull(result);
-        _ = Assert.IsType<BadRequestObjectResult>(result);
+        Assert.IsType<BadRequestObjectResult>(result);
     }
 
-    [Theory]
-    [InlineData("")]
-    [InlineData(null)]
+    [Theory, MemberData(nameof(InvalidUserName))]
     public async Task CheckRoomAsyncShouldReturnUnauthorizedIfUserNonAuthorized(string login)
     {
         //Arrange
@@ -117,7 +115,7 @@ public class GameControllerTest
 
         //Assert
         Assert.NotNull(result);
-        _ = Assert.IsType<UnauthorizedObjectResult>(result);
+        Assert.IsType<UnauthorizedObjectResult>(result);
     }
 
     [Theory, MemberData(nameof(CorrectUserName))]
@@ -133,7 +131,7 @@ public class GameControllerTest
 
         //Assert
         Assert.NotNull(result);
-        _ = Assert.IsType<BadRequestObjectResult>(result);
+        Assert.IsType<BadRequestObjectResult>(result);
     }
 
     [Theory, MemberData(nameof(CorrectUserName))]
@@ -149,7 +147,7 @@ public class GameControllerTest
 
         //Assert
         Assert.NotNull(result);
-        _ = Assert.IsType<ConflictObjectResult>(result);
+        Assert.IsType<ConflictObjectResult>(result);
     }
 
     [Theory, MemberData(nameof(CorrectUserName))]
@@ -190,9 +188,7 @@ public class GameControllerTest
         Assert.Equal(roundState, okResult?.Value as RoundStateDto);
     }
 
-    [Theory]
-    [InlineData("")]
-    [InlineData(null)]
+    [Theory, MemberData(nameof(InvalidUserName))]
     public async Task CheckMoveAsyncShouldReturnUnauthorizedIfUserNonAuthorized(string login)
     {
         //Arrange
@@ -272,9 +268,7 @@ public class GameControllerTest
         Assert.IsType<OkResult>(result);
     }
 
-    [Theory]
-    [InlineData("")]
-    [InlineData(null)]
+    [Theory, MemberData(nameof(InvalidUserName))]
     public async Task MoveAsyncShouldReturnUnauthorizedIfUserNonAuthorized(string login)
     {
         //Arrange
@@ -337,5 +331,308 @@ public class GameControllerTest
         //Assert
         Assert.NotNull(result);
         Assert.IsType<ConflictObjectResult>(result);
+    }
+
+    [Theory, MemberData(nameof(CorrectUserName))]
+    public async Task SendConfirmationAsyncShouldReturnOk(string login)
+    {
+        //Arrange
+        _serviceMock.Setup(x => x.AppendConfirmationAsync(true, string.Empty))
+            .Returns(Task.CompletedTask);
+        var gameController = ConfigureControllerContext(login);
+
+        //Act
+        var result = await gameController.AppendConfirmationAsync(string.Empty, true);
+
+        //Assert
+        Assert.NotNull(result);
+        Assert.IsType<OkResult>(result);
+    }
+
+    [Theory, MemberData(nameof(InvalidUserName))]
+    public async Task SendConfirmationAsyncShouldReturnUnauthorizedIfUserNonAuthorized(string login)
+    {
+        //Arrange
+        var gameController = ConfigureControllerContext(login);
+
+        //Act
+        var result = await gameController.AppendConfirmationAsync(string.Empty, true);
+
+        //Assert
+        Assert.NotNull(result);
+        Assert.IsType<UnauthorizedObjectResult>(result);
+    }
+
+    [Theory, MemberData(nameof(CorrectUserName))]
+    public async Task SendConfirmationAsyncShouldReturnConflictIfTimeoutOrOpponentLeftFromRoom(string login)
+    {
+        var gameController = ConfigureControllerContext(login);
+
+        _serviceMock.Setup(x => x.AppendConfirmationAsync(true, string.Empty))
+            .Throws<TimeoutException>();
+
+        var resultTimeout = await gameController.AppendConfirmationAsync(string.Empty, true);
+
+        _serviceMock.Setup(x => x.AppendConfirmationAsync(true, string.Empty))
+            .Throws<RoomException>();
+
+        var resultOpponentLeft = await gameController.AppendConfirmationAsync(string.Empty, true);
+
+        Assert.NotNull(resultTimeout);
+        Assert.IsType<ConflictObjectResult>(resultTimeout);
+
+        Assert.NotNull(resultOpponentLeft);
+        Assert.IsType<ConflictObjectResult>(resultOpponentLeft);
+    }
+
+    [Theory, MemberData(nameof(CorrectUserName))]
+    public async Task CheckConfirmationAsyncShouldReturnOk(string login)
+    {
+        //Arrange
+        var gameController = ConfigureControllerContext(login);
+        _serviceMock.Setup(x => x.CheckConfirmationAsync(string.Empty, login))
+            .Returns(Task.FromResult((true, string.Empty)));
+        //Act
+        var result = await gameController.CheckConfirmationAsync(string.Empty);
+
+        //Assert
+        Assert.NotNull(result);
+        Assert.IsType<OkResult>(result);
+    }
+
+    [Theory, MemberData(nameof(InvalidUserName))]
+    public async Task CheckConfirmationAsyncShouldReturnUnauthorizedIfUserNonAuthorized(string login)
+    {
+        //Arrange
+        var gameController = ConfigureControllerContext(login);
+
+        //Act
+        var result = await gameController.CheckConfirmationAsync(string.Empty);
+
+        //Assert
+        Assert.NotNull(result);
+        Assert.IsType<UnauthorizedObjectResult>(result);
+    }
+
+    [Theory, MemberData(nameof(CorrectUserName))]
+    public async Task CheckConfirmationAsyncShouldReturnConflictIfOpponentLeftFromRoomOrTimeout(string login)
+    {
+        var gameController = ConfigureControllerContext(login);
+
+        _serviceMock.Setup(x => x.CheckConfirmationAsync(string.Empty, login))
+            .Throws<RoomException>();
+
+        var resultOpponentLeft = await gameController.CheckConfirmationAsync(string.Empty);
+
+        Assert.NotNull(resultOpponentLeft);
+        Assert.IsType<ConflictObjectResult>(resultOpponentLeft);
+
+        _serviceMock.Setup(x => x.CheckConfirmationAsync(string.Empty, login))
+            .Throws<TimeoutException>();
+
+        var resultTimeout = await gameController.CheckConfirmationAsync(string.Empty);
+
+        Assert.NotNull(resultTimeout);
+        Assert.IsType<ConflictObjectResult>(resultTimeout);
+    }
+
+    [Theory, MemberData(nameof(CorrectUserName))]
+    public async Task GetResultAsyncShouldReturnOkAndContent(string login)
+    {
+        //Arrange
+        var gameController = ConfigureControllerContext(login);
+        var roundResults = new ResultsDto();
+        _serviceMock.Setup(x => x.GetResultAsync(string.Empty))
+            .Returns(Task.FromResult(roundResults));
+
+        //Act
+        var result = await gameController.GetResultsAsync(string.Empty);
+
+        //Assert
+        Assert.NotNull(result);
+
+        var okResult = result as OkObjectResult;
+        Assert.NotNull(okResult);
+
+        var content = okResult?.Value as ResultsDto;
+        Assert.Equal(roundResults, content);
+    }
+
+    [Theory, MemberData(nameof(InvalidUserName))]
+    public async Task GetResultAsyncShouldReturnUnauthorizedIfUserNonAuthorized(string login)
+    {
+        //Arrange
+        var gameController = ConfigureControllerContext(login);
+
+        //Act
+        var result = await gameController.GetResultsAsync(string.Empty);
+
+        //Assert
+        Assert.NotNull(result);
+        Assert.IsType<UnauthorizedObjectResult>(result);
+    }
+
+    [Theory, MemberData(nameof(CorrectUserName))]
+    public async Task GetResultAsyncShouldReturnNotFoundIfRoomNotFound(string login)
+    {
+        //Arrange
+        var gameController = ConfigureControllerContext(login);
+
+        _serviceMock.Setup(x => x.GetResultAsync(string.Empty))
+            .Throws<RoomException>();
+
+        //Act
+        var result = await gameController.GetResultsAsync(string.Empty);
+
+        //Assert
+        Assert.NotNull(result);
+        Assert.IsType<NotFoundObjectResult>(result);
+    }
+
+    [Theory, MemberData(nameof(CorrectUserName))]
+    public async Task SurrenderAsyncShouldReturnOk(string login)
+    {
+        //Arrange
+        var gameController = ConfigureControllerContext(login);
+        _serviceMock.Setup(x => x.SurrenderAsync(string.Empty, login))
+            .Returns(Task.CompletedTask);
+
+        //Act
+        var result = await gameController.SurrenderAsync(login);
+
+        //Assert
+        Assert.NotNull(result);
+        Assert.IsType<OkResult>(result);
+    }
+
+    [Theory, MemberData(nameof(CorrectUserName))]
+    public async Task SurrenderAsyncShouldReturnBadRequestIfRoomNotFound(string login)
+    {
+        //Arrange
+        var gameController = ConfigureControllerContext(login);
+        _serviceMock.Setup(x => x.SurrenderAsync(string.Empty, login))
+            .Throws<RoomException>();
+
+        //Act
+        var result = await gameController.SurrenderAsync(string.Empty);
+
+        //Assert
+        Assert.NotNull(result);
+        Assert.IsType<BadRequestObjectResult>(result);
+    }
+
+    [Theory, MemberData(nameof(InvalidUserName))]
+    public async Task SurrenderAsyncShouldReturnUnauthorizedIfUserNonAuthorized(string login)
+    {
+        //Arrange
+        var gameController = ConfigureControllerContext(login);
+
+        //Act
+        var result = await gameController.SurrenderAsync(string.Empty);
+
+        //Assert
+        Assert.NotNull(result);
+        Assert.IsType<UnauthorizedObjectResult>(result);
+    }
+
+    [Theory, MemberData(nameof(CorrectUserName))]
+    public async Task ExitFromRoomAsyncShouldReturnOk(string login)
+    {
+        //Arrange
+        var gameController = ConfigureControllerContext(login);
+
+        _serviceMock.Setup(x => x.ExitFromRoomAsync(string.Empty))
+            .Returns(Task.CompletedTask);
+
+        //Act
+        var result = await gameController.ExitFromRoomAsync(string.Empty);
+
+        //Assert
+        Assert.NotNull(result);
+        Assert.IsType<OkResult>(result);
+    }
+
+    [Theory, MemberData(nameof(InvalidUserName))]
+    public async Task ExitFromRoomAsyncShouldReturnUnauthorizedIfUserNonAuthorized(string login)
+    {
+        //Arrange
+        var gameController = ConfigureControllerContext(login);
+
+        //Act
+        var result = await gameController.ExitFromRoomAsync(string.Empty);
+
+        //Assert
+        Assert.NotNull(result);
+        Assert.IsType<UnauthorizedObjectResult>(result);
+    }
+
+    [Theory, MemberData(nameof(CorrectUserName))]
+    public async Task ExitFromRoomAsyncShouldReturnNotFoundIfRoomCompleted(string login)
+    {
+        //Arrange
+        var gameController = ConfigureControllerContext(login);
+
+        _serviceMock.Setup(x => x.ExitFromRoomAsync(string.Empty))
+            .Throws<RoomException>();
+
+        //Act
+        var result = await gameController.ExitFromRoomAsync(string.Empty);
+
+        //Assert
+        Assert.NotNull(result);
+        Assert.IsType<NotFoundObjectResult>(result);
+    }
+
+    [Theory, MemberData(nameof(CorrectUserName))]
+    public async Task CheckRoundStateAsyncShouldReturnOkAndContent(string login)
+    {
+        //Arrange
+        var gameController = ConfigureControllerContext(login);
+        var roundState = new RoundStateDto();
+        _serviceMock.Setup(x => x.CheckStateRoundAsync(string.Empty, login))
+            .Returns(Task.FromResult(roundState));
+
+        //Act
+        var result = await gameController.CheckStateRoundAsync(string.Empty);
+
+        //Assert
+        Assert.NotNull(result);
+
+        var okResult = result as OkObjectResult;
+        Assert.NotNull(okResult);
+
+        var content = okResult?.Value as RoundStateDto;
+        Assert.Equal(roundState, content);
+    }
+
+    [Theory, MemberData(nameof(InvalidUserName))]
+    public async Task CheckRoundStateAsyncShouldReturnUnauthorizedIfUserNonAuthorized(string login)
+    {
+        //Arrange
+        var gameController = ConfigureControllerContext(login);
+
+        //Act
+        var result = await gameController.CheckStateRoundAsync(string.Empty);
+
+        //Assert
+        Assert.NotNull(result);
+        Assert.IsType<UnauthorizedObjectResult>(result);
+    }
+
+    [Theory, MemberData(nameof(CorrectUserName))]
+    public async Task CheckRoundStateAsyncShouldReturnNotFoundIfRoomNotFound(string login)
+    {
+        //Arrange
+        var gameController = ConfigureControllerContext(login);
+
+        _serviceMock.Setup(x => x.CheckStateRoundAsync(string.Empty, login))
+            .Throws<RoomException>();
+
+        //Act
+        var result = await gameController.CheckStateRoundAsync(string.Empty);
+
+        //Assert
+        Assert.NotNull(result);
+        Assert.IsType<NotFoundObjectResult>(result);
     }
 }
