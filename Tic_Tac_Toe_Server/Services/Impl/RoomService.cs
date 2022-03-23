@@ -8,8 +8,6 @@ namespace TicTacToe.Server.Services.Impl
 {
     public class RoomService : IRoomService
     {
-        private const string Path = "roomInfo.json";
-
         private readonly List<Room> _roomStorage;
 
         private readonly IRoundService _roundService;
@@ -18,11 +16,11 @@ namespace TicTacToe.Server.Services.Impl
 
         private readonly SemaphoreSlim _semaphoreSlim = new(1, 1);
 
-        public RoomService(IRoundService roundService)
+        public RoomService(IRoundService roundService, JsonHelper<Room> jsonHelper)
         {
-            _roomStorage = new List<Room>();
             _roundService = roundService;
-            _jsonHelper = new JsonHelper<Room>(Path);
+            _jsonHelper = jsonHelper;
+            _roomStorage = new List<Room>();
         }
 
         public async Task<string> StartRoomAsync(string id, string login, RoomSettingsDto settings)

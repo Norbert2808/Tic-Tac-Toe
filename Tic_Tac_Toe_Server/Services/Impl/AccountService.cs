@@ -6,8 +6,6 @@ namespace TicTacToe.Server.Services.Impl
 {
     public class AccountService : IAccountService
     {
-        private const string Path = "usersStorage.json";
-
         private List<UserAccountDto> _accountsStorage;
 
         private readonly List<UserAccountDto> _activeAccounts;
@@ -18,10 +16,10 @@ namespace TicTacToe.Server.Services.Impl
 
         private readonly SemaphoreSlim _semaphoreSlim = new(1, 1);
 
-        public AccountService(IBlocker blocker)
+        public AccountService(IBlocker blocker, JsonHelper<UserAccountDto> jsonHelper)
         {
             _blocker = blocker;
-            _jsonHelper = new JsonHelper<UserAccountDto>(Path);
+            _jsonHelper = jsonHelper;
             _accountsStorage = new List<UserAccountDto>();
             _activeAccounts = new List<UserAccountDto>();
         }
