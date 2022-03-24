@@ -16,11 +16,17 @@ namespace ServerTests.ControllerTests
 {
     public class StatisticControllerTest
     {
-        private readonly Mock<ILogger<StatisticController>> _loggerMock = new();
+        private readonly Mock<ILogger<StatisticController>> _loggerMock;
 
-        private readonly Mock<IStatisticService> _serviceMock = new();
+        private readonly Mock<IStatisticService> _serviceMock;
 
         private const string ParseFormat = "dd.MM.yyyy HH:mm";
+
+        public StatisticControllerTest()
+        {
+            _loggerMock = new Mock<ILogger<StatisticController>>();
+            _serviceMock = new Mock<IStatisticService>();
+        }
 
         private static IEnumerable<object[]> CorrectUserData()
         {

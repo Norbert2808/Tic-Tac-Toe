@@ -14,13 +14,19 @@ namespace ServerTests.ControllerTests
 {
     public class GameControllerTest
     {
-        private readonly Mock<ILogger<GameController>> _loggerMock = new();
+        private readonly Mock<ILogger<GameController>> _loggerMock;
 
-        private readonly Mock<IRoomService> _serviceMock = new();
+        private readonly Mock<IRoomService> _serviceMock;
 
         public static readonly object[] CorrectUserName = { new object[] { "qwerty" } };
 
         public static readonly object[] InvalidUserName = { new object[] { "" }, new object[] { null! } };
+
+        public GameControllerTest()
+        {
+            _serviceMock = new Mock<IRoomService>();
+            _loggerMock = new Mock<ILogger<GameController>>();
+        }
 
         private GameController ConfigureControllerContext(string userLogin)
         {

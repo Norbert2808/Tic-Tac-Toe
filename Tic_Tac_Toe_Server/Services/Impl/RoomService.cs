@@ -12,11 +12,11 @@ namespace TicTacToe.Server.Services.Impl
 
         private readonly IRoundService _roundService;
 
-        private readonly JsonHelper<Room> _jsonHelper;
+        private readonly IJsonHelper<Room> _jsonHelper;
 
         private readonly SemaphoreSlim _semaphoreSlim = new(1, 1);
 
-        public RoomService(IRoundService roundService, JsonHelper<Room> jsonHelper)
+        public RoomService(IRoundService roundService, IJsonHelper<Room> jsonHelper)
         {
             _roundService = roundService;
             _jsonHelper = jsonHelper;
@@ -51,8 +51,7 @@ namespace TicTacToe.Server.Services.Impl
 
                     if (room is null)
                     {
-                        room = new Room(login, settings);
-                        room.Times.ActionTimeInRoom = DateTime.UtcNow;
+                        room = new Room(login, settings) {Times = {ActionTimeInRoom = DateTime.UtcNow}};
                         _roomStorage.Add(room);
                     }
                     room.Times.ActionTimeInRoom = DateTime.UtcNow;

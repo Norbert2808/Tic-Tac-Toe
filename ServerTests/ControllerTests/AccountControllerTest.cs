@@ -14,13 +14,20 @@ namespace ServerTests.ControllerTests
 {
     public class AccountControllerTest
     {
-        private static readonly Mock<ILogger<AccountController>> _loggerMock = new();
+        private readonly Mock<ILogger<AccountController>> _loggerMock;
 
-        private static readonly Mock<IAccountService> _serviceMock = new();
+        private readonly Mock<IAccountService> _serviceMock;
 
-        private readonly AccountController _accountController = ConfigureControllerContext();
+        private readonly AccountController _accountController;
 
-        private static AccountController ConfigureControllerContext()
+        public AccountControllerTest()
+        {
+            _serviceMock = new Mock<IAccountService>();
+            _loggerMock = new Mock<ILogger<AccountController>>();
+            _accountController = ConfigureControllerContext();
+        }
+
+        private AccountController ConfigureControllerContext()
         {
             var httpContext = new DefaultHttpContext();
             httpContext.Request.Headers["X-Custom-Header"] = "account-test-methods";
@@ -30,7 +37,7 @@ namespace ServerTests.ControllerTests
                 ControllerContext = new ControllerContext
                 {
                     HttpContext = httpContext
-                },
+                }
             };
         }
 

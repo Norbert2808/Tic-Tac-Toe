@@ -20,4 +20,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Tic_Tac_Toe_Client\TicTacToe.Client.csproj" />
+  </ItemGroup>
+
 </Project>
