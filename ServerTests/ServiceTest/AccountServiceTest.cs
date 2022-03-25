@@ -140,4 +140,37 @@ public class AccountServiceTest
             Assert.True(true, "Expected exception was thrown");
         }
     }
+
+    [Fact]
+    public async Task InvokeRegistrationAsyncShouldRegisterUserOrExceptionIfUserExist()
+    {
+        //Arrange
+        var userAcc = new UserAccountDto("qwerty", "111111");
+        var userList = new List<UserAccountDto>()
+        {
+            new("qwertyui", "password"),
+            new("asdfghj", "password")
+        };
+
+        _jsonMock.Setup(x => x.DeserializeAsync())
+            .ReturnsAsync(userList);
+        _jsonMock.Setup(x => x.AddObjectToFileAsync(userAcc))
+            .Returns(Task.CompletedTask);
+        var accountService = new AccountService(_blockerMock.Object, _jsonMock.Object);
+
+        //Act
+        await accountService.InvokeRegistrationAsync(userAcc);
+        userList.Add(userAcc);
+
+        //Assert
+        try
+        {
+            await accountService.InvokeRegistrationAsync(userAcc);
+            Assert.True(false, "User didn't add to storage");
+        }
+        catch (AccountException)
+        {
+            Assert.True(true, "User added to storage");
+        }
+    }
 }
