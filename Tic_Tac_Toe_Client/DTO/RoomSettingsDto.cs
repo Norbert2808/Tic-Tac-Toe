@@ -4,7 +4,7 @@ using TicTacToe.Client.Models;
 
 namespace TicTacToe.Client.DTO
 {
-    public class RoomSettingsDto
+    public sealed class RoomSettingsDto
     {
         [JsonPropertyName("type")]
         public RoomType Type { get; set; }

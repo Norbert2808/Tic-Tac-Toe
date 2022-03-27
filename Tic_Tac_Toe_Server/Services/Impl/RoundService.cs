@@ -20,21 +20,21 @@ namespace TicTacToe.Server.Services.Impl
 
             if (room.Times.IsRoundTimeOut())
             {
-                SetDefaultsSettingForRoom(room);
+                SetDefaultsRoomOptions(room);
 
                 if (isFirst)
                     room.FirstPlayer.Wins++;
                 else
                     room.SecondPlayer.Wins++;
 
-                throw new TimeOutException("Time out,  your opponent didn't moved.");
+                throw new TimeoutException("Time out,  your opponent didn't move.");
             }
 
             if (isOpponentMove)
             {
                 if (round.CheckEndOfGame())
                 {
-                    SetDefaultsSettingForRoom(room);
+                    SetDefaultsRoomOptions(room);
 
                     if (isFirst)
                         room.SecondPlayer.Wins++;
@@ -87,7 +87,7 @@ namespace TicTacToe.Server.Services.Impl
                     if (room.IsBot)
                         room.FirstPlayer.Wins++;
 
-                    SetDefaultsSettingForRoom(room);
+                    SetDefaultsRoomOptions(room);
                 }
             }
         }
@@ -98,7 +98,7 @@ namespace TicTacToe.Server.Services.Impl
 
             if (!round.IsFinished)
             {
-                SetDefaultsSettingForRoom(room);
+                SetDefaultsRoomOptions(room);
 
                 if (isFirst)
                     room.SecondPlayer.Wins++;
@@ -107,7 +107,7 @@ namespace TicTacToe.Server.Services.Impl
             }
         }
 
-        private void SetDefaultsSettingForRoom(Room room)
+        private static void SetDefaultsRoomOptions(Room room)
         {
             var round = room.Rounds.Peek();
 

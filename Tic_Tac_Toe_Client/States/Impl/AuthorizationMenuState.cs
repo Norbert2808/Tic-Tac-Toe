@@ -5,7 +5,7 @@ using TicTacToe.Client.Tools;
 
 namespace TicTacToe.Client.States.Impl
 {
-    internal class AuthorizationMenuState : IAuthorizationMenuState
+    public class AuthorizationMenuState : IAuthorizationMenuState
     {
         private readonly IUserService _userService;
 

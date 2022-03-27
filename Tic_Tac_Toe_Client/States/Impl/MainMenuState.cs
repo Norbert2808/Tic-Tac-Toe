@@ -5,7 +5,7 @@ using TicTacToe.Client.Tools;
 
 namespace TicTacToe.Client.States.Impl
 {
-    internal class MainMenuState : IMainMenuState
+    public class MainMenuState : IMainMenuState
     {
         private readonly IRoomMenuState _roomMenuState;
 

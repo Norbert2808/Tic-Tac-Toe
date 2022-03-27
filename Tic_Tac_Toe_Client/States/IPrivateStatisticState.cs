@@ -1,6 +1,6 @@
 ﻿namespace TicTacToe.Client.States
 {
-    internal interface IPrivateStatisticState : IState
+    public interface IPrivateStatisticState : IState
     {
         /// <summary>
         /// Sends the request to get private statistic.

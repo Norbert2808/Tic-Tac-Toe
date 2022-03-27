@@ -7,7 +7,7 @@ using TicTacToe.Client.Tools;
 
 namespace TicTacToe.Client.States.Impl
 {
-    internal class PrivateStatisticState : IPrivateStatisticState
+    public class PrivateStatisticState : IPrivateStatisticState
     {
         private readonly IStatisticService _statisticService;
 

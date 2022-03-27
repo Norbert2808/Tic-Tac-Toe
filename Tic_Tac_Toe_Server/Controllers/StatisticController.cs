@@ -44,7 +44,7 @@ namespace TicTacToe.Server.Controllers
             return Ok(statistic);
         }
 
-        [HttpPost("private_time_interval")]
+        [HttpPost("private-time-interval")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         public async Task<IActionResult> GetPrivateStatisticInTimeIntervalAsync(

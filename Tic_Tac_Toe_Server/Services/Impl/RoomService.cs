@@ -8,21 +8,19 @@ namespace TicTacToe.Server.Services.Impl
 {
     public class RoomService : IRoomService
     {
-        private const string Path = "roomInfo.json";
-
         private readonly List<Room> _roomStorage;
 
         private readonly IRoundService _roundService;
 
-        private readonly JsonHelper<Room> _jsonHelper;
+        private readonly IJsonHelper<Room> _jsonHelper;
 
         private readonly SemaphoreSlim _semaphoreSlim = new(1, 1);
 
-        public RoomService(IRoundService roundService)
+        public RoomService(IRoundService roundService, IJsonHelper<Room> jsonHelper)
         {
-            _roomStorage = new List<Room>();
             _roundService = roundService;
-            _jsonHelper = new JsonHelper<Room>(Path);
+            _jsonHelper = jsonHelper;
+            _roomStorage = new List<Room>();
         }
 
         public async Task<string> StartRoomAsync(string id, string login, RoomSettingsDto settings)
@@ -53,8 +51,7 @@ namespace TicTacToe.Server.Services.Impl
 
                     if (room is null)
                     {
-                        room = new Room(login, settings);
-                        room.Times.ActionTimeInRoom = DateTime.UtcNow;
+                        room = new Room(login, settings) {Times = {ActionTimeInRoom = DateTime.UtcNow}};
                         _roomStorage.Add(room);
                     }
                     room.Times.ActionTimeInRoom = DateTime.UtcNow;
@@ -103,7 +100,7 @@ namespace TicTacToe.Server.Services.Impl
             var room = await FindRoomByIdAsync(id);
 
             if (room is null)
-                throw new RoomException("Second player leaves the room and room was deleting.");
+                throw new RoomException("Second player left the room and room was deleting.");
 
             if (room.IsCompleted)
                 return (true, string.Empty);
@@ -132,7 +129,7 @@ namespace TicTacToe.Server.Services.Impl
             var room = await FindRoomByIdAsync(id);
 
             if (room is null)
-                throw new RoomException("Second player leaves the room and room was deleting.");
+                throw new RoomException("Second player left the room and room was deleting.");
 
             if (room.Times.IsRoundTimeOut())
             {
@@ -143,7 +140,7 @@ namespace TicTacToe.Server.Services.Impl
                 }
                 room.Times.ActionTimeInRoom = DateTime.UtcNow;
 
-                throw new TimeOutException($"Time out, you didn't make a move in " +
+                throw new TimeoutException($"Time out, you didn't make a move in " +
                                            $"{room.Times.RoundTimeOut:dd\\:mm\\:ss}.");
             }
 
@@ -200,7 +197,7 @@ namespace TicTacToe.Server.Services.Impl
             }
 
             if (room.Times.IsRoomActionTimeOut())
-                throw new TimeOutException("Time out. You were inactive inside the room long time");
+                throw new TimeoutException("Time out. You were inactive inside the room long time");
 
             room.Times.ActionTimeInRoom = DateTime.UtcNow;
 

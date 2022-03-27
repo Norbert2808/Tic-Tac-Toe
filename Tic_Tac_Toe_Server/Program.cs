@@ -1,7 +1,10 @@
 ﻿using Serilog;
+using TicTacToe.Server.DTO;
+using TicTacToe.Server.Models;
 using TicTacToe.Server.Services;
 using TicTacToe.Server.Services.Impl;
 using TicTacToe.Server.Tools;
+using TicTacToe.Server.Tools.Impl;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,6 +34,8 @@ host.ConfigureAppConfiguration(app =>
         .AddSingleton<IRoundService, RoundService>()
         .AddSingleton<IStatisticService, StatisticService>()
         .AddSingleton<IBlocker, UserBlocker>()
+        .AddSingleton<IJsonHelper<Room>>(_ => new JsonHelper<Room>("roomInfo.json"))
+        .AddSingleton<IJsonHelper<UserAccountDto>>(_ => new JsonHelper<UserAccountDto>("usersStorage.json"))
         .AddControllers();
 });
 

@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace TicTacToe.Client.DTO
 {
-    public class UserDto
+    public sealed class UserDto
     {
         [JsonPropertyName("login")]
         public string? Login { get; set; }

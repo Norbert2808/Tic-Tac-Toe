@@ -1,9 +1,9 @@
 ﻿using System.Text;
 using System.Text.Json;
 
-namespace TicTacToe.Server.Tools
+namespace TicTacToe.Server.Tools.Impl
 {
-    public sealed class JsonHelper<T>
+    public sealed class JsonHelper<T> : IJsonHelper<T>
     {
         private readonly string _path;
 
@@ -53,7 +53,7 @@ namespace TicTacToe.Server.Tools
                 {
                     File.Create(_path).Close();
                 }
-                if (string.IsNullOrWhiteSpace(File.ReadAllText(_path)))
+                if (string.IsNullOrWhiteSpace(await File.ReadAllTextAsync(_path)))
                 {
                     await SerializeAsync(new List<T>() { data });
                 }
@@ -71,7 +71,7 @@ namespace TicTacToe.Server.Tools
 
         private async Task AddObjectToEndFileAsync(T data)
         {
-            using var fs = new FileStream(_path, FileMode.Open);
+            await using var fs = new FileStream(_path, FileMode.Open);
             _ = fs.Seek(-3, SeekOrigin.End);
 
             var jsonObj = Serialize(data);

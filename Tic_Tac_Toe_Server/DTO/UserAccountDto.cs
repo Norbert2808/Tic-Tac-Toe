@@ -23,7 +23,7 @@ namespace TicTacToe.Server.DTO
 
         public static bool operator ==(UserAccountDto a, UserAccountDto b) => a.Login == b.Login && a.Password == b.Password;
 
-        public static bool operator !=(UserAccountDto a, UserAccountDto b) => a != b;
+        public static bool operator !=(UserAccountDto a, UserAccountDto b) => !(a == b);
 
         public override bool Equals(object? obj)
         {

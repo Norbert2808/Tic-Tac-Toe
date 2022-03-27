@@ -9,7 +9,6 @@
         }
 
         public AccountException()
-            : base()
         {
 
         }

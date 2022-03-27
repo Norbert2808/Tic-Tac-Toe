@@ -25,3 +25,10 @@ build:
     - 'dotnet build --no-restore'
   tags:
     - docker-shared
+
+tests:
+  stage: test
+  script:
+    - 'dotnet test --no-restore'
+  tags:
+    - docker-shared

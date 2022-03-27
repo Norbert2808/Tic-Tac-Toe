@@ -14,7 +14,7 @@ namespace TicTacToe.Server.Services
         /// </returns>
         /// <exception cref="Exceptions.AccountException">Throws if input login, password incorrect or
         /// user has already entered into account.</exception>
-        /// <exception cref="Exceptions.TimeOutException">Throws if user try log-in account three times .</exception>
+        /// <exception cref="TimeoutException">Throws if user try log-in account three times .</exception>
         Task InvokeLoginAsync(UserAccountDto account);
 
         /// <summary>
