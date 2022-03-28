@@ -157,7 +157,6 @@ namespace TicTacToe.Client.States.Impl
             switch (response.StatusCode)
             {
                 case HttpStatusCode.OK:
-                    Console.Clear();
                     await _mainMenuState.InvokeMenuAsync();
                     break;
 
